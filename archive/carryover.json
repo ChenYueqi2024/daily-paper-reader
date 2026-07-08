@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T12:43:40.422596+00:00",
+  "generated_at": "2026-07-08T13:59:46.999460+00:00",
   "updated_date": "20260609-20260708",
   "carryover_days": 9,
   "tag_states": {
@@ -343,6 +343,11 @@
           "carry_days": 1
         }
       ]
+    },
+    "D": {
+      "updated_date": "20260609-20260708",
+      "carryover_days": 9,
+      "items": []
     }
   }
 }
