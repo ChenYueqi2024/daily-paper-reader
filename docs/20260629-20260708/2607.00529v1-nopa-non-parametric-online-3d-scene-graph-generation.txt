@@ -1,0 +1,597 @@
+Title: NoPA: Non-Parametric Online 3D Scene Graph Generation
+
+URL Source: https://arxiv.org/pdf/2607.00529v1
+
+Published Time: Thu, 02 Jul 2026 00:45:38 GMT
+
+Number of Pages: 28
+
+Markdown Content:
+# NoPA: Non-Parametric Online 3D Scene Graph Generation 
+
+Qi Xun Yeo 1, Seungjun Lee 1, Yan Li 1, and Gim Hee Lee 1
+
+Department of Computer Science, National University of Singapore 
+
+{qixunyeo, seungjun.lee}@u.nus.edu , {yan.li,gimhee.lee}@nus.edu.sg 
+
+Abstract. Classic 3D scene graph generation approaches fail to work in real-time due to the heavy computational cost of environment map-ping and the need to generate intermediate point-cloud representations. To alleviate this issue, a recent work eschews point clouds in favor of a lightweight Gaussian distribution for each object. This approximation drastically speeds up inference and enables real-time 3D scene graph gen-eration. However, the representation has two key weaknesses. 1) Each ob-ject is approximated by a single 3D Gaussian, which causes a severe loss of 3D geometric detail. 2) The discrepancy between this approximation and the true object geometry exacerbates the inaccurate merging of ob-ject candidates during online inference. To address these issues, we pro-pose NoPA , which represents each object as a separate non-parametric distribution. This formulation retains 3D geometric information while preserving real-time inference of the parametric Gaussian formulation. To build upon our novel object representation, we propose a tailored merg-ing strategy to recover coherent object instances. Specifically, we leverage maximum mean discrepancy on kernel density estimates to enable robust merging of object candidates during online exploration while minimizing added computational complexity. The key is to maintain a fixed particle set per object. Furthermore, to rectify the relation loss caused by misclas-sified objects, NoPA propagates relationships between objects with high affinity. Experiments show that NoPA substantially outperforms current methods without sacrificing real-time inference speed. 
+
+Keywords: 3D Scene Graph · Non-Parametric Distribution · Kernel Density Function 
+
+## 1 Introduction 
+
+We study online 3D scene graph generation from streaming RGB-D images. A 3D semantic scene graph (3D SSG) encodes objects and their relationships in a structured representation and serves as a critical abstraction for embodied AI and robotics. It enables downstream tasks such as navigation [4,12,26,30,31,33, 38, 39], scene generation [5, 22, 36, 40, 41], and manipulation [2, 5, 9, 20, 38]. These capabilities are essential in medical [10, 24, 25], construction [3, 18, 21, 23], and autonomous driving domains [7, 8, 19, 44]. Despite its importance, most prior works address 3D SSG generation in an offline setting without strict real-time constraints [1, 6, 28, 29, 32, 35, 37, 42]. To       
+
+> arXiv:2607.00529v1 [cs.CV] 1 Jul 2026 2Yeo et al.
+> Fig. 1: Gaussian (FROSS [11]) vs Non-Parametric (Ours). We show the prob-lem of under-merging when merging objects represented as 3D Gaussians on a single window object instance. Top Row (FROSS): Under Gaussian parameterization, the local object (1st column) fails to merge with the global object (2nd column) which re-sults in under-merging (3rd column). After the merging process, the window instance is incorrectly represented by two smaller Gaussians instead of a single larger one. This fragmentation produces splintered 3D scene graphs that do not reflect the true scene structure. Strict post-processing filters would then remove fragmented objects together with their relations. As a result, the quality of the final 3D SSG degrades. Bottom Row (Ours): Our non-parametric formulation allows the local object to merge with the global object and preserves richer geometric support. This reduces under-merging and produces more accurate and consistent 3D SSGs.
+
+the best of our knowledge, only three works tackle the online setting [11, 34, 35] with real-time performance. SceneGraphFusion [35] and MonoSSG [34] rely on simultaneous localization and mapping (SLAM) pipelines to reconstruct geom-etry before scene graph prediction, which introduces significant computational overhead and limits scalability. FROSS [11] avoids explicit mapping by lifting 2D scene graphs into 3D and achieves high frame rates by approximating each object as a Gaussian distribution. Although FROSS achieved real-time performance without SLAM, their Gaus-sian parameterization imposes a restrictive geometric assumption where each ob-ject is modeled as an ellipsoid defined by its covariance. This approximation dis-cards fine geometric structure and makes merging fragile. As shown in Fig. 1, thin or planar structures such as pictures and windows often produce near-singular covariance matrices leading to under-merging. Different viewpoints of the same object often yields Gaussian ellipsoids with inconsistent covariances and spatial offsets causing incorrect merges. Consequently, merging decisions are prone to be unstable since incorrect merges and undermerges accumulate over time and NoPA: Non-Parametric Online 3D Scene Graph Generation 3
+
+progressively degrade the global 3D SSG. These limitations arose fundamentally from the parametric assumption instead of implementation details. To overcome both the computational burden of SLAM-based pipelines and the geometric limitations of Gaussian modeling, we introduce NoPA (Non -
+
+PArametric Online 3D Scene Graph Generation). Our NoPA replaces Gaussian object modeling with a fixed-size non-parametric particle set that preserves geo-metric support. This formulation removes the restrictive ellipsoidal assumption while maintaining constant memory and runtime complexity. Merging two ob-ject candidates proceeds by estimating a kernel density over their unified particle support and resampling a fixed-size set from it. This integrates multi-view ge-ometric evidence while preserving a constant-size representation. Consequently, NoPA matches the real-time efficiency of SLAM-free parametric methods while retaining substantially richer geometric structure. Adopting a non-parametric representation shifts the merging problem from covariance comparison to distribution comparison across views. We empirically find that covariance similarity is insufficient and unreliable under viewpoint vari-ation, often resulting in under-merging ( cf . Fig. 1). We address this by introduc-ing a principled distribution-level merging criterion based on Maximum Mean Discrepancy (MMD). MMD measures similarity directly between particle sets in feature space and provides a stable signal even when geometric support differs across views or when 2D predictions are noisy. This significantly improves merg-ing robustness in ambiguous cases and prevents cascading structural errors in the final 3D SSG. To further strengthen the global consistency of the 3D SSG, our NoPA incorporates a relationship propagation mechanism as a post-processing step. We cluster object candidates using the previously computed MMD scores and propagate relationships across clusters to recover missing edges. This miti-gates structural damage caused by imperfect merging and enhances overall graph completeness without sacrificing runtime efficiency. In summary, our main contributions are as follows: 
+
+– We introduce NoPA , a non-parametric formulation for online 3D scene graph generation that eliminates restrictive Gaussian assumptions while pre-serving fixed memory usage and real-time computational complexity. 
+
+– We design a principled distribution-level merging framework based on Maximum Mean Discrepancy that replaces fragile covariance similarity and improves robustness under viewpoint variation and noisy predictions. 
+
+– We develop a relationship propagation mechanism guided by distribu-tion similarity to recover missing relations and reinforce graph consistency. 
+
+– We achieve state-of-the-art performance on multiple online 3D SSG bench-marks while maintaining competitive real-time efficiency. 
+
+## 2 Related Work 
+
+Offline 3D SSG. Offline 3D SSG generation approaches aim to estimate a 3D scene graph using ground truth 3D geometry [1, 28, 29, 32, 42] or multi-view RGB-D images [6, 9, 27, 37, 43] in a non-incremental manner. Wald et al. [28] 4 Yeo et al. 
+
+first proposed the problem of 3D SSG generation and attempted to solve it by modeling pairwise relationships to predict the graph. Most modern approaches rely on multi-view RGB-D images. Wang et al. [32] leverage pretrained model priors by distilling knowledge from a multimodal oracle model into a 3D model. Yeo et al. [37] propose a statistical confidence rescoring mechanism to refine low-confidence predictions and use SegmentAnything (SAM) [15] instance masks to enhance node features. Koch et al. [16] distill knowledge from visual language models (VLMs) into a 3D graph neural network (GNN). Gu et al. [9] run a class-agnostic segmentation model to obtain candidate objects, associate them across views using geometric and semantic similarity, instantiate nodes in a 3D SSG refined by VLMs, and prompt a large language model (LLM) with object pairs to infer spatial relations. Koch et al. [17] build a relationship-aware 3D representation that supports node and predicate queries. Zhang et al. [43] intro-duce functional relationships and contribute a functional 3D SSG dataset. These offline systems typically aggregate information over a fixed set of frames and perform expensive global association and refinement. This becomes challenging under strict online latency and bounded-memory constraints. In contrast, our NoPA targets online 3D SSG generation with constant memory per object. We replace Gaussian object modeling with fixed-size particle sets, use a distribution-level merging criterion to improve cross-view association, and propagate relations within affinity clusters to recover missed edges during incremental fusion. 
+
+Online 3D SSG. The first work to tackle 3D SSG generation in an online set-ting is by Kim et al. [14]. The work focuses on predicting local 3D SSGs that combine into a global 3D SSG. However, it fails to reach real-time speeds re-quired for practical deployment. Wu et al. [35] introduce a graph convolutional network (GCN) based aggregation function, abbreviated as FAN, to improve the predicted 3D SSG while running RGB-D SLAM to obtain dense intermediate 3D representations. MonoSSG [34] proposes an entity association approach that lifts 2D entities into 3D, enhances ORBSLAM, and introduces a geometric gate that fuses geometric information with multi-view image features. More recently, FROSS [11] approximates objects as 3D Gaussians to avoid heavy point cloud processing or environment mapping, which accelerates inference. However, by removing precise localization, it fails to use geometric information available in 3D for merging and instead relies on an approximation of the 2D object shape from RGB-D observations. In contrast, our NoPA balances the trade-off between preserving geometric detail and improving inference speed through a fixed num-ber of particles per object. This design maintains real-time performance while retaining richer 3D geometry than FROSS, which improves merging and overall model performance. 
+
+## 3 Problem Definition 
+
+Given N multi-view RGB images of a 3D scene, denoted as {Ii}Ni=1 , our goal is to estimate a 3D scene graph: 
+
+G3D = ( O, R ), (1) NoPA: Non-Parametric Online 3D Scene Graph Generation 5
+
+where O = {oj }Mj=1 is the set of M object nodes and R = {rk→j }Mj,k =1 is the set of directed relationship edges over object pairs. Node j has an object (cat-egory) label oj , and the directed edge from node k to node j has a predicate label rk→j . Equivalently, the scene graph can be represented as a set of triplets 
+
+{(ok, r k→j , o j )}.We study the online setting. The method does not assume access to the full image set {Ii}Ni=1 at test time. Instead, it receives a sequential stream of partial observations and incrementally updates G3D as new images arrive during scene exploration. 
+
+## 4 Preliminaries 
+
+We build our framework based on FROSS [11], where it updates the scene graph incrementally from a stream of RGB frames and avoids explicit environment mapping. Given RGB observations {Ii}Ni=1 , FROSS first predicts a per-frame 2D scene graph G2Di = gϕ(Ii), where gϕ is a pretrained 2D SSG detector. It then lifts this 2D graph into the world frame using the per-frame depth map di and camera pose Pi ∈ SE (3) , and fuses the lifted result into the global 3D scene graph: 
+
+G3Di = B G2Di | di, P i
+
+ ⊙ G3Di−1, (2) where G3Di−1 and G3Di denote the global 3D scene graph before and after process-ing frame i. The operator B(· | di, P i) maps each 2D node in G2Di to a 3D object hypothesis by back-projecting image evidence with di and transforming it to the world frame with Pi. The fusion operator ⊙ performs data association between the lifted hypotheses and existing nodes in G3Di−1, followed by merging and state updates. FROSS represents each 3D object node oj with a single Gaussian in R3:
+
+p(x | oj ) = N (x; μj , Σ j ) , (3) where x ∈ R3 is a 3D point, μj ∈ R3 is the object centroid, and Σj ∈ R3×3 is the covariance. This Gaussian is initialized by lifting a 2D Gaussian estimated from the predicted 2D bounding box. During fusion, it merges a lifted object hypothesis i with an existing global object j when their semantic labels match and their Hellinger distance dH (i, j ) falls below a threshold δH . Approximating each object with a Gaussian N (μ, Σ ), the Hellinger distance admits a closed form: 
+
+dH (i, j ) = 
+
+q
+
+1 − exp   − dB (i, j ). (4) where dB (i, j ) is the Bhattacharyya distance between two Gaussians N (μi, Σ i)
+
+and N (μj , Σ j ):
+
+dB (i, j ) = 18 ∆μ ⊤ 
+
+> ij
+
+Σ−1∆μ ij + 12 ln det Σ
+
+pdet Σi det Σj
+
+!
+
+,∆μ ij = μi − μj , Σ = Σi + Σj
+
+2 .
+
+(5) 6 Yeo et al.  
+
+> Fig. 2: Overview of our online 3D scene graph generation pipeline. (1) A pretrained RT-DETR-EGTR [13,45] model predicts a local 2D scene graph from each RGB frame. (2) For every object node, we sample pixels inside its 2D bounding box, back-project them with depth, and obtain a 3D particle set in the world frame. (3) We associate each local particle set with existing global objects using a two-stage test: a constant-time Hellinger pre-filter followed by MMD on ambiguous cases. (4) We propagate relations within high-affinity clusters to reduce relation dropouts from the 2D predictor.
+
+Limitations of FROSS. FROSS represents each object with a single Gaussian, which coarsely approximates the object geometry with an ellipsoidal shape, re-moving the fine structural details of the instances. This approximation loss is accumulated across the streaming images, resulting in disjoint object instances from fragile merging and incorrect associations. 
+
+## 5 Our Method 
+
+Overview. Fig. 2 summarizes our online 3D scene graph generation frame-work. We improve FROSS by replacing its single-Gaussian object model with a non-parametric particle representation, and redesigning online fusion around distributional similarity. At timestep i, a pretrained RT-DETR-EGTR model infers a local 2D scene graph G2Di from the RGB frame Ii. G2Di contains object nodes (2D boxes with class labels) and relation edges (pairwise predicates) in the image plane. We lift each detected 2D object node into a 3D particle set using the depth map di and camera pose Pi (Sec. 5.1), and fuse these local 3D candidates into the global 3D scene graph from the previous timestep (Sec. 5.2). Fusion uses a fast two-stage association rule: a constant-time Hellinger pre-filter for clear matches/mismatches, and a maximum mean discrepancy (MMD) test for borderline pairs. We then stabilize the relation set by propagating relations within affinity clusters, which helps to recover the relations missed by the 2D predictor in a single view (Sec. 5.3). This design preserves object support in R3,improves cross-view association, and maintains constant memory per object. 
+
+5.1 Non-Parametric Object Representation From 2D boxes to 3D particles. For each detected 2D object node in G2Di
+
+with bounding box b, we sample n pixels {uk}nk=1 uniformly within b. Using the depth map di, we back-project each pixel to a camera-frame 3D point Xck =NoPA: Non-Parametric Online 3D Scene Graph Generation 7(a)  (b)  
+
+> (c) (d)
+> FROSS
+> Ours
+> Spans
+> Entire Object
+> Only Spans
+> Half of Object
+> Well -preserved
+> Spatial Extent
+> Streaky Artifacts
+
+Fig. 3: The visualization of objects in Scene 41385849 from the 3DSSG dataset. In the top row, we visualize an instance of the sink class localized by a red bounding box. In the bottom row, we visualize the global 3D object instances. Left: Visualized Gaussian blobs from FROSS [11]. The Gaussian blob only encompasses half of the sink in (a). Spurious blobs spanning across the scene in (c) visualizes the impact of incorrect merging. Right: Visualized kernel densities for our particle set. The entire sink is associated with our particle set in (b). Our representation attains good coverage on objects across the scene without large artifacts in (d). 
+
+π−1(uk, d i(uk)) and transform it to the world frame with the camera pose Pi ∈
+
+SE (3) :
+
+xk = Pi Xck, xk ∈ R3. (6) The lifted object is represented by the particle set X (o) = {xk}nk=1 .
+
+Kernel density view. We treat the particle set as samples from an unknown object occupancy distribution and form a kernel density estimate (KDE): 
+
+ˆf (x | o) = 1
+
+n
+
+> n
+
+X
+
+> k=1
+
+κ(x, xk), (7) where κ(·, ·) is an RBF kernel: 
+
+κ(x, y) = exp 
+
+
+
+− ∥x−y∥22
+
+> 2σ2
+
+
+
+. (8) 
+
+Remark. A single 3D Gaussian enforces an ellipsoidal prior, which blurs multi-part structures and amplifies approximation error across views. As shown in Fig. 3, a particle set preserves object support in R3 and admits multi-modality, which reduces over-merging and under-merging under partial observations. 8 Yeo et al. 
+
+5.2 Online Association and Merging 
+
+We maintain a set of global objects, each with particles X (o). Given a local object candidate ˆo with particles X (ˆ o) and an existing global object o with particles 
+
+X (o), we decide whether ˆo corresponds to o and should be merged, or whether it should spawn a new global object. Our association uses a two-stage criterion: 1) a constant-time Hellinger pre-filter that resolves clear cases, followed by 2) an MMD test on ambiguous pairs. 
+
+Stage 1: Constant-time pre-filter. To obtain a cheap moment-level proxy, we fit a unimodal Gaussian to each particle set by matching its first two moments: 
+
+(μ, Σ ) for o and (ˆ μ, ˆΣ) for ˆo. We then compute the Hellinger distance dH between the two fitted Gaussians. Instead of committing to a hard threshold at δH , we introduce a margin band of width 2ϵ:
+
+merge if dH < δ H − ϵ, spawn if dH > δ H + ϵ.  (9) The band prevents unstable decisions when dH fluctuates under depth noise, truncation, or limited view overlap. Pairs within [ δH − ϵ, δ H + ϵ ] remain unde-cided and move to Stage 2. 
+
+Stage 2: MMD for ambiguous pairs. For candidates inside the margin band 
+
+[ δH − ϵ, δ H + ϵ ], we compute the maximum mean discrepancy (MMD) between the two KDEs: 
+
+d2MMD (o, ˆo) = Ex,x′∼X (o)[κ(x, x′)] + Ey,y′∼X (ˆ o)[κ(y, y′)] 
+
+− 2 Ex∼X (o), y∼X (ˆ o)[κ(x, y)] . (10) We set σ2 with the median heuristic over random pairs from X (o) ∪ X (ˆ o). We merge if dMMD (o, ˆo) ≤ δMMD , and spawn otherwise, where δMMD is a fixed threshold calibrated on a held-out sequence to match the desired precision–recall trade-off. 
+
+Why MMD? The Stage 1 Gaussian fit is intentionally coarse, where different particle sets can share similar (μ, Σ ) under partial views, thin structures, or multi-part objects. MMD directly compares the full distributions induced by the KDEs in a reproducing kernel Hilbert space, which makes it sensitive to support mismatch beyond first- and second-order moments. It is also model-free and works naturally with our particle representation, with the requirement of only kernel evaluations without meshing or explicit points correspondence. 
+
+Decision rule. Following the online update in Eq. 2, the fusion operator ⊙
+
+implements the two-stage association between a local candidate ˆo and a global object o:
+
+⊙(o, ˆo) = 
+
+
+
+merge dH < δ H − ϵ, 
+
+spawn dH > δ H + ϵ, 
+
+merge otherwise and dMMD (o, ˆo) ≤ δMMD ,
+
+spawn otherwise. 
+
+(11) NoPA: Non-Parametric Online 3D Scene Graph Generation 9
+
+Fig. 4: Visualization of the merging process for an object in Scene 7272e16c from the 3DSSG dataset. If the local particle set and the global particle set yields a small Hellinger distance ( dH < δ H − ϵ) after fitting a unimodal Gaussian ( Stage 1 ), their covariances clearly matches, and the merge decision is straightforward. If the Hellinger distance falls within the margin band ( Stage 2 ), covariance alignment alone is insuffi-cient to determine merging. Consequently, we apply the more robust MMD criterion and merge the particle sets if  dMMD < δ MMD . Left: Initial kernel density estimates of the local and global particle sets. Right: Kernel density estimate of the merged particle set after fusion. The number of particles remain constant after merging due to KDE resampling while the updated particle set captures the multi-modal distribution. 
+
+It first accepts or rejects unambiguous pairs using dH , and invokes dMMD only within the margin band to resolve borderline cases where moment matching proves unreliable. 
+
+Merge update with constant memory. After each merge, we take the union of the particles, fit a KDE over the union support, and resample a fixed-size set of n particles: 
+
+X (o) ← Resample n
+
+ X (o) ∪ X (ˆ o). (12) This step preserves geometric information from both candidates and prevents particle growth over time. 
+
+Remark. The Hellinger pre-filter keeps most association decisions inexpensive. MMD focuses computation on hard cases where first- and second-order moments agree but distribution support differs. As shown in Fig. 4, resampling maintains constant memory and avoids collapsing the representation toward a single mode, which stabilizes long-horizon fusion. 
+
+5.3 Relationship Propagation with Affinity Clusters 
+
+Online 3D SSG generation is sensitive to relation dropouts, where low-confidence predicate edges are suppressed, and a missing edge in one frame may never be recovered later. To increase robustness, we exploit geometric redundancy across objects with similar 3D support. Specifically, we reuse the MMD scores computed 10 Yeo et al. 
+
+during ambiguous association to build an affinity matrix over object candidates. Low MMD indicates high geometric similarity, which defines affinity clusters. For a newly merged or spawned node, we first copy its observed 2D relations to the corresponding 3D node. We then propagate candidate relations within its affinity cluster and finalize the relation type by majority voting on the available evidence. This aggregation recovers relations missed in a single view, reduces sensitivity to relation confidence thresholds, and limits relation drift. 
+
+Remark. Affinity-based propagation recovers relations that are missed in a sin-gle view by borrowing consistent evidence from geometrically similar neighbors. Majority voting reduces the impact of occasional false positives and prevents relation drift. 
+
+## 6 Experiments 
+
+6.1 Experimental Setup Datasets. We evaluate on the 3DSSG [28] and ReplicaSSG datasets following the same evaluation set up as FROSS [11]. 3DSSG contains 1482 scenes which are annotated with 21974 objects and 16324 predicate relationship between two objects. Each scene encompasses multiple short videos with different motion tra-jectories capturing the entire scene. The dataset is challenging due to the poor quality of images captured with significant motion blur. ReplicaSSG contains 18 scenes which are annotated with 1526 objects and 582 predicate relationship between two objects. The dataset contains high quality images and meshes in-herited from the Replica dataset. The large number of objects and predicates per scene makes evaluation non-trivial. 
+
+Baseline Methods. For 3DSSG, we compare our method with the other online 3D SSG generation methods that utilize RGB-D images with the ground truth pose information including Kim’s framework [14], JointSSG [34], FROSS [11]. We exclude MonoSSG [34] since it only uses RGB images. We reproduce the approaches using their respective GitHub repositories 1.For ReplicaSSG, we only compare with FROSS since it is the only prior approach that evaluates on the dataset. 
+
+Implementation Details. We choose to keep the top 20 relationships from the pretrained RT-DETR-EGTR instead of the top 10 to reduce the loss of the relationship edge from the final 3D SSG when running FROSS. This ensures a fair comparison between the competing approaches. Our implementation is built using the PyTorch framework. Following FROSS [11], we pretrain the initial 2D SSG generation model - RT-DETR-EGTR for a maximum of 50 epochs. All experiments are conducted on a single RTX 3090 GPU for a fair comparison. We utilized  n = 256  particles to represent each object.  δMMD  is set to 0.7 for 3DSSG and 0.6 for ReplicaSSG.  ϵ is kept at 0.05.                                                                                      
+
+> 1For JointSSG, we follow https://github.com/ShunChengWu/3DSSG. For Kim’s framework and FROSS, we follow https://github.com/Howardkhh/FROSS. NoPA: Non-Parametric Online 3D Scene Graph Generation 11
+> Table 1: Comparison with state-of-the-art online 3D SSG generation approaches on the 3DSSG dataset with 20 object classes and 7 predicate classes. The top group of results are the reported results from the respective papers. The middle group of results marked with the †are the reproduced results from the respective GitHub repositories. The Best and Second Best results are highlighted, respectively. Method Recall% ( ↑)mRecall% ( ↑)Latency ( ms ↓)VRAM (MB ↓)Rel. Obj. Pred. Obj. Pred. JointSSG [34] 25.5 58.1 27.3 43.0 33.3 191 -Kim [14] 9.1 59.0 7.1 51.0 8.0 310 -FROSS [11] 27.9 62.4 33.0 63.8 18.0 7-JointSSG †[34] 23.4 55.4 27.0 45.4 35.3 284 3252 Kim †2[11] 0.9 52.1 1.1 44.2 0.4 488 1204
+> FROSS †[11] 25.7 60.6 30.7 62.4 17.7 22 1204
+> Ours( n= 128 )49.9 68.5 58.5 65.7 30.2 26 1206 Ours( n= 256 )53.2 69.0 61.4 66.4 29.4 27 1206
+
+Similar to FROSS, we omit the  N one  class for both object and predicate predictions that were previously implemented for SceneGraphFusion [35]. The advantage of removing the  N one  class is the prevention of possible overfitting to the  N one  class which is the most prevalent ground truth annotation. We follow the same strict criteria as FROSS to match the predicted object candidates to the ground truth object instances: (1) The majority of points (more than 50%) sampled from our continuous particle set should have its near-est ground truth point mapped to the corresponding matched ground truth ob-ject. (2) The fraction of overlap counts belonging to the second-largest matched ground truth object compared to the overlap counts belonging to the largest matched ground truth object must not exceed 75%. These criteria enforces one-to-one correspondence between predicted and ground truth objects which in-creases the robustness of the evaluation. 
+
+Evaluation Metrics. In terms of evaluating the 3D scene graph centric perfor-mance, we follow SceneGraphFusion [35] and MonoSSG [34] to report the overall 
+
+top-1 recall (Recall) for the object class estimation (Obj.), the predicate esti-mation (Pred.), and the relationship triplet estimation (Rel.). We also report the mean recall (mRecall) for the object class estimation (Obj.), the predicate esti-mation (Pred.) only. In terms of evaluating the runtime efficiency for the online setting, we report the latency as in [11] and additionally compare the memory requirements of each method. 
+
+6.2 Quantitative Results 
+
+We present the main performance comparison for the top-1 recall and mean re-call against other baseline methods in Tab. 1. Our method surpasses all baselines                                                
+
+> 2Kim’s method crashed in the 132nd scene out of 157 scenes from RAM OOM. The point clouds stored are further resized down by 5x to fit the memory possibly leading to the large drop in performance. 12 Yeo et al.
+> Table 2: Comparison with FROSS on the ReplicaSSG dataset with 34 object classes and 9 predicate classes. †refers to the reproduced results. The Best and Second Best results are highlighted, respectively. Method Recall% ( ↑)mRecall% ( ↑)Latency ( ms ↓)VRAM (MB ↓)Rel. Obj. Pred. Obj. Pred. FROSS [11] 22.3 26.1 27.8 28.8 20.4 7-FROSS †[11] 22.3 25.3 27.5 27.6 12.6 17 1206
+> Ours( n= 128 )32.4 28.0 34.6 29.6 16.5 22 1230 Ours( n= 256 )36.9 28.6 39.5 29.8 18.6 23 1230
+
+in top-1 recall and object mRecall while maintaining competitive latency and comparable VRAM usage for real-time inference. More impressively, NoPA with 128 particles already surpasses all baselines. These results validate our hypoth-esis that the expressiveness of our continuous non-parametric formulation and our improved merging process contribute to the superior performance of NoPA. For ReplicaSSG in Tab. 2, NoPA surpasses FROSS across all metrics with a particularly significant margin for relationship recall (65.5% increase). 
+
+6.3 Qualitative Results 
+
+We visualize the qualitative results compared to FROSS in Fig. 5. Compared to FROSS, our approach can differentiate objects with thin structures such as the window class with a higher success rate. For ambiguous cases such as the misclassification of the counter instance, the failure is understandable since both methods rely on coarse approximations while differentiating between a counter and a cabinet is non-trivial. Notably, NoPa correctly associates partial wall obser-vations with the appropriate wall instance despite their textureless appearance. In contrast, this ambiguity poses a challenge for FROSS, which often produces incorrect merges and therefore exhibits poorer performance. Additional qualita-tive results are provided in the supplementary material. 
+
+6.4 Ablation Studies 
+
+To validate the contribution of each component of our proposed approach, we ablate each component in Tab. 3. Replacing the Gaussian distribution with the particle set distribution increases recall for objects at the expense of predicate and relationship recall. The merging approach in FROSS for parametric repre-sentations clearly degrades performance when applied to our non-parametric rep-resentation due to fundamental incompatibilities between the two formulations. Integrating the distribution replacement with our tailored merging approach for non-parametric representations yields further improvements across all metrics. The relationship propagation mechanism further boosts both relationship and predicate recall with no degradation in object recall since the position and spatial extent of all objects are unaffected by its use. NoPA: Non-Parametric Online 3D Scene Graph Generation 13 floor  wall       
+
+> a
+> GT
+> count.
+> sink
+> wall
+> wall
+> wall
+> cabin.
+> window
+> wall
+> other
+> sa
+> a
+> a
+> b
+> a
+> a
+> a
+> c
+> : Missing Node Prediction : Incorrect Node Prediction : Correct Node Prediction
+> : Incorrect Edge Prediction : Correct Edge Prediction
+> a: attached to s: standing on b: build in
+> FROSS [11] NoPA (Ours)
+> cabin. cabin.
+> c: connected to
+
+Fig. 5: We compare the qualitative results between FROSS and our proposed approach for scene 321c867e from the 3DSSG dataset. The scene shows a kitchen from bird’s eye view (BEV). FROSS fails to predict a majority of the wall background class. As a consequence, a majority of the predicate relationships are lost. Our method correctly classifies most objects, except for the counter instance, while correctly predicting the majority of predicate relationships. 
+
+We analyze the effects of our merging approach in Tab. 4. We vary the values of  δMMD  between the values of 0.6 and 0.9. We observe that a lower threshold improves object recall at the expense of predicate recall due to stricter merging criteria. Conversely, a higher threshold improves predicate and relationship re-call with a trade-off in object recall. This corroborates the findings in [11]. The matching criteria discard predicted objects after merging that either lack suffi-cient overlap with the ground truth or excessively overlap with other matched objects due to their increased spatial extent. Relaxing the merging criterion pro-duces more merged objects with a larger spatial extent, thereby reducing object recall. Calculating MMD for particle set distribution similarity is superior to the approximation of the particle set distribution into a 3D Gaussian needed for the calculation of Hellinger distance especially for ambiguous cases. A theoretical explanation is the possible presence of misclassified objects from the predictions of the 2D SSG. The covariance calculated in Hellinger distance alone cannot capture the full distributional difference in object class that the use of MMD captures. This overreliance on covariance alone possibly leads to incorrect merges 14 Yeo et al.                                                                            
+
+> Table 3: Ablation study on the test split of the 3DSSG dataset. NP. refers to the usage of our non-parametric particle set distribution instead of Gaussian distribution to represent objects in the scene. Merge. refers to the usage of our MMD-based merging approach. Prop. refers to the usage of our relationship propagation mechanism. The
+> Best results are shown in bold. Method NP. Merge. Prop. Recall% ( ↑)mRecall% ( ↑)Rel. Obj. Pred. Obj. Pred. FROSS ×××25.7 60.6 30.7 62.4 17.7 + NP. ✓××17.6 66.1 20.8 64.8 11.1 + Merge. ✓✓×26.3 69.0 31.0 66.4 17.1 Ours ✓✓✓53.2 69.0 61.4 66.4 29.4 Table 4: Comparison between different values of MMD threshold on the validation split of the 3DSSG dataset δMMD . The Best results are shown in bold.
+> δMMD 0.6 0.65 0.7 0.75 0.8 0.85 0.9 Rel. 36.3 47.9 53.7 51.3 46.4 46.5 46.3 Obj. 68.5 67.0 66.0 63.3 59.2 59.3 59.2 Pred. 40.6 53.3 61.0 58.8 53.7 53.7 53.5
+
+between objects from different classes which may explain the superiority of our approach. For more ablations and analysis, refer to the supplementary material. 
+
+Limitations. Similar to prior works that lift 2D SSG to 3D, our approach heavily depends on the accuracy of the 2D SSG predictions from the pretrained models, especially for object prediction. The quality of 2D detections and rela-tions cap the upper bound of performance for our approach. 
+
+## 7 Conclusion 
+
+We present NoPA , a non-parametric framework for online 3D scene graph gen-eration from multi-view RGB-D observations. Our method replaces Gaussian object models with fixed-size particle sets that preserve geometric support while maintaining constant memory and runtime complexity. This design removes the restrictive ellipsoidal assumption and yields more stable multi-view object as-sociations. We introduce a distribution-level merging criterion based on MMD that compares particle sets directly in feature space and improves robustness un-der viewpoint variation and noisy predictions. A lightweight Hellinger distance pre-filter preserves efficiency by avoiding unnecessary MMD evaluations. We fur-ther propose a relationship propagation mechanism that recovers missing rela-tions and improves global graph consistency. Experiments show state-of-the-art performance on multiple online 3D scene graph benchmarks while maintaining competitive real-time efficiency. These results demonstrate that non-parametric object representations offer a practical alternative to parametric modeling for online 3D SSG generation. NoPA: Non-Parametric Online 3D Scene Graph Generation 15 
+
+## Acknowledgments 
+
+This research / project is supported by the National Research Foundation (NRF) Singapore, under its NRF-Investigatorship Programme (Award ID. NRF-NRFI09-0008), and the Tier 2 grant MOET2EP20124-0015 from the Singapore Ministry of Education. 
+
+## References 
+
+1. Armeni, I., He, Z.Y., Gwak, J., Zamir, A.R., Fischer, M., Malik, J., Savarese, S.: 3d scene graph: A structure for unified semantics, 3d space, and camera. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 5664–5673 (2019) 2. Buechner, M., Roefer, A., Engelbracht, T., Welschehold, T., Bauer, Z., Blum, H., Pollefeys, M., Valada, A.: Articulated 3d scene graphs for open-world mobile ma-nipulation. arXiv preprint arXiv:2602.16356 (2026) 3. Çelen, A., Han, G., Schindler, K., Gool, L.V., Armeni, I., Obukhov, A., Wang, X.: I-design: Personalized LLM interior designer. In: Bue, A.D., Canton, C., Pont-Tuset, J., Tommasi, T. (eds.) Computer Vision - ECCV 2024 Workshops - Milan, Italy, September 29-October 4, 2024, Proceedings, Part II. Lecture Notes in Computer Science, vol. 15624, pp. 217–234. Springer (2024). https://doi.org/10.1007/978-3-031-92387-6_17 
+
+4. Chang, Y., Ballotta, L., Carlone, L.: D-lite: Navigation-oriented compression of 3d scene graphs for multi-robot collaboration. IEEE Robotics Autom. Lett. 8(11), 7527–7534 (2023). https://doi.org/10.1109/LRA.2023.3320011 
+
+5. Dhamo, H., Manhardt, F., Navab, N., Tombari, F.: Graph-to-3d: End-to-end gen-eration and manipulation of 3d scenes using scene graphs. In: IEEE International Conference on Computer Vision (ICCV) (2021) 6. Feng, M., Hou, H., Zhang, L., Wu, Z., Guo, Y., Mian, A.: 3d spatial multimodal knowledge accumulation for scene graph prediction in point cloud. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 9182–9191 (2023) 7. Fischer, T., Porzi, L., Bulò, S.R., Pollefeys, M., Kontschieder, P.: Multi-level neural scene graphs for dynamic urban environments. In: IEEE/CVF Conference on Com-puter Vision and Pattern Recognition, CVPR 2024, Seattle, WA, USA, June 16-22, 2024. pp. 21125–21135. IEEE (2024). https://doi.org/10.1109/CVPR52733. 2024.01996 
+
+8. Greve, E., Büchner, M., Vödisch, N., Burgard, W., Valada, A.: Collaborative dy-namic 3d scene graphs for automated driving pp. 11118–11124 (2024). https: //doi.org/10.1109/ICRA57147.2024.10610112 
+
+9. Gu, Q., Kuwajerwala, A., Morin, S., Jatavallabhula, K.M., Sen, B., Agarwal, A., Rivera, C., Paul, W., Ellis, K., Chellappa, R., et al.: Conceptgraphs: Open-vocabulary 3d scene graphs for perception and planning. In: 2024 IEEE Inter-national Conference on Robotics and Automation (ICRA). pp. 5021–5028. IEEE (2024) 10. Guo, D., Lin, M., Pei, J., Tang, H., Jin, Y., Heng, P.A.: Tri-modal confluence with temporal dynamics for scene graph generation in operating rooms. In: MICCAI. Springer (2024) 16 Yeo et al. 11. Hou, H.Y., Lee, C.Y., Sonogashira, M., Kawanishi, Y.: FROSS: Faster-than-Real-Time Online 3D Semantic Scene Graph Generation from RGB-D Images. In: Pro-ceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) (October 2025) 12. Huang, X., Zhao, S., Wang, Y., Lu, X., Zhang, W., Qu, R., Li, W., Wang, Y., Wen, C.: Msgnav: Unleashing the power of multi-modal 3d scene graph for zero-shot embodied navigation (2026), https://arxiv.org/abs/2511.10376 
+
+13. Im, J., Nam, J., Park, N., Lee, H., Park, S.: Egtr: Extracting graph from trans-former for scene graph generation. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR). pp. 24229–24238 (June 2024) 14. Kim, U.H., Park, J.M., Song, T.J., Kim, J.H.: 3d-scene-graph: A sparse and seman-tic representation of physical environments for intelligent agents. IEEE Cybernetics (2019) 15. Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., Xiao, T., Whitehead, S., Berg, A.C., Lo, W.Y., et al.: Segment anything. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 4015–4026 (2023) 16. Koch, S., Vaskevicius, N., Colosi, M., Hermosilla, P., Ropinski, T.: Open3dsg: Open-vocabulary 3d scene graphs from point clouds with queryable objects and open-set relationships. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (June 2024) 17. Koch, S., Wald, J., Colosi, M., Vaskevicius, N., Hermosilla, P., Tombari, F., Ropin-ski, T.: Relationfield: Relate anything in radiance fields. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (2025) 18. Lee, S., Lee, G.H.: Diet-gs: Diffusion prior and event stream-assisted motion de-blurring 3d gaussian splatting. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 21739–21749 (2025) 19. Lee, S., Lee, G.H.: Segment any events with language. arXiv preprint arXiv:2601.23159 (2026) 20. Lee, S., Zhao, Y., Lee, G.H.: Segment any 3d object with language. arXiv preprint arXiv:2404.02157 (2024) 21. Lin, C., Mu, Y.: Instructscene: Instruction-driven 3d indoor scene synthesis with semantic graph prior. In: International Conference on Learning Representations (ICLR) (2024) 22. Liu, Y., Li, X., Zhang, Y., Qi, L., Li, X., Wang, W., Li, C., Li, X., Yang, M.H.: Controllable 3d outdoor scene generation via scene graphs. In: Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV). pp. 28052– 28062 (October 2025) 23. Nyffeler, J., Tombari, F., Barath, D.: Hierarchical 3d scene graphs construction outdoors. In: Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV). pp. 26817–26826 (October 2025) 24. Özsoy, E., Czempiel, T., Holm, F., Pellegrini, C., Navab, N.: LABRAD-OR: lightweight memory scene graphs for accurate bimodal reasoning in dynamic op-erating rooms. In: Greenspan, H., Madabhushi, A., Mousavi, P., Salcudean, S.E., Duncan, J., Syeda-Mahmood, T.F., Taylor, R.H. (eds.) Medical Image Comput-ing and Computer Assisted Intervention - MICCAI 2023 - 26th International Conference, Vancouver, BC, Canada, October 8-12, 2023, Proceedings, Part IX. Lecture Notes in Computer Science, vol. 14228, pp. 302–311. Springer (2023). 
+
+https://doi.org/10.1007/978-3-031-43996-4_29 NoPA: Non-Parametric Online 3D Scene Graph Generation 17 25. Özsoy, E., Örnek, E., Eck, U., Czempiel, T., Tombari, F., Navab, N.: 4d-or: Seman-tic scene graphs for or domain modeling. In: Wang, L., Dou, Q., Fletcher, P., Spei-del, S., Li, S. (eds.) Medical Image Computing and Computer Assisted Intervention – MICCAI 2022 - 25th International Conference, Proceedings. pp. 475–485. Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelli-gence and Lecture Notes in Bioinformatics), Springer Science and Business Media Deutschland GmbH (2022). https://doi.org/10.1007/978-3-031-16449-1_45 
+
+26. Seiwald, P., Wu, S.C., Sygulla, F., Berninger, T.F.C., Staufenberg, N.S., Sattler, M.F., Neuburger, N., Rixen, D., Tombari, F.: Lola v1.1 – an upgrade in hardware and software design for dynamic multi-contact locomotion. In: 2020 IEEE-RAS 20th International Conference on Humanoid Robots (Humanoids). IEEE (2021). 
+
+https://doi.org/10.1109/humanoids47582.2021.9555790 
+
+27. Sonogashira, M., Iiyama, M., Kawanishi, Y.: Towards open-set scene graph gen-eration with unknown objects. IEEE Access 10 , 11574–11583 (2022). https: //doi.org/10.1109/ACCESS.2022.3145465 
+
+28. Wald, J., Dhamo, H., Navab, N., Tombari, F.: Learning 3d semantic scene graphs from 3d indoor reconstructions. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 3961–3970 (2020) 29. Wald, J., Navab, N., Tombari, F.: Learning 3d semantic scene graphs with instance embeddings. International Journal of Computer Vision 130 (3), 630–651 (2022) 30. Wang, Z., Lee, S., Dai, G., Lee, G.H.: D3d-vlp: Dynamic 3d vision-language-planning model for embodied grounding and navigation. arXiv preprint arXiv:2512.12622 (2025) 31. Wang, Z., Lee, S., Lee, G.H.: Dynam3d: Dynamic layered 3d tokens empower vlm for vision-and-language navigation. arXiv preprint arXiv:2505.11383 (2025) 32. Wang, Z., Cheng, B., Zhao, L., Xu, D., Tang, Y., Sheng, L.: Vl-sat: Visual-linguistic semantics assisted training for 3d semantic scene graph prediction in point cloud. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 21560–21569 (2023) 33. Werby, A., Huang, C., Büchner, M., Valada, A., Burgard, W.: Hierarchical open-vocabulary 3d scene graphs for language-grounded robot navigation. Robotics: Science and Systems (2024) 34. Wu, S.C., Tateno, K., Navab, N., Tombari, F.: Incremental 3d semantic scene graph prediction from rgb sequences. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 5064–5074 (2023) 35. Wu, S.C., Wald, J., Tateno, K., Navab, N., Tombari, F.: Scenegraphfusion: In-cremental 3d scene graph prediction from rgb-d sequences. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 7515– 7525 (2021) 36. Yang, Z., Lu, K., Zhang, C., Qi, J., Jiang, H., Ma, R., Yin, S., Xu, Y., Xing, M., Xiao, Z., et al.: Mmgdreamer: Mixed-modality graph for geometry-controllable 3d indoor scene generation. In: Proceedings of the AAAI Conference on Artificial Intelligence. vol. 39, pp. 9391–9399 (2025) 37. Yeo, Q.X., Li, Y., Lee, G.H.: Statistical confidence rescoring for robust 3d scene graph generation from multi-view images. In: Proceedings of the IEEE/CVF In-ternational Conference on Computer Vision (ICCV). pp. 24999–25008 (October 2025) 38. Yin, H., Wei, H., Xu, X., Guo, W., Zhou, J., Lu, J.: Gc-vln: Instruction as graph constraints for training-free vision-and-language navigation. arXiv preprint arXiv:2509.10454 (2025) 18 Yeo et al. 39. Yin, H., Xu, X., Wu, Z., Zhou, J., Lu, J.: SG-nav: Online 3d scene graph prompting for LLM-based zero-shot object navigation. In: The Thirty-eighth Annual Confer-ence on Neural Information Processing Systems (2024), https://openreview.net/ forum?id=HmCmxbCpp2 
+
+40. Zhai, G., Örnek, E.P., Chen, D.Z., Liao, R., Di, Y., Navab, N., Tombari, F., Busam, B.: Echoscene: Indoor scene generation via information echo over scene graph dif-fusion. In: Computer Vision – ECCV 2024: 18th European Conference, Milan, Italy, September 29–October 4, 2024, Proceedings, Part XXI. p. 167–184. Springer-Verlag, Berlin, Heidelberg (2024). https://doi.org/10.1007/978-3-031-72664-4_10 
+
+41. Zhai, G., Örnek, E.P., Wu, S.C., Di, Y., Tombari, F., Navab, N., Busam, B.: Commonscenes: Generating commonsense 3d indoor scenes with scene graphs. In: Thirty-seventh Conference on Neural Information Processing Systems (2023), 
+
+https://openreview.net/forum?id=1SF2tiopYJ 
+
+42. Zhang, C., Yu, J., Song, Y., Cai, W.: Exploiting edge-oriented reasoning for 3d point-based scene graph analysis. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 9705–9715 (2021) 43. Zhang, C., Delitzas, A., Wang, F., Zhang, R., Ji, X., Pollefeys, M., Engelmann, F.: Open-vocabulary functional 3d scene graphs for real-world indoor spaces. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (2025) 44. Zhang, Y., Qian, D., Li, D., Pan, Y., Chen, Y., Liang, Z., Zhang, Z., Liu, Y., Mei, J., Fu, M., Ye, Y., Liang, Z., Shan, Y., Du, D.: Graphad: Interaction scene graph for end-to-end autonomous driving. In: Kwok, J. (ed.) Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence, IJCAI-25. pp. 2422–2430. International Joint Conferences on Artificial Intelligence Organiza-tion (8 2025). https://doi.org/10.24963/ijcai.2025/270 , main Track 45. Zhao, Y., Lv, W., Xu, S., Wei, J., Wang, G., Dang, Q., Liu, Y., Chen, J.: Detrs beat yolos on real-time object detection. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR). pp. 16965–16974 (June 2024) NoPA: Non-Parametric Online 3D Scene Graph Generation 19 
+
+# NoPA: Non-Parametric Online 3D Scene Graph Generation 
+
+## Supplementary Material 
+
+In this supplementary material, we conduct more qualitative and quantitative analysis. 
+
+– NoPA is evaluated on additional quantitative and qualitative experiments in Sec. A such as the per-class experiments (Sec. A.1), experiments using ground truth 2D SSG as input (Sec. A.2), and additional qualitative results (Sec. A.3). 
+
+– To justify our choice of representation type for objects, we analyze the ef-fectiveness of NoPA’s non-parametric formulation compared to other para-metric methods in Sec. B.1. 
+
+– To explain why relationship propagation works, we analyze the difference between the relationship propagation mechanism and an alternate merging based mechanism to recover relationships that are lost to under-merging in Sec. B.2. 
+
+– To understand our choice to focus on hard merge decisions, we analyze the impact of varying the margin band to determine how our definition of am-biguity affects NoPA’s performance in Sec. B.3. 
+
+– To find the right balance between speed and performance, we analyze how the number of particles used to represent each object influences NoPA’s performance in Sec. B.4. 
+
+## A Additional Experiments 
+
+A.1 Per-class Experiments 
+
+We present the per-class experiments on the test split of the 3DSSG [28] dataset in Tab. 5 and Tab. 6. We reproduced FROSS [11] and JointSSG [34] from their respective GitHub repositories. NoPA excels across the different object categories with the best performance in all but three of the object classes. Specifically, NoPA can better differentiate thin planar objects such as the picture and window 
+
+classes compared to FROSS and JointSSG. For background classes such as floor 
+
+and wall , FROSS’ poorer performance can be attributed to subpar merging. This causes the resulting object to have low overlap with the ground truth. Conversely, our superior merging formulation allows us to correctly identify and merge these textureless categories into an object with corresponding large overlap with the ground truth to correctly tackle these challenging instances. 20 Yeo et al. 
+
+For per-class predicate performance, both FROSS and NoPA exhibits simi-lar poor performance on rare classes inherited from their common RT-DETR-EGTR [13, 45] backbone for 2D SSG prediction due to 3DSSG’s severe class imbalance for predicate classes [34]. However, NoPA excels in classifying re-lationships that co-occurs with objects that our superior merging formulation correctly identifies. NoPA significantly outperforms all competing methods on the attached to predicate class that is commonly found with the wall object class. A similar phenomenon is shown between the standing on predicate class with large furniture objects such as desk and cabinet . These observations can be verified visually in Sec. A.3. Although tackling the issue of class imbalance may further improve performance for NoPA, we leave it to future work since solving class imbalance is not the main focus of this paper. 
+
+Table 5: Comparison with state-of-the-art methods on the test split of the 3DSSG dataset for each object class. The Best results are highlighted. Method bath. bed bkshf cab. chair cntr. curt. desk door floor ofurn pic. refri. show. sink sofa table toil. wall wind. Mean. JointSSG [34] 100.0 100.0 0.0 47.6 67.4 25.0 57.6 20.0 50.0 90.0 10.7 14.3 0.0 0.0 42.9 55.0 54.1 80.0 68.0 25.0 45.4 FROSS [11] 100.0 83.3 28.6 53.0 61.3 64.5 77.4 25.0 74.1 88.4 42.3 43.0 50.0 42.9 76.7 75.0 65.9 100.0 57.0 40.2 62.4 NoPA (Ours) 100.0 100.0 28.6 58.7 66.0 64.5 77.4 37.5 69.0 93.9 44.4 49.5 50.0 42.9 68.3 76.3 65.9 100.0 78.5 57.5 66.4 
+
+Table 6: Comparison with state-of-the-art methods on the test split of the 3DSSG dataset for each predicate class. The Best results are highlighted. Method attached to build in connected to hanging on part of standing on supported by Mean. JointSSG [34] 57.2 28.6 29.4 15.0 20.0 0.4 11.4 23.1 FROSS [11] 26.0 48.7 0.0 0.7 0.0 45.1 3.2 17.7 NoPA (Ours) 73.2 48.7 0.0 0.7 0.0 71.4 11.6 29.4 
+
+Table 7: Comparison with state-of-the-art methods on the test split of the ReplicaSSG dataset for each object class. The Best results are highlighted. Method bag bskt. bed bench bike book botl. bowl box cab. chair clock cntr. cup curt. desk door Mean. lamp. pil. plant plate pot rail. scrn. shlf. shoe sink stand table toil. towel umb. vase wind. FROSS 25.0 40.0 0.0 0.0 0.0 2.2 9.1 37.5 0.0 4.8 71.0 66.7 40.0 28.6 9.1 0.0 73.3 27.6 16.7 43.4 36.8 31.2 7.7 0.0 0.0 11.1 8.3 100.0 0.0 66.7 100.0 0.0 66.7 38.9 3.3                                   
+
+> NoPA (Ours) 25.0 40.0 0.0 0.0 0.0 1.5 9.1 40.6 8.0 4.8 87.0 66.7 60.0 28.6 9.1 0.0 86.7 16.7 67.9 36.8 25.0 7.7 0.0 0.0 22.2 8.3 100.0 0.0 55.6 100.0 0.0 66.7 38.9 0.0 29.8
+
+A.2 Ground Truth 2D SSG Experiments 
+
+As implied in Sec. A.1, our approach heavily depends on the accuracy of the 2D SSG predictions from the pretrained models, especially for object prediction. NoPA: Non-Parametric Online 3D Scene Graph Generation 21 
+
+Table 8: Comparison with state-of-the-art methods on the test split of the ReplicaSSG dataset for each predicate class. The Best results are highlighted. Method above against attached to in near on under with Mean. FROSS [11] 0.0 0.0 0.0 0.0 30.7 20.2 0.0 50.0 12.6 NoPA (Ours) 0.0 0.0 0.0 0.0 45.1 23.6 0.0 80.0 18.6 Table 9: Comparison on the usage of ground truth 2D SSG versus predicted 2D SSG on the test split of the 3DSSG dataset. + GT refers to the use of the oracle variant that takes in the ground truth 2D SSG as input. Model Recall% ( ↑) mRecall% ( ↑)Rel Obj. Pred. Obj. Pred FROSS [11] 25.7 60.6 30.7 62.4 17.7 FROSS [11] + GT 44.6 (+18.9) 77.2 (+16.6) 44.8 (+14.1) 83.7 (+21.3) 42.7 (+25.0)       
+
+> NoPA 53.2 69.0 61.4 66.4 29.4 NoPA + GT 84.4 (+15.4) 88.2 (+26.8) 85.0 (+18.6) 89.3 (+22.9) 80.8 (+51.4)
+
+Without accurate object classification in at least one frame, predicates that involve the misclassified object become incorrect or are entirely missed. This degrades performance for both the associated predicate classes and the affected object class. A case in point is the poor performance of FROSS on the attached to predicate class commonly found with the frequently misclassified wall class. To investigate the degree of reliance on 2D SSG quality, we compare both FROSS and NoPA with their oracle variants that take ground truth 2D SSG as input in Tab. 9. With the ground truth 2D SSG, NoPA experiences significant improvement across all metrics especially in predicate mRecall. This suggests that the performance of NoPA scales with more accurate 2D SSG inputs while being more robust to inferior 2D SSG quality compared to FROSS. 
+
+A.3 More Qualitative Results 
+
+Fig. 6, Fig. 7, and Fig. 8 visualize more qualitative results on the 3DSSG dataset. As mentioned in Sec. A.1, FROSS generally struggles to correctly identify the 
+
+wall class instances. FROSS still tends to omit relationships between the wall 
+
+instance and other object instances during classification, even when the wall 
+
+instance is correctly classified. NoPA addresses this limitation through a more expressive representation that supports more reliable merging and preserves the predicted relationships. Other classes with similar geometric shapes, such as sofa 
+
+and chair or table and desk , are correctly classified by NoPA while FROSS fails to classify accurately. In particular, both NoPA and FROSS fail to predict the pred-icate hanging on across many scenes. Since both NoPA and FROSS rely on RT-DETR-EGTR for all possible predicate and object predictions, both methods are constrained by the initial 2D SSG predictions for each frame. With few correct predictions of the predicate hanging on present in the initial 2D SSG predictions, both NoPA and FROSS cannot manifest sufficient correct predicate predictions 22 Yeo et al. floor 
+
+> toilet
+> other
+> wall
+> wall
+> door
+> door
+> toilet
+> wall
+> wall
+> floor
+> wall
+> wall
+> door
+> sink
+> wall
+> wall*
+> wall*
+> wall
+> a
+> a
+> a
+> a
+> s
+> a
+> a
+> h
+> aa
+> a
+> s
+> a
+> a
+> h
+> s
+> 6
+> 3
+> 29
+> sink
+
+GT  FROSS [11]  NoPa (Ours)       
+
+> : Missing Node Prediction : Incorrect Node Prediction : Correct Node Prediction
+> : Incorrect Edge Prediction : Correct Edge Prediction a: attached to s: standing on h: hanging on
+> *: blocked from view
+
+Fig. 6: We compare the qualitative results between FROSS and our proposed approach for scene ab835fae from the 3DSSG dataset. The object instances denoted with a * are not visible from either viewpoint angles but are visible in the input images. FROSS fails to predict a majority of the wall background class. Notably, FROSS has trouble differentiating the wall class with the sink class. FROSS also fails to predict a majority of the predicate relationships. Our method correctly classifies most objects while correctly predicting the majority of predicate relationships. 
+
+to overrule the majority for the final predicate prediction. Consequently, both methods fail to correctly classify the given predicate class. Nonetheless, NoPA generalizes across diverse environments since each scene corresponds to a differ-ent room type. This result shows robustness to variations in object appearance and lighting conditions. 
+
+## B Analysis 
+
+B.1 Comparison with Other Representations 
+
+Other than our non-parametric formulation, the objects can also be represented by other discrete representations such as the predicted 3D bounding boxes or point clouds lifted from the 2D bounding boxes. Reliable merging of 3D bounding boxes from sequential frame inputs re-quires careful design to maintain temporal consistency and avoid fragmented detections. Fusing the 3D bounding boxes from the candidate objects together requires a metric distance calculation between the two objects. Usually, this overlap is calculated via intersection over union (IoU). For our implementation, we leverage a calculation of IoU with a hard threshold of  δIoU = 0 .1. If the IoU NoPA: Non-Parametric Online 3D Scene Graph Generation 23 floor         
+
+> GT
+> other
+> wall
+> wall
+> wall
+> wall
+> cabin.
+> s
+> a
+> a
+> a
+> : Missing Node Prediction : Incorrect Node Prediction : Correct Node Prediction
+> : Incorrect Edge Prediction : Correct Edge Prediction a: attached to s: standing on h: hanging on
+> FROSS [11] NoPA (Ours)
+> window
+> door
+> curtain
+> window
+> desk
+> sofa
+> a
+> aha
+> h
+> s
+> s
+> s
+> chair
+
+Fig. 7: We compare the qualitative results between FROSS and our proposed approach for scene c2d9933f from the 3DSSG dataset. FROSS once again fails to predict a majority of the wall background class. FROSS also misclassifies the sofa instance as a chair instance. Even though FROSS correctly classifies most objects, FROSS fails to predict the predicate relationships between most objects. Our method correctly classifies all objects while correctly predicting the majority of predicate relationships. 
+
+between the local object candidate and the global object exceeds  δIoU  , we merge the two objects. Otherwise, we spawn the local object as a new global object. 
+
+Why it fails? The main problem with using bounding boxes is the lack of any mechanism to reduce the size of the bounding box once expanded. This means that any outlier bounding box with an extended spatial extent can incorrectly influence the merged bounding box to expand to beyond the true object extent. Moreover, the background space is also captured in each bounding box. As a result, bounding boxes may be fused even when their overlap primarily corre-sponds to background regions rather than the underlying foreground objects. Given our strict criteria for ground truth matching, excessively large bound-ing boxes are filtered out. These large bounding boxes are generally composed of multiple merged objects with a larger number of accumulated relationships. As shown in Tab. 10, filtering out such bounding boxes removes the associated relationships and reduces relationship recall. For sparse point clouds obtained from the lifting of 2D bounding boxes, they cannot scale to real time performance if the object is present in a large number of frames in the scene since the number of points in each point cloud linearly increases. For our implementation, we employ a simple calculation of the point cloud overlap based on nearest neighbors with a similar hard threshold of 
+
+δoverlap = 0 .1. If the overlap between the local object candidate and the global object exceeds  δoverlap , we merge the two objects. Otherwise, we spawn the local object as a new global object. 
+
+Why it fails? Point clouds can capture the geometric detail of objects, but they are similarly affected by outliers. An outlier point results in the expansion of the point cloud to an incorrect extent. Most of the issues that plague 3D bounding boxes are also applicable to point clouds. The wrong fusion due to the 24 Yeo et al. : Missing Node Prediction  : Incorrect Node Prediction  : Correct Node Prediction         
+
+> : Incorrect Edge Prediction : Correct Edge Prediction a: attached to s: standing on h: hanging on
+> GT FROSS [11] NoPa (Ours)
+> wall
+> wall
+> sofa
+> wall aa
+> a
+> floor
+> curtain
+> window
+> desk
+> chair
+> table
+> a
+> s
+> h
+> ss
+> s
+> table
+> other
+
+Fig. 8: We compare the qualitative results between FROSS and our proposed approach for scene 5630cfe7 from the 3DSSG dataset. FROSS misclassifies the desk object as a 
+
+table class. FROSS also misclassifies the wall instance as an other furniture instance. Because of the initial incorrect classification, all the relationships that are predicted with the wall instance are misclassified or missing. Our method correctly classifies all objects while correctly predicting the majority of predicate relationships. 
+
+presence of background space is mostly avoided since point clouds lifted from the bounding boxes largely only consist of the foreground object. In contrast to the prior two representations, our non-parametric represen-tation is less affected by outliers since the resampling step after kernel density estimation tends to remove particles that are far away from the other particles. This ensures that the extent of the object is less likely to stretch beyond the ground truth object. 
+
+B.2 Analysis on Relationship Propagation 
+
+The intuition behind relationship propagation is to recover relations that are missed throughout the incremental exploration of the scene. The caveat is that the relations must be present at some stage of the exploration process. This mechanism works under the assumption that neighboring object candidates with the same object class should have similar relations with similar objects. To group the object candidates into clusters, we reuse the precomputed MMD for merge decisions to avoid recomputation of an alternative metric over all particle sets to attain the affinity between object candidates. The affinity function is calculated as: 
+
+A = [max(0 , 1 − dM M D (Xi(o), Xj (o)) 2δM M D 
+
+)] n,n i,j =1 , (13) NoPA: Non-Parametric Online 3D Scene Graph Generation 25 
+
+Table 10: Comparison between different types of representations on the test split of the 3DSSG dataset. The Best results are highlighted. Representation Recall% ( ↑) mRecall% ( ↑) Latency ( ms ↓) VRAM (MB ↓)Rel Obj. Pred. Obj. Pred Point Cloud 23.3 65.0 27.4 64.2 16.2 71 1530 Bounding Box 7.0 68.7 8.0 64.5 8.0 26 1204 
+
+NoPA (Ours) 53.2 69.0 61.4 66.4 29.4 27 1206 
+
+which satisfies the criteria of boundedness and monotonicity thereby ensuring a well-formed formulation. If two segments possess low affinity score below affinity threshold  τ , they are prevented from being grouped into the same cluster. This filtering mechanism avoids forming overly large clusters which improves amor-tized computational efficiency. The entire relationship propagation mechanism is described in Algorithm 1. 
+
+Algorithm 1 Relationship Propagation 
+
+1:  adj ∈ RV ×V ×R // R refers to the number of predicate classes 
+
+2:  clusters ← { root : neigh (root )} // V refers to the number of valid objects 3: for i = 1 to C do // C refers to the number of clusters 4:  cluster ← clusters [i] // Obtained from Stage 2 decision rule 
+
+5: for  j = 1 to ci do //  ci refers to number of objects in cluster i 6: for  k = 1 to ci − 1 do 
+
+7: // Accumulate relations for same cluster 8:  rj ← adj [j]
+
+9:  rk ← adj [k]
+
+10:  rc ← rj ∪ rk
+
+11:  adj [j] ← rc
+
+12:  adj [k] ← rc
+
+13: end for 
+
+14: end for 
+
+15: end for 
+
+16: return  adj 
+
+Why it works? Neighboring objects from the same class tend to have similar relations with other objects. Similar to the concept of label propagation in semi-supervised learning, we are updating the labels based on information obtained from other data points. Our approach differs from label propagation in three ways: 1) We propagate relationships instead of object classes. 2) The nodes already contain prior information and are not unlabeled. 3) The propagation occurs in a single step rather than in multiple steps. 
+
+Why not merge? Merging also aggregates the relations from neighboring ob-ject candidates similar to relationship propagation. However, merging does not preserve the initial object candidates. As shown in Tab. 11, this preservation 26 Yeo et al. Merging Distribution     
+
+> (unambiguous merge)
+> 𝒅 H<δH−ϵ
+
+Stage 1: Pre -Filter  (unambiguous spawn)     
+
+> 𝒅 H>δH+ϵ
+> Density
+> Hellinger Distance
+> 4506  merge decisions
+
+Fig. 9: We show the distribution of merge decisions in the test split of the ReplicaSSG dataset according the Hellinger distance calculated from fitting the Gaussian distribu-tion on NoPA’s particles. Even in the narrow margin band between  δH −ϵ ≤ dH ≤ δH +ϵ
+
+where  δH = 0 .85  and  ϵ = 0 .05 , there exists a substantial number of merge decisions that requires sensitive MMD calculation beyond moments matching. 
+
+of object candidates heavily influences performance. If object candidates are merged into one instance when they belong to different instances, at least one matching with the ground truth is removed. Both matches may even be removed if the combined instance is filtered by our strict matching criteria. As a result, the relations that were previously augmented are still lost after merging. Conse-quently, the performance for all metrics degrades with the merging mechanism. This is also the reason why overly aggressive merging schemes fail, and the correctness of each merge is critical to prevent the compounding of errors .
+
+B.3 Analysis on Ambiguity Table 11: Comparison between different types of relation aggregation methods on the test split of the 3DSSG dataset. The 
+
+Best results are highlighted.               
+
+> Mechanism Recall% ( ↑)mRecall% ( ↑)Rel Obj. Pred. Obj. Pred Merging 25.2 67.8 29.4 66.3 15.5 Propagation 53.2 69.0 61.4 66.4 29.4
+
+Fig. 9 shows the distribution of merge decisions that are considered ambigu-ous in the ReplicaSSG dataset. Even a small number of incorrect decisions within this margin band can cascade and lead to the compounding of errors that degrades NoPA’s performance. NoPA: Non-Parametric Online 3D Scene Graph Generation 27                                                                           
+
+> Table 12: Comparison between different values of ϵon the test split of the ReplicaSSG dataset. The Best and Second Best results are highlighted, respectively.
+> ϵRecall% ( ↑)mRecall% ( ↑) Latency ( ms ↓)Rel Obj. Pred. Obj. Pred 016.2 27.4 17.2 29.0 7.9 18
+> 0.05 36.9 28.6 39.5 29.8 18.6 23 0.1 31.7 27.5 34.0 29.2 15.9 24 0.15 31.1 26.0 33.3 28.5 15.7 26
+> Table 13: Comparison between different number of particles in each particle set on the validation split of the 3DSSG dataset. The Best and Second Best results are highlighted, respectively.
+> nRecall% ( ↑)mRecall% ( ↑) Latency ( ms ↓) VRAM (MB ↓)Rel Obj. Pred. Obj. Pred 64 50.8 63.3 57.5 52.8 26.8 26 1206
+> 128 51.3 66.7 58.8 56.1 27.8 27 1206
+> 256 53.7 66.0 61.0 56.6 28.3 29 1206
+> 512 53.0 65.3 60.3 55.2 29.4 30 1207
+
+Tab. 12 presents the performance of NoPA with different margin bands that correspond to varying levels of ambiguity.  ϵ = 0  signifies the exclusive use of the Hellinger’s distance for all fitted Gaussians on the particle sets of object can-didates without additional MMD support. NoPA attains the best performance with  ϵ = 0 .05 .
+
+Remarks. Although MMD might be the superior choice when used for ambigu-ous merges, it loses its effectiveness when used for merging decisions that are clear cut according to the Hellinger distance. MMD compares the full distribu-tional distance between two object distributions in a reproducing kernel Hilbert space. However, it does not explicitly encode the Euclidean distance between ob-jects that the Hellinger distance encodes. The larger the margin band, the more likely that MMD may mistakenly merge two object candidates with a large Eu-clidean distance. Focusing on the narrow margin band allows MMD to provide more reliable merge decisions compared to relying on pure moment matching. 
+
+B.4 Analysis on Number of Particles 
+
+Since the theoretical runtime of the Stage 2 decision rule using MMD is pro-portional to the square of the number of particles  O(n) ∝ n2, we expect the runtime to scale quadratically with the number of particles. However, since we only apply MMD to ambiguous merge decisions which only covers a smaller subset of merge decisions, the runtime cost is amortized. Empirically, as seen in Tab. 13, we found that the runtime of NoPA does not increase substantially 28 Yeo et al. 
+
+as the number of particles increases.  n = 256  strikes the right balance in the tradeoff between speed and performance. 
+
+Remarks. Counterintuitively, a larger number of particles does not always lead to an increase in performance. NoPA with  n = 512  particles performs worse than 
+
+n = 256 . One possibility might be that the effective number of particles required to represent a single object is less than 512. The additional particles above 
+
+n = 256  may be replicating the same information as the prior particles without adding extra context. Adding more particles may even be counterproductive as it can produce noisier object representations and reduce performance.

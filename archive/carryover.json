@@ -1,6 +1,312 @@
 {
-  "generated_at": "2026-03-06T19:11:18.471356+00:00",
-  "updated_date": "20260306",
+  "generated_at": "2026-07-08T12:10:28.893867+00:00",
+  "updated_date": "20260629-20260708",
   "carryover_days": 9,
-  "items": []
+  "tag_states": {
+    "dm": {
+      "updated_date": "20260629-20260708",
+      "carryover_days": 9,
+      "items": [
+        {
+          "id": "2607.01202v1",
+          "source": "arxiv",
+          "title": "World from Motion: Generative Dynamic Gaussian Reconstruction from Monocular Video",
+          "abstract": "We present World from Motion, a method for generating freely renderable dynamic 3D Gaussian representations from monocular videos. Our approach conditions a video model on dense, pixel-aligned renderings that encode appearance, geometry, and 3D scene motion along both input and target camera trajectories to correct rendering artifacts and fill in missing regions from an initial reconstruction. To train this model, we construct a dataset of aligned multiview video pairs and dynamic 3DGS representations, with simulated artifacts characteristic of monocular reconstruction. At test time, we distill the model's generations, including newly observed regions and motions, back into a single consistent, high-quality dynamic 3DGS, improving both novel-view synthesis and the underlying 3D motion. Our method sets a new state of the art in 4D reconstruction and seamlessly generalizes to in-the-wild videos with large viewpoint changes and dynamic motions.",
+          "authors": [
+            "Liyuan Zhu",
+            "Shengyu Huang",
+            "Amrita Mazumdar",
+            "Tianye Li",
+            "Zan Gojcic",
+            "Gordon Wetzstein",
+            "Iro Armeni",
+            "Shalini De Mello",
+            "Alex Trevithick"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV",
+            "cs.AI",
+            "cs.GR"
+          ],
+          "published": "2026-07-01T17:41:00+00:00",
+          "link": "https://arxiv.org/pdf/2607.01202v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "Generative dynamic 3D Gaussian reconstruction from monocular video",
+          "llm_evidence_cn": "从单目视频生成动态3D高斯重建",
+          "llm_evidence": "从单目视频生成动态3D高斯重建",
+          "canonical_evidence": "从单目视频生成动态3D高斯重建",
+          "llm_tldr_en": "Introduces World from Motion, a method that conditions a video model on renderings to generate high-quality dynamic 3D Gaussian representations from monocular video, improving novel view synthesis and editing.",
+          "llm_tldr_cn": "单目视频生成动态3D表示面临渲染伪影和缺失区域问题。本文提出World from Motion方法，利用视频模型基于密集对齐的渲染图（编码外观、几何和运动）生成动态3D高斯，并蒸馏为一致的高质量表示。在动态场景重建和渲染上表现优异，推动了单目动态3D重建的发展。",
+          "llm_tldr": "单目视频生成动态3D表示面临渲染伪影和缺失区域问题。本文提出World from Motion方法，利用视频模型基于密集对齐的渲染图（编码外观、几何和运动）生成动态3D高斯，并蒸馏为一致的高质量表示。在动态场景重建和渲染上表现优异，推动了单目动态3D重建的发展。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.01202v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.01222v1",
+          "source": "arxiv",
+          "title": "Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models",
+          "abstract": "Recent 3D generative models can synthesize high-quality geometry but often struggle to reproduce intricate textures from reference images, largely due to the scarcity of large-scale 3D training data with rich surface appearance. In contrast, visual generative models are trained on datasets several orders of magnitude larger and excel at modeling complex visual patterns. Motivated by this gap, we introduce Ink3D, a framework that bridges 3D generation with large-scale video generative models to synthesize extremely complex textures. Ink3D first reconstructs a white-mesh geometry using an off-the-shelf 3D generation model. It then employs OrbitPainter, a conditional video generative model, to produce dense orbit-scan videos capturing object appearance across viewpoints. To convert these views into coherent textures, we introduce TextureOptimizer, a neural baking module that integrates dense multi-view observations while mitigating geometry inconsistencies arising from video generation. By decoupling geometry and texture synthesis and leveraging large-scale pretrained video priors, Ink3D enables significantly richer and more faithful texture generation than prior approaches.",
+          "authors": [
+            "Yue Han",
+            "Chong Li",
+            "Zhening Liu",
+            "Cong Huang",
+            "Fang Deng",
+            "Yong Liu",
+            "Fangyun Wei",
+            "Yan Lu"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-01T17:56:39+00:00",
+          "link": "https://arxiv.org/pdf/2607.01222v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "3D asset generation with complex textures using video generative models",
+          "llm_evidence_cn": "利用视频生成模型生成复杂纹理的3D资产",
+          "llm_evidence": "利用视频生成模型生成复杂纹理的3D资产",
+          "canonical_evidence": "利用视频生成模型生成复杂纹理的3D资产",
+          "llm_tldr_en": "Introduces Ink3D, a framework that combines 3D generation with large-scale video generative models to synthesize extremely complex textures, using orbit-scan video generation for texture transfer.",
+          "llm_tldr_cn": "现有3D生成模型难以复现参考图像中的复杂纹理。本文提出Ink3D，利用大规模视频生成模型为3D几何生成逼真纹理：先重建白色几何，再通过OrbitPainter视频模型生成密集扫视视频来捕获物体外观。该方法能产生高度精细的纹理，突破了3D数据稀缺的限制。",
+          "llm_tldr": "现有3D生成模型难以复现参考图像中的复杂纹理。本文提出Ink3D，利用大规模视频生成模型为3D几何生成逼真纹理：先重建白色几何，再通过OrbitPainter视频模型生成密集扫视视频来捕获物体外观。该方法能产生高度精细的纹理，突破了3D数据稀缺的限制。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.01222v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.02516v1",
+          "source": "arxiv",
+          "title": "Alignment Is All You Need For X-to-4D Generation",
+          "abstract": "Generative diffusion models excel at synthesizing high-quality images, videos, and 3D content under multimodal control. However, arbitrary user-defined modality-to-4D (X-to-4D) generation remains challenging due to the high cost of constructing diverse datasets and the limited scalability of existing methods. This paper presents Align4D, a flexible framework that translates any-modal input into coherent video-3D pairs, using video to guide 4D motion and 3D data to shape 4D geometry. Align4D introduces three key techniques: (1) Object Distance Alignment, which searches Video-Aligned and Multiview-Aligned Object Distances (VAOD/MAOD), respectively, to reconcile 4D renderings with video and the priors of multiview diffusion models; (2) Motion-Geometry Joint Alignment, which constrains known and unknown views through synchronized video and 3D inputs, ensuring consistent 4D generation; and (3) Asynchronous Optimization, which decouples Gaussian attribute and deformation network training to enhance motion and geometry fidelity. We further propose the X4D dataset, which integrates prompt, image, video, and 3D data for benchmarking. Experiments on X4D and Consistent4D demonstrate that Align4D achieves state-of-the-art quality and consistency in X-to-4D generation. Project page: https://miaoqiaowei.github.io/Align4D/.",
+          "authors": [
+            "Qiaowei Miao",
+            "Kehan Li",
+            "Yawei Luo",
+            "Yi Yang"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-02T17:59:57+00:00",
+          "link": "https://arxiv.org/pdf/2607.02516v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "X-to-4D generation aligning video and 3D",
+          "llm_evidence_cn": "任意模态到4D生成，对齐视频与3D",
+          "llm_evidence": "任意模态到4D生成，对齐视频与3D",
+          "canonical_evidence": "任意模态到4D生成，对齐视频与3D",
+          "llm_tldr_en": "Align4D translates any-modal input into coherent video-3D pairs for 4D generation using object distance alignment and motion-geometry joint alignment.",
+          "llm_tldr_cn": "任意输入模态到4D内容生成面临数据集构建成本高和可扩展性差的问题。本文提出Align4D框架，将任意模态输入转化为一致的视频-3D对，通过对象距离对齐和运动-几何联合对齐技术，实现高质量的4D生成。在多个任务上验证了其灵活性和有效性。",
+          "llm_tldr": "任意输入模态到4D内容生成面临数据集构建成本高和可扩展性差的问题。本文提出Align4D框架，将任意模态输入转化为一致的视频-3D对，通过对象距离对齐和运动-几何联合对齐技术，实现高质量的4D生成。在多个任务上验证了其灵活性和有效性。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.02516v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.03819v1",
+          "source": "arxiv",
+          "title": "CGGS: Consistency-Augmented Geometric Gaussian Splatting for Ego-centric 3D Scene Generation",
+          "abstract": "Challenges remain in ego-centric 3D scene generation due to limited view overlap and the dominant influence of individual perspectives on scene interpretation. These factors hinder the creation of viewpoint-consistent and semantically aligned visual content, as well as the construction of accurate geometric structures. In this paper, we propose CGGS, a text-to-3D framework aiming to enhance 3D-content-awareness and address geometric distortions in ego-centric scene generation. Firstly, the Ego-centric Generator is proposed by fine-tuning a Multi-View Latent Diffusion Model with consistency-augmented loss to generate consistent, high-fidelity 2D content aligned with textual descriptions. Then, Layout Decorator leverages optical flow and point-track correspondence to estimate depth, therefore producing dense point clouds as coarse layouts from the ego-centric 2D priors. Building on this initialization, Geometric Refiner is proposed to enhance 3D Gaussian reconstruction via an entropy-based Mutual Information Depth Loss (MID) combined with a hierarchical optimization scheme for improving visual quality and geometric structure. Comprehensive experiments demonstrate that \\textcolor{softred}{CGGS} outperforms previous methods in generating coherent and accurate text-driven 3D scenes. Project page: https://cggs-26.github.io/cggs26/.",
+          "authors": [
+            "Zhenyu Sun",
+            "Xiaohan Zhang",
+            "Qi Liu",
+            "Huan Wang"
+          ],
+          "primary_category": "cs.GR",
+          "categories": [
+            "cs.GR",
+            "cs.AI"
+          ],
+          "published": "2026-07-04T11:06:41+00:00",
+          "link": "https://arxiv.org/pdf/2607.03819v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "text-to-3D ego-centric scene generation with consistent multi-view",
+          "llm_evidence_cn": "文本到3D自我中心场景生成与一致性多视图",
+          "llm_evidence": "文本到3D自我中心场景生成与一致性多视图",
+          "canonical_evidence": "文本到3D自我中心场景生成与一致性多视图",
+          "llm_tldr_en": "CGGS enhances text-to-3D ego-centric scene generation by fine-tuning a multi-view diffusion model with consistency loss and using layout decorator.",
+          "llm_tldr_cn": "自我中心3D场景生成面临视点重叠少和几何畸变问题。本文提出CGGS，通过一致性增强损失微调多视图潜扩散模型，生成与文本描述对齐的高保真2D内容；再通过布局装饰器利用光流修复几何扭曲。该方法生成了视角一致且几何准确的3D场景。",
+          "llm_tldr": "自我中心3D场景生成面临视点重叠少和几何畸变问题。本文提出CGGS，通过一致性增强损失微调多视图潜扩散模型，生成与文本描述对齐的高保真2D内容；再通过布局装饰器利用光流修复几何扭曲。该方法生成了视角一致且几何准确的3D场景。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.03819v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.03731v1",
+          "source": "arxiv",
+          "title": "CoGen3D: An Agentic Human-AI Co-Design Pipeline for 3D Asset Generation for Virtual Reality",
+          "abstract": "Creating 3D assets for virtual reality requires modeling expertise, which restricts the authorship of immersive experiences. Existing generative AI tools rely on unconstrained, command-driven prompting, lacking the conversational scaffolding needed for users to articulate their intent and validate designs prior to rendering. To address this, we introduce CoGen3D, an agentic human-AI co-design pipeline that proactively guides users through conversational intent elicitation, a concept image confirmation, and image-to-3D generation that directly deploys to immersive scenes. We evaluated this system through a user study (N=120) across six affectively diverse immersive scenes, observing 60 Design group participants who co-created 3D assets for the scenes, and 60 Validation group participants who experienced the scenes with generated assets. Our findings show that co-designed assets are associated with higher scene engagement and shifted affective responses, while participants generally preferred concept images over the final 3D assets, with no increased leniency toward degradation in their own creations. Analysis of the human-AI conversations further shows that target environments shape users' conversational patterns. Our results suggest that our staged, intent-based co-design can democratize virtual reality authoring and shift immersive content creation from technical execution toward collaborative spatial design.",
+          "authors": [
+            "Weiwei Jiang",
+            "Wanyu He",
+            "Zheyu Tan",
+            "Zheyuan Kuang",
+            "Difeng Yu",
+            "Shinobu Hasegawa",
+            "Sven Mayer",
+            "Zhanna Sarsenbayeva"
+          ],
+          "primary_category": "cs.HC",
+          "categories": [
+            "cs.HC",
+            "cs.AI"
+          ],
+          "published": "2026-07-04T06:37:26+00:00",
+          "link": "https://arxiv.org/pdf/2607.03731v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "human-AI co-design pipeline for 3D asset generation in VR",
+          "llm_evidence_cn": "面向VR的3D资产生成人机协同设计管线",
+          "llm_evidence": "面向VR的3D资产生成人机协同设计管线",
+          "canonical_evidence": "面向VR的3D资产生成人机协同设计管线",
+          "llm_tldr_en": "CoGen3D uses an agentic pipeline with conversational intent elicitation and image-to-3D generation for VR asset co-creation.",
+          "llm_tldr_cn": "为解决现有AI生成工具缺乏交互引导、用户难以准确表达设计意图的问题，CoGen3D构建了智能体驱动的人机协同管线，通过对话式意图澄清和概念图确认，最终实现图像到3D的沉浸式部署。用户研究（N=120）表明该方法显著提升了创作效率和满意度，为人机协同3D内容生成提供新方案。",
+          "llm_tldr": "为解决现有AI生成工具缺乏交互引导、用户难以准确表达设计意图的问题，CoGen3D构建了智能体驱动的人机协同管线，通过对话式意图澄清和概念图确认，最终实现图像到3D的沉浸式部署。用户研究（N=120）表明该方法显著提升了创作效率和满意度，为人机协同3D内容生成提供新方案。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.03731v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.05348v1",
+          "source": "arxiv",
+          "title": "Beyond Isolated Objects: Relationship-aware Open Vocabulary Scene Understanding via 3D Scene Graph Analysis",
+          "abstract": "Open-vocabulary 3D scene understanding aims to segment 3D scenes beyond predefined categories by transferring semantic knowledge from vision-language models. Existing methods have advanced this task by lifting language-aligned 2D features into 3D, yet they often rely on context-independent semantic representations, leaving object relationships underexplored for contextual refinement. We propose RelGraphOV, a relationship-aware framework that uses 3D scene graphs to enhance open-vocabulary 3D understanding. Our method constructs relational scene graphs from multi-view observations by leveraging vision-language reasoning to infer object relationships and prune geometrically implausible connections, without manual relationship annotations. To aggregate relational context while avoiding feature interference, we introduce an Adaptive Gated Dual-Stream Contextual GAT that separates dense geometric features and semantic CLIP embeddings, performs edge-guided message passing, and adaptively fuses complementary semantics. A hierarchical contrastive objective further promotes instance-level consistency and category-level discrimination. Experiments on ScanNetV2, ScanNet200, ScanNet$++$, and Replica demonstrate strong performance and generalization ability. Project Page: https://cxavireh.github.io/relgraphov-projectpage",
+          "authors": [
+            "Xianhao Chen",
+            "Jiarui Hu",
+            "Yuanbo Yang",
+            "Xiyu Zhang",
+            "Tengyue Wang",
+            "Hujun Bao",
+            "Guofeng Zhang",
+            "Zhaopeng Cui"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV",
+            "cs.RO"
+          ],
+          "published": "2026-07-06T17:29:49+00:00",
+          "link": "https://arxiv.org/pdf/2607.05348v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "relationship-aware 3D scene understanding using scene graphs",
+          "llm_evidence_cn": "基于场景图的关系感知三维场景理解",
+          "llm_evidence": "基于场景图的关系感知三维场景理解",
+          "canonical_evidence": "基于场景图的关系感知三维场景理解",
+          "llm_tldr_en": "RelGraphOV enhances open-vocabulary 3D scene understanding by constructing relational scene graphs from vision-language reasoning.",
+          "llm_tldr_cn": "针对现有3D开放词汇语义分割忽略物体间关系导致语义表达受限的问题，提出RelGraphOV框架，通过多视图观测构建关系场景图，利用视觉语言推理推断物体关系并剔除几何不合理连接，无需手动标注关系。实验证明该方法能有效提升分割精度和上下文理解能力，为3D场景理解引入关系维度。",
+          "llm_tldr": "针对现有3D开放词汇语义分割忽略物体间关系导致语义表达受限的问题，提出RelGraphOV框架，通过多视图观测构建关系场景图，利用视觉语言推理推断物体关系并剔除几何不合理连接，无需手动标注关系。实验证明该方法能有效提升分割精度和上下文理解能力，为3D场景理解引入关系维度。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.05348v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.05493v1",
+          "source": "arxiv",
+          "title": "Ground3D-LMM: Fine-Grained 3D Point Grounding and Spatial Reasoning with LMM",
+          "abstract": "Natural-language queries about 3D environments become actionable when responses are verifiable and metric. Verifiability requires explicit grounding to the referred 3D region, while metric answers report physical measurements in real-world units (e.g., size, thickness, clearance, and distance). Existing 3D large multimodal models (LMMs) approaches remain limited: conversational systems typically respond without explicit 3D grounding, while 3D grounding models are not designed for interactive, metric-aware dialogue. In this paper, we present Ground3D-LMM, a unified model that takes a point cloud and an optional RGB image as input and supports 3D spatial conversation with (i) point-grounded responses and (ii) metric numeric outputs at both object and part granularity, including multi-object queries. To evaluate this intersection of grounding and measurement, we define the 3D Grounded Measurement task, which requires predicting the referred 3D region and the corresponding metric quantities in real-world units. We introduce a large-scale dataset built on ScanNet and ScanNet++ datasets with dense object and part annotations and roughly 2.5M question-answer pairs spanning eight tasks, along with a manually verified test set. Extensive experiments on multiple datasets and tasks show that our proposed Ground3D-LMM model provides a strong baseline for grounded, metric-aware 3D conversational understanding. Our dataset and model are publicly available.",
+          "authors": [
+            "Amol Harsh",
+            "Zongyan Han",
+            "Jean Lahoud",
+            "Ye Liu",
+            "Rao Muhammad Anwer",
+            "Hisham Cholakkal",
+            "Salman Khan",
+            "Fahad Khan"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-06T18:00:00+00:00",
+          "link": "https://arxiv.org/pdf/2607.05493v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "fine-grained 3D point grounding and spatial reasoning with LMM",
+          "llm_evidence_cn": "基于大语言模型的细粒度三维点云定位与空间推理",
+          "llm_evidence": "基于大语言模型的细粒度三维点云定位与空间推理",
+          "canonical_evidence": "基于大语言模型的细粒度三维点云定位与空间推理",
+          "llm_tldr_en": "Ground3D-LMM unifies 3D point grounding and metric-aware dialogue in a single LMM for spatial conversation.",
+          "llm_tldr_cn": "针对现有3D大语言模型缺乏显式点云定位和度量回答的问题，提出Ground3D-LMM统一模型，以点云和可选RGB为输入，支持点定位响应和物理尺寸、距离等度量输出。在多个基准上验证了其精确的定位与推理能力，使3D空间对话更具可验证性和实用性。",
+          "llm_tldr": "针对现有3D大语言模型缺乏显式点云定位和度量回答的问题，提出Ground3D-LMM统一模型，以点云和可选RGB为输入，支持点定位响应和物理尺寸、距离等度量输出。在多个基准上验证了其精确的定位与推理能力，使3D空间对话更具可验证性和实用性。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.05493v1",
+          "carry_days": 1
+        }
+      ]
+    }
+  }
 }
