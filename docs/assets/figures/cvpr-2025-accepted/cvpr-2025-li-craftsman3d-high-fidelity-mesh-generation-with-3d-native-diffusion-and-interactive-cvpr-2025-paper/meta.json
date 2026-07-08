@@ -1,0 +1,96 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1784,
+      "height": 710,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 859,
+      "height": 255,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 875,
+      "height": 291,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 1791,
+      "height": 551,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 864,
+      "height": 593,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 866,
+      "height": 591,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 738,
+      "height": 379,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 831,
+      "height": 392,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-009.webp",
+      "caption": "",
+      "page": 0,
+      "index": 9,
+      "width": 1685,
+      "height": 855,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-li-craftsman3d-high-fidelity-mesh-generation-with-3d-native-diffusion-and-interactive-cvpr-2025-paper/fig-010.webp",
+      "caption": "",
+      "page": 0,
+      "index": 10,
+      "width": 708,
+      "height": 517,
+      "label": "Figure"
+    }
+  ]
+}

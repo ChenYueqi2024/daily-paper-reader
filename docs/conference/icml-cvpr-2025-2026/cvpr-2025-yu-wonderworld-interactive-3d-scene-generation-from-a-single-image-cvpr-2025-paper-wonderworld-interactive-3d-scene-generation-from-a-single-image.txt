@@ -1,0 +1,1130 @@
+WonderWorld: Interactive 3D Scene Generation from a Single Image
+Hong-Xing Yu1*
+Haoyi Duan1*
+Charles Herrmann1
+William T. Freeman2
+Jiajun Wu1
+1Stanford University
+2MIT
+“Venetian Market”
+“Venice”
+“Market Place”
+“Street”
+“Harbor”
+“Colorful Houses”
+“Tree”
+“Bridge”
+Input image
+Generated 3D scenes
+Input image
+Input image
+”Rocks”
+“Temple”
+“Street”
+“Downtown”
+“Garden”
+“Flat House”
+“Mountain”
+“Waterfall”
+“Market Place”
+“Cafe”
+“Bird”
+“Reef Rock”
+“Road”
+“Seashore”
+Generated 3D scenes
+Generated 3D scenes
+User interaction
+Figure 1. Starting with a single image, a user can interactively generate connected 3D scenes with diverse elements. The user can specify scene
+contents via text prompts and specify the layout by moving cameras (e.g., panorama-like camera paths as in the top row, or casual-walk camera
+paths as in the bottom row). We recommend seeing the interactive generation process at https://kovenyu.com/WonderWorld/.
+Abstract
+We present WonderWorld, a novel framework for inter-
+active 3D scene generation that enables users to interac-
+tively specify scene contents and layout and see the created
+*Equal contribution.
+scenes in low latency. The major challenge lies in achiev-
+ing fast generation of 3D scenes. Existing scene genera-
+tion approaches fall short of speed as they often require
+(1) progressively generating many views and depth maps,
+and (2) time-consuming optimization of the scene geometry
+representations. Our approach does not need to generate
+This CVPR paper is the Open Access version, provided by the Computer Vision Foundation.
+Except for this watermark, it is identical to the accepted version;
+the final published version of the proceedings is available on IEEE Xplore.
+5916
+
+
+multiple views, and it leverages a geometry-based initializa-
+tion that significantly reduces optimization time. Another
+challenge is generating coherent geometry that allows all
+scenes to be connected. We introduce the guided depth
+diffusion that allows partial conditioning of depth estima-
+tion. WonderWorld creates connected and diverse 3D scenes,
+each generated in less than 10 seconds on a single A6000
+GPU, enabling real-time user interaction and exploration.
+We release full code, software, and interactive demos in
+https://kovenyu.com/WonderWorld/.
+1. Introduction
+Recently, 3D scene generation has surged in popularity, with
+many works successfully exploring strong generative im-
+age priors and improvements in monocular depth estima-
+tion [8, 50, 67, 68]. However, existing 3D scene generation
+approaches are offline, where the user provides a single start-
+ing image or text prompt, and then the system, after tens of
+minutes to hours, returns a fixed 3D scene or a video of the
+scene. While offline generation may work for small, isolated
+scenes or videos, this setup is problematic for many scene
+generation use cases. For example, in game development,
+world designers want to iteratively build 3D world proto-
+types step-by-step. This requires having control over the
+scene contents and layouts while being able to see genera-
+tion outcomes with low latency. In VR and video games,
+users expect a world that is larger and more diverse than the
+scenes currently generated. In the future, users may desire
+even more: a system that allows them to freely explore and
+shape a dynamically evolving, infinite virtual world. All of
+these motivate the problem of interactive 3D scene genera-
+tion, where the user can control what and where to generate
+(or extrapolate) a new 3D scene and see how it fits into a
+world in low latency.
+The major bottleneck that prevents interactivity is the low
+speed of generation. Each generated scene typically requires
+tens of minutes on two main steps: (1) Progressively gener-
+ating dense multi-view images and aligning depth maps to
+cover occluded regions [8, 50, 67]. (2) Spending a consider-
+able amount of time optimizing the 3D scene representations
+to shape appropriate geometry and appearances [17, 20, 71].
+Besides speed, another challenge is that the generated scenes
+have strong geometric distortion along the scene boundary
+due to misalignment or inaccuracy of estimated depth maps,
+creating seams among generated scenes.
+In this work, we propose a framework named Wonder-
+World for interactive scene generation. Our input is a single
+image that depicts the starting scene, as well as online user
+controls of camera movement and content prompts. Our
+output is a set of coherently connected 3D scenes, forming a
+comprehensive world, according to the online user controls.
+To address the speed issue, our core technique includes a
+novel scene representation, Fast LAyered Gaussian Surfels
+(FLAGS), and the algorithm to generate it from a single view.
+This allows generating a scene (i.e., the visual and geomet-
+ric content conditioned on a text prompt and any existing
+scenes) in less than 10 seconds on a single GPU. To miti-
+gate the geometry distortion problem, we introduce a guided
+depth diffusion method to improve the alignment between
+the geometry of the newly generated scenes and existing
+scenes.
+WonderWorld unlocks the potential for interactive scene
+generation, allowing users to extrapolate a single image
+into a vast and immersive 3D world. Our approach enables
+new possibilities for applications in virtual reality, gaming,
+and creative design, where users can quickly generate and
+explore diverse 3D worlds. In summary, our contributions
+are three-folded:
+• We propose WonderWorld, the first approach that enables
+interactive 3D scene generation where a user can interac-
+tively create diverse, connected scenes with low latency.
+• We introduce the FLAGS representation for fast scene
+generation and the algorithm to generate it from a single
+view. We further introduce the guided depth diffusion to
+mitigate geometry distortion.
+• We showcase and evaluate interactive generation on vari-
+ous examples, such as nature, city, and campus.
+2. Related Work
+Novel view generation. Many works on generating novel
+views from a single image attempted to construct render-
+able 3D scene representations, such as layered depth im-
+ages [49, 56], radiance fields [52, 54, 66], multi-plane im-
+ages [55, 73], and point features [42, 59]. Yet, they only
+supported generating views within small viewpoint changes
+w.r.t. the input image, as they only built single static scene
+representations that do not go beyond the input image. Our
+FLAGS representation integrates the technical ideas from
+layered representations [48, 73] and radiance fields [28],
+yet we focus on a generative task to support creating many
+connected scenes rather than a single one.
+3D world generation. Later works explored generating
+more significant viewpoint changes and potentially multiple
+connected scenes. Early examples of extended scene gener-
+ation focused on extending a single image into a perpetual
+video with a given camera trajectory: Infinite Images [25]
+used image stitching, and Infinite Nature [37] and its follow-
+up works [5, 6, 35] used image generation models special-
+ized to nature images. Since the advent of generative diffu-
+sion models, subsequent work has expanded the scope and
+domain of this work. BlockFusion [61] generates triplanes
+to represent expandable terrains. SceneScape [15] generates
+perpetual scenes from a single prompt. WonderJourney [67]
+instead uses an LLM to generate diverse content and a point
+5917
+
+
+cloud representation for the scenes. WonderJourney is most
+relevant in that it also aims to generate a sequence of diverse
+scenes, yet it runs offline and requires tens of minutes to gen-
+erate a single scene as it requires synthesizing dense views in
+each scene. Another line of work in large-scale world genera-
+tion focuses almost entirely on cities [36, 62, 63], producing
+large-scale 3DGS representations.
+3D scene generation. Recently, scene generation meth-
+ods have focused primarily on a single, local 3D area, with
+many explicitly focusing on indoor scenes [2, 10, 20, 21, 33].
+Recent methods [11, 43, 65, 72] such as Text2NeRF [71],
+LucidDreamer [8], and CAT3D [17] generate multi-view
+images of a scene, and RealmDreamer [50] and Dream-
+Scene [34] distill multi-view image and depth to generate a
+3D scene. Another line of relevant work focuses on single-
+image 3D scene reconstruction by explicit pose-conditioning
+or training on scenes [7, 47, 53, 68]. While these approaches
+demonstrate improvements in the quality of 3D scene gener-
+ation, they are offline processes generating a fixed scene that
+is then provided to the user. Since the scene is fixed, their
+methods do not allow user interaction, e.g., not enabling
+the user to choose what and where they want to see. We in-
+stead address the problem of interactive 3D scene generation,
+which requires significant improvements for fast generation
+and extrapolation.
+Video generation. Recent improvements in video gener-
+ation [1, 3, 4, 31] have led to interest in whether these
+models can also be used as scene generators. Several works
+have attempted to add camera control, allowing a user to
+“move” through the scene [18, 58]. While these techniques
+are promising, they currently do not guarantee 3D consis-
+tency and they remain too slow to be interactive.
+Fast 3D scene representations. Substantial progress has
+been made in the last several years regarding the quality and
+speed of 3D representations; the seminal NeRF [40] paper
+was followed by Plenoxels [16], InstantNGP [41], and finally
+3D Gaussian Splatting (3DGS) [28] and InstantSplat [14].
+In the context of 3DGS, researchers also revisited the tra-
+ditional idea of surfels [44, 51] for high-quality geometry
+reconstruction [9, 22]. While the main focus of these Gaus-
+sian surfel methods is improving reconstruction quality, we
+are the first to use surfels to speed up the scene representation
+optimization by a principled geometry-based initialization.
+3. Approach
+Formulation. We target interactive 3D scene generation.
+Our goal is to generate a set of diverse yet coherently con-
+nected 3D scenes {E0, E1, . . .} from an initial image I0, as
+well as runtime user controls of camera movements Cgen
+and text prompt U for each scene (Figure 1). Note that we
+define a single scene, Ei, as the visual and geometric content
+of a text prompt, designed to be consistent with the prior
+scenes. To this end, we propose WonderWorld, a framework
+that allows real-time rendering and fast scene generation and
+extrapolation.
+Overview. We show an illustration of our WonderWorld
+framework in Figure 2. We start by generating a 3D scene
+from an input image. Then, the outer control loop keeps
+iterating over two main steps: generating a scene image and
+generating FLAGS from the scene image. A user can control
+where to generate a new scene by moving the camera, and
+control the contents by providing a prompt. The new scene
+can be an extrapolation of existing scenes or a standalone
+scene to be connected later. We summarize the control loop
+in Alg. 1 in the supplementary material.
+Challenges. The major technical challenge is that we need
+fast scene generation to allow interactivity. Prior scene
+generation methods are slow because they need to progres-
+sively generate dense views [8, 20, 50, 67, 71] and spend a
+long time optimizing scene geometry (e.g., NeRF [17, 71],
+mesh [20], and 3DGS [8, 50]). We propose the Fast LAyered
+Gaussian Surfels (FLAGS, Sec. 3.1) and an algorithm to
+generate it from a single image. Our approach is fast for
+two reasons. First, it removes the need for progressive dense
+view generation to inpaint occluded contents. Instead, we
+generate geometric layers from a single view and inpaint oc-
+cluded contents at the layer level. Second, our representation
+design enables fast optimization. In particular, our geometry-
+based initialization significantly reduces the optimization
+time of a single layer to < 1 second. Thus, WonderWorld
+allows fast scene generation within 10 seconds per scene and
+real-time rendering, simultaneously on a single GPU.
+Another challenge is the geometric distortion that cre-
+ates seams when connecting two scenes. To mitigate it, we
+propose to utilize the guided depth diffusion to generate
+geometry (Sec. 3.2).
+3.1. Fast LAyered Gaussian Surfels (FLAGS)
+Definition. We introduce the FLAGS to represent a gen-
+erated 3D scene. Each scene E is a radiance field repre-
+sented by three radiance field layers E = {Lfg, Lbg, Lsky},
+where Lfg/Lbg/Lsky denotes a foreground/background/sky
+layer. Each layer contains a set of surfels.1 For example,
+the foreground layer Lfg = {pi, qi, si, oi, ci}Nfg
+i=1 consists
+of Nfg surfels, where each surfel is parameterized by its 3D
+spatial position pi, orientation quaternion qi, scales of the
+x-axis and y-axis si = [si,x, si,y], the opacity oi, and the
+view-independent RGB color ci. The Gaussian kernel of a
+surfel is given by (omitting the index i):
+  G( \ mathbf
+ {x } ) = \exp ({-\frac {1}{2} (\mathbf {x}-\mathbf {p})^\text {T} \mathbf {\Sigma }^{-1} (\mathbf {x}-\mathbf {p})}), 
+(1)
+1In contrast to a traditional surfel that carries a solid piece of surface,
+each surfel in FLAGS carries a small radiance field.
+5918
+
+
+Guided depth 
+diffusion
+Guided depth 
+diffusion
+Input image
+Guided depth
+Single-view
+layer generation
+Initial 3D scene
+User moves 
+camera
+Text-guided 
+outpainting
+New scene image
+Rendered
+Rendered depth
+Guided depth
+New 3D scene
+Guidance
+Guidance
+Ground depth
+LLM
+Layer images
+Optimize FLAGS
+Layer generation
+&
+Optimize FLAGS
+User specifies scene
+Figure 2. The proposed WonderWorld: Our system takes a single image as input and generates connected diverse 3D scenes. Users can
+specify where (by moving the real-time rendering camera) and what to generate (by typing text prompts) and see a generated scene in less
+than 10 seconds. We summarize the outer control loop in Alg. 1 in the supplementary material.
+where the covariance matrix Σ is constructed from the scales
+and the rotation matrix Q that can be obtained from the
+quaternions q. The covariance matrix is
+  \math
+b
+f 
+{\ Si
+gm a }
+ = \mathbf {Q} \mathrm {diag} \left ( s_\text {x}^2, s_\text {y}^2, \epsilon ^2 \right ) \mathbf {Q}^\text {T}, 
+(2)
+where ϵ ≪min(sx, sy) is a tiny number that allows a small
+thickness for the surfel to increase representational expres-
+siveness.
+During generation, we generate each layer separately.
+During rendering, we view the scene E as a union of all three
+layers, i.e.,
+  \mathcal {E} = \mat hca l { L}_ \text {fg} \cup
+ \m
+athcal {L}_\text {bg}\cup \mathcal {L}_\text {sky}=\{\mathbf {p}_i, \mathbf {q}_i, \mathbf {s}_i, o_i, \mathbf {c}_i\}_{i=1}^{N_\text {fg}+N_\text {bg}+N_\text {sky}}, (3)
+where Nfg/Nbg/Nsky denotes the number of surfels. Notice
+that FLAGS can be seen as a variant of 3DGS, where every
+Gaussian kernel’s z-axis shrunk to a tiny number, and it re-
+moves view-dependent colors. Thus, we can utilize the same
+differentiable rendering pipeline (i.e., 3D-to-2D projection
+and alpha blending) as 3DGS [28] for rendering FLAGS.
+Single-view layer generation. We generate FLAGS from a
+single scene image Iscene. We leverage a text-guided diffu-
+sion model to generate the scene image. To generate diverse
+and rich contents [67], we utilize a Large Language Model
+(LLM) gLLM to generate a structured scene description
+ \ lab el { e qn:pro m pt} \mathcal {T}=\{\mathcal {F},\mathcal {B},\mathcal {S}\}=g_\text {LLM}(\mathcal {J}, \mathcal {U}), 
+(4)
+where F, B, S denote the foreground object prompt, back-
+ground prompt, and style prompt of the current scene, re-
+spectively. U denotes a user text input to specify the scene to
+generate, e.g., “university pathway”. J denotes the instruc-
+tion prompt, which we detail in the supplementary material.
+To uncover and inpaint the occluded regions in the gen-
+erated scene image, we introduce a single-view layer gen-
+eration method. Formally, given a scene image Iscene ∈
+[0, 1]3×H×W , the goal here is to generate three layer im-
+ages Ifg, Ibg, Isky ∈[0, 1]3×H×W and their corresponding
+binary masks to indicate valid pixels Mfg, Mbg, Msky ∈
+{0, 1}H×W . The valid pixels in each layer will be used
+to generate surfels in that layer. We show an example of
+masked layer images in the top row of Figure 2.
+We discover the foreground layer using depth edges and
+object segmentation. Given an estimated depth map D, we
+compute a significant depth edge mask E ∈{0, 1}H×W
+whose element Eh,w = 1 if ∥∇Dh,w∥2 > T where ∇Dh,w
+denotes the spatial gradient of an element of D and T de-
+notes a threshold value, and Eh,w = 0 otherwise. Then we
+generate a set of object masks {Ok |∈{0, 1}H×W } with a
+pretrained segmentation network [23]. The foreground mask
+Mfg is given by the union of object masks that overlap the
+significant depth edge mask:
+  \ m
+a
+t
+hb f {M } _\ t ext {fg} = \bigcup _k \mathbf {O}_k: \lVert \mathbf {O}_k \odot \mathbf {E}\rVert >0, 
+(5)
+where ⊙denotes element-wise product, and S denotes
+element-wise “or”. The foreground layer image is given
+by Ifg = Iscene ⊙Mfg.
+We define the background layer mask as Mbg = 1−Mvis,
+where Mvis denotes a visible sky mask given by a pretrained
+segmentation network [23]. Since the background layer
+image is occluded by the foreground layer at Mfg, we gen-
+erate it by Ibg = Mbg ⊙Iinpaint(Iscene, Mfg, {B, S}), where
+Iinpaint denotes a text-guided diffusion inpainting model that
+inpaints the contents {B, S} at the region Mfg of the image
+Iscene. As for the sky layer, since its geometry is an enclosing
+dome, we set the valid mask Msky = 1 and we generate the
+sky image Isky = Iinpaint(Iscene, 1 −Mvis, {“sky”, S}).
+Geometry-based initialization. Optimizing 3D scene rep-
+resentations to shape appropriate geometry and appearances
+5919
+
+
+𝑑
+𝑓
+𝑑
+𝑓
+𝜃
+Slant surface
+Surface parallel to image plane
+𝑇!
+𝑇!
+Figure 3. Scale initialization of FLAGS: The sampling interval at a
+surfel is given by TN = d/(f cos θ).
+takes a long time in prior methods [8, 17, 20, 50, 71]. The
+core idea of our fast optimization is that, instead of optimiz-
+ing the scene geometry from scratch, most of our FLAGS
+geometry parameters are well initialized, so that the opti-
+mization is conceptually a “fine-tuning” stage that needs
+much less time than previous methods.
+Our geometry-based initialization is enabled by two key
+design choices. The first design choice is the pixel-aligned
+generation which allows leveraging pixel-aligned estimated
+geometry. Formally, given a layer image, e.g., the foreground
+layer image Ifg, we generate Lfg that has Nfg surfels to rep-
+resent the underlying 3D scene layer. We assume that each
+surfel in Lfg mainly corresponds to a valid pixel in Ifg, so
+that the number of surfels equals the number of valid pixels
+for that layer, i.e., Nfg = ∥Mfg∥F. Therefore, the color c of a
+surfel is initialized as the RGB values of the pixel. A surfel’s
+position p can be initialized by finding the corresponding
+pixel’s 3D position:
+ \ label {eq:po s} \m a thbf {p} = \mathbf {R}^{-1}(d \cdot \mathbf {K}^{-1} [u, v, 1]^\text {T} - \mathbf {T}), 
+(6)
+where u, v denote the pixel coordinates, K denotes the intrin-
+sic camera matrix, R denotes the rotation matrix, T denotes
+the translation vector of the current camera, and d denotes
+the estimated monocular depth of the pixel.
+The other key design choice is the surfel representation,
+which has a well-defined normal concept for initializing
+orientations and scales. Specifically, the normal direction of
+a surfel can be defined as the third column Qz of the surfel’s
+rotation matrix Q = [Qx, Qy, Qz]. Thus, to initialize the
+orientation of a surfel, we construct the rotation matrix Q
+from an estimated pixel normal nc:
+ \ l ab
+el 
+{ e q
+:n o rma
+l} 
+\ m at
+hb f {Q}_\text {z} = \mathbf {n}, \quad \mathbf {Q}_\text {x} = \frac {\mathbf {u}\times \mathbf {n}}{\lVert \mathbf {u}\times \mathbf {n} \rVert }, \quad \mathbf {Q}_\text {y} = \frac {\mathbf {n}\times \mathbf {Q}_\text {x}}{\lVert \mathbf {n}\times \mathbf {Q}_\text {x} \rVert }, 
+(7)
+where u = [0, 1, 0]T denotes a unit up-vector, n = R−1ncam
+denotes an estimated normal of the pixel in the world-frame,
+and ncam denotes the camera-frame normal estimated from
+the layer image Ifg.
+For the scale s, our goal is to find an appropriate initial-
+ization that meets two requirements: (1) It should minimize
+rendering aliasing; that is, it should not be too small, which
+would cause holes when slightly changing viewpoints (e.g.,
+moving closer to a scene). (2) It should avoid overly big
+surfels that cause a lot of screen space overlapping to slow
+down the optimization. Formally, let the spatial sampling
+interval of an image (i.e., pixel size) be 1, then the sampling
+interval at a surfel is TN = d/(f cos θ) where θ denotes
+the angle between the surfel normal n and the image plane
+normal nimg = [0, 0, −1]T, and f denotes the focal length
+(Figure 3). According to the Nyquist sampling theorem, the
+maximum signal frequency should be 1/(2TN). Setting the
+signal frequency of a surfel to be inverse bandwidth of its
+Gaussian kernel 1/(2ksx), we can solve for the initialization
+of the scales:
+ \ l abel { eq: scal
+e} s_\tex t { x} = d/(kf_\text {x}\cos \theta _\text {x}), \quad s_\text {y} = d/(kf_\text {y}\cos \theta _\text {y}), 
+(8)
+where k =
+√
+2 denotes a hyperparameter that defines the
+Gaussian bandwidth, cos θx denotes the cosine between n
+and nimg after both being projected to the XoZ plane. In-
+tuitively, the initialized surfels provide seamless coverage
+of the visible surface without significant overlap. Yet, the
+screen space overlaps still exist due to Gaussian tails. There-
+fore, we initialize the surfel opacity o = 0.1 for sufficient
+gradient to fine-tune the parameters.
+Optimization. Our optimization of the layers goes from
+back to front. That is, we first optimize the sky layer Lsky
+with the masked photometric loss L = 0.8L1 + 0.2LD-SSIM
+against the sky layer image Isky. Then, we optimize the
+background layer Lbg on top of the frozen sky layer Lsky
+against the background-sky composed image Mbg ⊙Ibg +
+Mvis ⊙Isky. Finally, we optimize the foreground layer Lfg
+on top of both the frozen background layer Lbg and the
+frozen sky layer Lsky, against the scene image Iscene. We
+optimize for the opacity, orientation, and scales, but not for
+colors and spatial positions. Our optimization includes 100
+iterations using Adam [29]. There is no densification [28].
+We summarize our FLAGS generation algorithm in Alg. 2
+in the supplementary material.
+3.2. Guided Depth Diffusion
+A fundamental challenge in generating connected 3D scenes
+is the geometric distortion due to the inconsistency between
+the estimated depth and the existing geometry. Formally, let
+Dguide of size H×W be the depth map rendered from visible
+existing contents at an outpainting camera viewpoint with
+a binary mask Mguide ∈{0, 1}H×W to indicate visible re-
+gions, and let Dscene be the estimated depth for an outpainted
+new image Iscene. Then, we generally observe a strong dis-
+crepancy between Dguide ⊙Mguide and Dscene ⊙Mguide.
+To mitigate this issue, we introduce a training-free guided
+depth diffusion. Our guided depth diffusion leverages an
+off-the-shelf latent depth diffusion model [27, 46].
+In
+short, a latent depth diffusion model samples a depth map
+from an image-conditioned depth distribution p(Dscene |
+Iscene) by gradually denoising a randomly initialized la-
+tent depth map dT with a learned denoising U-Net, ϵt =
+UNet(dt, Iscene, t), where ϵt denotes predicted noise and
+5920
+
+
+Noisy depth latent
+& image latent
+Predicted noise
+Denoising 
+U-Net
+(a) Latent depth diffusion
+(b) Guided depth diffusion (Ours)
+Guided denoising
+- ∇||
+||𝟐
+-
+=
+Predicted noise
+Existing geometry
+Pre-decoded
+× T
+Decoded depth
+Figure 4. Illustration of guided depth diffusion. The colored patches
+indicate that depth is computed in latent space.
+t denotes a time step. The generated depth is given by a
+VAE decoder Dscene = Decoder(d0), where d0 is given
+by recursive denoising dt−1 = Denoise(dt, t, ϵt). Here
+Denoise denotes the denoising routine [26]. We show an
+illustration in Figure 4 (a).
+The main idea of our guided depth diffusion is to for-
+mulate the depth estimation of an extrapolated scene as
+sampling from a depth distribution conditioned on both
+the scene image and the partially visible depth, p(Dscene |
+Iscene, Dguide, Mguide). To this end, we inject the partially
+visible depth as guidance by modifying the denoiser as
+ {eq : guidance} \ mathbf {d}_{t-1} = \texttt {Denoise}(\mathbf {d}_t, t, \hat {\bm {\epsilon }_t}), \\ \hat {\bm {\epsilon }}_t = \texttt {UNet}(\mathbf {d}_t, \mathbf {I}_\text {scene}, t) - s_t \mathbf {g}_t, \\ \mathbf {g}_t = \nabla _{\mathbf {d}_t} \lVert \mathbf {D}_{t-1}\odot \mathbf {M}_\text {guide} - \mathbf {D}_\text {guide}\odot \mathbf {M}_\text {guide} \rVert ^2 ,
+(11)
+where ˆϵt denotes the guided denoiser, Dt−1 denotes the
+pre-decoded depth map, and st denotes the guidance weight.
+The guidance term gt encourages generating a depth map
+that is consistent with visible existing depth Dguide, leading
+to much smoother geometry extrapolation. We show an
+illustration in Figure 4 (b).
+In the supplementary material, we further describe our
+accelerated depth guidance implementation, relation to other
+guidance methods [12, 19, 39], and how we use guidance
+for rectifying the ground plane depth.
+4. Experiments
+Baselines. As we are not aware of any prior method that
+allows interactive 3D scene generation, we consider repre-
+sentative methods in perpetual 3D scene generation (Wonder-
+Journey [67]), general scene generation (LucidDreamer [8]),
+and indoor scene generation (Text2Room [20]). These meth-
+ods use different scene representations: WonderJourney uses
+point clouds, LucidDreamer uses 3DGS, and Text2Room
+uses meshes. We use these baselines’ official codes for com-
+parison. We demonstrate examples of interactive 3D scene
+WonderJourney [67] LucidDreamer [8] Text2Room [20]
+Ours
+749.5 seconds
+798.1 seconds
+766.9 seconds
+9.5 seconds
+Table 1. Time costs for generating a scene on an A6000 GPU.
+CS↑
+CC↑
+CIQA↑
+Q-Align↑
+CA↑
+WonderJourney [67]
+27.34
+0.9544
+0.6443
+2.7170
+5.6007
+LucidDreamer [8]
+26.72
+0.8972
+0.5260
+2.7355
+5.2935
+Text2Room [20]
+24.50
+0.9035
+0.5620
+2.6495
+5.5244
+WonderWorld (ours)
+29.47
+0.9948
+0.6512
+3.6411
+5.9543
+Table 2. Evaluation on novel view renderings. “CS” denotes CLIP
+score, “CC” denotes CLIP consistency, “CIQA” denotes CLIP-
+IQA+, “CA” denotes CLIP Aesthetic score.
+generation in our supplementary website and strongly en-
+courage readers to view it first. We collect publicly available
+real images and generate synthetic images as our testing ex-
+amples, and we also use examples from WonderJourney [67]
+and LucidDreamer [8].
+Evaluation metrics. For qualitative comparison with the
+baselines, we generate 7 scenes for each of 4 test examples,
+forming 28 scenes in total. The test examples include both
+real and synthetic images of city, campus, nature, and fantasy
+scenes. We use a fixed panoramic camera path instead of
+letting a user interactively move to automate the evaluation
+and make consistent camera placement. We use the same
+camera path for all methods. We slightly reduce camera dis-
+tances for baseline methods as they display overwhelming
+distortion when using the same distant camera placement as
+ours. We use the same text prompts for all methods. For
+generation speed, we measure the time cost of generating
+a scene. For quality comparison, we adopt the following
+evaluation metrics: (1) We collect 204 human study two-
+alternative force choice (2AFC) results on bird-eye view
+renderings (more details in the supplementary material); (2)
+To evaluate novel view consistency, we render 9 sudoku-like
+novel views around each generated scene, and compute two
+metrics: CLIP [45] scores (CS) of the scene prompt versus
+the rendered image, and CLIP consistency (CC) measured
+by cosine similarity of the image CLIP embeddings between
+each novel view and the central view; (3) We evaluate ren-
+dered novel view image quality with CLIP-IQA+ [57] and
+Q-Align [60] score; (4) We also measure the aesthetics of
+novel views by the CLIP aesthetic score [45].
+Implementation details. In our implementation, we use
+the Stable Diffusion Inpaint model [46] as our outpainting
+model. We also use it for inpainting the background layer
+and sky layer, and for text-to-image generation. We use
+OneFormer [23] to segment the sky and foreground objects.
+We estimate normal using the Marigold Normal [27]. We
+use Marigold Depth [27] as our depth diffusion model. We
+leave more details in the supplementary material. We have
+released full code and software for reproducibility.
+5921
+
+
+WonderWorld (Ours)
+LucidDreamer
+WonderJourney
+WonderWorld (Ours)
+LucidDreamer
+WonderJourney
+Text2room
+Text2room
+Figure 5. Baseline comparison. The inset is the input image. We use a fixed panoramic camera path for evaluation.
+vs. WonderJourney [67] vs. LucidDreamer [8] vs. Text2Room [20]
+98.5%
+98.6%
+98.0%
+Table 3. Human 2AFC preference on bird-eye view rendering. The
+number in each column is the rate of preference of WonderWorld
+generated results over the compared method.
+4.1. Results
+Interactive 3D scene generation. Firstly, we showcase in-
+teractive 3D scene generation results with different camera
+placements in Figure 1, including a panoramic camera path
+and two casual walking camera paths. We observe the di-
+versity and coherence among the generated scenes in each
+example. We show more video results of different camera
+paths in our “generated virtual world” session, and interac-
+tive viewing examples in the “interactive viewing” session
+on our supplementary website. We show more panoramic
+camera paths in Figure 10, 11, 12 in supplementary material.
+From these examples, we validate that our WonderWorld
+works with diverse scene types such as cities, nature, fantasy,
+ancient towns, villages, and university campuses.
+Generation speed. Since we focus on making 3D scene
+generation interactive, we report the scene generation time
+cost. We show the scene generation time for a single scene in
+Table 1. From Table 1 we see that even the fastest previous
+method, WonderJourney, takes more than 700 seconds to
+generate a single scene, spending most of its time generating
+multiple views to fill in the holes between the existing scene
+and the newly generated scene. LucidDreamer generates a
+slightly extended scene from the input image and spends
+most of its time generating multiple views, aligning depth
+for these views, and training a 3DGS to fit them. In general,
+prior approaches need to generate or distill multiple views
+and optimize their 3D scene representations for a significant
+amount of time. We accelerate the scene generation by our
+FLAGS. We show an analysis of our time cost in Table 5
+in supplementary material. Since diffusion model inference
+(outpainting, layer inpainting, depth, and normal estimation)
+takes the most time, our method will benefit from future
+advances in accelerating diffusion inference.
+Qualitative comparison. We show a qualitative comparison
+using the same input image, panoramic camera path, and
+text prompts for our WonderWorld and the baseline methods
+in Figure 5 and in supplementary material (Figure 15). We
+observe that WonderWorld generates much higher-quality
+scenes compared to the baselines. This is validated by the
+human 2AFC results as shown in Table 3, where ours is
+overwhelmingly preferred. Furthermore, in Table 2, Won-
+derWorld also significantly outperforms other approaches in
+terms of CLIP score and CLIP consistency, showing better
+semantic alignment and novel view consistency.
+From Figure 5, 15, we also observe that single 3D scene
+generation methods like LucidDreamer [8] do not extrapolate
+5922
+
+
+out of predefined scenes and suffer from severe geometric
+distortion at the boundaries of the generated scene. It might
+be because simple depth post-processing heuristics, such
+as alignment by computing a global shift and scale [8] or
+fine-tuning the depth estimator to match the estimated depth
+with the existing geometry [67], do not suffice, as they do not
+reduce the inherent ambiguity in the estimation of the new
+scene depth. While Text2Room [20] uses a depth inpainting
+model trained on indoor scenes, it does not generalize to
+outdoor scenes, likely due to the lack of training data in
+general outdoor scenes. In contrast to baselines, our Wonder-
+World mitigates geometric distortion and leads to a coherent
+large-scale 3D scene.
+Diverse contents and styles in a single example. Since
+WonderWorld allows for the choice of different text prompts
+to change the contents, the generated scenes and styles can be
+diverse and different in each run. In supplementary material,
+we show diverse generation results from the same input
+image in Figure 13, and we show an example Figure 14 of
+users specifying different styles in the same generated virtual
+world, e.g., Minecraft, painting, and Lego styles.
+4.2. Ablation study
+We perform ablation studies using the same protocol as the
+baseline comparison, with quantitative results in Table 4.
+Geometry-based initialization. We compare our model
+with a variant (“w/o geometry”) that removes geometry-
+based initialization and the surfel design, and instead uses
+3DGS with MipSplatting [70] based on the same estimated
+depth. We increase the optimization iteration such that it
+achieves the same PSNR as ours at the generation view.
+However, this variant fails to synthesize high-quality novel
+views partly due to alias effects (see Figure 6).
+Multiple layers. We compare our model with “w/o layers”,
+which uses only a single layer instead of three. Ours signifi-
+cantly outperforms it in both metrics and human preference,
+as the layered design in our FLAGS fills occluded regions
+(Figure 7).
+Depth guidance. We compare our model with “w/o guid-
+ance”. This variant creates significant seams between gener-
+ated scenes (Figure 8). Our guided depth diffusion mitigates
+this issue. We show depth alignment evaluation in the sup-
+plementary material.
+5. Conclusion
+We introduce WonderWorld, the first system for interactive
+3D scene generation, featuring fast generation of large, di-
+verse scenes. WonderWorld allows users to interactively
+generate and explore the parts of the scene they want with
+the content they request.
+Limitations. A limitation is that the generated scenes only
+have frontal-facing surfaces, so the view synthesis range is
+Ours w/o geometry-based initialization
+Ours
+Figure 6. Ablation study on geometry-based initialization. The two
+images are rendered at a novel view of a generated scene.
+Ours w/o layers
+Ours
+Figure 7. Ablation study on the layered design. The two images
+are rendered at a novel view of a generated scene.
+Ours w/o depth guidance
+Ours
+Figure 8. Ablation study on the guided depth diffusion. The two
+images are rendered with a novel view of a generated scene.
+CS↑
+CC↑
+CIQA↑
+Q-Align↑
+CA↑
+Ours w/o geometry
+27.23
+0.9836
+0.6153
+3.5236
+5.7284
+Ours w/o layers
+27.32
+0.9922
+0.6298
+3.5288
+5.7139
+Ours w/o guidance
+26.89
+0.9936
+0.6327
+3.6011
+5.7854
+WonderWorld (ours)
+29.47
+0.9948
+0.6512
+3.6411
+5.9543
+Table 4. Ablation study results on novel view renderings. “CS”
+denotes CLIP score, “CC” denotes CLIP consistency, “CIQA” de-
+notes CLIP-IQA+, “CA” denotes CLIP Aesthetic score.
+limited to an area around the camera, as the back side of
+the object is not generated. Future work may incorporate a
+3D object generation module such as GRM [64] to generate
+individual objects separately from the scene background. A
+few latest works have demonstrated some success [13, 34]
+following this pipeline. Another limitation is the difficulty in
+modeling detailed objects, such as trees, which leave “holes”
+or “floaters” when the viewpoint changes. Therefore, we
+see WonderWorld as an interactive 3D world prototyping
+method, rather than a full end-to-end solution. This invites an
+exciting future direction: using WonderWorld to interactively
+prototype a coarse 3D world structure, and then refine scene
+details and complete objects with slower but higher-fidelity
+models such as video diffusion [69].
+5923
+
+
+Acknowledgments.
+This work is in part supported by
+NSF RI #2211258, NSF CIF 1955864, NSF PHY-2019786
+(http://iaifi.org/), ONR YIP N00014-24-1-2117, N00014-
+23-1-2355, MURI N00014-22-1-2740, Air Force Artificial
+Intelligence Accelerator under FA8750-19-2-1000, the Stan-
+ford Human-Centered Institute (HAI), Google, Quanta Com-
+puter. We thank Yue Gao for proofreading and helping with
+experiments.
+References
+[1] Bar-Tal et al. Lumiere: A space-time diffusion model for
+video generation. arXiv:2401.12945, 2024. 3
+[2] Miguel Angel Bautista, Pengsheng Guo, Samira Abnar, Wal-
+ter Talbott, Alexander Toshev, Zhuoyuan Chen, Laurent Dinh,
+Shuangfei Zhai, Hanlin Goh, Daniel Ulbricht, et al. Gaudi: A
+neural architect for immersive 3d scene generation. Advances
+in Neural Information Processing Systems, 35:25102–25116,
+2022. 3
+[3] Andreas Blattmann, Tim Dockhorn, Sumith Kulal, Daniel
+Mendelevitch, Maciej Kilian, Dominik Lorenz, Yam Levi,
+Zion English, Vikram Voleti, Adam Letts, et al.
+Stable
+video diffusion: Scaling latent video diffusion models to
+large datasets. arXiv preprint arXiv:2311.15127, 2023. 3
+[4] Tim Brooks, Bill Peebles, Connor Holmes, Will DePue, Yufei
+Guo, Li Jing, David Schnurr, Joe Taylor, Troy Luhman, Eric
+Luhman, Clarence Ng, Ricky Wang, and Aditya Ramesh.
+Video generation models as world simulators, 2024. 3
+[5] Shengqu Cai, Eric Ryan Chan, Songyou Peng, Mohamad
+Shahbazi, Anton Obukhov, Luc Van Gool, and Gordon Wet-
+zstein. DiffDreamer: Towards consistent unsupervised single-
+view scene extrapolation with conditional diffusion models.
+In ICCV, 2023. 2
+[6] Lucy Chai, Richard Tucker, Zhengqi Li, Phillip Isola, and
+Noah Snavely. Persistent nature: A generative model of
+unbounded 3d worlds.
+In Proceedings of the IEEE/CVF
+Conference on Computer Vision and Pattern Recognition,
+pages 20863–20874, 2023. 2
+[7] Eric R Chan, Koki Nagano, Matthew A Chan, Alexander W
+Bergman, Jeong Joon Park, Axel Levy, Miika Aittala, Shalini
+De Mello, Tero Karras, and Gordon Wetzstein. Genvs: Gen-
+erative novel view synthesis with 3d-aware diffusion models,
+2023. 3
+[8] Jaeyoung Chung, Suyoung Lee, Hyeongjin Nam, Jaerin
+Lee, and Kyoung Mu Lee.
+Luciddreamer: Domain-free
+generation of 3d gaussian splatting scenes. arXiv preprint
+arXiv:2311.13384, 2023. 2, 3, 5, 6, 7, 8, 14
+[9] Pinxuan Dai, Jiamin Xu, Wenxiang Xie, Xinguo Liu, Huamin
+Wang, and Weiwei Xu. High-quality surface reconstruction
+using gaussian surfels. arXiv preprint arXiv:2404.17774,
+2024. 3
+[10] Terrance DeVries, Miguel Angel Bautista, Nitish Srivastava,
+Graham W. Taylor, and Joshua M. Susskind. Unconstrained
+scene generation with locally conditioned radiance fields. In
+ICCV, 2021. 3
+[11] Paul Engstler, Andrea Vedaldi, Iro Laina, and Christian Rup-
+precht. Invisible stitch: Generating smooth 3d scenes with
+depth inpainting. In Arxiv, 2024. 3
+[12] Dave Epstein, Allan Jabri, Ben Poole, Alexei A. Efros, and
+Aleksander Holynski. Diffusion self-guidance for controllable
+image generation. In NeurIPS, 2023. 6, 12
+[13] Zhang et.al.
+Scenewiz3d: Towards text-guided 3d scene
+composition. arXiv:2312.08885, 2023. 8
+[14] Zhiwen Fan, Wenyan Cong, Kairun Wen, Kevin Wang,
+Jian Zhang, Xinghao Ding, Danfei Xu, Boris Ivanovic,
+Marco Pavone, Georgios Pavlakos, et al. Instantsplat: Un-
+bounded sparse-view pose-free gaussian splatting in 40 sec-
+onds. arXiv:2403.20309, 2024. 3
+[15] Rafail Fridman, Amit Abecasis, Yoni Kasten, and Tali Dekel.
+Scenescape: Text-driven consistent scene generation. arXiv
+preprint arXiv:2302.01133, 2023. 2
+[16] Sara Fridovich-Keil, Alex Yu, Matthew Tancik, Qinhong
+Chen, Benjamin Recht, and Angjoo Kanazawa. Plenoxels:
+Radiance fields without neural networks. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 5501–5510, 2022. 3
+[17] Ruiqi Gao, Aleksander Holynski, Philipp Henzler, Arthur
+Brussee,
+Ricardo
+Martin-Brualla,
+Pratul
+Srinivasan,
+Jonathan T Barron, and Ben Poole. Cat3d: Create anything
+in 3d with multi-view diffusion models.
+arXiv preprint
+arXiv:2405.10314, 2024. 2, 3, 5
+[18] Hao He, Yinghao Xu, Yuwei Guo, Gordon Wetzstein, Bo
+Dai, Hongsheng Li, and Ceyuan Yang. Cameractrl: Enabling
+camera control for text-to-video generation. arXiv preprint
+arXiv:2404.02101, 2024. 3
+[19] Jonathan Ho and Tim Salimans. Classifier-free diffusion
+guidance. arXiv preprint arXiv:2207.12598, 2022. 6, 12
+[20] Lukas H¨ollein, Ang Cao, Andrew Owens, Justin Johnson,
+and Matthias Nießner.
+Text2room: Extracting textured
+3d meshes from 2d text-to-image models. arXiv preprint
+arXiv:2303.11989, 2023. 2, 3, 5, 6, 7, 8, 14
+[21] Ronghang Hu, Nikhila Ravi, Alexander C. Berg, and Deepak
+Pathak. Worldsheet: Wrapping the world in a 3d sheet for
+view synthesis from a single image. In ICCV, 2021. 3
+[22] Binbin Huang, Zehao Yu, Anpei Chen, Andreas Geiger, and
+Shenghua Gao. 2d gaussian splatting for geometrically accu-
+rate radiance fields. arXiv preprint arXiv:2403.17888, 2024.
+3
+[23] Jitesh Jain, Jiachen Li, Mang Tik Chiu, Ali Hassani, Nikita
+Orlov, and Humphrey Shi. Oneformer: One transformer
+to rule universal image segmentation.
+In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 2989–2998, 2023. 4, 6
+[24] Linyi Jin, Jianming Zhang, Yannick Hold-Geoffroy, Oliver
+Wang, Kevin Matzen, Matthew Sticha, and David F. Fouhey.
+Perspective fields for single image camera calibration. CVPR,
+2023. 12
+[25] Biliana Kaneva, Josef Sivic, Antonio Torralba, Shai Avidan,
+and William T Freeman. Infinite images: Creating and ex-
+ploring a large photorealistic virtual space. Proceedings of
+the IEEE, 98(8):1391–1407, 2010. 2
+[26] Tero Karras, Miika Aittala, Timo Aila, and Samuli Laine.
+Elucidating the design space of diffusion-based generative
+models. Advances in Neural Information Processing Systems,
+35:26565–26577, 2022. 6, 12
+5924
+
+
+[27] Bingxin Ke, Anton Obukhov, Shengyu Huang, Nando Met-
+zger, Rodrigo Caye Daudt, and Konrad Schindler. Repurpos-
+ing diffusion-based image generators for monocular depth
+estimation. arXiv preprint arXiv:2312.02145, 2023. 5, 6
+[28] Bernhard Kerbl, Georgios Kopanas, Thomas Leimk¨uhler, and
+George Drettakis. 3d gaussian splatting for real-time radiance
+field rendering. ACM Transactions on Graphics, 42(4):1–14,
+2023. 2, 3, 4, 5
+[29] Diederik P Kingma and Jimmy Ba. Adam: A method for
+stochastic optimization.
+arXiv preprint arXiv:1412.6980,
+2014. 5
+[30] Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao,
+Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer White-
+head, Alexander C. Berg, Wan-Yen Lo, Piotr Dollar, and Ross
+Girshick. Segment anything. In ICCV, pages 4015–4026,
+2023. 12
+[31] Dan Kondratyuk, Lijun Yu, Xiuye Gu, Jos´e Lezama, Jonathan
+Huang, Rachel Hornung, Hartwig Adam, Hassan Akbari,
+Yair Alon, Vighnesh Birodkar, et al. Videopoet: A large
+language model for zero-shot video generation. arXiv preprint
+arXiv:2312.14125, 2023. 3
+[32] Yuseung Lee, Kunho Kim, Hyunjin Kim, and Minhyuk Sung.
+Syncdiffusion: Coherent montage via synchronized joint dif-
+fusions. Advances in Neural Information Processing Systems,
+36:50648–50660, 2023. 13
+[33] Lei et al. RGBD2: Generative scene synthesis via incremental
+view inpainting using rgbd diffusion models. In CVPR, 2023.
+3
+[34] Haoran Li, Haolin Shi, Wenli Zhang, Wenjun Wu, Yong Liao,
+Lin Wang, Lik-hang Lee, and Pengyuan Zhou. Dreamscene:
+3d gaussian-based text-to-3d scene generation via formation
+pattern sampling. arXiv:2404.03575, 2024. 3, 8
+[35] Zhengqi Li, Qianqian Wang, Noah Snavely, and Angjoo
+Kanazawa. Infinitenature-zero: Learning perpetual view gen-
+eration of natural scenes from single images. In European
+Conference on Computer Vision, pages 515–534. Springer,
+2022. 2
+[36] Chieh Hubert Lin, Hsin-Ying Lee, Willi Menapace, Menglei
+Chai, Aliaksandr Siarohin, Ming-Hsuan Yang, and Sergey
+Tulyakov. Infinicity: Infinite-scale city synthesis. In ICCV,
+2023. 3
+[37] Andrew Liu, Richard Tucker, Varun Jampani, Ameesh Maka-
+dia, Noah Snavely, and Angjoo Kanazawa. Infinite nature:
+Perpetual view generation of natural scenes from a single
+image. In Proceedings of the IEEE/CVF International Con-
+ference on Computer Vision, pages 14458–14467, 2021. 2
+[38] Xinyu Liu, Houwen Peng, Ningxin Zheng, Yuqing Yang, Han
+Hu, and Yixuan Yuan. Efficientvit: Memory efficient vision
+transformer with cascaded group attention. In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, pages 14420–14430, 2023. 12
+[39] Grace Luo, Trevor Darrell, Oliver Wang, Dan B Goldman, and
+Aleksander Holynski. Readout guidance: Learning control
+from diffusion features. In CVPR, 2024. 6, 12
+[40] Ben Mildenhall, Pratul P Srinivasan, Matthew Tancik,
+Jonathan T Barron, Ravi Ramamoorthi, and Ren Ng. Nerf:
+Representing scenes as neural radiance fields for view syn-
+thesis. Communications of the ACM, 65(1):99–106, 2021.
+3
+[41] Thomas M¨uller, Alex Evans, Christoph Schied, and Alexan-
+der Keller. Instant neural graphics primitives with a multires-
+olution hash encoding. ACM transactions on graphics (TOG),
+41(4):1–15, 2022. 3
+[42] Simon Niklaus, Long Mai, Jimei Yang, and Feng Liu. 3d
+ken burns effect from a single image. ACM Transactions on
+Graphics (ToG), 38(6):1–15, 2019. 2
+[43] Hao Ouyang, Kathryn Heal, Stephen Lombardi, and
+Tiancheng Sun. Text2immersion: Generative immersive scene
+with 3d gaussians. arXiv preprint arXiv:2312.09242, 2023. 3
+[44] Hanspeter Pfister, Matthias Zwicker, Jeroen Van Baar, and
+Markus Gross. Surfels: Surface elements as rendering primi-
+tives. In Proceedings of the 27th annual conference on Com-
+puter graphics and interactive techniques, pages 335–342,
+2000. 3
+[45] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,
+Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learning
+transferable visual models from natural language supervision.
+In ICML, 2021. 6
+[46] Robin Rombach, Andreas Blattmann, Dominik Lorenz,
+Patrick Esser, and Bj¨orn Ommer. High-resolution image
+synthesis with latent diffusion models. In Proceedings of
+the IEEE/CVF conference on computer vision and pattern
+recognition, pages 10684–10695, 2022. 5, 6
+[47] Kyle Sargent, Zizhang Li, Tanmay Shah, Charles Herrmann,
+Hong-Xing Yu, Yunzhi Zhang, Eric Ryan Chan, Dmitry La-
+gun, Li Fei-Fei, Deqing Sun, et al. Zeronvs: Zero-shot 360-
+degree view synthesis from a single real image. arXiv preprint
+arXiv:2310.17994, 2023. 3
+[48] Jonathan Shade, Steven Gortler, Li-wei He, and Richard
+Szeliski. Layered depth images. In SIGGRAPH, 1998. 2
+[49] Meng-Li Shih, Shih-Yang Su, Johannes Kopf, and Jia-Bin
+Huang. 3d photography using context-aware layered depth
+inpainting. In CVPR, 2020. 2
+[50] Jaidev Shriram, Alex Trevithick, Lingjie Liu, and Ravi Ra-
+mamoorthi.
+Realmdreamer: Text-driven 3d scene gener-
+ation with inpainting and depth diffusion. arXiv preprint
+arXiv:2404.07199, 2024. 2, 3, 5
+[51] Richard Szeliski and David Tonnesen. Surface modeling with
+oriented particle systems. In Proceedings of the 19th annual
+conference on Computer graphics and interactive techniques,
+pages 185–194, 1992. 3
+[52] Stanislaw Szymanowicz, Eldar Insafutdinov, Chuanxia Zheng,
+Dylan Campbell, Jo˜ao F Henriques, Christian Rupprecht, and
+Andrea Vedaldi. Flash3d: Feed-forward generalisable 3d
+scene reconstruction from a single image. arXiv:2406.04343,
+2024. 2
+[53] Ayush Tewari, Tianwei Yin, George Cazenavette, Semon
+Rezchikov, Joshua B Tenenbaum, Fr´edo Durand, William T
+Freeman, and Vincent Sitzmann. Diffusion with forward
+models: Solving stochastic inverse problems without direct
+supervision. arXiv preprint arXiv:2306.11719, 2023. 3
+[54] Alex Trevithick and Bo Yang. Grf: Learning a general ra-
+diance field for 3d scene representation and rendering. In
+arXiv:2010.04595, 2020. 2
+5925
+
+
+[55] Richard Tucker and Noah Snavely. Single-view view synthe-
+sis with multiplane images. In CVPR, 2020. 2
+[56] Shubham Tulsiani, Richard Tucker, and Noah Snavely. Layer-
+structured 3d scene inference via view synthesis. In ECCV,
+2018. 2
+[57] Jianyi Wang, Kelvin CK Chan, and Chen Change Loy. Ex-
+ploring clip for assessing the look and feel of images. In
+AAAI, 2023. 6
+[58] Zhouxia Wang, Ziyang Yuan, Xintao Wang, Tianshui Chen,
+Menghan Xia, Ping Luo, and Ying Shan. Motionctrl: A
+unified and flexible motion controller for video generation.
+arXiv preprint arXiv:2312.03641, 2023. 3
+[59] Olivia Wiles, Georgia Gkioxari, Richard Szeliski, and Justin
+Johnson. SynSin: End-to-end view synthesis from a single
+image. In CVPR, 2020. 2
+[60] Haoning Wu, Zicheng Zhang, Weixia Zhang, Chaofeng Chen,
+Chunyi Li, Liang Liao, Annan Wang, Erli Zhang, Wenxiu
+Sun, Qiong Yan, Xiongkuo Min, Guangtao Zhai, and Weisi
+Lin. Q-align: Teaching lmms for visual scoring via discrete
+text-defined levels. In ICML, 2024. 6
+[61] Zhennan Wu, Yang Li, Han Yan, Taizhang Shang, Weixuan
+Sun, Senbo Wang, Ruikai Cui, Weizhe Liu, Hiroyuki Sato,
+Hongdong Li, et al. Blockfusion: Expandable 3d scene gener-
+ation using latent tri-plane extrapolation. ACM Transactions
+on Graphics (TOG), 2024. 2
+[62] Haozhe Xie, Zhaoxi Chen, Fangzhou Hong, and Ziwei Liu.
+Citydreamer: Compositional generative model of unbounded
+3d cities. In CVPR, 2024. 3
+[63] Haozhe Xie, Zhaoxi Chen, Fangzhou Hong, and Ziwei Liu.
+GaussianCity: Generative gaussian splatting for unbounded
+3D city generation. arXiv 2406.06526, 2024. 3
+[64] Yinghao Xu, Zifan Shi, Wang Yifan, Hansheng Chen, Ceyuan
+Yang, Sida Peng, Yujun Shen, and Gordon Wetzstein. Grm:
+Large gaussian reconstruction model for efficient 3d recon-
+struction and generation. arXiv:2403.14621, 2024. 8
+[65] Shuai Yang, Jing Tan, Mengchen Zhang, Tong Wu, Yixuan Li,
+Gordon Wetzstein, Ziwei Liu, and Dahua Lin. Layerpano3d:
+Layered 3d panorama for hyper-immersive scene generation.
+arXiv preprint arXiv:2408.13252, 2024. 3
+[66] Alex Yu, Vickie Ye, Matthew Tancik, and Angjoo Kanazawa.
+Pixelnerf: Neural radiance fields from one or few images.
+arXiv:2012.02190, 2020. 2
+[67] Hong-Xing Yu, Haoyi Duan, Junhwa Hur, Kyle Sargent,
+Michael Rubinstein, William T Freeman, Forrester Cole, De-
+qing Sun, Noah Snavely, Jiajun Wu, et al. Wonderjourney:
+Going from anywhere to everywhere.
+In Proceedings of
+the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition, 2024. 2, 3, 4, 6, 7, 8, 12, 14
+[68] Jason J Yu, Fereshteh Forghani, Konstantinos G Derpanis,
+and Marcus A Brubaker. Long-term photometric consistent
+novel view synthesis with diffusion models. arXiv preprint
+arXiv:2304.10700, 2023. 2, 3
+[69] Wangbo Yu, Jinbo Xing, Li Yuan, Wenbo Hu, Xiaoyu
+Li, Zhipeng Huang, Xiangjun Gao, Tien-Tsin Wong, Ying
+Shan, and Yonghong Tian.
+Viewcrafter: Taming video
+diffusion models for high-fidelity novel view synthesis.
+arXiv:2409.02048, 2024. 8
+[70] Zehao Yu, Anpei Chen, Binbin Huang, Torsten Sattler, and
+Andreas Geiger. Mip-splatting: Alias-free 3d gaussian splat-
+ting. arXiv preprint arXiv:2311.16493, 2023. 8
+[71] Jingbo Zhang, Xiaoyu Li, Ziyu Wan, Can Wang, and Jing
+Liao. Text2nerf: Text-driven 3d scene generation with neu-
+ral radiance fields. IEEE Transactions on Visualization and
+Computer Graphics, 2024. 2, 3, 5
+[72] Shijie Zhou, Zhiwen Fan, Dejia Xu, Haoran Chang,
+Pradyumna Chari, Suya Bharadwaj, Tejas You, Zhangyang
+Wang, and Achuta Kadambi. Dreamscene360: Unconstrained
+text-to-3d scene generation with panoramic gaussian splatting.
+arXiv preprint arXiv:2404.06903, 2024. 3
+[73] Tinghui Zhou, Richard Tucker, John Flynn, Graham Fyffe,
+and Noah Snavely. Stereo magnification: Learning view
+synthesis using multiplane images. arXiv:1805.09817, 2018.
+2
+5926

@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "figures": [
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1797,
+      "height": 280,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-002.webp",
+      "caption": "",
+      "page": 0,
+      "index": 2,
+      "width": 1815,
+      "height": 456,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-003.webp",
+      "caption": "",
+      "page": 0,
+      "index": 3,
+      "width": 1803,
+      "height": 564,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-004.webp",
+      "caption": "",
+      "page": 0,
+      "index": 4,
+      "width": 1622,
+      "height": 654,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-005.webp",
+      "caption": "",
+      "page": 0,
+      "index": 5,
+      "width": 1804,
+      "height": 470,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-006.webp",
+      "caption": "",
+      "page": 0,
+      "index": 6,
+      "width": 1790,
+      "height": 446,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-007.webp",
+      "caption": "",
+      "page": 0,
+      "index": 7,
+      "width": 1761,
+      "height": 509,
+      "label": "Figure"
+    },
+    {
+      "url": "assets/figures/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/fig-008.webp",
+      "caption": "",
+      "page": 0,
+      "index": 8,
+      "width": 889,
+      "height": 506,
+      "label": "Figure"
+    }
+  ]
+}

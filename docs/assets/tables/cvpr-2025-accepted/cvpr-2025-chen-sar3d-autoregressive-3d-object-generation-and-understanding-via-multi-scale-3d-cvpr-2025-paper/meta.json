@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "extractor": "papercropper",
+  "tables": [
+    {
+      "url": "assets/tables/cvpr-2025-accepted/cvpr-2025-chen-sar3d-autoregressive-3d-object-generation-and-understanding-via-multi-scale-3d-cvpr-2025-paper/table-001.webp",
+      "caption": "",
+      "page": 0,
+      "index": 1,
+      "width": 1618,
+      "height": 541,
+      "label": "Table"
+    }
+  ]
+}

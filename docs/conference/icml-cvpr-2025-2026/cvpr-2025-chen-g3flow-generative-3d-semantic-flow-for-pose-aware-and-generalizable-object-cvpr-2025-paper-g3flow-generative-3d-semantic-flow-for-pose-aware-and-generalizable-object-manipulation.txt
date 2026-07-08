@@ -1,0 +1,311 @@
+Title: G3Flow: Generative 3D Semantic Flow for Pose-aware and Generalizable Object Manipulation
+
+URL Source: https://openaccess.thecvf.com/content/CVPR2025/papers/Chen_G3Flow_Generative_3D_Semantic_Flow_for_Pose-aware_and_Generalizable_Object_CVPR_2025_paper.pdf
+
+Published Time: Sun, 18 May 2025 21:16:55 GMT
+
+Number of Pages: 10
+
+Markdown Content:
+# G3Flow: Generative 3D Semantic Flow for Pose-aware and Generalizable Object Manipulation 
+
+## Tianxing Chen 1,2,3* Yao Mu 1*† Zhixuan Liang 1* Zanxin Chen 3,4 Shijia Peng 3,4 Qiangyu Chen 3Mingkun Xu 5 Ruizhen Hu 3 Hongyuan Zhang 1,2 Xuelong Li 2 Ping Luo 1,6† 1 The University of Hong Kong 2 Institute of Artificial Intelligence (TeleAI), China Telecom 3 Shenzhen University 4 AgileX Robotics 5 GDIIST 6 HKU Shanghai Intelligent Computing Research Center 
+
+https://tianxingchen.github.io/G3Flow 
+
+## Abstract 
+
+Recent advances in imitation learning for 3D robotic ma-nipulation have shown promising results with diffusion-based policies. However, achieving human-level dexter-ity requires seamless integration of geometric precision and semantic understanding. We present G3Flow , a novel framework that constructs real-time semantic flow, a dy-namic, object-centric 3D semantic representation by lever-aging foundation models. Our approach uniquely com-bines 3D generative models for digital twin creation, vision foundation models for semantic feature extraction, and ro-bust pose tracking for continuous semantic flow updates. This integration enables complete semantic understanding even under occlusions while eliminating manual annota-tion requirements. By incorporating semantic flow into dif-fusion policies, extensive experiments across five simula-tion tasks show that G3Flow consistently outperforms ex-isting approaches, achieving up to 68.3% and 50.1% suc-cess rates on terminal-constrained manipulation and cross-object generalization respectively. Our results demonstrate the effectiveness of G3Flow in enhancing real-time dynamic semantic feature understanding for robotic policies. 
+
+## 1. Introduction 
+
+Recent years have witnessed significant advances in imita-tion learning for robotic manipulation, leading to remark-able achievements across various tasks [1, 5, 16, 17, 41]. Image-based imitation learning methods often face chal-lenges in precise manipulation and sample efficiency due to their limited ability to capture geometric relationships. In parallel, researchers have developed 3D imitation learning * Co-first authors. Equal contribution. † Corresponding authors. Contact {ymu, pluo }@cs.hku.hk 
+
+# G3Flow 
+
+> 3D Generation Pose Tracking
+
+Vision Foundation Model 
+
+> !
+> …
+> Estimated Pose Temporal
+> Sequence
+> !!
+> !"
+> !#
+> !$
+> Success Rate
+> Success Rate
+
+Terminal Constraint 
+
+Control Tasks 
+
+Cross -object 
+
+Generalization Tasks 
+
+> Feature
+> Extraction
+> Semantic Flow
+
+Figure 1. Motivation of G3Flow. Our approach leverages 3D generative model and language-guided detection model to gen-erate 3D semantic flow (top). Through continuous field track-ing, G3Flow enables pose-aware and generalizable manipulation, demonstrating superior performance across terminal constraint control and cross-object generalization tasks over multiple base-lines (DP, DP3, and DP3 w/ color) (bottom). methods utilizing point clouds [4, 10, 40] or voxel [6, 30] representations to enhance few-shot learning capabilities by capturing geometric information. Among them, 3D diffu-sion policies [10, 40] have shown promising results across multiple robotic tasks, owing to their superior ability to model multi-modal distributions. However, these geometry-centric methods, despite their advantages, often lack the crucial semantic understanding, necessary for sophisticated manipulation tasks. For instance, in pose-aware manipula-tion scenarios such as shoe placement and tool use, purely This CVPR paper is the Open Access version, provided by the Computer Vision Foundation. Except for this watermark, it is identical to the accepted version; the final published version of the proceedings is available on IEEE Xplore. 1735 geometric representations struggle to identify semantically meaningful parts (such as the toe of a shoe) and hardly han-dle cases where semantically similar objects exhibit large geometric variations. This limitation highlights a critical research direction: the integration of rich semantic infor-mation from 2D images with geometric features from 3D representations. Such integration is essential for advancing performance in tasks that demand both precise spatial con-trol and semantic comprehension, potentially bridging the gap between geometric precision and semantic understand-ing in robotic manipulation. Several approaches have recently emerged to address this semantic understanding challenge in robotic manip-ulation. D3 Fields [35] introduced dynamic 3D descrip-tor fields to enhance geometry representation, while subse-quent works like GenDP [34] explored category-level gen-eralization through semantic fields. However, these meth-ods face significant practical challenges that they require manual keypoint selection and a multi-view setup for com-plete field generation and struggle with maintaining seman-tic consistency during dynamic interactions. We propose G3Flow, a foundation model-driven frame-work that constructs real-time 3D semantic flow—an object-centric, occlusion-robust semantic representation us-ing only a single-view camera without manual annotations. G3Flow combines 3D generative models for digital twin creation, foundation models for semantic feature extraction, and general pose trackers for continuous semantic updates. It operates in two phases: (1) active object-centric explo-ration to build a semantic field via 3D reconstruction, and (2) real-time semantic flow generation through pose track-ing during manipulation. This representation enhances pol-icy learning by providing consistent and complete semantic understanding. Through extensive experiments on both terminal-constrained manipulation and cross-object generalization tasks, we demonstrate that policy with G3Flow signifi-cantly outperforms existing methods, achieving up to 68.3% v.s. 46.2% and 50.1% v.s. 31.7% success rates compar-ing to next best method on these two kind tasks. Our ap-proach achieves superior success rates in precise manip-ulation tasks and shows strong generalization capabilities across object variants, validating the effectiveness of our semantic flow framework. These results demonstrate the potential of enhancing imitation learning policies with rich semantic representations, paving the way for more precise and generalizable robotic manipulation. Our key contributions can be summarized as follows: (1) We propose a novel foundation model-driven approach for constructing semantic flow, a dynamic and complete seman-tic representation through the integration of 3D generation, detection, and pose tracking models, enabling real-time un-derstanding robust to occlusions without manual annota-tion. (2) We develop a semantic flow-based imitation learn-ing framework that leverages the dynamic semantic repre-sentation for enhanced manipulation, enabling both precise terminal control and effective generalization across object variations. (3) Through extensive validations, we demon-strate our semantic flow significantly enhances imitation learning policies, achieving up to 68.3% and 50.1% suc-cess rates on terminal-constrained control and cross-object generalization tasks respectively. 
+
+## 2. Related Works 2.1. 3D Semantic Fields for Robotics Manipulation 
+
+Semantic fields have emerged as a promising direction for enhancing robotic manipulation by providing rich se-mantic understanding of the environment [25, 29, 34, 35]. These approaches bridge the gap between geometric per-ception and semantic comprehension. Representatively, D 3 Fields[35] firstly integrated dynamic 3D descriptor fields with manipulation. OVMM [25] explored open-vocabulary mobile manipulation through vision-language models. And GenDP [34] addressed category-level generalization in dif-fusion policies. F3RM [29] enabled natural language spec-ification through CLIP-based semantic distillation. However, current approaches like D 3 Fields [35] and GenDP [34] heavily rely on manual keypoint selection and have great difficulty in complete field generation when oc-clusion occurs while occlusion usually happens during ma-nipulation due to the obstruction caused by robotic arms. It not only results in incomplete observation but also poses significant challenges to feature acquisition for downstream policy. Thus, G3Flow are proposed to address the limi-tations by a novel foundation model-driven approach, en-abling dynamic, object-centric, and complete 3D semantic fields representation in real-time under closed-loop control. 
+
+2.2. 3D Generative Models for Robotic Simulation 
+
+Recent advances have witnessed great progress in 3D ob-ject generation. Early attempts like GET3D [3] lever-aged generative adversarial networks to produce textured 3D meshes from images, while Point-E [21] and Shap-E [9] respectively explored text-to-3D generation through point clouds and implicit functions. Following these works, diffusion-based approaches such as DreamFusion [24] and Magic3D [15] demonstrated improved capability in synthe-sizing high-resolution 3D content from text descriptions. However, these methods often struggle with generating intricate geometric details and high-fidelity textures, crucial for realistic robot manipulation. Rodin [38] addressed them with enhanced capabilities for producing detailed and tex-tured 3D objects, validated by multiple practical robot tasks, such as RoboTwin [19], making it particularly suitable for our work in creating realistic virtual simulations. 1736 2.3. Diffusion Models for Imitation Learning 
+
+Diffusion model [7, 32] is a powerful class of genera-tive models which models the score of data distribution (the gradient of energy function) rather than the energy it-self [28, 31]. The key idea behind diffusion models is their iterative transformation of a simple prior distribu-tion into a target one through a sequential denoising pro-cess. In robotics, diffusion-based policies [1, 2, 8, 12– 14, 18, 20, 23, 27, 39] have demonstrated impressive per-formance in learning complex manipulation skills from demonstrations. Recent works have explored various direc-tions: 3D Diffusion Policy [39] combines 3D scene repre-sentations with diffusion objectives, ChainedDiffuser [37] focuses on trajectory generation between key-poses, and 3D Diffuser Actor [10] tackles joint key-poses and trajectory prediction. However, these approaches primarily operate on geometric representations without explicit semantic un-derstanding, limiting their precision in terminal-constrained manipulation and generalization across object variations. Our work G3Flow addresses this limitation by leveraging Foundation Models to maintain accurate and consistent se-mantic information during dynamic interactions, enabling more precise and generalizable manipulation capabilities. 
+
+## 3. Method 3.1. Overview 
+
+We formulate our problem as how to get and maintain se-mantic flow Ovs f , and how to learn a visuomotor pol-icy p : O 7 ! A from expert data, where the observation space O is composed of real point cloud observations Or
+
+and Ovs f . Our key insight is to leverage foundation mod-els to construct and maintain complete 4D semantic un-derstanding during dynamic interactions through real-time semantic flow, which addresses the limitations of existing geometry-centric approaches in handling occlusions and se-mantic variations. Our framework operates in two phases: (1) Initial se-mantic flow construction through object-centric exploration and digital twin generation, where a robot actively gath-ers multi-view observations to create a comprehensive dig-ital twin and extract its semantic features; and (2) Dy-namic flow maintenance through real-time pose tracking, which continuously transforms these semantic features to align with physical objects during manipulation, maintain-ing completeness even under challenging occlusions or par-tial observations. Specifically, we first employ a 3D gen-erative model to reconstruct high-fidelity digital twins from multi-view RGB observations, leveraging the model’s em-bedded knowledge to accurately infer even unseen object parts. The reconstructed twins enable semantic feature ex-traction through DINOv2 [22] and dimensionality reduction via PCA [11] in a virtual environment, creating an initial semantic point cloud. We then utilize FoundationPose [36] for robust object pose tracking in real-world scenarios, en-abling dynamic transformation of these semantic features while preserving completeness under occlusions and partial observations. Our system, G3Flow, consists of five key modules de-tailed in the following sections: a) Object-centric Explo-ration for active multi-view observation collection; b) Ob-ject 3D Model Generation through 3D generative models; c) Virtual Semantic Flow Generation combining digital twins with vision foundation models; d) Spatial Alignment via Object Tracking; and e) G3Flow-enhanced Diffusion Pol-icy leveraging both Or and Ovs f for precise manipulation. Figure 2 illustrates our framework. 
+
+3.2. Initial Semantic Flow Construction Object-Centric Exploration. To construct an accurate and complete semantic flow, our first phase focuses on ob-taining comprehensive object observations. Conventional single-view approaches face two critical challenges: First, poor initial object poses can lead to incomplete reconstruc-tions due to self-occlusions ( e.g ., a mug’s handle being hidden from the camera view). Second, during manipula-tion, the robot arm often occludes the camera’s view of the target object, resulting in information loss. As shown in Fig. 3, while single-view reconstructions may appear plau-sible, they often fail to capture crucial geometric details necessary for manipulation. To address these challenges, we develop an active ex-ploration strategy. We first employ Grounded-SAM [26] to detect object-bounding boxes and masks from a global cam-era perspective. Combined with depth information, this pro-vides initial object point clouds and spatial coordinates. The robot arm then systematically captures multi-perspective RGB observations Oexplore 2 RC⇥H⇥W using its wrist cam-era, where C denotes the number of viewpoints. This ex-ploration ensures comprehensive object coverage while ac-counting for potential occlusions during the subsequent ma-nipulation phase. 
+
+Object 3D Model Generation. After obtaining multi-view observations, we utilize foundation model-based 3D asset generation [38] to reconstruct high-quality digital twins. This automated process leverages the model’s embedded knowledge about common objects to accurately complete even partially visible regions. When faced with occlu-sions, such as a mug handle hidden from certain views, the model’s prior knowledge enables plausible reconstruction of these unseen parts, providing a complete object repre-sentation crucial for subsequent manipulation planning. To ensure reconstruction quality, the generated digital twins are evaluated against the observed views for geometric and tex-tural consistency. This verification step helps maintain the fidelity of downstream semantic understanding. The recon-1737 !   
+
+> …
+> FoundationPose
+> Diffusion Model
+> Fields Encoder
+> Semantic Condition
+> Other
+> Conditions
+> Desc. Obs.
+
++
+
+> Init Environment
+> Detect & Explore
+
+# !      
+
+> Digital Twin
+> Surface Normal
+> Wireframe
+> Geometry RGB Depth Mask
+> Digital Twin
+> DINOv2
+> PCA
+> Fusion
+> 3D Virtual
+> Semantic Fields
+> 3D
+> Generative Model
+> Condition on
+> Multi -view Obs.
+> Multi -view Virtual Obs.
+> Estimated Pose Temporal Sequence
+
+(a) Control Loop 
+
+Update 
+
+> Spatial Aligned
+> Predicted
+> Action
+> Manipulate Current Obs.
+> Estimated Pose
+> Pose Tracking
+> Current Fields
+
+(d) Virtual Semantic Fields Generation (c) Virtual Space Observation (b) Object -Centric Exploration & Digital Twin Generation      
+
+> Virtual Camera
+> !!
+> !!
+> !!"#!!
+> !"
+> !#
+> !$
+> !!
+> "# "=&,#"()* #(+,-
+> Semantic Flow
+
+Figure 2. Pipeline of G3Flow. Our framework consists of (top) an initialization phase that generates comprehensive 3D representation (surface normals, wireframe, and geometry) through object-centric exploration and digital twin generation, which enables rich semantic field extraction, and (bottom) a control execution phase where real-time pose tracking maintains dynamic semantic fields to guide diffusion-based manipulation actions for pose-aware and generalizable manipulation.    
+
+> Single -view
+> Multi -view
+> Wrong Geometry and Texture
+> 1
+> 2
+
+Figure 3. Failure mode of single-view 3D generation. When using a single view for 3D generation, certain geometric details may be inaccurately reconstructed due to occlusion, even if the result appears plausible from a commonsense perspective. structed twins serve dual purposes: providing a basis for comprehensive semantic feature extraction and enabling ac-curate pose tracking during dynamic interactions. 
+
+Virtual Semantic Flow Generation. The digital twins provide a crucial advantage in overcoming real-world sens-ing limitations. Real cameras often produce incomplete or noisy depth information, with many sensors having in-valid regions or limited resolution. In contrast, our virtual space allows the generation of high-resolution RGBD ob-servations from arbitrary viewpoints, enabling the creation of complete object representations unconstrained by physi-cal sensing limitations. Our semantic flow generation process begins with multi-perspective feature extraction. Multi-view RGB observations generated in virtual space are processed through DINOv2 [22], producing rich feature maps O 2
+
+(C, H,W, DV FM ) that capture both low-level geometric de-tails and high-level semantic information crucial for ma-nipulation. To enhance computational efficiency while pre-serving essential information, we employ PCA to compress these high-dimensional features to D f eat dimensions. The PCA model is trained on virtual space features from the training dataset, ensuring stable and consistent feature ex-traction across different objects and viewpoints. This di-mensionality reduction significantly improves the real-time performance of our system while maintaining semantic un-derstanding. Based on initial object poses obtained through spatial alignment, we arrange digital assets in the virtual space and synthesize complete semantic flows by combin-ing multi-view features with precise virtual depth informa-tion. The resulting semantic flow is uniformly sampled to K
+
+points using Farthest Point Sampling (FPS) to obtain Pinit .This virtual space-based approach ensures accuracy inde-1738 Spatial Aligned     
+
+> Obj →World
+> World Coordinate System
+> Object Coordinate System
+
+Figure 4. Spatial alignment via object tracking. We achieve alignment between the semantic flow and the physical object in real world by synchronizing the relative transformations of the ob-ject coordinate system to the world coordinate system. pendent of real-world observation noise and occlusions. The generated semantic flow serves as a canonical rep-resentation that can be dynamically transformed during ma-nipulation while maintaining semantic consistency. Since this flow is constructed in virtual space using complete ob-ject models, it remains robust to partial observations and occlusions that occur during real-world interactions. 
+
+3.3. Dynamic Semantic Flow Maintenance Spatial Alignment via Object Tracking. Once the initial semantic flow is established, maintaining its accuracy dur-ing dynamic manipulation becomes crucial. We achieve this through continuous spatial alignment between the semantic flow and the physical object. By integrating Grounded-SAM with task descriptions, we first detect and segment the target object from single-perspective RGB images to obtain masked RGBD observa-tions. These observations, combined with the previously generated digital twin, enable FoundationPose [36] to com-pute the initial object pose matrix Minit . During manipu-lation, we continuously update our pose estimates through FoundationPose, obtaining precise object poses Mupdate at each timestep. This enables the dynamic transformation of the semantic flow through: 
+
+PTupdate = [( Mc2w Mupdate )( Mc2w Minit )  1 ]PTinit . (1) The key advantage of our approach lies in Foundation-Pose’s ability to maintain accurate pose estimation even un-der significant occlusions, leveraging the rich information contained in our digital twins. Since our feature point cloud is obtained from complete observations in virtual space, we consider it optimal. Rather than repeatedly detecting, seg-menting, and computing features at each timestep—which could lead to compounding errors—we transform this high-quality feature point cloud directly. This approach not only provides accurate and complete semantic flow estimates during occlusions but also ensures computational efficiency and robustness during dynamic interactions.      
+
+> Diffusion Model
+> !!
+> "
+> !!
+> "#$
+> !!
+> %
+> Noised Action Denoised Action
+> Downstream
+> Decision -Making
+> e.g. Diffusion Policy
+> Compact 3D Repr. Robot State
+> Conditioning
+> Concat
+> MLP MLP
+> Spatial
+> Aligned
+> GSFields Real PCD Obs.
+
+Figure 5. G3Flow-enhanced diffusion policy. 3.4. G3Flow-Enhanced Diffusion Policy 
+
+To effectively leverage our semantic flow for precise ma-nipulation, we enhance diffusion policies through three key components: conditional feature acquisition, a conditional denoising process, and a specialized training procedure. 
+
+Conditional Feature Acquisition. Our policy integrates three distinct types of information through separate MLP encoders. First, the transformed and updated semantic flow with shape (K, 3 + D f eat ) is processed to obtain semantic features f s , capturing rich object-centric semantic under-standing. Second, the real point cloud observations with shape (K, 3) are encoded to produce scene features f r , pro-viding immediate geometric feedback. Finally, the current robot joint states are encoded into robot state features f p ,ensuring awareness of the manipulator’s configuration. This multi-modal feature acquisition enables our policy to reason about both semantic and geometric aspects of the task. 
+
+Conditional Denoising Process. We formulate the decision-making process as a conditional denoising oper-ation, where actions are generated by gradually denoising random Gaussian noise conditioned on our extracted fea-tures. Beginning with random noise aK , a denoising net-work eq performs K iterations to predict the final action a0 :
+
+ak 1 = a k (ak   g k , k, eq (ak , f s , f r , f p )) + s k N (0, I), (2) where a k , g k and s k are functions of the denoising step k
+
+and depend on the noise scheduler. This formulation allows our policy to capture complex action distributions while maintaining stability through structured denoising process. 
+
+Training Procedure. We employ the DDIM scheduler for noise scheduling and optimize a noise prediction objective. The training loss is formulated as: 
+
+L = MSE 
+
+⇣
+
+e k , e q ( ¯a k a0 + ¯bk e k , k, f s , f r , f p )
+
+⌘
+
+. (3) This loss function trains the network to predict the noise added to the expert actions, enabling effective learning from demonstration data. The inclusion of semantic flow features 
+
+f s alongside real observations f r and robot state f p allows the policy to leverage both geometric precision and seman-tic understanding during execution. 1739 Shoe Place (T) Dual Shoes Place (T) Tool Adjust (T) Bottle Adjust (T) Average                                                     
+
+> DP 26 .0±11 .43.3±1.221 .7±5.116 .3±4.616.8 ( #51.5 )
+> 3D DP 54 .0±6.913 .0±1.743 .3±9.174 .3±8.646.2 ( #22.1 )
+> 3D DP w/ color 58 .0±3.07.0±1.070 .3±9.341 .0±12 .844.1 ( #24.2 )
+> DP w/ G3Flow 83.0 ±3.624.0 ±3.684.3 ±10 .182.0 ±4.068.3
+
+Table 1. Success rates (in %) of simulation tasks for terminal constraint control tasks. We report the mean and standard deviation computed over 3 random seeds.                                                         
+
+> Shoe Place (G) Dual Shoes Place (G) Diverse Bottles Pick (G) Tool Adjust (G) Average
+> DP 17 .7±3.23.0±2.68.7±3.216 .0±11 .311.4 ( #38.7) 3D DP 51 .0±6.69.3±3.139 .3±9.627 .0±11 .531.7 ( #18.4) 3D DP w/ color 38 .7±7.58.0±1.713 .0±5.057 .3±3.529.3 ( #20.8)
+> DP w/ G3Flow 63.7 ±3.514.7 ±2.151.3 ±10 .470.7 ±11 .750.1
+
+Table 2. Success rates (in %) of cross-object generalization tasks. . We report the mean and standard deviation computed over 3 random seeds.    
+
+> (a) Shoe Place (b) Dual Shoes Place (c) Tool Adjust
+> (d) Bottle Adjust (e) Diverse Bottles Pick
+
+Figure 6. Five testing benchmark tasks. 4. Experiments 
+
+We conduct extensive experiments to evaluate G3Flow’s ef-fectiveness across two key aspects: terminal constraint sat-isfaction and cross-object generalization. 
+
+4.1. Experimental Setup 
+
+We evaluate our approach on five distinct manipulation tasks from the RoboTwin benchmark [19], as illustrated in Figure 6. Each task is designed to assess specific aspects, detailed task descriptions can be found in Appendix A. 
+
+Single-arm Tasks. (1) Shoe Place: Position a randomly placed shoe on a mat with toe facing left; (2) Bottle Adjust: 
+
+Grasp bottles based on opening orientation, ensuring up-right placement; (3) Tool Adjust: Manipulate various tools by their handles based on head orientation. 
+
+Dual-arm Tasks: (1) Dual Shoes Place: Position two shoes with synchronized bi-manual control, (2) Diverse Bottles Pick: Handle bottles of varying sizes using arms. For each task, we train policies using 100 expert demon-strations and evaluate across 3 random seeds with 100 test episodes per seed. To assess different capabilities, we main-tain separate object sets for terminal constraint and general-ization evaluations. Performance is measured through aver-age success rates and standard deviations across seeds. We    
+
+> Tool Adjust (T) & Bottle Adjust (T)
+> Seen Objects Unseen Objects
+> Shoe Place (T) & Dual Shoes Place (T)
+
+Figure 7. Seen and unseen object sets for four tasks with high terminal constraint requirements. 
+
+employ PCA to reduce the feature dimensions of DINOv2 to 5, and downsample both the original point cloud and the virtual point cloud to 1024 points. 
+
+Baselines: We use the 3D Diffusion Policy (DP3) [40], which utilizes efficient point encoders to create compact 3D representations, and its variant with RGB color information DP3(w/ color), as well as the 2D Diffusion Policy (DP) [1] processing visual information in images to predict robot ac-tions, as key baselines. We train 3000 epochs for all the tasks with batch size 256 for G3Flow and DP3. For DP, we train 300 epochs for all the tasks with batch size 128. 
+
+4.2. Evaluation on Pose-aware Manipulation Tasks 
+
+To investigate the ability of our method to provide semantic information that enhances the policy’s understanding of the semantics of the manipulated object parts, we selected Shoe Place , Dual Shoes Place , Tool Adjust , and Bottle Adjust as test tasks, requiring the robotic arm to meet pose-aware re-quirements. We chose objects that are geometrically similar to the training set for testing, to reduce the examination of the model’s generalization ability, as shown in Fig. 7. We chose unseen objects as the test set to avoid the situation that the policy memorizes training objects, which cheats the performance results. As shown in Tab. 1, G3Flow consistently outperforms 1740 Diverse Bottles Pick (G)        
+
+> Tool Adjust (G)
+> Shoe Place (G) & Dual Shoes Place (G)
+> Seen Objects Unseen Objects
+> Figure 8. Cross-object generalization settings. Seen and unseen object sets for four tasks with high generalization requirements.
+
+baseline methods in achieving pose-aware requirements across all four tasks. Our method achieves over 25% higher success rates in the Shoe Place (T) task for correct orien-tation and in the Bottle Adjust (T) task, we achieved a suc-cess rate that exceeded the average of the baselines by over 38% for upright pick. This demonstrates that the semantic understanding provided by G3Flow helps the policy better comprehend and execute pose-aware requirements. The performance gain is particularly notable in tasks re-quiring precise object orientation, such as Dual Shoes Place (T) . While baseline methods occasionally achieve correct positioning, they struggle with maintaining consistent ori-entation accuracy. G3Flow nearly doubles the success rate compared to the strongest baseline, suggesting that our se-mantic representations effectively encode spatial relation-ships and object orientations. 
+
+4.3. Evaluation on Generalization Performance 
+
+To investigate the generalization capability of our method in providing semantic information for manipulating objects, we have selected Shoe Place , Dual Shoes Place , Tool Ad-just , and Diverse Bottles Pick as test tasks. Unlike tasks that require the satisfaction of terminal constraints, we choose as few and similar visible objects as possible for the train-ing set and select objects that are as geometrically distinct as possible from the training set for the test set, as shown in Figure 8. This requires the policy to correctly manip-ulate objects that are geometrically different from those it has seen with only a limited exposure, focusing on assess-ing the policy’s generalization ability. Our method achieves an average success rate 18.4% higher than strongest baseline across four tasks, exhibiting powerful generalization capabilities across different object categories and variations, as shown in Table 2: • Intra-class Generalization : In tasks involving geomet-rically distinct unseen instances of the same object cat-          
+
+> Method Field-Gen Freq. Decision-making Freq.
+> DP w/ Scene-Level DINOv2 10.52 Hz ( #75.5%) 9.52 Hz ( #72.0%) DP w/ D 3Fields (GenDP) 8.14 Hz ( #81.0%) 6.89 Hz ( #79.8%) DP w/ G3Flow 42.92 Hz 34.04 Hz
+> Table 3. Comparison of Computational Efficiency.
+
+egory ( Shoe Place (G) , Dual Shoes Place (G) , Diverse Bottles Pick (G) ), our method maintains optimal perfor-mance, indicating that G3Flow encompasses a genuine semantic understanding of objects, enabling effective op-eration generalization even when faced with geometri-cally diverse instances within the same category. • Cross-category Generalization : For the Tool Adjust (G) 
+
+task, which necessitates dealing with objects that are se-mantically similar but belong to different categories, our method must learn to grasp positions akin to a handle on the objects while also fulfilling the pick-upright condi-tion. G3Flow achieved a success rate of 70.7% on previ-ously unseen tool categories, which is 13.4% higher than the best baseline. This result confirms the capability of our method to transfer learned operational skills across different object categories. • Scale Variation : In the Diverse Bottles Pick (G) task, G3Flow successfully generalizes to bottles of varying sizes, maintaining a consistent grasp success rate of 
+
+51.3% . This indicates robust handling of geometric vari-ations while preserving semantic understanding. 
+
+4.4. Ablation Study Ablation on Efficiency. Robotic manipulation tasks have stringent requirements for real-time performance. We test the model inference speed on a single NVIDIA GeForce RTX 4090. The results are shown in Tab. 3. Our method significantly outperforms baselines, achieving a de-cision frequency of 34.04 Hz, nearly 6 times faster than GenDP [34], meeting the requirements of most real-time robotics manipulation tasks. Our pipeline generates digital assets once per object, even across multiple operations. After the initial DINOv2 feature extraction, subsequent semantic flow estimation re-lies on a lightweight pose-tracking network [33, 36], en-abling real-time performance. 
+
+Ablation on Quality of Semantic Field. 
+
+We conducted an ablation study comparing our method against conventional scene-level feature clouds and D 3 Fields, using the Shoe Place (T) and Dual Shoes Place (T) tasks, which require long-term semantic reasoning and involve occlusions. As shown in Table 4, our approach improves success rates by 22.6% and 41.2% over scene-level features, and by 9.3% and 3.7% over D 3 Fields. While D 3 Fields benefits from human prior knowledge, our method outperforms it by focusing on object-centered visual in-puts, which reduces irrelevant background noise (Sec. 3.2). 1741 A B1 B2 C1 C2 C3 D1                                   
+
+> Figure 9. Feature Quality Visualization. A : raw RGB, B: G3Flow, C and D : Scene-level DINOv2 feature.
+> Dual Shoes Place Tool Adjust Bottle Adjust Diverse Bottles Pick Shoe Place
+> Figure 10. Visualization of G3Flow in the 5 evaluation tasks. Shoe Place (T) Dual Shoes Place (T)
+> DP w/ Scene-Level Feature 67 .7±1.517 .0±1.7
+> DP w/ D 3Fields (GenDP) 73 .7±2.520 .3±6.8
+> DP w/ G3Flow 83.0 ±3.624.0 ±3.6
+> Table 4. Ablation on Quality of Semantic Field. We compare the success rates of scene-level features, D 3Fields and G3Flow on
+> Shoe Place and Dual Shoes Place tasks.
+
+Moreover, scene-level baselines struggle with occlusions, whereas our tracking-based semantic flow maintains robust object representations even when occluded, enhancing fea-ture quality and task performance. In Fig. 9, we compare the feature quality of our method with that of scene-level feature and D 3 Fields . It can be observed that due to occlusions and background interfer-ence, scene-level features ( D1 ) fail to distinguish the shoe’s toe and heel, which is crucial for adjusting the shoe’s pose. D 3 Fields benefits from goal image priors ( C1 ), which im-proves semantic preservation over raw DINOv2. However, the occluded regions ( e.g ., gripper coverage, C2 ) of it suffer from inaccurate semantics, and it cannot recover a complete semantic point cloud from a single view, limiting precise manipulation ( C3 ). In contrast, G3Flow generates a com-plete and high-quality semantic field by digital twin ( B2 ). 
+
+4.5. Ablation on VFMs.                
+
+> Method G3Flow (w/ CLIP) G3FLow (w/ SAM) G3Flow
+> Success Rate 72 .3±2.474 .7±5.083 .0±3.6
+> Table 5. Ablation on VFMs. Success rates of G3Flow imple-mented with different VFMs (our method uses DINOv2) on the
+> Shoe Place (T) task.
+
+We conducted an ablation study on VFM replacement in the Shoe Place (T) task. As shown in Tab. 5, our DINOv2 outperforms CLIP and SAM in pose awareness and gen-eralization, as CLIP prioritizes image-text alignment over spatial understanding, while SAM focuses excessively on detailed features rather than part-level characteristics. This highlights the importance of selecting appropriate features for effective policy learning. 
+
+4.6. Visualizations of G3Flow 
+
+The visualization of G3Flow across our five evaluation tasks is shown in Fig. 10, demonstrating how our real-time se-mantic flow maintains both temporal coherence and spa-tial alignment during manipulation. In each task visual-ization, different colors represent distinct semantic features: orientation-critical regions (pink) for shoe placement tasks, functional parts (blue/green) for tool and bottle manipula-tion, and consistent semantic representations across varied object sizes in the diverse bottles task. Notably, our seman-tic flow remains complete and stable even under partial oc-clusions from robot arms or objects, validating the effec-tiveness of our foundation model-driven approach. 
+
+## 5. Conclusion 
+
+In this paper, we introduced G3Flow, a novel frame-work that leverages foundation models to construct real-time semantic flow for enhanced robotic manipulation. By uniquely integrating 3D generative models for digital twin creation, vision foundation models for semantic feature ex-traction, and robust pose tracking, G3Flow enables com-plete semantic understanding while eliminating manual an-notation requirements. Extensive experiments demonstrate G3Flow’s effectiveness in both terminal-constrained manip-ulation and cross-object generalization tasks. They validate our key insight that maintaining consistent semantic un-derstanding through foundation model integration can sub-stantially improve manipulation performance, particularly in scenarios requiring precise control and object variation handling. Looking forward, our method establishes a foun-dation for semantic - aware robotic manipulation. Future research directions include articulated - object and multi -object interactions, as well as continuous optimization of 3D modeling for interacted objects. 1742 Acknowledgements 
+
+This paper is partially supported by the National Key R&D Program of China No.2022ZD0161000 and the General Re-search Fund of Hong Kong No.17200622 and 17209324. 
+
+## References 
+
+[1] Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau, Yilun Du, Benjamin Burchfiel, Russ Tedrake, and Shuran Song. Diffusion policy: Visuomotor policy learning via action dif-fusion. The International Journal of Robotics Research , page 02783649241273668, 2023. [2] Cheng Chi, Zhenjia Xu, Siyuan Feng, Eric Cousineau, Yilun Du, Benjamin Burchfiel, Russ Tedrake, and Shuran Song. Diffusion policy: Visuomotor policy learning via action dif-fusion. The International Journal of Robotics Research , page 02783649241273668, 2023. [3] Jun Gao, Shuyang Song, Luming Tang, Xiaohui Wang, Arie Zhang, Sanja Fidler, and Ming-Yu Liu. Get3d: A genera-tive model of high quality 3d textured shapes learned from images. arXiv preprint arXiv:2209.11163 , 2022. [4] Theophile Gervet, Zhou Xian, Nikolaos Gkanatsios, and Ka-terina Fragkiadaki. Act3d: 3d feature field transformers for multi-task robotic manipulation. In 7th Annual Conference on Robot Learning , 2023. [5] Ankit Goyal, Valts Blukis, Jie Xu, Yijie Guo, Yu-Wei Chao, and Dieter Fox. Rvt-2: Learning precise manipulation from few demonstrations. arXiv preprint arXiv:2406.08545 , 2024. [6] Markus Grotz, Mohit Shridhar, Yu-Wei Chao, Tamim As-four, and Dieter Fox. Peract2: Benchmarking and learn-ing for robotic bimanual manipulation tasks. In CoRL 2024 Workshop on Whole-body Control and Bimanual Manipula-tion: Applications in Humanoids and Beyond , 2024. [7] Jonathan Ho, Ajay Jain, and Pieter Abbeel. Denoising diffu-sion probabilistic models. CoRR , abs/2006.11239, 2020. [8] Michael Janner, Yilun Du, Joshua Tenenbaum, and Sergey Levine. Planning with diffusion for flexible behavior syn-thesis. In International Conference on Machine Learning ,pages 9902–9915. PMLR, 2022. [9] Heewoo Jun and Alex Nichol. Shap-e: Generat-ing conditional 3d implicit functions. arXiv preprint arXiv:2305.02463 , 2023. [10] Tsung-Wei Ke, Nikolaos Gkanatsios, and Katerina Fragki-adaki. 3d diffuser actor: Policy diffusion with 3d scene rep-resentations. arXiv preprint arXiv:2402.10885 , 2024. [11] Takio Kurita. Principal component analysis (pca). Computer vision: a reference guide , pages 1–4, 2019. [12] Zhixuan Liang, Yao Mu, Mingyu Ding, Fei Ni, Masayoshi Tomizuka, and Ping Luo. Adaptdiffuser: Diffusion mod-els as adaptive self-evolving planners. In International Con-ference on Machine Learning , pages 20725–20745. PMLR, 2023. [13] Zhixuan Liang, Yao Mu, Hengbo Ma, Masayoshi Tomizuka, Mingyu Ding, and Ping Luo. Skilldiffuser: Interpretable hi-erarchical planning via skill abstractions in diffusion-based task execution. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 16467– 16476, 2024. [14] Zhixuan Liang, Yao Mu, Yixiao Wang, Fei Ni, Tianxing Chen, Wenqi Shao, Wei Zhan, Masayoshi Tomizuka, Ping Luo, and Mingyu Ding. Dexdiffuser: Interaction-aware dif-fusion planning for adaptive dexterous manipulation. arXiv preprint arXiv:2411.18562 , 2024. [15] Chen-Hsuan Lin, Jun Gao, Luming Tang, Towaki Takikawa, Xiaohui Zeng, Xun Huang, Karsten Kreis, Sanja Fi-dler, Ming-Yu Liu, and Tsung-Yi Lin. Magic3d: High-resolution text-to-3d content creation. arXiv preprint arXiv:2211.10440 , 2023. [16] Fanqi Lin, Yingdong Hu, Pingyue Sheng, Chuan Wen, Ji-acheng You, and Yang Gao. Data scaling laws in imi-tation learning for robotic manipulation. arXiv preprint arXiv:2410.18647 , 2024. [17] Songming Liu, Lingxuan Wu, Bangguo Li, Hengkai Tan, Huayu Chen, Zhengyi Wang, Ke Xu, Hang Su, and Jun Zhu. Rdt-1b: a diffusion foundation model for bimanual manipu-lation. arXiv preprint arXiv:2410.07864 , 2024. [18] Guanxing Lu, Zifeng Gao, Tianxing Chen, Wenxun Dai, Zi-wei Wang, and Yansong Tang. Manicm: Real-time 3d diffu-sion policy via consistency model for robotic manipulation. 
+
+arXiv preprint arXiv:2406.01586 , 2024. [19] Yao Mu, Tianxing Chen, Shijia Peng, Zanxin Chen, Zeyu Gao, Yude Zou, Lunkai Lin, Zhiqiang Xie, and Ping Luo. Robotwin: Dual-arm robot benchmark with generative digi-tal twins (early version). arXiv preprint arXiv:2409.02920 ,2024. [20] Fei Ni, Jianye Hao, Yao Mu, Yifu Yuan, Yan Zheng, Bin Wang, and Zhixuan Liang. Metadiffuser: Diffusion model as conditional planner for offline meta-rl. In International Con-ference on Machine Learning , pages 26087–26105. PMLR, 2023. [21] Alex Nichol, Heewoo Jun, Prafulla Dhariwal, Pamela Mishkin, and Mark Chen. Point-e: A system for generat-ing 3d point clouds from complex prompts. arXiv preprint arXiv:2212.08751 , 2022. [22] Maxime Oquab, Timoth´ ee Darcet, Th´ eo Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, et al. Dinov2: Learning robust visual features without supervision. 
+
+arXiv preprint arXiv:2304.07193 , 2023. [23] Tim Pearce, Tabish Rashid, Anssi Kanervisto, Dave Bignell, Mingfei Sun, Raluca Georgescu, Sergio Valcarcel Macua, Shan Zheng Tan, Ida Momennejad, Katja Hofmann, and Sam Devlin. Imitating human behaviour with diffusion models, 2023. [24] Ben Poole, Ajay Jain, Jonathan T Barron, and Ben Milden-hall. Dreamfusion: Text-to-3d using 2d diffusion. arXiv preprint arXiv:2209.14988 , 2022. [25] Dicong Qiu, Wenzong Ma, Zhenfu Pan, Hui Xiong, and Jun-wei Liang. Open-vocabulary mobile manipulation in un-seen dynamic environments with 3d semantic maps. arXiv preprint arXiv:2406.18115 , 2024. [26] Tianhe Ren, Shilong Liu, Ailing Zeng, Jing Lin, Kunchang Li, He Cao, Jiayu Chen, Xinyu Huang, Yukang Chen, Feng 1743 Yan, et al. Grounded sam: Assembling open-world models for diverse visual tasks. arXiv preprint arXiv:2401.14159 ,2024. [27] Moritz Reuss, Maximilian Li, Xiaogang Jia, and Rudolf Li-outikov. Goal-conditioned imitation learning using score-based diffusion policies. arXiv preprint arXiv:2304.02532 ,2023. [28] Tim Salimans and Jonathan Ho. Should EBMs model the energy or the score? In Energy Based Models Workshop -ICLR 2021 , 2021. [29] William Shen et al. Distilled feature fields enable few-shot language-guided manipulation. arXiv preprint arXiv:2307.12345 , 2023. [30] Mohit Shridhar, Lucas Manuelli, and Dieter Fox. Perceiver-actor: A multi-task transformer for robotic manipulation. In Conference on Robot Learning , pages 785–799. PMLR, 2023. [31] Sumeet Singh, Stephen Tu, and Vikas Sindhwani. Revisiting energy based models as policies: Ranking noise contrastive estimation and interpolating energy models, 2023. [32] Jascha Sohl-Dickstein, Eric A. Weiss, Niru Mah-eswaranathan, and Surya Ganguli. Deep unsupervised learning using nonequilibrium thermodynamics, 2015. [33] Xi Wang, Tianxing Chen, Qiaojun Yu, Tianling Xu, Zanxin Chen, Yiting Fu, Cewu Lu, Yao Mu, and Ping Luo. Ar-ticulated object manipulation using online axis estimation with sam2-based tracking. arXiv preprint arXiv:2409.16287 ,2024. [34] Yixuan Wang, Guang Yin, Binghao Huang, Tarik Keleste-mur, Jiuguang Wang, and Yunzhu Li. Gendp: 3d semantic fields for category-level generalizable diffusion policy. arXiv preprint arXiv:2410.17488 , 2024. [35] Yixuan Wang, Mingtong Zhang, Zhuoran Li, Tarik Keleste-mur, Katherine Driggs-Campbell, Jiajun Wu, Li Fei-Fei, and Yunzhu Li. D 3 fields: Dynamic 3d descriptor fields for zero-shot generalizable rearrangement. In 8th Annual Conference on Robot Learning , 2024. [36] Bowen Wen, Wei Yang, Jan Kautz, and Stan Birchfield. Foundationpose: Unified 6d pose estimation and tracking of novel objects. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 17868– 17879, 2024. [37] Zhou Xian, Nikolaos Gkanatsios, Theophile Gervet, Tsung-Wei Ke, and Katerina Fragkiadaki. Chaineddiffuser: Uni-fying trajectory diffusion and keypose prediction for robotic manipulation. In 7th Annual Conference on Robot Learning ,2023. [38] Can Xu, Xiaodong Zhang, Yu Sun, Xia Wang, Ziyu Zhang, Yichang Wang, Chang Wang, Wei Wang, Zhen Liu, Li Wang, et al. Rodin: A generative model for sculpting 3d digital avatars using diffusion. arXiv preprint arXiv:2303.04137 ,2023. [39] Yanjie Ze, Gu Zhang, Kangning Zhang, Chenyuan Hu, Muhan Wang, and Huazhe Xu. 3d diffusion policy: Gen-eralizable visuomotor policy learning via simple 3d repre-sentations. In Proceedings of Robotics: Science and Systems (RSS) , 2024. [40] Yanjie Ze, Gu Zhang, Kangning Zhang, Chenyuan Hu, Muhan Wang, and Huazhe Xu. 3d diffusion policy. arXiv preprint arXiv:2403.03954 , 2024. [41] Tony Z Zhao, Vikash Kumar, Sergey Levine, and Chelsea Finn. Learning fine-grained bimanual manipulation with low-cost hardware. arXiv preprint arXiv:2304.13705 , 2023. 1744
