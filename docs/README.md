@@ -6,89 +6,82 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-29 ~ 2026-07-08
-- 运行时间：2026-07-08 12:26:21 UTC
+- 最新运行日期：2026-06-09 ~ 2026-07-08
+- 运行时间：2026-07-08 12:54:07 UTC
 - 运行状态：成功
-- 本次总论文数：23
-- 精读区：12
+- 本次总论文数：20
+- 精读区：9
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦3D理解与生成、全景重建及结构化3D生成等前沿方向，精读12篇，速读11篇。最值得关注的是满分论文《ELSA3D: Elastic Semantic Anchoring for Unified 3D Understanding and Generation》和9分的《FastPano3D: Feed-Forward Indoor Panoramic 3D Reconstruction from a Single Image》。建议普通读者优先了解语义锚定如何统一3D任务，以及单图快速重建室内全景的技术突破。
-- 详情：[/20260629-20260708/README](/20260629-20260708/README)
+1) 本期精读两篇9分论文，聚焦3D手物交互生成与类艺术家网格拓扑生成。  
+2) 最值得关注的方向：离散多视图生成联合网格优化实现手物交互，以及基于最近顶点向量场的艺术家风格拓扑生成。  
+3) 对普通读者建议：可留意这些方法如何提升3D资产的可操控性与结构精细度，并结合参量化生成基准进行效果验证。
+- 详情：[/20260609-20260708/README](/20260609-20260708/README)
 
 ### 精读区论文标签
-1. [ELSA3D: Elastic Semantic Anchoring for Unified 3D Understanding and Generation](/20260629-20260708/2607.06565v1-elsa3d-elastic-semantic-anchoring-for-unified-3d-understanding-and-generation)  
-   标签：评分：10.0/10、query:dm
-   evidence：统一3D理解与生成，弹性语义锚定
-2. [FastPano3D: Feed-Forward Indoor Panoramic 3D Reconstruction from a Single Image](/20260629-20260708/2606.30352v1-fastpano3d-feed-forward-indoor-panoramic-3d-reconstruction-from-a-single-image)  
+1. [TextHOI-3D: Text-to-3D Hand-Object Interaction via Discrete Multi-View Generation and Joint Mesh Optimization](/20260609-20260708/2606.11805v1-texthoi-3d-text-to-3d-hand-object-interaction-via-discrete-multi-view-generation-and-joint-mesh-optimization)  
    标签：评分：9.0/10、query:dm
-   evidence：从单张全景图前馈式3D重建
-3. [Pano2World: End-to-End 3D Generation via Unified Multi-View Sequences](/20260629-20260708/2607.00832v1-pano2world-end-to-end-3d-generation-via-unified-multi-view-sequences)  
+   evidence：文本到3D手物交互生成
+2. [TriFlow: Generating Artist-Like 3D Mesh Topology via Nearest-Vertex Vector Fields](/20260609-20260708/2606.20131v2-triflow-generating-artist-like-3d-mesh-topology-via-nearest-vertex-vector-fields)  
    标签：评分：9.0/10、query:dm
-   evidence：从全景图通过多视图序列端到端3D生成
-4. [PixGS: Pixel-Space Diffusion for Direct 3D Gaussian Splat Generation](/20260629-20260708/2607.01803v1-pixgs-pixel-space-diffusion-for-direct-3d-gaussian-splat-generation)  
+   evidence：通过最近顶点向量场生成艺术家风格3D网格拓扑
+3. [Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation](/20260609-20260708/2606.24206v1-inclusive-interactive-collisions-for-multi-view-consistent-compositional-3d-generation)  
    标签：评分：9.0/10、query:dm
-   evidence：像素空间扩散直接生成3D高斯泼溅
-5. [PixGS: Pixel-Space Diffusion for Direct 3D Gaussian Splat Generation](/20260629-20260708/2607.01803v2-pixgs-pixel-space-diffusion-for-direct-3d-gaussian-splat-generation)  
+   evidence：多视图一致的组合3D生成
+4. [3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis](/20260609-20260708/2606.24257v1-3dcargen-scalable-3d-car-generation-via-3d-consistent-multi-view-synthesis)  
    标签：评分：9.0/10、query:dm
-   evidence：直接3D高斯溅射生成，像素空间扩散
-6. [PWM-ArtGen: Part World Model for Articulated Object Generation](/20260629-20260708/2607.02045v1-pwm-artgen-part-world-model-for-articulated-object-generation)  
+   evidence：单视图3D汽车生成通过多视图合成
+5. [3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis](/20260609-20260708/2606.24257v2-3dcargen-scalable-3d-car-generation-via-3d-consistent-multi-view-synthesis)  
    标签：评分：9.0/10、query:dm
-   evidence：用于铰接物体生成的部分世界模型
-7. [Text-Driven 3D Indoor Scene Synthesis in Non-Manhattan Environments](/20260629-20260708/2607.02407v1-text-driven-3d-indoor-scene-synthesis-in-non-manhattan-environments)  
+   evidence：基于单张图像通过多视图合成生成可缩放3D汽车
+6. [Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design](/20260609-20260708/2606.27923v1-home3d-10-a-high-fidelity-image-to-3d-asset-generation-system-for-interior-design)  
    标签：评分：9.0/10、query:dm
-   evidence：非曼哈顿环境下的文本驱动3D室内场景合成
-8. [CGGS: Consistency-Augmented Geometric Gaussian Splatting for Ego-centric 3D Scene Generation](/20260629-20260708/2607.03819v2-cggs-consistency-augmented-geometric-gaussian-splatting-for-ego-centric-3d-scene-generation)  
+   evidence：图像到3D资产生成
+7. [Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design](/20260609-20260708/2606.27923v2-home3d-10-a-high-fidelity-image-to-3d-asset-generation-system-for-interior-design)  
    标签：评分：9.0/10、query:dm
-   evidence：文本驱动自我中心3D场景生成框架
-9. [InSpace: Structure-Aware 3D Indoor Scene Generation from a Single 360° Image](/20260629-20260708/2607.03990v1-inspace-structure-aware-3d-indoor-scene-generation-from-a-single-360-image)  
+   evidence：面向室内设计的图像到3D资产生成
+8. [CAIRN: Cross-Room 3D Scene Understanding with Topology-Aware Large Multimodal Models](/20260609-20260708/2607.06534v1-cairn-cross-room-3d-scene-understanding-with-topology-aware-large-multimodal-models)  
    标签：评分：9.0/10、query:dm
-   evidence：基于单张360度图像的结构感知三维室内场景生成
-10. [SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control](/20260629-20260708/2607.04540v1-scenefrom3d-geometry-conditioned-outdoor-3d-scene-generation-via-view-scheduling-with-object-level-control)  
+   evidence：跨房间3D场景理解与拓扑感知多模态大模型
+9. [ELSA3D: Elastic Semantic Anchoring for Unified 3D Understanding and Generation](/20260609-20260708/2607.06565v1-elsa3d-elastic-semantic-anchoring-for-unified-3d-understanding-and-generation)  
    标签：评分：9.0/10、query:dm
-   evidence：几何条件户外3D场景生成，视图调度
-11. [PixWorld: Unifying 3D Scene Generation and Reconstruction in Pixel Space](/20260629-20260708/2607.05373v1-pixworld-unifying-3d-scene-generation-and-reconstruction-in-pixel-space)  
-   标签：评分：9.0/10、query:dm
-   evidence：在像素空间统一3D场景生成与重建
-12. [SynCity 3000: Bootstrapping Scene-Scale 3D Diffusion](/20260629-20260708/2607.05392v1-syncity-3000-bootstrapping-scene-scale-3d-diffusion)  
-   标签：评分：9.0/10、query:dm
-   evidence：全局连贯且布局可控的场景级三维扩散生成
+   evidence：通过弹性语义锚定统一3D理解与生成
 
 ### 速读区论文标签
-1. [Arko-T: A Foundation Model for Text-to-Structured 3D Generation](/20260629-20260708/2606.30429v1-arko-t-a-foundation-model-for-text-to-structured-3d-generation)  
+1. [P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning](/20260609-20260708/2606.11152v2-p3d-bench-benchmarking-mllms-for-parametric-3d-generation-and-structural-reasoning)  
    标签：评分：8.0/10、query:dm
-   evidence：文本到结构化3D生成（CAD程序）
-2. [AC3S: Adaptive Conditioning for 3D-Aware Synthetic Data Generation](/20260629-20260708/2606.31204v1-ac3s-adaptive-conditioning-for-3d-aware-synthetic-data-generation)  
+   evidence：针对多模态大语言模型的参数化3D生成与结构推理基准
+2. [FlowObject: Flow Steering for Bridging Generative Priors and Reconstruction Fidelity](/20260609-20260708/2606.19019v1-flowobject-flow-steering-for-bridging-generative-priors-and-reconstruction-fidelity)  
    标签：评分：8.0/10、query:dm
-   evidence：3D感知合成数据生成的自适应条件化
-3. [Mesh BDF: Barycentric Dominance Field for 3D Native Mesh Generation](/20260629-20260708/2606.31777v1-mesh-bdf-barycentric-dominance-field-for-3d-native-mesh-generation)  
+   evidence：桥接生成先验与重建保真度的3D方法
+3. [Arbor: Explicit Geometric Conditioning for Controllable 3D Asset Generation](/20260609-20260708/2606.23514v1-arbor-explicit-geometric-conditioning-for-controllable-3d-asset-generation)  
    标签：评分：8.0/10、query:dm
-   evidence：基于重心支配场的原生3D网格生成
-4. [Pano2World: End-to-End 3D Generation via Unified Multi-View Sequences](/20260629-20260708/2607.00832v2-pano2world-end-to-end-3d-generation-via-unified-multi-view-sequences)  
+   evidence：显式几何约束网格用于3D生成控制
+4. [NaLA: A 3D Native LLM Layout Agent for High-quality 3D Scene Generation](/20260609-20260708/2606.29395v1-nala-a-3d-native-llm-layout-agent-for-high-quality-3d-scene-generation)  
    标签：评分：8.0/10、query:dm
-   evidence：从单张全景图生成3D场景
-5. [OP3DSG: Open-Vocabulary Part-Aware 3D Scene Graph Generation for Real-World Environments](/20260629-20260708/2606.29786v1-op3dsg-open-vocabulary-part-aware-3d-scene-graph-generation-for-real-world-environments)  
+   evidence：基于大语言模型的3D场景布局生成
+5. [P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning](/20260609-20260708/2606.11152v1-p3d-bench-benchmarking-mllms-for-parametric-3d-generation-and-structural-reasoning)  
    标签：评分：7.0/10、query:dm
-   evidence：开放词汇部件感知3D场景图生成
-6. [Open-Vocabulary and Referring Segmentation for 3D Gaussians Using 2D Detectors](/20260629-20260708/2606.30638v1-open-vocabulary-and-referring-segmentation-for-3d-gaussians-using-2d-detectors)  
+   evidence：参数化3D生成基准测试
+6. [ISAP-3D: Identity-Slot Aligned Part-Aware 3D Generation](/20260609-20260708/2606.12099v1-isap-3d-identity-slot-aligned-part-aware-3d-generation)  
    标签：评分：7.0/10、query:dm
-   evidence：3D高斯泼溅开放词汇分割
-7. [Vitality-Aware Compression for Efficient Image-to-Shape Diffusion Transformers](/20260629-20260708/2607.00382v1-vitality-aware-compression-for-efficient-image-to-shape-diffusion-transformers)  
+   evidence：基于身份槽对齐的部件感知3D生成
+7. [JanusMesh: Fast and Zero-Shot 3D Visual Illusion Generation via Cross-Space Denoising](/20260609-20260708/2606.20563v1-janusmesh-fast-and-zero-shot-3d-visual-illusion-generation-via-cross-space-denoising)  
    标签：评分：7.0/10、query:dm
-   evidence：图像到形状扩散Transformer的压缩
-8. [Robust 3D Alignment of Generative Reconstructions via Partial Monocular Observations](/20260629-20260708/2607.00498v1-robust-3d-alignment-of-generative-reconstructions-via-partial-monocular-observations)  
+   evidence：文本驱动的3D视觉错觉生成
+8. [Scaling Diverse Language Generation for 3D Visual Grounding](/20260609-20260708/2606.20946v1-scaling-diverse-language-generation-for-3d-visual-grounding)  
    标签：评分：7.0/10、query:dm
-   evidence：鲁棒的生成式三维重建与单目观测对齐
-9. [Knowledge-Driven Dimension Estimation from a Single Image -3D Asset Generation Technology for Digital Twin Construction](/20260629-20260708/2606.30896v1-knowledge-driven-dimension-estimation-from-a-single-image--3d-asset-generation-technology-for-digital-twin-construction)  
+   evidence：3D视觉定位属于3D理解
+9. [3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling](/20260609-20260708/2606.11446v1-3d-cbm-a-framework-for-concept-based-interpretability-in-generative-3d-modeling)  
    标签：评分：6.0/10、query:dm
-   evidence：单图像尺寸估计用于3D资产生成
-10. [NoPA: Non-Parametric Online 3D Scene Graph Generation](/20260629-20260708/2607.00529v1-nopa-non-parametric-online-3d-scene-graph-generation)  
+   evidence：生成式3D建模的概念级可解释性
+10. [OneCanvas: 3D Scene Understanding via Panoramic Reprojection](/20260609-20260708/2606.19253v1-onecanvas-3d-scene-understanding-via-panoramic-reprojection)  
    标签：评分：6.0/10、query:dm
-   evidence：非参数的在线3D场景图生成
-11. [Privacy-Preserving Depth-Only Open-Vocabulary 3D Semantic Segmentation Via Uncertainty-Guided Test-Time Optimization](/20260629-20260708/2607.00978v1-privacy-preserving-depth-only-open-vocabulary-3d-semantic-segmentation-via-uncertainty-guided-test-time-optimization)  
+   evidence：通过全景重投影进行3D场景理解与视觉语言模型
+11. [Harnessing Generative Image Models for Training-Free Primitive Shape Abstraction](/20260609-20260708/2607.05568v1-harnessing-generative-image-models-for-training-free-primitive-shape-abstraction)  
    标签：评分：6.0/10、query:dm
-   evidence：纯深度开放词汇3D语义分割
+   evidence：免训练的基元形状抽象，利用生成图像模型
 
 
 <div class="dpr-home-promo-card">

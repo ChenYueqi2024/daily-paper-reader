@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-08T12:10:28.893867+00:00",
-  "updated_date": "20260629-20260708",
+  "generated_at": "2026-07-08T12:43:40.422596+00:00",
+  "updated_date": "20260609-20260708",
   "carryover_days": 9,
   "tag_states": {
     "dm": {
-      "updated_date": "20260629-20260708",
+      "updated_date": "20260609-20260708",
       "carryover_days": 9,
       "items": [
         {
@@ -80,12 +80,12 @@
           ],
           "llm_score": 8.0,
           "llm_evidence_en": "3D asset generation with complex textures using video generative models",
-          "llm_evidence_cn": "利用视频生成模型生成复杂纹理的3D资产",
-          "llm_evidence": "利用视频生成模型生成复杂纹理的3D资产",
-          "canonical_evidence": "利用视频生成模型生成复杂纹理的3D资产",
-          "llm_tldr_en": "Introduces Ink3D, a framework that combines 3D generation with large-scale video generative models to synthesize extremely complex textures, using orbit-scan video generation for texture transfer.",
-          "llm_tldr_cn": "现有3D生成模型难以复现参考图像中的复杂纹理。本文提出Ink3D，利用大规模视频生成模型为3D几何生成逼真纹理：先重建白色几何，再通过OrbitPainter视频模型生成密集扫视视频来捕获物体外观。该方法能产生高度精细的纹理，突破了3D数据稀缺的限制。",
-          "llm_tldr": "现有3D生成模型难以复现参考图像中的复杂纹理。本文提出Ink3D，利用大规模视频生成模型为3D几何生成逼真纹理：先重建白色几何，再通过OrbitPainter视频模型生成密集扫视视频来捕获物体外观。该方法能产生高度精细的纹理，突破了3D数据稀缺的限制。",
+          "llm_evidence_cn": "使用视频生成模型为3D资产生成复杂纹理",
+          "llm_evidence": "使用视频生成模型为3D资产生成复杂纹理",
+          "canonical_evidence": "使用视频生成模型为3D资产生成复杂纹理",
+          "llm_tldr_en": "Ink3D bridges 3D generation and video generative models to synthesize extremely complex textures for 3D assets, using OrbitPainter to produce dense orbit-scan videos.",
+          "llm_tldr_cn": "Ink3D针对现有3D生成模型难以复现复杂纹理的问题，提出结合大规模视频生成模型。首先重建白模几何，然后利用条件视频生成模型OrbitPainter生成密集轨道扫描视频，进而提取纹理。实验显示该方法能生成细节丰富的纹理，突破了数据稀缺的限制，为3D资产纹理合成提供了新途径。",
+          "llm_tldr": "Ink3D针对现有3D生成模型难以复现复杂纹理的问题，提出结合大规模视频生成模型。首先重建白模几何，然后利用条件视频生成模型OrbitPainter生成密集轨道扫描视频，进而提取纹理。实验显示该方法能生成细节丰富的纹理，突破了数据稀缺的限制，为3D资产纹理合成提供了新途径。",
           "llm_tags": [
             "query:dm"
           ],
@@ -158,13 +158,13 @@
             "query:dm"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "text-to-3D ego-centric scene generation with consistent multi-view",
-          "llm_evidence_cn": "文本到3D自我中心场景生成与一致性多视图",
-          "llm_evidence": "文本到3D自我中心场景生成与一致性多视图",
-          "canonical_evidence": "文本到3D自我中心场景生成与一致性多视图",
-          "llm_tldr_en": "CGGS enhances text-to-3D ego-centric scene generation by fine-tuning a multi-view diffusion model with consistency loss and using layout decorator.",
-          "llm_tldr_cn": "自我中心3D场景生成面临视点重叠少和几何畸变问题。本文提出CGGS，通过一致性增强损失微调多视图潜扩散模型，生成与文本描述对齐的高保真2D内容；再通过布局装饰器利用光流修复几何扭曲。该方法生成了视角一致且几何准确的3D场景。",
-          "llm_tldr": "自我中心3D场景生成面临视点重叠少和几何畸变问题。本文提出CGGS，通过一致性增强损失微调多视图潜扩散模型，生成与文本描述对齐的高保真2D内容；再通过布局装饰器利用光流修复几何扭曲。该方法生成了视角一致且几何准确的3D场景。",
+          "llm_evidence_en": "3D scene generation with text-to-3D framework using multi-view diffusion",
+          "llm_evidence_cn": "基于文本的3D场景生成，使用多视角扩散模型",
+          "llm_evidence": "基于文本的3D场景生成，使用多视角扩散模型",
+          "canonical_evidence": "基于文本的3D场景生成，使用多视角扩散模型",
+          "llm_tldr_en": "CGGS proposes a text-to-3D framework for ego-centric scene generation, enhancing 3D-awareness and geometric consistency via a multi-view latent diffusion model and layout decorator.",
+          "llm_tldr_cn": "CGGS针对以自我为中心的3D场景生成中存在视角重叠有限和几何失真问题，提出了一种文本到3D的框架。该方法通过微调多视角潜在扩散模型并引入一致性增强损失生成高质量2D内容，再利用布局装饰器优化几何结构。实验表明，该方法在生成视角一致且几何准确的3D场景方面优于现有方法，为自动驾驶和VR应用提供了新思路。",
+          "llm_tldr": "CGGS针对以自我为中心的3D场景生成中存在视角重叠有限和几何失真问题，提出了一种文本到3D的框架。该方法通过微调多视角潜在扩散模型并引入一致性增强损失生成高质量2D内容，再利用布局装饰器优化几何结构。实验表明，该方法在生成视角一致且几何准确的3D场景方面优于现有方法，为自动驾驶和VR应用提供了新思路。",
           "llm_tags": [
             "query:dm"
           ],
@@ -264,38 +264,37 @@
           "carry_days": 1
         },
         {
-          "id": "2607.05493v1",
+          "id": "2606.29513v1",
           "source": "arxiv",
-          "title": "Ground3D-LMM: Fine-Grained 3D Point Grounding and Spatial Reasoning with LMM",
-          "abstract": "Natural-language queries about 3D environments become actionable when responses are verifiable and metric. Verifiability requires explicit grounding to the referred 3D region, while metric answers report physical measurements in real-world units (e.g., size, thickness, clearance, and distance). Existing 3D large multimodal models (LMMs) approaches remain limited: conversational systems typically respond without explicit 3D grounding, while 3D grounding models are not designed for interactive, metric-aware dialogue. In this paper, we present Ground3D-LMM, a unified model that takes a point cloud and an optional RGB image as input and supports 3D spatial conversation with (i) point-grounded responses and (ii) metric numeric outputs at both object and part granularity, including multi-object queries. To evaluate this intersection of grounding and measurement, we define the 3D Grounded Measurement task, which requires predicting the referred 3D region and the corresponding metric quantities in real-world units. We introduce a large-scale dataset built on ScanNet and ScanNet++ datasets with dense object and part annotations and roughly 2.5M question-answer pairs spanning eight tasks, along with a manually verified test set. Extensive experiments on multiple datasets and tasks show that our proposed Ground3D-LMM model provides a strong baseline for grounded, metric-aware 3D conversational understanding. Our dataset and model are publicly available.",
+          "title": "Scenes as Objects, Not Primitives: Instance-Structured 3D Tokenization from Unposed Views",
+          "abstract": "A 3D scene is understood through its objects, not the primitives that compose them. Yet feed-forward reconstruction methods output dense, unstructured sets of points or Gaussians, leaving object-level structure to be recovered after the fact. We propose a feed-forward framework that decomposes a scene into instance-structured 3D token groups directly from unposed multi-view images -- compact object-centric units from which reconstruction, segmentation, and manipulation all follow. Each token group pairs an instance token capturing entity-level identity with anchor tokens that encode local geometry and appearance, which are decoded into a set of 3D Gaussians. This two-level factorization decouples object identity from local appearance, making object instances a native interface of the representation rather than a derived product. The token groups are learned through differentiable rendering with joint reconstruction and segmentation supervision, requiring no 3D annotations. Our feed-forward model surpasses per-scene optimization baselines in class-agnostic instance segmentation while remaining competitive in novel view synthesis. Beyond these metrics, the same token groups directly unlock instance-level scene editing -- removing, translating, or inserting objects by operating on their groups -- as well as efficient open-vocabulary 3D instance retrieval, where retrieval complexity scales with the number of instances rather than primitives.",
           "authors": [
-            "Amol Harsh",
-            "Zongyan Han",
-            "Jean Lahoud",
-            "Ye Liu",
-            "Rao Muhammad Anwer",
-            "Hisham Cholakkal",
-            "Salman Khan",
-            "Fahad Khan"
+            "Mijin Yoo",
+            "In Cho",
+            "Subin Jeon",
+            "Jiwoo Lee",
+            "Eunbyung Park",
+            "Seon Joo Kim"
           ],
           "primary_category": "cs.CV",
           "categories": [
-            "cs.CV"
+            "cs.CV",
+            "cs.GR"
           ],
-          "published": "2026-07-06T18:00:00+00:00",
-          "link": "https://arxiv.org/pdf/2607.05493v1",
+          "published": "2026-06-28T17:21:45+00:00",
+          "link": "https://arxiv.org/pdf/2606.29513v1",
           "tags": [
             "keyword:dm",
             "query:dm"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "fine-grained 3D point grounding and spatial reasoning with LMM",
-          "llm_evidence_cn": "基于大语言模型的细粒度三维点云定位与空间推理",
-          "llm_evidence": "基于大语言模型的细粒度三维点云定位与空间推理",
-          "canonical_evidence": "基于大语言模型的细粒度三维点云定位与空间推理",
-          "llm_tldr_en": "Ground3D-LMM unifies 3D point grounding and metric-aware dialogue in a single LMM for spatial conversation.",
-          "llm_tldr_cn": "针对现有3D大语言模型缺乏显式点云定位和度量回答的问题，提出Ground3D-LMM统一模型，以点云和可选RGB为输入，支持点定位响应和物理尺寸、距离等度量输出。在多个基准上验证了其精确的定位与推理能力，使3D空间对话更具可验证性和实用性。",
-          "llm_tldr": "针对现有3D大语言模型缺乏显式点云定位和度量回答的问题，提出Ground3D-LMM统一模型，以点云和可选RGB为输入，支持点定位响应和物理尺寸、距离等度量输出。在多个基准上验证了其精确的定位与推理能力，使3D空间对话更具可验证性和实用性。",
+          "llm_evidence_en": "instance-structured 3D tokenization from unposed views",
+          "llm_evidence_cn": "无姿态视图的实例化3D标记化",
+          "llm_evidence": "无姿态视图的实例化3D标记化",
+          "canonical_evidence": "无姿态视图的实例化3D标记化",
+          "llm_tldr_en": "Scenes as Objects proposes a feed-forward framework that decomposes a scene into object-centric 3D token groups from unposed multi-view images, enabling reconstruction, segmentation, and manipulation from the tokens.",
+          "llm_tldr_cn": "本文提出从无姿态多视图图像直接分解场景为实例结构的3D标记组，每个标记组包含实例标记和锚点标记，可解码为3D高斯。该方法同时实现重建、分割和编辑，在多个数据集上展示了强大的实例级场景理解能力。",
+          "llm_tldr": "本文提出从无姿态多视图图像直接分解场景为实例结构的3D标记组，每个标记组包含实例标记和锚点标记，可解码为3D高斯。该方法同时实现重建、分割和编辑，在多个数据集上展示了强大的实例级场景理解能力。",
           "llm_tags": [
             "query:dm"
           ],
@@ -303,7 +302,44 @@
           "matched_query_text": "3D generation and understanding",
           "matched_requirement_id": "req-3",
           "selection_source": "carryover_cache",
-          "paper_id": "2607.05493v1",
+          "paper_id": "2606.29513v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.01708v1",
+          "source": "arxiv",
+          "title": "Consistent Scene Understanding in 3D Gaussian Splatting via Multi-Cue Mask Refinement",
+          "abstract": "Reliable instance-level scene understanding is a fundamental prerequisite for object-level interactions and high-fidelity 3D representations. While current methods often leverage 2D foundation segmentation models to obtain these priors, their 2D-centric design typically yields fragmented masks and inconsistent predictions across different views. To address these issues, we propose a novel framework that produces consistent 2D instance masks to guide the optimization of 3D Gaussian Splatting (3DGS) feature fields. Our framework consists of three main stages. (1) Multi-Cue Extraction that generates synergistic semantic, geometric, and structural priors from input images. (2) Multi-Cue-Guided Mask Merging process that consolidates fragmented masks using a composite merge score derived from semantic, depth, and edge cues. (3) Cross-View Mask Matching that establishes globally consistent identity assignments across all viewpoints. By transforming viewpoint-specific segments into coherent 3D primitives, our approach enables stable 3D instance segmentation and effective downstream editing tasks. Experiments demonstrate that our method significantly improves cross-view consistency and segmentation stability over existing baselines while maintaining high-fidelity photometric reconstruction.",
+          "authors": [
+            "Hyunjoon Park",
+            "Donghyeon Cho"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-02T05:00:38+00:00",
+          "link": "https://arxiv.org/pdf/2607.01708v1",
+          "tags": [
+            "keyword:dm",
+            "query:dm"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "consistent scene understanding in 3DGS via multi-cue mask refinement",
+          "llm_evidence_cn": "通过多线索掩码细化实现3D高斯泼溅中的一致场景理解",
+          "llm_evidence": "通过多线索掩码细化实现3D高斯泼溅中的一致场景理解",
+          "canonical_evidence": "通过多线索掩码细化实现3D高斯泼溅中的一致场景理解",
+          "llm_tldr_en": "Proposes a framework producing consistent 2D instance masks to guide 3DGS feature field optimization. Uses multi-cue extraction (semantic, geometric, structural) and mask merging to resolve fragmentation and cross-view inconsistency in 2D segmentation priors.",
+          "llm_tldr_cn": "现有2D基础分割模型提供的先验在3D场景中常出现片段化和跨视图不一致。本文提出多线索引导的掩码细化流程：从输入图像提取语义、几何和结构先验，合并碎片化掩码，并生成一致掩码以优化3DGS特征场。实验表明该方法提升了实例分割和场景理解的准确性与一致性。该工作增强了3DGS的语义能力。",
+          "llm_tldr": "现有2D基础分割模型提供的先验在3D场景中常出现片段化和跨视图不一致。本文提出多线索引导的掩码细化流程：从输入图像提取语义、几何和结构先验，合并碎片化掩码，并生成一致掩码以优化3DGS特征场。实验表明该方法提升了实例分割和场景理解的准确性与一致性。该工作增强了3DGS的语义能力。",
+          "llm_tags": [
+            "query:dm"
+          ],
+          "matched_query_tag": "query:dm",
+          "matched_query_text": "3D generation and understanding",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.01708v1",
           "carry_days": 1
         }
       ]

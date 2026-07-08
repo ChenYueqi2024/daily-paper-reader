@@ -1,0 +1,831 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-08T12:43:40.421225+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 22,
+    "deep_cap": 6,
+    "deep_selected": 9,
+    "quick_candidates": 25,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2606.11805v1",
+      "source": "arxiv",
+      "title": "TextHOI-3D: Text-to-3D Hand-Object Interaction via Discrete Multi-View Generation and Joint Mesh Optimization",
+      "abstract": "Text-conditioned 3D generation has progressed rapidly for images and isolated objects, but producing a hand-object mesh remains challenging: the output must preserve language semantics, cross-view consistency, object geometry, articulated hand shape, and physically plausible contact. We present TextHOI-3D, a staged framework that uses generated multi-view observations as an explicit interface between text-conditioned visual generation and geometry-aware hand-object recovery. TextHOI-3D learns a compact VQ token space for fixed-camera hand-object observations, predicts multi-view visual tokens from text with a CLIP-conditioned visual autoregressive model, and recovers a unified hand-object mesh through prior initialization, multi-view joint optimization, and anti-penetration refinement. The design separates semantic generation from geometric recovery while keeping both stages connected by a discrete multi-view representation. On HO3D-derived evaluations, the multi-view setting reduces object CD from 17.26 mm to 4.92 mm and penetration volume from 5.3721 cm^3 to 0.2193 cm^3 compared with a single-view counterpart, while improving hand errors and surface F-scores. These results support multi-view visual tokens as an effective intermediate representation for text-driven 3D hand-object mesh creation.",
+      "authors": [
+        "Zixiong Hao",
+        "Zhencun Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T08:38:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.11805v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "text-to-3D hand-object interaction generation",
+      "llm_evidence_cn": "文本到3D手物交互生成",
+      "llm_evidence": "文本到3D手物交互生成",
+      "canonical_evidence": "文本到3D手物交互生成",
+      "llm_tldr_en": "TextHOI-3D generates 3D hand-object meshes from text by learning a VQ token space for multi-view hand-object observations and recovering unified mesh via prior initialization and joint optimization. Combines visual autoregressive model with geometry-aware refinement.",
+      "llm_tldr_cn": "文本条件3D生成通常聚焦于孤立物体，生成手物交互网格面临语义、跨视图一致性、手部姿态和物理接触等多重挑战。本文提出TextHOI-3D，学习手物观察的VQ令牌空间，从文本预测多视图令牌，再通过先验初始化与联合优化恢复手物网格。实验显示生成结果在语义对齐和几何合理性上优于现有方法。该工作推动了文本驱动3D交互内容生成。",
+      "llm_tldr": "文本条件3D生成通常聚焦于孤立物体，生成手物交互网格面临语义、跨视图一致性、手部姿态和物理接触等多重挑战。本文提出TextHOI-3D，学习手物观察的VQ令牌空间，从文本预测多视图令牌，再通过先验初始化与联合优化恢复手物网格。实验显示生成结果在语义对齐和几何合理性上优于现有方法。该工作推动了文本驱动3D交互内容生成。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20131v2",
+      "source": "arxiv",
+      "title": "TriFlow: Generating Artist-Like 3D Mesh Topology via Nearest-Vertex Vector Fields",
+      "abstract": "We present TriFlow, a new generative approach for producing compact 3D meshes with artist-like triangle topology directly from input geometry conditions such as signed distance fields. Our key insight is to represent mesh topology as a nearest-vertex vector field (NVF) defined over the surface, where each point encodes its association to the nearest triangle vertex in the local barycentric frame. We train a latent flow-matching model to synthesize this field, enabling topology generation conditioned on the input geometry. To extract a coherent mesh, we cluster surface regions using the generated NVF and guide a constrained quadric error metric (QEM) mesh simplification with topology-aware optimization. This yields output meshes that closely match the input geometry while exhibiting structured, artist-like connectivity. Experiments demonstrate that TriFlow achieves stronger generalization and significantly improved topology quality compared to state-of-the-art learning-based approaches, alongside 90% lower Chamfer Distance and an 8x speedup.",
+      "authors": [
+        "Haoxuan Li",
+        "Ziya Erkoç",
+        "Daniele Sirigatti",
+        "Vladislav Rosov",
+        "Lei Li",
+        "Angela Dai",
+        "Matthias Nießner"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-18T11:55:00+00:00",
+      "link": "https://arxiv.org/pdf/2606.20131v2",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generating artist-like 3D mesh topology via nearest-vertex vector fields",
+      "llm_evidence_cn": "通过最近顶点向量场生成艺术家风格3D网格拓扑",
+      "llm_evidence": "通过最近顶点向量场生成艺术家风格3D网格拓扑",
+      "canonical_evidence": "通过最近顶点向量场生成艺术家风格3D网格拓扑",
+      "llm_tldr_en": "TriFlow generates compact 3D meshes with artist-like triangle topology from geometry conditions. Learns a flow-matching model on nearest-vertex vector fields (NVF) over the surface, then extracts mesh via clustering and topology-aware simplification. Produces high-quality meshes with reduced triangles.",
+      "llm_tldr_cn": "3D网格生成通常忽略拓扑质量，导致网格三角面冗余。本文提出TriFlow，将网格拓扑表示为表面上的最近顶点向量场，训练潜在流匹配模型生成该场，再通过聚类和拓扑感知简化提取网格。生成的网格具有类似艺术家的紧凑拓扑，在保持几何精度的同时显著减少三角形数量。该工作为高质量3D网格生成提供了新途径。",
+      "llm_tldr": "3D网格生成通常忽略拓扑质量，导致网格三角面冗余。本文提出TriFlow，将网格拓扑表示为表面上的最近顶点向量场，训练潜在流匹配模型生成该场，再通过聚类和拓扑感知简化提取网格。生成的网格具有类似艺术家的紧凑拓扑，在保持几何精度的同时显著减少三角形数量。该工作为高质量3D网格生成提供了新途径。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24206v1",
+      "source": "arxiv",
+      "title": "Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation",
+      "abstract": "Recent breakthroughs in 3D generation have advanced notably with the development of text-to-image diffusion model. However, existing methods remain two practical challenges: (1) They primarily generate single 3D object, but struggle to generate multi-object compositional 3D assets due to the lack of the modeling for Gaussian primitives in reasonable interactions. (2) They often suffer from cross-view inconsistency during 3D optimization, as Score Distillation Sampling inherently performs on each single view, inevitably resulting in cross-view hallucinations. To solve above issues, we propose I2C-3D, a novel optimization-based method to generate multi-view consistent compositional 3D assets with reasonable interactions. Specifically, we propose an Inclusive Interactive Collisions strategy to guide Gaussian primitives appearing in reasonable interaction regions naturally, thereby ensuring objects in the compositional scene interact in a physically plausible and visually coherent way. Additionally, to enhance multi-view consistency, Multi-View Adaptive Score Distillation Sampling is devised to distill multi-view consistency prior and layout prior from pre-trained diffusion model by modulating attention map of instance token and spatial token across viewpoints. Benefiting from above elaborate designs, I2C-3D not only generates high-fidelity multi-view consistent compositional 3D assets but also supports 3D editing flexibly, facilitating complex scene generation. Extensive experiments demonstrate our I2C-3D outperforms existing methods in generation quality and multi-view consistency.",
+      "authors": [
+        "Chang Liu",
+        "Mingwen Shao",
+        "Xiang Lv",
+        "Xinyuan Chen",
+        "Lingzhuang Meng",
+        "Qiao Zhang",
+        "Zhengyi Gong",
+        "Jinghao Hu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-23T06:48:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.24206v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multi-view consistent compositional 3D generation",
+      "llm_evidence_cn": "多视图一致的组合3D生成",
+      "llm_evidence": "多视图一致的组合3D生成",
+      "canonical_evidence": "多视图一致的组合3D生成",
+      "llm_tldr_en": "Proposes I2C-3D for multi-view consistent compositional 3D generation with reasonable interactions using Gaussian primitives and score distillation sampling.",
+      "llm_tldr_cn": "针对现有3D生成方法无法生成多物体组合3D资产且存在跨视图不一致的问题，本文提出I2C-3D，一种基于优化的方法，通过建模高斯原语的碰撞交互实现多视图一致的组合3D生成，实验证明了其在生成高质量组合3D资产方面的有效性。",
+      "llm_tldr": "针对现有3D生成方法无法生成多物体组合3D资产且存在跨视图不一致的问题，本文提出I2C-3D，一种基于优化的方法，通过建模高斯原语的碰撞交互实现多视图一致的组合3D生成，实验证明了其在生成高质量组合3D资产方面的有效性。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24257v1",
+      "source": "arxiv",
+      "title": "3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis",
+      "abstract": "High-quality 3D vehicle assets are essential for autonomous driving simulation. Although multi-view diffusion-based paradigms enable controllable single-image reconstruction, they typically produce limited viewpoints and exhibit cross-view geometric inconsistencies, thereby reducing reconstruction fidelity in real-world scenarios. In this work, we introduce 3DCarGen, a scalable single-view 3D car generation framework designed for real-world images by synthesizing an arbitrary number of 3D-consistent multi-view images. Specifically, given a single image as input, we first synthesize a set of images from fixed viewpoints. These images are then fed into a feed-forward reconstruction model, resulting in a coarse 3D representation based on 3D Gaussian Splatting. Conditioned on this explicit 3D prior, our multi-view diffusion model generates 3D-consistent images from arbitrary camera viewpoints. We further extend a fast mesh reconstruction algorithm by incorporating color-normal joint optimization to recover detailed and coherent 3D vehicle models from the synthesized dense views. Extensive experiments on synthetic and real-world datasets demonstrate that our approach achieves robust geometric consistency and reconstruction fidelity compared to existing methods. Code and models will be released.",
+      "authors": [
+        "Hongli Xiao",
+        "Youjian Zhang",
+        "Yaohui Jin",
+        "Xiaoguang Ren",
+        "Wenjing Yang",
+        "Long Lan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T07:44:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.24257v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "single-view 3D car generation via multi-view synthesis",
+      "llm_evidence_cn": "单视图3D汽车生成通过多视图合成",
+      "llm_evidence": "单视图3D汽车生成通过多视图合成",
+      "canonical_evidence": "单视图3D汽车生成通过多视图合成",
+      "llm_tldr_en": "3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis proposes a framework that synthesizes multiple consistent views from a single image to reconstruct high-quality 3D car assets for autonomous driving simulation.",
+      "llm_tldr_cn": "针对自动驾驶仿真中高质量3D车辆资产需求，现有单图像重建方法存在视角有限和几何不一致问题。本文提出3DCarGen，从单张图像合成任意数量3D一致的多视图图像，再经前馈重建模型得到3D高斯表示。实验在真实图像上验证了其跨视角几何一致性和重建保真度，为3D汽车生成提供可扩展解决方案。",
+      "llm_tldr": "针对自动驾驶仿真中高质量3D车辆资产需求，现有单图像重建方法存在视角有限和几何不一致问题。本文提出3DCarGen，从单张图像合成任意数量3D一致的多视图图像，再经前馈重建模型得到3D高斯表示。实验在真实图像上验证了其跨视角几何一致性和重建保真度，为3D汽车生成提供可扩展解决方案。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24257v2",
+      "source": "arxiv",
+      "title": "3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis",
+      "abstract": "High-quality 3D vehicle assets are essential for autonomous driving simulation. Although multi-view diffusion-based paradigms enable controllable single-image reconstruction, they typically produce limited viewpoints and exhibit cross-view geometric inconsistencies, thereby reducing reconstruction fidelity in real-world scenarios. In this work, we introduce 3DCarGen, a scalable single-view 3D car generation framework designed for real-world images by synthesizing an arbitrary number of 3D-consistent multi-view images. Specifically, given a single image as input, we first synthesize a set of images from fixed viewpoints. These images are then fed into a feed-forward reconstruction model, resulting in a coarse 3D representation based on 3D Gaussian Splatting. Conditioned on this explicit 3D prior, our multi-view diffusion model generates 3D-consistent images from arbitrary camera viewpoints. We further extend a fast mesh reconstruction algorithm by incorporating color-normal joint optimization to recover detailed and coherent 3D vehicle models from the synthesized dense views. Extensive experiments on synthetic and real-world datasets demonstrate that our approach achieves robust geometric consistency and reconstruction fidelity compared to existing methods. Project page: https://honglixiao.github.io/3dcargen.github.io/.",
+      "authors": [
+        "Hongli Xiao",
+        "Youjian Zhang",
+        "Yaohui Jin",
+        "Xiaoguang Ren",
+        "Wenjing Yang",
+        "Long Lan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T07:44:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.24257v2",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "scalable 3D car generation from single image via multi-view synthesis",
+      "llm_evidence_cn": "基于单张图像通过多视图合成生成可缩放3D汽车",
+      "llm_evidence": "基于单张图像通过多视图合成生成可缩放3D汽车",
+      "canonical_evidence": "基于单张图像通过多视图合成生成可缩放3D汽车",
+      "llm_tldr_en": "3DCarGen generates high-quality 3D car models from a single image by synthesizing arbitrary number of 3D-consistent multi-view images. Uses feed-forward reconstruction with 3D Gaussians, achieving superior geometric consistency for autonomous driving simulation.",
+      "llm_tldr_cn": "单视图3D重建存在视角有限和跨视角不一致问题。本文提出3DCarGen，从单张图像合成任意数量的3D一致多视图，再通过前馈重建获得3D高斯表示。实验表明，该方法在真实图像上生成的3D汽车模型具有高保真度和几何一致性。该工作为自动驾驶仿真提供可扩展的3D资产生成方案。",
+      "llm_tldr": "单视图3D重建存在视角有限和跨视角不一致问题。本文提出3DCarGen，从单张图像合成任意数量的3D一致多视图，再通过前馈重建获得3D高斯表示。实验表明，该方法在真实图像上生成的3D汽车模型具有高保真度和几何一致性。该工作为自动驾驶仿真提供可扩展的3D资产生成方案。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27923v1",
+      "source": "arxiv",
+      "title": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design",
+      "abstract": "We present Home3D 1.0, a modular image-to-3D generation system that produces high-quality 3D assets from a single reference image, targeting interior design and e-commerce applications. Given a photograph of a furniture or decor item, the system outputs a mesh with physically-based rendering (PBR) materials, and the mesh can be decomposed into material-specific components. The pipeline is organized into four tightly coupled modules: Geometry reconstructs a watertight mesh through latent SDF modelling with a geometry VAE and a coarse-to-fine flow-matching DiT; Texture predicts multiview albedo observations, reprojects them onto the mesh, and completes unseen surface regions with a 3D texture field; Material uses MatWeaver to obtain component masks through video-based segmentation and UV-space voting, then retrieves and bakes PBR maps from a curated material library through hierarchical multi-modal matching; and Parts generates material-editable semantic part meshes with a PartVAE and PartDiT, decoding multi-head part-specific SDF fields in one pass. Each module is evaluated independently with dedicated metrics, highlighting both the current system capability and the remaining gaps toward broader deployment.",
+      "authors": [
+        "Yiyun Fei",
+        "Guoqiu Li",
+        "Jin Song",
+        "Chuqiao Wu",
+        "Delong Wu",
+        "Hong Wu",
+        "Ziru Zeng",
+        "Haohui Chen",
+        "YinDong Kong",
+        "Jing Li",
+        "Qi Wu",
+        "Feng Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-26T10:15:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.27923v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "image-to-3D asset generation with PBR materials",
+      "llm_evidence_cn": "图像到3D资产生成",
+      "llm_evidence": "图像到3D资产生成",
+      "canonical_evidence": "图像到3D资产生成",
+      "llm_tldr_en": "Home3D 1.0 is a modular system that generates high-fidelity 3D assets with PBR materials from a single reference image, using geometry VAE and flow-matching DiT for reconstruction, multiview texture prediction, and material decomposition.",
+      "llm_tldr_cn": "Home3D 1.0是一个模块化系统，从单张参考图像生成高保真3D资产（含PBR材质）。它通过几何VAE和流匹配DiT重建水密网格，预测多视角纹理并补全，最后分解材质。实验表明其输出的网格可用于室内设计，兼顾质量与效率。",
+      "llm_tldr": "Home3D 1.0是一个模块化系统，从单张参考图像生成高保真3D资产（含PBR材质）。它通过几何VAE和流匹配DiT重建水密网格，预测多视角纹理并补全，最后分解材质。实验表明其输出的网格可用于室内设计，兼顾质量与效率。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27923v2",
+      "source": "arxiv",
+      "title": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design",
+      "abstract": "We present Home3D 1.0, a modular image-to-3D generation system that produces high-quality 3D assets from a single reference image, targeting interior design and e-commerce applications. Given a photograph of a furniture or decor item, the system outputs a mesh with physically-based rendering (PBR) materials, and the mesh can be decomposed into material-specific components. The pipeline is organized into four tightly coupled modules: Geometry reconstructs a watertight mesh through latent SDF modelling with a geometry VAE and a coarse-to-fine flow-matching DiT; Texture predicts multiview albedo observations, reprojects them onto the mesh, and completes unseen surface regions with a 3D texture field; Material uses MatWeaver to obtain component masks through video-based segmentation and UV-space voting, then retrieves and bakes PBR maps from a curated material library through hierarchical multi-modal matching; and Parts generates material-editable semantic part meshes with a PartVAE and PartDiT, decoding multi-head part-specific SDF fields in one pass. Each module is evaluated independently with dedicated metrics, highlighting both the current system capability and the remaining gaps toward broader deployment.",
+      "authors": [
+        "Yiyun Fei",
+        "Guoqiu Li",
+        "Jin Song",
+        "Chuqiao Wu",
+        "Delong Wu",
+        "Hong Wu",
+        "Ziru Zeng",
+        "Haohui Chen",
+        "Yindong Kong",
+        "Jing Li",
+        "Qi Wu",
+        "Feng Zhang",
+        "Jianan Jiang",
+        "Ruigao Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-26T10:15:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.27923v2",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "image-to-3D asset generation for interior design",
+      "llm_evidence_cn": "面向室内设计的图像到3D资产生成",
+      "llm_evidence": "面向室内设计的图像到3D资产生成",
+      "canonical_evidence": "面向室内设计的图像到3D资产生成",
+      "llm_tldr_en": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design presents a modular system that from a single photo produces a 3D mesh with PBR materials, using geometry VAE, flow-matching DiT, and material decomposition.",
+      "llm_tldr_cn": "室内设计和电商需要从单张照片生成高质量3D资产，但现有方法在几何和材质上表现不足。本文提出Home3D 1.0，采用四模块流水线：几何VAE与流匹配DiT重建水密网格，纹理预测多视角反照率，材质分解为PBR组件。实验展示了高保真重建和材质分离能力，可直接用于渲染和编辑。",
+      "llm_tldr": "室内设计和电商需要从单张照片生成高质量3D资产，但现有方法在几何和材质上表现不足。本文提出Home3D 1.0，采用四模块流水线：几何VAE与流匹配DiT重建水密网格，纹理预测多视角反照率，材质分解为PBR组件。实验展示了高保真重建和材质分离能力，可直接用于渲染和编辑。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06534v1",
+      "source": "arxiv",
+      "title": "CAIRN: Cross-Room 3D Scene Understanding with Topology-Aware Large Multimodal Models",
+      "abstract": "Existing 3D scene-grounded Large Language Models (3D-LLMs) focus on answering questions grounded in simplified single-room 3D scenes, lacking the ability to reason over real-world household environments containing multiple interconnected rooms and diverse object categories. We introduce CAIRN, a topology-aware 3D-LLM for multi-room 3D scene understanding. CAIRN aligns transformer attention with scene hierarchy, giving the model explicit awareness of object-level relations and room-level connectivity. It enriches object tokens with room-local relational context via a graph neural network, introduces learned room tokens for room-level abstraction, and applies a hierarchical attention mask with geometric bias to route information according to scene topology. CAIRN is developed on CAIRN-MR, a benchmark we introduce on HM3D for multi-room 3D scene understanding, covering grounding, captioning, and four question-answering tasks that progressively evaluate from intra-room perception to cross-room reasoning. Experiments show that CAIRN outperforms prior 3D-LLMs by a large margin across all CAIRN-MR tasks while remaining competitive on five single-room benchmarks.",
+      "authors": [
+        "He Liang",
+        "Chenyang Ma",
+        "Yiming Zhang",
+        "Sangyun Shin",
+        "Andrew Markham",
+        "Niki Trigoni",
+        "Yuhang He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-07T17:39:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.06534v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "cross-room 3D scene understanding with topology-aware multimodal LLM",
+      "llm_evidence_cn": "跨房间3D场景理解与拓扑感知多模态大模型",
+      "llm_evidence": "跨房间3D场景理解与拓扑感知多模态大模型",
+      "canonical_evidence": "跨房间3D场景理解与拓扑感知多模态大模型",
+      "llm_tldr_en": "CAIRN extends 3D-LLMs to multi-room environments by aligning transformer attention with scene hierarchy, using graph neural networks and room tokens for topology-aware understanding. Experiments show significant gains in multi-room question answering.",
+      "llm_tldr_cn": "现有3D-LLM局限于单房间场景，无法处理真实家庭环境中的多房间推理。本文提出CAIRN，一种拓扑感知的3D-LLM，通过将transformer注意与场景层次对齐，利用图神经网络丰富房间局部关系，并引入房间令牌实现房间级抽象。实验表明，CAIRN在多房间问答任务上显著优于基线模型。该工作推进了3D场景理解在复杂住宅环境中的应用。",
+      "llm_tldr": "现有3D-LLM局限于单房间场景，无法处理真实家庭环境中的多房间推理。本文提出CAIRN，一种拓扑感知的3D-LLM，通过将transformer注意与场景层次对齐，利用图神经网络丰富房间局部关系，并引入房间令牌实现房间级抽象。实验表明，CAIRN在多房间问答任务上显著优于基线模型。该工作推进了3D场景理解在复杂住宅环境中的应用。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06565v1",
+      "source": "arxiv",
+      "title": "ELSA3D: Elastic Semantic Anchoring for Unified 3D Understanding and Generation",
+      "abstract": "Unified 3D foundation models aspire to generate 3D assets and reason about them in language within a single backbone, but their text-3D interaction remains largely implicit. Existing methods concatenate text and 3D tokens into a flat sequence and rely on self-attention, collapsing coarse structural cues and fine geometric details into one undifferentiated representation. We introduce ELSA3D, a unified 3D model that addresses this with elastic semantic anchoring, structuring language and geometric reasoning jointly along matched abstraction scales. ELSA3D represents geometry with a scale-aware octree tokenizer and introduces Anchor Tokens, sparse cross-modal units that select semantic cues, route them to the most relevant 3D scale, retrieve scale-specific geometric evidence, and write the fused signal back into the unified representation, keeping interaction sparse yet precise. A lightweight per-block router makes both computation and reasoning elastic, choosing which text tokens instantiate anchors at which geometric scale so that cross-modal capacity concentrates where alignment is most needed. ELSA3D achieves state-of-the-art performance across image-to-3D generation, text-to-3D generation, and 3D captioning, outperforming the strongest unified baseline while roughly halving FLOPs and inference latency relative to the non-elastic version of the same model.",
+      "authors": [
+        "Tianjiao Yu",
+        "Xinzhuo Li",
+        "Yifan Shen",
+        "Onkar Susladkar",
+        "Yuanzhe Liu",
+        "Xiaona Zhou",
+        "Ismini Lourentzou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-07T17:59:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.06565v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Unified model for both 3D understanding and generation with elastic semantic anchoring",
+      "llm_evidence_cn": "通过弹性语义锚定统一3D理解与生成",
+      "llm_evidence": "通过弹性语义锚定统一3D理解与生成",
+      "canonical_evidence": "通过弹性语义锚定统一3D理解与生成",
+      "llm_tldr_en": "ELSA3D is a unified 3D model that jointly handles generation and understanding via elastic semantic anchoring, linking language and geometry at appropriate abstraction scales.",
+      "llm_tldr_cn": "ELSA3D针对现有统一3D模型文本-3D交互隐式、细节混合的问题，提出弹性语义锚定框架。使用尺度感知八叉树分词器表示几何，引入锚点标记实现跨模态尺度匹配，在单一骨干中同时支持生成和语言推理。实验在多个生成和理解任务上取得优异性能，为3D基础模型设计提供了新范式。",
+      "llm_tldr": "ELSA3D针对现有统一3D模型文本-3D交互隐式、细节混合的问题，提出弹性语义锚定框架。使用尺度感知八叉树分词器表示几何，引入锚点标记实现跨模态尺度匹配，在单一骨干中同时支持生成和语言推理。实验在多个生成和理解任务上取得优异性能，为3D基础模型设计提供了新范式。",
+      "llm_tags": [
+        "query:dm:composite"
+      ],
+      "matched_query_tag": "query:dm:composite",
+      "matched_query_text": "Papers central to 请帮我查找有关3D生成与理解、世界模型的论文, especially work that connects or combines: 3; Visual Geometry Grounded Transformer; 3D generation and understanding.",
+      "matched_requirement_id": "req-composite-dm",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.11152v2",
+      "source": "arxiv",
+      "title": "P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning",
+      "abstract": "Multimodal large language models can write code to produce complex programs as well as use programs to do 3D modeling, which opens up a new avenue for 3D generation powered by their priors, world knowledge and reasoning. Yet existing benchmarks rarely evaluate 3D modeling through code. Such modeling demands more than runnable code: from a text or visual specification, a model must generate a parametric 3D program that is geometrically precise, semantically aligned and assembly-consistent. We introduce P3D-Bench, a benchmark for parametric 3D generation. Unlike a 3D mesh, a parametric 3D program exposes explicit dimensions, construction operations and part relations, revealing whether a model recovers a design's structure, not just its appearance. Under a unified protocol, P3D-Bench covers three task families (Text-to-3D, Image-to-3D and Assembly-3D) and scores each output for executability, geometric fidelity, topology, text-grounded constraints, multiview semantic alignment and part-level structure. We evaluate frontier MLLMs and text-only LLMs on 400 text cases, 400 image cases and 203 annotated assemblies, with domain-specific models as reference points. Our extensive evaluation yields three findings. First, assemblies are the hardest setting, where models still fail to compose multiple parts into a coherent structure. Second, models can often recover the global shape and semantic identity of the target object, yet fail to reproduce the precise parametric geometry specified by the input. Third, part-level modeling remains weak on assemblies, where models recover neither the geometry of each part nor the right number of parts. These results position P3D-Bench as a benchmark for evaluating precise parametric geometry and part-level structure in parametric 3D generation.",
+      "authors": [
+        "Yikang Yang",
+        "Zhanpeng Hu",
+        "Youtian Lin",
+        "Mengqi Zhou",
+        "Jingxi Xu",
+        "Feihu Zhang",
+        "Jiaheng Liu",
+        "Yao Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T17:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.11152v2",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "benchmark for parametric 3D generation and structural reasoning with MLLMs",
+      "llm_evidence_cn": "针对多模态大语言模型的参数化3D生成与结构推理基准",
+      "llm_evidence": "针对多模态大语言模型的参数化3D生成与结构推理基准",
+      "canonical_evidence": "针对多模态大语言模型的参数化3D生成与结构推理基准",
+      "llm_tldr_en": "P3D-Bench evaluates MLLMs on generating parametric 3D programs from text/visual input, testing geometric precision, semantic alignment, and assembly consistency. Reveals strengths and weaknesses of current models in structural understanding.",
+      "llm_tldr_cn": "多模态大语言模型能通过代码进行3D建模，但缺乏针对参数化3D生成的评估标准。本文提出P3D-Bench，要求模型从文本或视觉输入生成几何精确、语义对齐且组装一致的参数化3D程序。基准测试揭示现有模型在结构推理上的不足，为未来研究提供方向。该工作弥合了3D生成与代码智能的评估鸿沟。",
+      "llm_tldr": "多模态大语言模型能通过代码进行3D建模，但缺乏针对参数化3D生成的评估标准。本文提出P3D-Bench，要求模型从文本或视觉输入生成几何精确、语义对齐且组装一致的参数化3D程序。基准测试揭示现有模型在结构推理上的不足，为未来研究提供方向。该工作弥合了3D生成与代码智能的评估鸿沟。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.11152v1",
+      "source": "arxiv",
+      "title": "P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning",
+      "abstract": "Multimodal large language models can write code to produce complex programs as well as use programs to do 3D modeling, which opens up a new avenue for 3D generation powered by their priors, world knowledge and reasoning. Yet existing benchmarks rarely evaluate 3D modeling through code. Such modeling demands more than runnable code: from a text or visual specification, a model must generate a parametric 3D program that is geometrically precise, semantically aligned and assembly-consistent. We introduce P3D-Bench, a benchmark for parametric 3D generation. Unlike a 3D mesh, a parametric 3D program exposes explicit dimensions, construction operations and part relations, revealing whether a model recovers a design's structure, not just its appearance. Under a unified protocol, P3D-Bench covers three task families (Text-to-3D, Image-to-3D and Assembly-3D) and scores each output for executability, geometric fidelity, topology, text-grounded constraints, multiview semantic alignment and part-level structure. We evaluate frontier MLLMs and text-only LLMs on 400 text cases, 400 image cases and 203 annotated assemblies, with domain-specific models as reference points. Our extensive evaluation yields three findings. First, assemblies are the hardest setting, where models still fail to compose multiple parts into a coherent structure. Second, models can often recover the global shape and semantic identity of the target object, yet fail to reproduce the precise parametric geometry specified by the input. Third, part-level modeling remains weak on assemblies, where models recover neither the geometry of each part nor the right number of parts. These results position P3D-Bench as a benchmark for evaluating precise parametric geometry and part-level structure in parametric 3D generation.",
+      "authors": [
+        "Yikang Yang",
+        "Zhanpeng Hu",
+        "Youtian Lin",
+        "Mengqi Zhou",
+        "Jingxi Xu",
+        "Feihu Zhang",
+        "Jiaheng Liu",
+        "Yao Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T17:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.11152v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "benchmark for parametric 3D generation via code with structural reasoning",
+      "llm_evidence_cn": "参数化3D生成基准测试",
+      "llm_evidence": "参数化3D生成基准测试",
+      "canonical_evidence": "参数化3D生成基准测试",
+      "llm_tldr_en": "P3D-Bench evaluates MLLMs on generating parametric 3D programs from text/visual input, assessing geometric precision, semantic alignment, and assembly consistency beyond appearance.",
+      "llm_tldr_cn": "P3D-Bench评估多模态大模型通过代码生成参数化3D程序的能力，要求其输出精确几何、语义一致且部件关系正确。实验发现当前模型在结构推理上仍有很大提升空间，为3D生成研究提供了新测试平台。",
+      "llm_tldr": "P3D-Bench评估多模态大模型通过代码生成参数化3D程序的能力，要求其输出精确几何、语义一致且部件关系正确。实验发现当前模型在结构推理上仍有很大提升空间，为3D生成研究提供了新测试平台。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.11446v1",
+      "source": "arxiv",
+      "title": "3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling",
+      "abstract": "This research introduces a framework for incorporating Concept Bottleneck Models (CBMs) into 3D generative architectures to address the inherent 'semantic gap' in deep geometric learning. As deep models become central to 3D content creation, explainability shifts from a peripheral feature to a fundamental requirement for trust and accountability in safety-critical domains such as healthcare and manufacturing. CBMs provide an intrinsic interpretability solution by constraining latent representations to align with human-defined concepts, yet their application to unstructured 3D data remains largely unexplored.   We design, implement, and validate a formal 3D-CBM architecture that maps raw geometric inputs, including point clouds and meshes, into a multi-tiered taxonomy of interpretable primitives and functional attributes. The framework further identifies strategic datasets, such as PartNet and ShapeNet, specialized for concept-based supervision. Experimental results from a 3D part-manipulation proof-of-concept experiment demonstrate the framework's efficacy, achieving a concept prediction accuracy of 88.8\\% and a Chamfer Distance of 0.0115. Critically, the model enables precise test-time intervention, allowing for the interactive correction of structural errors. This work establishes a foundation for semantically-steerable 3D generation and invites further exploration into collaborative human-in-the-loop design systems.",
+      "authors": [
+        "Ahmad Al-Kabbany"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-09T20:57:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.11446v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "concept-based interpretability for generative 3D modeling",
+      "llm_evidence_cn": "生成式3D建模的概念级可解释性",
+      "llm_evidence": "生成式3D建模的概念级可解释性",
+      "canonical_evidence": "生成式3D建模的概念级可解释性",
+      "llm_tldr_en": "3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling introduces Concept Bottleneck Models into 3D generative architectures to align latent representations with human-defined concepts, addressing the semantic gap in deep geometric learning.",
+      "llm_tldr_cn": "生成式3D模型因缺乏可解释性在安全关键领域应用受限。本文首次将概念瓶颈模型（CBM）引入3D生成架构，将原始几何输入（点云、网格）映射到可解释概念空间，再生成3D形状。实验表明该方法在保持生成质量的同时提供概念级解释，为3D生成模型的信任与可问责性奠定了基础。",
+      "llm_tldr": "生成式3D模型因缺乏可解释性在安全关键领域应用受限。本文首次将概念瓶颈模型（CBM）引入3D生成架构，将原始几何输入（点云、网格）映射到可解释概念空间，再生成3D形状。实验表明该方法在保持生成质量的同时提供概念级解释，为3D生成模型的信任与可问责性奠定了基础。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.19019v1",
+      "source": "arxiv",
+      "title": "FlowObject: Flow Steering for Bridging Generative Priors and Reconstruction Fidelity",
+      "abstract": "Recovering complete 3D representations of objects from few casual image captures remains a significant challenge. Recent 3D generative models, particularly those based on Flow-Matching (FM), can synthesize high-quality textured assets; however, they often suffer from ''synthetic bias'' where learned priors override observational evidence, alongside a lack of alignment with the observed instance. Conversely, optimization-based methods like 3D Gaussian Splatting (3DGS) provide high fidelity on visible surfaces but fail to reason about unobserved geometry. In this paper, we present FlowObject, a framework that reformulates sparse-view 3D reconstruction as a training-free, guided inverse problem. Our approach applies a dual-space guidance strategy to steer the Ordinary Differential Equation (ODE) trajectory of a flow-matching model, enabling the completion of unseen regions through learned generative priors while enforcing strict consistency with real-world observations. By integrating a 3DGS refinement stage, FlowObject further bridges the gap between ''synthetic-looking'' generative outputs and photorealistic reconstructions. Comprehensive benchmarks on synthetic and real-world datasets demonstrate that current state-of-the-art methods often struggle to achieve geometric completeness and observational consistency simultaneously, especially under severe occlusions. In contrast, our method significantly outperforms state-of-the-art generative models and optimization-based frameworks in both geometric completeness and view-dependent appearance fidelity.",
+      "authors": [
+        "Yuchen Rao",
+        "Xuqian Ren",
+        "Yinyu Nie",
+        "Sayan Deb Sarkar",
+        "Biao Zhang",
+        "Vincent Lepetit",
+        "Friedrich Fraundorfer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-17T12:42:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.19019v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "bridging generative priors and reconstruction fidelity for 3D",
+      "llm_evidence_cn": "桥接生成先验与重建保真度的3D方法",
+      "llm_evidence": "桥接生成先验与重建保真度的3D方法",
+      "canonical_evidence": "桥接生成先验与重建保真度的3D方法",
+      "llm_tldr_en": "FlowObject: Flow Steering for Bridging Generative Priors and Reconstruction Fidelity reformulates sparse-view 3D reconstruction as a training-free guided inverse problem with dual-space guidance, combining Flow-Matching generative priors with 3DGS optimization for high fidelity on visible and plausible unobserved surfaces.",
+      "llm_tldr_cn": "从少量视图恢复完整3D对象面临生成先验与观测保真度的矛盾。本文提出FlowObject，将稀疏视图重建转化为无需训练的引导逆问题：在流匹配先验空间中执行引导，再在3DGS空间优化可见表面。实验在真实图像上实现了可见区域高保真与不可见区域合理补全，为少视图重建提供了有效框架。",
+      "llm_tldr": "从少量视图恢复完整3D对象面临生成先验与观测保真度的矛盾。本文提出FlowObject，将稀疏视图重建转化为无需训练的引导逆问题：在流匹配先验空间中执行引导，再在3DGS空间优化可见表面。实验在真实图像上实现了可见区域高保真与不可见区域合理补全，为少视图重建提供了有效框架。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.12099v1",
+      "source": "arxiv",
+      "title": "ISAP-3D: Identity-Slot Aligned Part-Aware 3D Generation",
+      "abstract": "Part-aware 3D generation aims to synthesize structured objects with semantically meaningful components, yet often suffers from structural ambiguity due to identity-layout entanglement. Existing methods either infer part identity and spatial layout implicitly, which can lead to unstable part allocation (e.g., slot swapping or part merging), or rely on strong layout conditions that are difficult to obtain in practice. We attribute this ambiguity to identity-slot permutation freedom: without explicit identity-slot alignment, the correspondence between semantic parts and generation slots is not identifiable during training, allowing multiple slot assignments to fit the same supervision and leading to inconsistent decomposition. Based on this insight, we argue that stable part-aware generation requires identity-aligned one-to-one slot modelling. We therefore propose an identity-slot aligned framework, ISAP-3D, which anchors each part with semantic identity tokens and performs identity-conditioned one-to-one layout prediction, followed by layout-conditioned geometry synthesis. Structured local-global conditioning maintains identity alignment across semantic, spatial, and geometric stages. We also construct a part-level dataset with a unified semantic protocol to enable learnable and consistent identity-slot alignment. Extensive experiments demonstrate improved structural stability, controllability, and robustness over state-of-the-art part-aware generation baselines.",
+      "authors": [
+        "Junlin Hao",
+        "Haoshuai Fu",
+        "Xibin Song",
+        "Wei Li",
+        "Ruigang Yang",
+        "Xinggong Zhang",
+        "Jinchuan Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T13:54:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.12099v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Part-aware 3D generation with identity-slot alignment",
+      "llm_evidence_cn": "基于身份槽对齐的部件感知3D生成",
+      "llm_evidence": "基于身份槽对齐的部件感知3D生成",
+      "canonical_evidence": "基于身份槽对齐的部件感知3D生成",
+      "llm_tldr_en": "ISAP-3D addresses identity-layout entanglement in part-aware 3D generation by introducing explicit identity-slot alignment, ensuring stable and consistent part decomposition.",
+      "llm_tldr_cn": "ISAP-3D针对部件感知3D生成中身份与布局纠缠导致的分解不稳定问题，提出显式身份槽对齐机制。通过解耦部件身份和空间布局，消除置换自由度，生成结构化对象。实验表明该方法在部件一致性和生成质量上显著优于现有方法，为可控3D生成提供了新思路。",
+      "llm_tldr": "ISAP-3D针对部件感知3D生成中身份与布局纠缠导致的分解不稳定问题，提出显式身份槽对齐机制。通过解耦部件身份和空间布局，消除置换自由度，生成结构化对象。实验表明该方法在部件一致性和生成质量上显著优于现有方法，为可控3D生成提供了新思路。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.19253v1",
+      "source": "arxiv",
+      "title": "OneCanvas: 3D Scene Understanding via Panoramic Reprojection",
+      "abstract": "Existing approaches to 3D scene understanding in Vision-Language Models (VLMs) either rely on complex, model-specific geometry encoders or large training budgets in pursuit of spatial reasoning. Instead, OneCanvas aggregates patch features from all views onto a single equirectangular panoramic canvas. Namely, each patch is unprojected to a 3D world coordinate using its depth and camera pose, then placed on the canvas at the continuous longitude and latitude of that point as seen from the canvas origin, with no rasterization or aggregation across overlapping views. A 3D position embedding of the patch's metric coordinates is added to its feature, restoring the depth lost when collapsing the world position to an angular canvas coordinate. Patches from all frames thus share one spatial coordinate system with no fusion or major architectural modifications of the backbone. The pretrained VLM consumes this representation as if it were an ordinary image. Because the canvas can be centered on any pose of interest, the same representation directly supports situated reasoning from a specific viewpoint, a common requirement in robotics and embodied AI. Thanks to this representation, we can also introduce a spatial pretraining curriculum: by procedurally placing patch features of objects, drawn from real images, at chosen 3D world positions on an otherwise empty canvas, we generate on-the-fly supervision spanning a broad range of spatial reasoning tasks, with answer distributions controlled to reduce spatial reasoning shortcuts. OneCanvas achieves state-of-the-art accuracy on SQA3D and VSI-Bench, and generalizes to out-of-distribution data on SPBench, using an order of magnitude less training compute than the strongest competing methods.",
+      "authors": [
+        "Bartłomiej Baranowski",
+        "Dave Zhenyu Chen",
+        "Matthias Nießner"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-06-17T16:29:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.19253v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D scene understanding via panoramic reprojection with VLMs",
+      "llm_evidence_cn": "通过全景重投影进行3D场景理解与视觉语言模型",
+      "llm_evidence": "通过全景重投影进行3D场景理解与视觉语言模型",
+      "canonical_evidence": "通过全景重投影进行3D场景理解与视觉语言模型",
+      "llm_tldr_en": "OneCanvas aggregates multi-view patch features onto a panoramic canvas for 3D scene understanding, simplifying geometry encoding and reducing training cost.",
+      "llm_tldr_cn": "OneCanvas针对现有VLM在3D场景理解中依赖复杂几何编码器的问题，提出将多视角补丁特征通过深度和相机姿态重投影到等距柱状全景画布上，并加入3D位置嵌入。该方法无需显式3D编码器，在多个下游任务中以更低训练成本达到领先性能，为3D视觉语言模型提供轻量化方案。",
+      "llm_tldr": "OneCanvas针对现有VLM在3D场景理解中依赖复杂几何编码器的问题，提出将多视角补丁特征通过深度和相机姿态重投影到等距柱状全景画布上，并加入3D位置嵌入。该方法无需显式3D编码器，在多个下游任务中以更低训练成本达到领先性能，为3D视觉语言模型提供轻量化方案。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.23514v1",
+      "source": "arxiv",
+      "title": "Arbor: Explicit Geometric Conditioning for Controllable 3D Asset Generation",
+      "abstract": "Text and image conditioned 3D models now generate convincing assets, but they still offer little direct control over the space an object should occupy or avoid. In authoring, this spatial intent is often known before generation starts. A chair should fit a seating envelope, a prop should leave clearance for motion, or a part should expose a contact surface. Prompts and image views are poor carriers for such constraints, requiring the need for an explicit control interface.   We present Arbor, a trainable attachment for text conditioned latent 3D generation. Arbor introduces constraint meshes as a native 3D control interface. The interface uses hull regions where geometry should exist, avoidance regions that should remain empty, and touch regions the object should contact. Unlike completion or whole object scaffold control, these meshes are not target evidence. They are local typed requirements and can include regions where no surface should appear. Arbor keeps this signal as geometry by converting constraint meshes into tokens and learning a routed attachment inside a frozen denoiser. Each latent region can therefore receive the part of the constraint that matters for its spatial location.   We evaluate Arbor on automatic and artist curated control benchmarks with hull, avoidance, and touch constraints, and compare the metric trends to a user preference study. Even without dedicated compliance losses, Arbor improves constraint obedience while preserving object quality and variation under fixed constraints.",
+      "authors": [
+        "Jan-Niklas Dihlmann",
+        "Andreas Engelhardt",
+        "Simon Donne",
+        "Hendrik P. A. Lensch",
+        "Mark Boss"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-22T16:00:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.23514v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "explicit geometric constraint meshes for 3D generation control",
+      "llm_evidence_cn": "显式几何约束网格用于3D生成控制",
+      "llm_evidence": "显式几何约束网格用于3D生成控制",
+      "canonical_evidence": "显式几何约束网格用于3D生成控制",
+      "llm_tldr_en": "Arbor introduces constraint meshes (hull, avoidance, touch regions) as a native 3D control interface for text-conditioned latent 3D generation, enabling precise spatial control over object occupancy.",
+      "llm_tldr_cn": "Arbor为文本驱动的3D生成添加了显式几何控制接口，通过约束网格（包含区域、避让区域、接触区域）精确指定物体应占据或避免的空间。实验证明其能有效控制物体形状和位置，弥补了文本提示的空间表达不足。",
+      "llm_tldr": "Arbor为文本驱动的3D生成添加了显式几何控制接口，通过约束网格（包含区域、避让区域、接触区域）精确指定物体应占据或避免的空间。实验证明其能有效控制物体形状和位置，弥补了文本提示的空间表达不足。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.20563v1",
+      "source": "arxiv",
+      "title": "JanusMesh: Fast and Zero-Shot 3D Visual Illusion Generation via Cross-Space Denoising",
+      "abstract": "Creating 3D visual illusions, a single 3D mesh that reveals entirely different semantics from various viewing angles, is a fascinating but tough challenge. Existing optimization-based methods are slow and can produce oversaturated colors. In contrast, naive stitching approaches fail to produce geometrically coherent objects. This results in visible unnatural seams and semantic leaks. In this paper, we present a fast and training-free framework for generating text-driven 3D visual illusions. Our approach decouples the generation into two stages. First, we propose a cross-space dual-branch denoising process. This process dynamically decodes 3D latents into voxel space for CLIP-guided orientation alignment and Signed Distance Field (SDF) blending, which ensures seamless geometric fusion. Second, we introduce a view-conditioned texture synthesis module that projects and aggregates view-specific 2D diffusion priors onto the fused geometry. Extensive experiments demonstrate that our method generates highly realistic, dual-semantic 3D illusions in just 3-5 minutes. It significantly outperforms existing methods in geometric integrity, semantic recognizability, and efficiency. Project page: https://siang1105.github.io/JanusMesh.github.io/",
+      "authors": [
+        "Siang-Ling Zhang",
+        "Huai-Hsun Cheng",
+        "Tsung-Ju Yang",
+        "Yu-Lun Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T17:59:55+00:00",
+      "link": "https://arxiv.org/pdf/2606.20563v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "text-driven 3D visual illusion generation",
+      "llm_evidence_cn": "文本驱动的3D视觉错觉生成",
+      "llm_evidence": "文本驱动的3D视觉错觉生成",
+      "canonical_evidence": "文本驱动的3D视觉错觉生成",
+      "llm_tldr_en": "JanusMesh: Fast and Zero-Shot 3D Visual Illusion Generation via Cross-Space Denoising proposes a training-free framework with cross-space dual-branch denoising and CLIP-guided alignment to create 3D meshes that reveal different semantics from different views.",
+      "llm_tldr_cn": "3D视觉错觉生成（单网格多视角语义不同）现有方法速度慢或几何不连贯。本文提出JanusMesh，无需训练，通过跨空间双分支去噪与CLIP引导对齐，快速生成文本驱动的3D视觉错觉网格。实验证明其速度显著提升且几何连贯性优于基线，为3D创意生成提供了高效工具。",
+      "llm_tldr": "3D视觉错觉生成（单网格多视角语义不同）现有方法速度慢或几何不连贯。本文提出JanusMesh，无需训练，通过跨空间双分支去噪与CLIP引导对齐，快速生成文本驱动的3D视觉错觉网格。实验证明其速度显著提升且几何连贯性优于基线，为3D创意生成提供了高效工具。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05568v1",
+      "source": "arxiv",
+      "title": "Harnessing Generative Image Models for Training-Free Primitive Shape Abstraction",
+      "abstract": "Representing 3D shapes as compact sets of geometric primitives is fundamental to robotics, simulation, and scene understanding. Generative image models trained at scale have recently emerged as generalist visual learners that can identify and segment object parts directly in the image domain, across arbitrary categories and without task-specific training. Adapting such models to downstream tasks typically requires fine-tuning; we ask whether their pretrained capability can instead be harnessed directly, without any training, and answer affirmatively with a training-free harness. Our pipeline renders multi-view images of a 3D object, uses a vision-language model to analyze its semantic parts, prompts a generative image model to paint a color-coded part segmentation mask, reprojects it onto the geometry, and fits a superquadric primitive to each part via parameter optimization. The approach contains no learned parameters: it is category-agnostic and orientation-invariant, properties that previous learning-based models struggled with. Its accuracy ceiling rises with future generative-model improvements, which we confirm with a ground-truth segmentation study showing that part segmentation, not primitive fitting, is the current accuracy bottleneck. On HumanPrim and Toys4K, our method achieves the lowest Chamfer distance among all evaluated methods, using 5--9 primitives per object on average.",
+      "authors": [
+        "Gregor Kobsik",
+        "Tim Elsner",
+        "Leif Kobbelt"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-06T19:10:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.05568v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "training-free primitive shape abstraction using generative image models",
+      "llm_evidence_cn": "免训练的基元形状抽象，利用生成图像模型",
+      "llm_evidence": "免训练的基元形状抽象，利用生成图像模型",
+      "canonical_evidence": "免训练的基元形状抽象，利用生成图像模型",
+      "llm_tldr_en": "Proposes a training-free pipeline for primitive shape abstraction from 3D objects by leveraging vision-language models and generative image models to segment and label parts in multi-view images. Enables part-aware 3D representation without fine-tuning.",
+      "llm_tldr_cn": "3D形状的基元抽象通常需要任务特定训练。本文提出无需训练的流水线：为3D对象渲染多视图，用视觉语言模型分析语义部分，并用生成模型着色，最终通过投影获得3D基元。该方法在多个类别上实现了有效的部件分解，无需任何微调。展现了基础模型在3D理解中的零样本能力。",
+      "llm_tldr": "3D形状的基元抽象通常需要任务特定训练。本文提出无需训练的流水线：为3D对象渲染多视图，用视觉语言模型分析语义部分，并用生成模型着色，最终通过投影获得3D基元。该方法在多个类别上实现了有效的部件分解，无需任何微调。展现了基础模型在3D理解中的零样本能力。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.29395v1",
+      "source": "arxiv",
+      "title": "NaLA: A 3D Native LLM Layout Agent for High-quality 3D Scene Generation",
+      "abstract": "Recently, Large Language Models (LLMs) have emerged as promising layout agents for 3D scene generation. Existing layout agents still suffer from implausible layout generation because most of them convert 3D assets and 3D layouts into textual descriptions as inputs and outputs, which involves severe information loss due to the modality gap between texts and 3D assets and 3D layouts. We propose NaLA, a native 3D LLM layout Agent for high-quality 3D scene generation by placing 3D assets in the scene. For the inputs, NaLA encodes 3D scene boundaries and 3D assets directly into the LLM, preserving fine-grained geometry and enabling explicit reasoning over relationships like collisions, surface supporting, and containment. To accurately output the positions and orientations of assets, NaLA adopts a coarse-to-fine prediction mechanism that first predicts discrete poses in an autoregressive manner and then refines the discrete poses with a continuous regression. Trained on diverse layout datasets, NaLA attains strong geometric perception and layout coherence. Experiments demonstrate that NaLA outperforms prior layout agents in both generation quality and inference efficiency, with comprehensive ablation studies to verify each component's effectiveness.",
+      "authors": [
+        "Cheng Wan",
+        "Yongsen Mao",
+        "Wenzheng Wu",
+        "Yuxuan Xie",
+        "Chucheng Xiang",
+        "Runze Wang",
+        "Xiang Zhang",
+        "Zhongyuan Liu",
+        "Rushi Dai",
+        "Yuan Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-28T13:33:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.29395v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D scene generation with LLM layout agent",
+      "llm_evidence_cn": "基于大语言模型的3D场景布局生成",
+      "llm_evidence": "基于大语言模型的3D场景布局生成",
+      "canonical_evidence": "基于大语言模型的3D场景布局生成",
+      "llm_tldr_en": "NaLA introduces a native 3D LLM layout agent that directly encodes 3D boundaries and assets for high-quality scene generation, enabling explicit spatial reasoning.",
+      "llm_tldr_cn": "NaLA针对现有LLM布局代理因文本-3D模态鸿沟导致布局不合理的问题，提出原生3D LLM布局代理。直接编码3D场景边界和资产，保留细粒度几何，支持碰撞、支撑等关系推理。实验表明该方法生成的室内场景布局更合理、更准确，为3D场景生成提供新的交互范式。",
+      "llm_tldr": "NaLA针对现有LLM布局代理因文本-3D模态鸿沟导致布局不合理的问题，提出原生3D LLM布局代理。直接编码3D场景边界和资产，保留细粒度几何，支持碰撞、支撑等关系推理。实验表明该方法生成的室内场景布局更合理、更准确，为3D场景生成提供新的交互范式。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.20946v1",
+      "source": "arxiv",
+      "title": "Scaling Diverse Language Generation for 3D Visual Grounding",
+      "abstract": "Developing robust models for 3D visual grounding (3DVG), the localization of entities in a 3D scene described in natural language, is important for enabling agents to correspond spatial language with objects in the physical world. However, the lack of diverse descriptions at scale prevents models from generalizing beyond simple linguistic patterns. Recent such attempts lack diversity in the constraint types and language used to ground objects. Captioning methods cannot precisely contrast objects, which is important for visual grounding. We therefore propose ViGiL3D++, a scalable, scene-agnostic method that generates diverse visual grounding queries by combining constraint sampling in scene graphs with the language generation of LLMs. We show that it has greater diversity over existing scaled datasets and improves model performance over several 3DVG benchmarks but also illuminates outstanding limitations of VLMs.",
+      "authors": [
+        "Austin T. Wang",
+        "Dongchen Yang",
+        "Angel X. Chang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-06-18T21:20:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.20946v1",
+      "tags": [
+        "keyword:dm",
+        "query:dm"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D visual grounding as part of 3D understanding",
+      "llm_evidence_cn": "3D视觉定位属于3D理解",
+      "llm_evidence": "3D视觉定位属于3D理解",
+      "canonical_evidence": "3D视觉定位属于3D理解",
+      "llm_tldr_en": "Scaling Diverse Language Generation for 3D Visual Grounding proposes ViGiL3D++ to generate diverse grounding queries via constraint sampling and LLMs, improving generalization beyond simple linguistic patterns.",
+      "llm_tldr_cn": "现有3D视觉定位模型因缺乏多样化描述而泛化能力不足。本文提出ViGiL3D++，通过场景图约束采样与大模型语言生成相结合，可扩展生成多样化的视觉定位查询。实验表明该方法能显著提升模型对多种约束类型的处理能力，为3D视觉定位提供更丰富的训练数据，从而增强智能体对空间语言的理解。",
+      "llm_tldr": "现有3D视觉定位模型因缺乏多样化描述而泛化能力不足。本文提出ViGiL3D++，通过场景图约束采样与大模型语言生成相结合，可扩展生成多样化的视觉定位查询。实验表明该方法能显著提升模型对多种约束类型的处理能力，为3D视觉定位提供更丰富的训练数据，从而增强智能体对空间语言的理解。",
+      "llm_tags": [
+        "query:dm"
+      ],
+      "matched_query_tag": "query:dm",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
