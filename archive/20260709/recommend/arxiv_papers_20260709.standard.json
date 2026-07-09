@@ -1,0 +1,730 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-09T21:40:52.095291+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 25,
+    "deep_cap": 6,
+    "deep_selected": 7,
+    "quick_candidates": 41,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.01633v1",
+      "source": "arxiv",
+      "title": "Bridging 3D Gaussians and Semantic Occupancy for Comprehensive Open-Vocabulary Scene Understanding from Unposed Images",
+      "abstract": "Comprehensive 3D scene understanding from sparse, unposed images requires a model to recover renderable geometry, open-vocabulary semantics, and free/occupied 3D space without relying on external camera calibration. Recent feed-forward Gaussian methods improve pose-free reconstruction and semantic rendering, but their Gaussian primitives are mainly optimized through image-space objectives and remain weakly constrained in unobserved regions. We propose \\textit{COVScene}, a pose-free semantic Gaussian framework that couples renderable Gaussian primitives with a dense semantic occupancy field through differentiable volumetric lifting. Instead of converting Gaussians to voxels only at evaluation time, COVScene lifts the predicted semantic Gaussians inside the training computation graph, so volumetric regularization provides gradients to Gaussian opacity, geometry, and semantic features. The framework combines a semantic-aware Geometry Transformer, multi-task Gaussian decoding, geometric foundation distillation, and occupancy entropy regularization to support novel view synthesis, open-vocabulary semantic querying, and semantic occupancy prediction within a single representation. Experiments on ScanNet and ScanNet++ show that COVScene maintains competitive rendering quality, improves open-vocabulary segmentation, and achieves stronger semantic occupancy prediction than the self-supervised baseline without direct voxel-level supervision.",
+      "authors": [
+        "Hu Zhu",
+        "Bohan Li",
+        "Xianda Guo",
+        "Yanlun Peng",
+        "Zheng Zhu",
+        "Xin Jin",
+        "Wenjun Zeng",
+        "Chang Wen Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T03:00:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.01633v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "3D scene understanding from unposed images using Gaussians and semantic occupancy",
+      "llm_evidence_cn": "无位姿图像下的3D场景理解，结合高斯和语义占据",
+      "llm_evidence": "无位姿图像下的3D场景理解，结合高斯和语义占据",
+      "canonical_evidence": "无位姿图像下的3D场景理解，结合高斯和语义占据",
+      "llm_tldr_en": "Proposes COVScene, a pose-free framework that couples Gaussian primitives with a dense semantic occupancy field for open-vocabulary 3D scene understanding from sparse, unposed images.",
+      "llm_tldr_cn": "针对稀疏无位姿图像下的全面3D场景理解问题，本文提出COVScene框架，通过可微体积提升将可渲染高斯原语与密集语义占据场耦合，无需外部相机标定即可同时恢复可渲染几何、开放词汇语义和自由/占据空间。实验表明该方法在无位姿场景中优于基线，为3D理解提供了更完整的解决方案。",
+      "llm_tldr": "针对稀疏无位姿图像下的全面3D场景理解问题，本文提出COVScene框架，通过可微体积提升将可渲染高斯原语与密集语义占据场耦合，无需外部相机标定即可同时恢复可渲染几何、开放词汇语义和自由/占据空间。实验表明该方法在无位姿场景中优于基线，为3D理解提供了更完整的解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03198v1",
+      "source": "arxiv",
+      "title": "Reduced-Order Models: The Mother of World Models",
+      "abstract": "World models -- compressed latent representations of an environment that support action-conditioned prediction and planning -- are typically presented as a product of modern self-supervised learning. This paper argues that the functional anatomy of a world model was independently developed, deployed, and formally analyzed decades earlier in the model-order-reduction (MOR) and control literature, under different names and for a different purpose: the real-time operation of physical systems. We trace the anatomy across three communities. Low-dimensional models of turbulence built on proper orthogonal decomposition (POD) supplied latent dynamics learned from data of a chaotic environment; eigenface methods in early computer vision supplied the encoder-decoder half, including a primitive runtime validity check; and measurement-based POD frameworks for facility thermal control assembled the complete loop -- POD coefficients as latent state, parametric dependence on actuator setpoints as action conditioning, modal reconstruction as decoding, and, critically, a priori analytical error bounds as a verification layer that certified when the model's predictions could be trusted in closed loop. We then examine what each tradition possesses that the other lacks: MOR contributes verification, physical grounding, and extreme data efficiency; learned world models contribute nonlinear representation, transferability, and horizon. We argue that the outstanding obstacle to deploying world models in systems that cannot fail -- power, thermal, process control -- is not predictive fidelity but verifiability, and we outline a research agenda for physics-grounded, verifiable world models that unifies the two lineages.",
+      "authors": [
+        "Rajat Ghosh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math-ph"
+      ],
+      "published": "2026-07-03T11:05:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.03198v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly discusses world models and their historical roots in model-order-reduction",
+      "llm_evidence_cn": "直接讨论世界模型及其在降阶模型中的历史根源",
+      "llm_evidence": "直接讨论世界模型及其在降阶模型中的历史根源",
+      "canonical_evidence": "直接讨论世界模型及其在降阶模型中的历史根源",
+      "llm_tldr_en": "This paper traces the functional anatomy of world models to decades-old model-order-reduction and control literature, showing that latent dynamics, encoder-decoder, and planning components were independently developed earlier, providing a historical perspective on modern world models.",
+      "llm_tldr_cn": "本文论证了现代世界模型的核心组件——潜在动力学、编码器-解码器和规划——早在降阶建模和控制领域就已独立发展。通过回顾湍流低维模型、特征脸方法等经典工作，揭示了世界模型并非深度学习独有，而是控制与计算机视觉思想的历史延续。该视角有助于理解世界模型的本质并启发未来研究方向。",
+      "llm_tldr": "本文论证了现代世界模型的核心组件——潜在动力学、编码器-解码器和规划——早在降阶建模和控制领域就已独立发展。通过回顾湍流低维模型、特征脸方法等经典工作，揭示了世界模型并非深度学习独有，而是控制与计算机视觉思想的历史延续。该视角有助于理解世界模型的本质并启发未来研究方向。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03461v1",
+      "source": "arxiv",
+      "title": "WorldBagel: Uncovering the Power of Unified Multimodal Models for Vision-Language-Action-World Modeling",
+      "abstract": "World models aim to capture environment dynamics in ways that support perception, reasoning, and action, and have recently become a central direction in Vision-Language-Action-World (VLAW) modeling. Meanwhile, unified vision-language models have demonstrated strong multimodal generation capabilities, yet their potential as world models remains underexplored. In this work, we introduce \\texttt{WorldBagel}, a unified VLAW framework built on BAGEL, a modern multimodal unified model, and use it to systematically investigate the role of unification in world modeling. Across multi-task robotic manipulation and cross-domain experiments, \\texttt{WorldBagel} consistently outperforms task-specific alternatives and learns action representations that are more structured and semantically aligned with visual and linguistic context. Experiments on LIBERO, Language Table, and Franka show that unification is not only an architectural convenience, but also a key factor in learning effective VLAW models, leading to consistent empirical gains and deeper insights into multimodal world modeling. Code and model checkpoints will be released upon acceptance.",
+      "authors": [
+        "Zelin Zhao",
+        "Min Shi",
+        "Bo Yuan",
+        "Haotian Xue",
+        "Jialuo Li",
+        "Lama Moukheiber",
+        "Humphrey Shi",
+        "Yongxin Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T16:18:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.03461v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "world models for vision-language-action-world modeling",
+      "llm_evidence_cn": "用于视觉-语言-动作-世界建模的世界模型",
+      "llm_evidence": "用于视觉-语言-动作-世界建模的世界模型",
+      "canonical_evidence": "用于视觉-语言-动作-世界建模的世界模型",
+      "llm_tldr_en": "Introduces WorldBagel, a unified VLAW framework built on BAGEL, demonstrating that unified multimodal models outperform task-specific ones for world modeling across robotic manipulation and cross-domain tasks.",
+      "llm_tldr_cn": "该论文针对统一多模态模型在世界模型中的潜力未充分探索的问题，提出WorldBagel统一框架，基于BAGEL构建，系统研究统一化在世界模型中的作用。在多任务机器人操作和跨领域实验中，WorldBagel一致优于任务特定模型，并学习到可迁移的动作表示，表明统一化是提升世界模型能力的关键方向。",
+      "llm_tldr": "该论文针对统一多模态模型在世界模型中的潜力未充分探索的问题，提出WorldBagel统一框架，基于BAGEL构建，系统研究统一化在世界模型中的作用。在多任务机器人操作和跨领域实验中，WorldBagel一致优于任务特定模型，并学习到可迁移的动作表示，表明统一化是提升世界模型能力的关键方向。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world model research papers",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03855v1",
+      "source": "arxiv",
+      "title": "PRISM3D: Probabilistic Refinement and Robust Initialization for Physically Consistent Scene Modeling under Extreme Motion Blur",
+      "abstract": "We address the inverse problem of blind 3D scene reconstruction from extremely motion-blurred images, a scenario where traditional Structure-from-Motion (SfM) pipelines fail. Existing approaches typically circumvent this bottleneck by relying on impractical sharp-image supervision. In this work, we introduce PRISM3D, a unified framework enabling robust reconstruction directly from severely degraded inputs. To overcome the lack of a reliable starting point, we propose a Robust Initialization strategy utilizing deep dense tracking method (VGGSfM) to recover global topology where feature matching fails. To the best of our knowledge, we are the first to effectively leverage this paradigm to bootstrap 3D Gaussian Splatting from extreme motion blur. However, while robust, this initialization yields sparse and noisy geometry that causes deterministic optimization to diverge. To resolve this, we propose a coupled solution driven by probability and physics: we adopt a probabilistic formulation for geometric densification via Markov Chain Monte Carlo (MCMC) to robustly populate the sparse priors, while simultaneously modeling physical image formation via continuous Bezier Trajectories. Furthermore, while PRISM3D establishes a highly robust standalone pipeline, the availability of complementary event streams offers an opportunity to push the reconstruction fidelity further. To exploit this, we introduce PRISM3D-E, a multi-modal (RGB + Events) extension that seamlessly integrates high-temporal-resolution events as structural priors to maximize geometric recovery. Because existing datasets lack paired event streams under such severe degradation, we concurrently contribute the PRISM3D-E Benchmark to facilitate rigorous evaluation. Extensive experiments demonstrate that both our standalone RGB framework and its multi-modal extension establish new state-of-the-art performance.",
+      "authors": [
+        "Gopi Raju Matta",
+        "Reddypalli Trisha",
+        "Vemunuri Divya Madhuri",
+        "Kaushik Mitra"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T12:45:11+00:00",
+      "link": "https://arxiv.org/pdf/2607.03855v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "utilizes VGGSfM for initialization",
+      "llm_evidence_cn": "利用VGGSfM进行鲁棒初始化",
+      "llm_evidence": "利用VGGSfM进行鲁棒初始化",
+      "canonical_evidence": "利用VGGSfM进行鲁棒初始化",
+      "llm_tldr_en": "PRISM3D tackles 3D reconstruction from extreme motion blur by using VGGSfM (a Visual Geometry Grounded Transformer) for robust initialization, achieving the first effective use of this paradigm for blurry inputs.",
+      "llm_tldr_cn": "针对极端运动模糊图像下3D重建难以初始化的问题，提出PRISM3D框架。创新性地利用深度密集追踪方法VGGSfM（视觉几何接地Transformer）恢复全局拓扑，作为鲁棒初始化策略。该方法是首个有效利用该范式引导运动模糊场景重建的工作。实验证明在传统SfM失败的情况下仍能准确重建3D场景，为退化条件下的3D理解提供了新路径。",
+      "llm_tldr": "针对极端运动模糊图像下3D重建难以初始化的问题，提出PRISM3D框架。创新性地利用深度密集追踪方法VGGSfM（视觉几何接地Transformer）恢复全局拓扑，作为鲁棒初始化策略。该方法是首个有效利用该范式引导运动模糊场景重建的工作。实验证明在传统SfM失败的情况下仍能准确重建3D场景，为退化条件下的3D理解提供了新路径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "Visual Geometry Grounded Transformer",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03990v1",
+      "source": "arxiv",
+      "title": "InSpace: Structure-Aware 3D Indoor Scene Generation from a Single 360° Image",
+      "abstract": "Recent advances in single image-to-3D generation have enabled high-quality asset synthesis, yet extending these capabilities to indoor scene generation remains challenging. Existing methods focus on asset-level generation while neglecting the structural layout, which is essential for downstream applications and serves as the spatial anchor for grounding assets. However, a single image with a limited field of view lacks the spatial coverage to recover a coherent global layout. To this end, we use a 360° image represented in equirectangular projection (ERP) and propose InSpace, a structure-aware framework for 3D indoor scene generation. InSpace comprises three stages: (1) estimating partial scene geometry as spatial priors, (2) generating coarse scene structure with view-selective cross-attention, and (3) producing detailed layout and asset geometry with textures through a global-local hybrid attention, using flow matching. We also propose ERP-FRONT, a paired ERP-Image-to-3D indoor scene dataset based on 3D-FRONT. Experiments show that InSpace generates complete 3D indoor scenes with structural layout, along with separate textured assets from a single ERP image, achieving strong performance across 3D and 2D metrics. Project Page: https://kookie12.github.io/InSpace-Project-Page/",
+      "authors": [
+        "Gwanhyeong Koo",
+        "Hyunsu Kim",
+        "Youngji Kim",
+        "Taejae Lee",
+        "Siwoo Lim",
+        "Sunjae Yoon",
+        "Suyong Yeon",
+        "Chang D. Yoo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T19:16:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.03990v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "3D indoor scene generation from 360 image",
+      "llm_evidence_cn": "从360度图像生成3D室内场景",
+      "llm_evidence": "从360度图像生成3D室内场景",
+      "canonical_evidence": "从360度图像生成3D室内场景",
+      "llm_tldr_en": "Proposes InSpace, a structure-aware framework for 3D indoor scene generation from a single 360 image, using partial geometry estimation and coarse-to-fine generation.",
+      "llm_tldr_cn": "本文提出InSpace，一种结构感知的3D室内场景生成框架，从单张360度图像生成场景。该方法首先估计部分场景几何作为空间先验，然后生成粗布局并逐步细化，最终生成完整的3D室内场景。在多个数据集上实验表明，该方法能生成结构合理、细节丰富的室内场景，为虚拟现实和机器人应用提供支持。",
+      "llm_tldr": "本文提出InSpace，一种结构感知的3D室内场景生成框架，从单张360度图像生成场景。该方法首先估计部分场景几何作为空间先验，然后生成粗布局并逐步细化，最终生成完整的3D室内场景。在多个数据集上实验表明，该方法能生成结构合理、细节丰富的室内场景，为虚拟现实和机器人应用提供支持。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05348v1",
+      "source": "arxiv",
+      "title": "Beyond Isolated Objects: Relationship-aware Open Vocabulary Scene Understanding via 3D Scene Graph Analysis",
+      "abstract": "Open-vocabulary 3D scene understanding aims to segment 3D scenes beyond predefined categories by transferring semantic knowledge from vision-language models. Existing methods have advanced this task by lifting language-aligned 2D features into 3D, yet they often rely on context-independent semantic representations, leaving object relationships underexplored for contextual refinement. We propose RelGraphOV, a relationship-aware framework that uses 3D scene graphs to enhance open-vocabulary 3D understanding. Our method constructs relational scene graphs from multi-view observations by leveraging vision-language reasoning to infer object relationships and prune geometrically implausible connections, without manual relationship annotations. To aggregate relational context while avoiding feature interference, we introduce an Adaptive Gated Dual-Stream Contextual GAT that separates dense geometric features and semantic CLIP embeddings, performs edge-guided message passing, and adaptively fuses complementary semantics. A hierarchical contrastive objective further promotes instance-level consistency and category-level discrimination. Experiments on ScanNetV2, ScanNet200, ScanNet$++$, and Replica demonstrate strong performance and generalization ability. Project Page: https://cxavireh.github.io/relgraphov-projectpage",
+      "authors": [
+        "Xianhao Chen",
+        "Jiarui Hu",
+        "Yuanbo Yang",
+        "Xiyu Zhang",
+        "Tengyue Wang",
+        "Hujun Bao",
+        "Guofeng Zhang",
+        "Zhaopeng Cui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-06T17:29:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.05348v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Open-vocabulary 3D scene understanding with relationship awareness",
+      "llm_evidence_cn": "具有关系感知的开放词汇3D场景理解",
+      "llm_evidence": "具有关系感知的开放词汇3D场景理解",
+      "canonical_evidence": "具有关系感知的开放词汇3D场景理解",
+      "llm_tldr_en": "RelGraphOV uses 3D scene graphs to enhance open-vocabulary 3D understanding by inferring object relationships via vision-language reasoning and pruning implausible connections.",
+      "llm_tldr_cn": "针对开放词汇3D场景理解中缺乏上下文关系的问题，本文提出RelGraphOV框架，利用3D场景图增强语义理解。通过视觉语言推理推断物体关系，并结合几何先验剪枝不合理连接。实验表明，关系感知机制显著提升了3D场景的语义分割和开放词汇理解性能。",
+      "llm_tldr": "针对开放词汇3D场景理解中缺乏上下文关系的问题，本文提出RelGraphOV框架，利用3D场景图增强语义理解。通过视觉语言推理推断物体关系，并结合几何先验剪枝不合理连接。实验表明，关系感知机制显著提升了3D场景的语义分割和开放词汇理解性能。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06534v1",
+      "source": "arxiv",
+      "title": "CAIRN: Cross-Room 3D Scene Understanding with Topology-Aware Large Multimodal Models",
+      "abstract": "Existing 3D scene-grounded Large Language Models (3D-LLMs) focus on answering questions grounded in simplified single-room 3D scenes, lacking the ability to reason over real-world household environments containing multiple interconnected rooms and diverse object categories. We introduce CAIRN, a topology-aware 3D-LLM for multi-room 3D scene understanding. CAIRN aligns transformer attention with scene hierarchy, giving the model explicit awareness of object-level relations and room-level connectivity. It enriches object tokens with room-local relational context via a graph neural network, introduces learned room tokens for room-level abstraction, and applies a hierarchical attention mask with geometric bias to route information according to scene topology. CAIRN is developed on CAIRN-MR, a benchmark we introduce on HM3D for multi-room 3D scene understanding, covering grounding, captioning, and four question-answering tasks that progressively evaluate from intra-room perception to cross-room reasoning. Experiments show that CAIRN outperforms prior 3D-LLMs by a large margin across all CAIRN-MR tasks while remaining competitive on five single-room benchmarks.",
+      "authors": [
+        "He Liang",
+        "Chenyang Ma",
+        "Yiming Zhang",
+        "Sangyun Shin",
+        "Andrew Markham",
+        "Niki Trigoni",
+        "Yuhang He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-07T17:39:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.06534v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-room 3D scene understanding using topology-aware 3D-LLM",
+      "llm_evidence_cn": "跨房间3D场景理解，使用拓扑感知3D-LLM",
+      "llm_evidence": "跨房间3D场景理解，使用拓扑感知3D-LLM",
+      "canonical_evidence": "跨房间3D场景理解，使用拓扑感知3D-LLM",
+      "llm_tldr_en": "Introduces CAIRN, a topology-aware 3D-LLM for multi-room 3D scene understanding with hierarchical attention and graph neural networks.",
+      "llm_tldr_cn": "该论文针对现有3D-LLM仅限于单房间场景理解的问题，提出了CAIRN，一种拓扑感知的3D-LLM，通过图神经网络增强对象级关系、引入房间令牌和分层注意力掩码，实现跨房间3D场景理解。在多个多房间数据集上取得最佳性能，显式拓扑建模显著提升了3D-LLM在复杂多房间环境中的推理能力。",
+      "llm_tldr": "该论文针对现有3D-LLM仅限于单房间场景理解的问题，提出了CAIRN，一种拓扑感知的3D-LLM，通过图神经网络增强对象级关系、引入房间令牌和分层注意力掩码，实现跨房间3D场景理解。在多个多房间数据集上取得最佳性能，显式拓扑建模显著提升了3D-LLM在复杂多房间环境中的推理能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.00382v1",
+      "source": "arxiv",
+      "title": "Vitality-Aware Compression for Efficient Image-to-Shape Diffusion Transformers",
+      "abstract": "We propose the first compression approach for image-to-shape Diffusion Transformers (DiTs) that substantially reduces model size while preserving geometric fidelity. Despite remarkable progress in 3D shape generation, large DiT-based models remain computationally prohibitive in resource-constrained settings. Furthermore, it is difficult to directly transfer existing diffusion model compression strategies developed for different domains to 3D generation, and prior 3D efficiency approaches focus primarily on inference speed rather than backbone compression. To address this limitation, we build a geometry-aware compression framework tailored to image-to-shape DiTs. Guided by the observation that 3D DiT layers exhibit non-uniform importance for geometry synthesis, we introduce a vitality-guided framework integrating structured pruning, adaptive quantization, and targeted fine-tuning. Our method achieves up to 66% model-size reduction across state-of-the-art image-to-3D models while maintaining synthesis fidelity comparable to full-sized counterparts. This highlights the potential of our framework as a plug-and-play solution for efficient 3D shape generation across diverse models.",
+      "authors": [
+        "Jaeah Lee",
+        "Hyunjin Kim",
+        "Jaewoong Cho",
+        "Gihyun Kwon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T03:26:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.00382v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "compression for image-to-shape diffusion transformers",
+      "llm_evidence_cn": "针对图像到形状扩散变压器的压缩",
+      "llm_evidence": "针对图像到形状扩散变压器的压缩",
+      "canonical_evidence": "针对图像到形状扩散变压器的压缩",
+      "llm_tldr_en": "Proposes the first compression method for image-to-shape Diffusion Transformers, reducing model size while preserving geometric fidelity.",
+      "llm_tldr_cn": "本文提出首个针对图像到形状扩散变压器（DiT）的压缩方法，大幅减小模型尺寸同时保持几何保真度。该方法通过观察3D DiT层的重要性不均匀，设计几何感知的压缩策略。实验表明在多个数据集上，压缩后的模型在生成质量上接近原模型，但计算资源需求显著降低，为3D扩散模型的高效部署提供了路径。",
+      "llm_tldr": "本文提出首个针对图像到形状扩散变压器（DiT）的压缩方法，大幅减小模型尺寸同时保持几何保真度。该方法通过观察3D DiT层的重要性不均匀，设计几何感知的压缩策略。实验表明在多个数据集上，压缩后的模型在生成质量上接近原模型，但计算资源需求显著降低，为3D扩散模型的高效部署提供了路径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.00498v1",
+      "source": "arxiv",
+      "title": "Robust 3D Alignment of Generative Reconstructions via Partial Monocular Observations",
+      "abstract": "Aligning generative 3D reconstructions with partial monocular observations is a critical but under-explored challenge in computer vision. This task is inherently ill-posed due to severe asymmetries between noisy, sparse monocular inputs and dense generative priors, whose scale ambiguity and geometric hallucinations, combined with the lack of initial overlap, render traditional registration pipelines ineffective. To resolve these issues, we propose a training-free and interpretable geometric alignment framework that grounds generative 3D priors via a 3D similarity transformation (Sim(3)), which can recover accurate metric scale and pose. Specifically, we introduce an explicit scale factor to resolve metric ambiguity and employ a coarse-to-fine alignment strategy, leveraging geometry-aware descriptors for robust initialization and a decoupled closed-form solver for precision refinement. In addition, we introduce a Hallucination Filtering operation to effectively suppress outliers caused by hallucinated geometry. To evaluate alignment performance under these extreme conditions, we introduce GenPMOAlign--Where2Place, a rigorous benchmark specifically designed for Generative-to-Partial Monocular Observational Alignment. Experiments demonstrate that our method achieves stable and accurate registration, substantially outperforming both classical geometric pipelines and state-of-the-art learning-based baselines. Code and the benchmark will be publicly released.",
+      "authors": [
+        "Yuchen Zhang",
+        "Luanyuan Dai",
+        "Yiwei Wang",
+        "Xiwei Xu",
+        "Jianing Zhang",
+        "Johnny. r. zhang",
+        "Xianhui Meng",
+        "Yanbiao Ma",
+        "Jiayi Ma",
+        "Xiaoshuai Hao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T06:30:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.00498v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "aligns generative 3D reconstructions with monocular observations",
+      "llm_evidence_cn": "对齐生成式3D重建与单目观测",
+      "llm_evidence": "对齐生成式3D重建与单目观测",
+      "canonical_evidence": "对齐生成式3D重建与单目观测",
+      "llm_tldr_en": "Proposes a training-free geometric alignment framework to align generative 3D reconstructions with partial monocular observations via Sim(3) transformation, recovering metric scale and pose.",
+      "llm_tldr_cn": "针对生成式3D重建与稀疏单目观测之间由于尺度模糊和几何幻觉导致的对齐困难，提出一种免训练的可解释几何对齐框架。通过引入显式尺度因子并采用粗到精策略，在Sim(3)空间恢复精确的度量尺度和位姿。该方法无需额外训练数据，为生成式模型与真实观测的融合提供了有效方式，促进了3D生成与理解的结合。",
+      "llm_tldr": "针对生成式3D重建与稀疏单目观测之间由于尺度模糊和几何幻觉导致的对齐困难，提出一种免训练的可解释几何对齐框架。通过引入显式尺度因子并采用粗到精策略，在Sim(3)空间恢复精确的度量尺度和位姿。该方法无需额外训练数据，为生成式模型与真实观测的融合提供了有效方式，促进了3D生成与理解的结合。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.00522v1",
+      "source": "arxiv",
+      "title": "Restore3D: Breathing Life into Broken Objects with Shape and Texture Restoration",
+      "abstract": "Restoring incomplete or damaged 3D objects is crucial for cultural heritage preservation, occluded object reconstruction, and artistic design. Existing methods primarily focus on geometric completion, often neglecting texture restoration and struggling with relatively complex and diverse objects. We introduce Restore3D, a novel framework that simultaneously restores both the shape and texture of broken objects using multi-view images. To address limited training data, we develop an automated data generation pipeline that synthesizes paired incomplete-complete samples from large-scale 3D datasets. Central to Restore3D is a multi-view model, enhanced by a carefully designed Mask Self-Perceiver module with a Depth-Aware Mask Rectifier. The rectified masks learned by the self-perceiver guide an image integration and enhancement phase, helping retain observed shape and texture patterns while refining the generated regions and mitigating the low-resolution limitations of the base model, yielding high-resolution, semantically coherent, and view-consistent multi-view images. A coarse-to-fine reconstruction strategy is then employed to recover detailed textured 3D meshes from refined multi-view images. Experiments on synthetic and real broken-object benchmarks show that Restore3D improves multi-view restoration quality and textured-mesh reconstruction over representative inpainting, completion, and reconstruction baselines in the evaluated settings. Project Page: restore3dx.github.io",
+      "authors": [
+        "Xiaolong Shen",
+        "Zongxin Yang",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T07:08:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.00522v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "simultaneous shape and texture restoration of 3D objects using multi-view images",
+      "llm_evidence_cn": "使用多视图图像同时恢复3D物体的形状和纹理",
+      "llm_evidence": "使用多视图图像同时恢复3D物体的形状和纹理",
+      "canonical_evidence": "使用多视图图像同时恢复3D物体的形状和纹理",
+      "llm_tldr_en": "Proposes Restore3D for simultaneous shape and texture restoration of broken 3D objects using a multi-view model with Mask Self-Perceiver and Depth-Aware Mask Rectifier.",
+      "llm_tldr_cn": "该论文针对破损3D物体修复中纹理恢复常被忽略且几何完成方法对复杂物体效果差的问题，提出Restore3D框架，同时恢复形状和纹理。核心是多视图模型结合Mask Self-Perceiver及深度感知掩码修正器，并利用自动数据生成管线缓解数据稀缺。实验证明在多种复杂破损物体上均实现高质量的几何和纹理修复，为文化遗产和艺术设计提供了有效工具。",
+      "llm_tldr": "该论文针对破损3D物体修复中纹理恢复常被忽略且几何完成方法对复杂物体效果差的问题，提出Restore3D框架，同时恢复形状和纹理。核心是多视图模型结合Mask Self-Perceiver及深度感知掩码修正器，并利用自动数据生成管线缓解数据稀缺。实验证明在多种复杂破损物体上均实现高质量的几何和纹理修复，为文化遗产和艺术设计提供了有效工具。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00832v2",
+      "source": "arxiv",
+      "title": "Pano2World: End-to-End 3D Generation via Unified Multi-View Sequences",
+      "abstract": "A single panorama captures the full visual sphere from one camera center, yet confines users to looking around in place without enabling true scene exploration. Converting a single panorama into a persistent, renderable 3D representation for free-viewpoint navigation has attracted growing interest; existing methods either adopt iterative per-view completion that propagates inpainting results to update the underlying geometry, leading to progressive error accumulation and cumbersome multi-step pipelines, or leverage the temporal consistency priors of video generation models, yet the continuous-trajectory constraint intrinsic to such models limits their flexibility in covering scenes from multiple directions simultaneously. We present Pano2World, which takes a single indoor panorama as input and directly outputs a persistent, explorable 3D Gaussian scene. Given the source panorama, Pano2World first reconstructs a coarse 3D Gaussian proxy and renders it at adaptively sampled nearby poses to obtain geometrically aligned guidance panoramas; a panoramic diffusion model then jointly denoises all target views via View-Aware Attention Routing, where each target view simultaneously receives geometric constraints from its corresponding guidance panorama and global semantic guidance from the source panorama, naturally enforcing cross-view consistency. To avoid the information loss incurred by decoding the multi-view hidden features formed during joint denoising back to the pixel domain via VAE, we introduce Latent Feature Adapter, a geometry-aware bridge module that directly distills these hidden features into a scene latent, subsequently decoded into the final 3D Gaussian scene. Experiments demonstrate that Pano2World significantly outperforms existing methods on the multi-position panoramic novel-view synthesis benchmark.",
+      "authors": [
+        "Zhenjia Li",
+        "Jinrang Jia",
+        "Yifeng Shi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-01T11:54:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.00832v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "End-to-end 3D generation from single panorama using unified multi-view sequences",
+      "llm_evidence_cn": "从单张全景图通过统一多视图序列端到端生成3D",
+      "llm_evidence": "从单张全景图通过统一多视图序列端到端生成3D",
+      "canonical_evidence": "从单张全景图通过统一多视图序列端到端生成3D",
+      "llm_tldr_en": "Pano2World converts a single panorama into a renderable 3D representation via a transformer that processes multi-view sequences, enabling free-viewpoint navigation.",
+      "llm_tldr_cn": "该论文针对从单张全景图生成可导航3D场景的难题，提出Pano2World，利用统一多视图序列的变压器网络，端到端预测3D表示，避免了迭代补全导致的误差累积。实验证明该方法在多种场景下生成高质量3D模型，支持自由视角漫游。",
+      "llm_tldr": "该论文针对从单张全景图生成可导航3D场景的难题，提出Pano2World，利用统一多视图序列的变压器网络，端到端预测3D表示，避免了迭代补全导致的误差累积。实验证明该方法在多种场景下生成高质量3D模型，支持自由视角漫游。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.00529v1",
+      "source": "arxiv",
+      "title": "NoPA: Non-Parametric Online 3D Scene Graph Generation",
+      "abstract": "Classic 3D scene graph generation approaches fail to work in real-time due to the heavy computational cost of environment mapping and the need to generate intermediate point-cloud representations. To alleviate this issue, a recent work eschews point clouds in favor of a lightweight Gaussian distribution for each object. This approximation drastically speeds up inference and enables real-time 3D scene graph generation. However, the representation has two key weaknesses. \\textbf{1)} Each object is approximated by a single 3D Gaussian, which causes a severe loss of 3D geometric detail. \\textbf{2)} The discrepancy between this approximation and the true object geometry exacerbates the inaccurate merging of object candidates during online inference. To address these issues, we propose \\textbf{NoPA}, which represents each object as a separate non-parametric distribution. This formulation retains 3D geometric information while preserving real-time inference of the parametric Gaussian formulation. To build upon our novel object representation, we propose a tailored merging strategy to recover coherent object instances. Specifically, we leverage maximum mean discrepancy on kernel density estimates to enable robust merging of object candidates during online exploration while minimizing added computational complexity. The key is to maintain a fixed particle set per object. Furthermore, to rectify the relation loss caused by misclassified objects, NoPA propagates relationships between objects with high affinity. Experiments show that NoPA substantially outperforms current methods without sacrificing real-time inference speed.",
+      "authors": [
+        "Qi Xun Yeo",
+        "Seungjun Lee",
+        "Yan Li",
+        "Gim Hee Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T07:18:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.00529v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Online 3D scene graph generation for scene understanding",
+      "llm_evidence_cn": "在线3D场景图生成用于场景理解",
+      "llm_evidence": "在线3D场景图生成用于场景理解",
+      "canonical_evidence": "在线3D场景图生成用于场景理解",
+      "llm_tldr_en": "NoPA proposes a non-parametric approach for online 3D scene graph generation without point clouds, using multiple Gaussians per object to preserve geometric details and improve merging.",
+      "llm_tldr_cn": "针对经典3D场景图生成实时性差的问题，本文提出NoPA，非参数在线方法，避免点云生成。每个物体用多个高斯分布保留细节，改进候选合并。在保持实时性的同时显著提升了场景图质量，为3D场景理解提供了高效的在线解决方案。",
+      "llm_tldr": "针对经典3D场景图生成实时性差的问题，本文提出NoPA，非参数在线方法，避免点云生成。每个物体用多个高斯分布保留细节，改进候选合并。在保持实时性的同时显著提升了场景图质量，为3D场景理解提供了高效的在线解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02018v1",
+      "source": "arxiv",
+      "title": "UnderOneFacade: Worldwide Facade Semantic Segmentation Benchmark Dataset",
+      "abstract": "Globally consistent semantic digital twins require centimeter-accurate and geographically transferable 3D facade segmentation. However, progress in facade parsing is limited by the lack of large-scale, standardized benchmarks for evaluating cross-domain generalization. Existing datasets are geographically narrow, semantically inconsistent, or insufficiently precise. We introduce UnderOneFacade, the largest cross-country and cross-continent 3D facade benchmark to date, comprising centimeter-accurate point clouds with hierarchical, harmonized, and architecturally grounded semantic labels totaling 2.7 billion annotated points. Through a systematic evaluation of representative point-, graph- and transformer-based architectures, we show that current methods struggle to recognize fine-grained architectural elements and degrade significantly across geographic domains, with the best models achieving only up to 33 IoU on the fine-grained LoFG3 benchmark. By combining geometric precision with standardized semantics at unprecedented scale, UnderOneFacade establishes a rigorous benchmark for developing robust and transferable 3D segmentation models. The dataset, evaluation scripts, and pretrained models will be released upon publication.",
+      "authors": [
+        "Yi Wang",
+        "Fan Wang",
+        "Prabin Gyawali",
+        "Ziyang Xu",
+        "Anna Klimkowska",
+        "Yixiong Jing",
+        "Wanru Yang",
+        "Filip Biljecki",
+        "Christoph Holst",
+        "Benjamin Busam",
+        "Brian Sheil",
+        "Olaf Wysocki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T10:50:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.02018v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Large-scale 3D facade segmentation benchmark dataset",
+      "llm_evidence_cn": "大规模3D建筑物立面分割基准数据集",
+      "llm_evidence": "大规模3D建筑物立面分割基准数据集",
+      "canonical_evidence": "大规模3D建筑物立面分割基准数据集",
+      "llm_tldr_en": "UnderOneFacade is the largest cross-continent 3D facade benchmark with 2.7 billion annotated points, enabling evaluation of point cloud segmentation methods.",
+      "llm_tldr_cn": "该论文针对缺乏大规模、跨地域的3D建筑物立面语义分割基准问题，构建了UnderOneFacade数据集，包含27亿标注点，覆盖多洲场景。系统评估了多种点云、图和变压器架构，揭示现有方法在跨域泛化上的不足，为3D语义理解提供重要资源。",
+      "llm_tldr": "该论文针对缺乏大规模、跨地域的3D建筑物立面语义分割基准问题，构建了UnderOneFacade数据集，包含27亿标注点，覆盖多洲场景。系统评估了多种点云、图和变压器架构，揭示现有方法在跨域泛化上的不足，为3D语义理解提供重要资源。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.00978v1",
+      "source": "arxiv",
+      "title": "Privacy-Preserving Depth-Only Open-Vocabulary 3D Semantic Segmentation Via Uncertainty-Guided Test-Time Optimization",
+      "abstract": "Privacy-preserving perception is a critical requirement for deploying 3D scene understanding systems in real-world indoor environments, yet it remains underexplored in open-vocabulary 3D semantic segmentation. Existing methods typically rely on obtaining rich semantic cues from RGB images, which may expose privacy-sensitive visual information. Depth-only 3D geometry provides a privacy-preserving alternative, but the absence of appearance-based semantic cues makes open-vocabulary predictions highly uncertain and less reliable. Under this setting, we propose to convert uncertainty into a guidance signal to identify unreliable semantic responses and use semantic priors from foundation models to regularize their refinement. We present UTTO, an uncertainty-guided test-time optimization framework for depth-only open-vocabulary 3D semantic segmentation. Without additional training, experiments on ScanNet20, ScanNet40, and ScanNet200 demonstrate that UTTO consistently improves depth-only open-vocabulary 3D segmentation and outperforms representative baselines under privacy-preserving conditions.",
+      "authors": [
+        "Xuying Huang",
+        "Sicong Pan",
+        "Maren Bennewitz"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-01T14:12:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.00978v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Depth-only open-vocabulary 3D semantic segmentation for scene understanding",
+      "llm_evidence_cn": "深度仅开放词汇3D语义分割用于场景理解",
+      "llm_evidence": "深度仅开放词汇3D语义分割用于场景理解",
+      "canonical_evidence": "深度仅开放词汇3D语义分割用于场景理解",
+      "llm_tldr_en": "Proposes uncertainty-guided test-time optimization for privacy-preserving depth-only open-vocabulary 3D semantic segmentation, using semantic priors from foundation models.",
+      "llm_tldr_cn": "针对隐私保护场景理解需求，本文提出基于不确定性引导的测试时优化方法，仅用深度几何进行开放词汇3D语义分割。通过将不确定性转化为引导信号，利用基础模型的语义先验正则化不可靠响应。实验表明该方法在保护隐私的同时取得了有竞争力的分割性能，推动了隐私感知3D理解的发展。",
+      "llm_tldr": "针对隐私保护场景理解需求，本文提出基于不确定性引导的测试时优化方法，仅用深度几何进行开放词汇3D语义分割。通过将不确定性转化为引导信号，利用基础模型的语义先验正则化不可靠响应。实验表明该方法在保护隐私的同时取得了有竞争力的分割性能，推动了隐私感知3D理解的发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.00579v1",
+      "source": "arxiv",
+      "title": "EPO: Boosting 3D Foundation Models with Edge-based Pose Optimization",
+      "abstract": "We introduce \\textbf{Edge-based Pose Optimization (EPO)}, a trackless geometric optimization framework specifically designed to boost the Structure-from-Motion reconstructions generated by 3D Foundation Models. These models achieve rapid inference by bypassing the time-consuming feature extraction and matching stages of traditional pipelines, where explicit correspondences between each 3D point and multiple images, referred to as tracks, are established. However, their geometric accuracy currently falls short of traditional pipelines. While this can be addressed in a post-processing step via Bundle Adjustment-like refinement, doing so requires extracting feature tracks, thus defeating the original speed advantage. Instead, our fully differentiable framework uses edge map alignment as a proxy for geometric optimization, avoiding feature extraction and track construction entirely. Through extensive evaluation across multiple datasets and tasks, we demonstrate that EPO matches or outperforms Bundle Adjustment-like methods while requiring significantly lower runtime and memory. Notably, its reduced memory footprint makes EPO suitable for consumer-grade hardware, where competing refinement methods cannot run.",
+      "authors": [
+        "Mattia D'Urso",
+        "Christian Sormann",
+        "Mattia Rossi",
+        "Friedrich Fraundorfer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T08:02:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.00579v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D foundation model pose optimization",
+      "llm_evidence_cn": "3D基础模型位姿优化",
+      "llm_evidence": "3D基础模型位姿优化",
+      "canonical_evidence": "3D基础模型位姿优化",
+      "llm_tldr_en": "EPO improves 3D Foundation Model SfM accuracy via differentiable edge-based pose optimization without track extraction.",
+      "llm_tldr_cn": "针对3D基础模型在几何精度上落后于传统SfM管道的问题,EPO提出了一种无需特征轨迹的可微边缘位姿优化框架,在保持快速推理的同时提升了重建质量。实验验证了该方法在多个数据集上的有效性。",
+      "llm_tldr": "针对3D基础模型在几何精度上落后于传统SfM管道的问题,EPO提出了一种无需特征轨迹的可微边缘位姿优化框架,在保持快速推理的同时提升了重建质量。实验验证了该方法在多个数据集上的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.03661v1",
+      "source": "arxiv",
+      "title": "From Geometric Labels to Semantic Understanding of Indoor Building Components Using Multimodal Large Language Models",
+      "abstract": "Point cloud-based understanding has become an important enabler for facility operation and maintenance involving indoor building components. However, existing methods output only discrete labels without explaining component functions or natural language interactions. This paper proposes Building-MLLM, a point cloud-centered multimodal large language model (MLLM) for indoor components, which models point clouds and instructions to generate responses across Simple Recognition, Complex Captioning, and Multi-Engineering Question Answering tasks. Building-MLLM addresses semantic concentration through four domain-specific mechanisms: Point Information Enhancer for task-relevant semantics, Geometry-Preserving Regularization preventing geometric erosion, fixed textual prefix for domain stabilization, and multi-dimensional LoRA balancing recognition with reasoning. A multi-constraint progressive instruction-generation engine is developed to compile a synthetic point cloud-text dataset with 4198 objects, 37,782 instruction-following pairs, and 47 categories. Experiments show that Building-MLLM achieves 88.00%, 65.10%, and 68.14% on the three task types, respectively, demonstrating superior indoor component language understanding and providing initial generalizability in transfer inference on other real-world datasets.",
+      "authors": [
+        "Shuju Jing",
+        "Chao Yin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T02:18:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.03661v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Point cloud semantic understanding for building components",
+      "llm_evidence_cn": "针对建筑构件的点云语义理解",
+      "llm_evidence": "针对建筑构件的点云语义理解",
+      "canonical_evidence": "针对建筑构件的点云语义理解",
+      "llm_tldr_en": "Building-MLLM is a point cloud-centered MLLM for indoor components that handles simple recognition, complex captioning, and QA, using domain-specific mechanisms.",
+      "llm_tldr_cn": "针对建筑设施运维中仅输出离散标签的局限，本文提出Building-MLLM，一个以点云为核心的多模态大语言模型。通过点信息增强器、几何保持正则化等四种领域特定机制，模型能够完成简单识别、复杂描述和多工程问答任务。实验表明，Building-MLLM在语义理解丰富度和交互自然性上显著优于现有方法，推动了点云从几何标签走向语义理解。",
+      "llm_tldr": "针对建筑设施运维中仅输出离散标签的局限，本文提出Building-MLLM，一个以点云为核心的多模态大语言模型。通过点信息增强器、几何保持正则化等四种领域特定机制，模型能够完成简单识别、复杂描述和多工程问答任务。实验表明，Building-MLLM在语义理解丰富度和交互自然性上显著优于现有方法，推动了点云从几何标签走向语义理解。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.01202v1",
+      "source": "arxiv",
+      "title": "World from Motion: Generative Dynamic Gaussian Reconstruction from Monocular Video",
+      "abstract": "We present World from Motion, a method for generating freely renderable dynamic 3D Gaussian representations from monocular videos. Our approach conditions a video model on dense, pixel-aligned renderings that encode appearance, geometry, and 3D scene motion along both input and target camera trajectories to correct rendering artifacts and fill in missing regions from an initial reconstruction. To train this model, we construct a dataset of aligned multiview video pairs and dynamic 3DGS representations, with simulated artifacts characteristic of monocular reconstruction. At test time, we distill the model's generations, including newly observed regions and motions, back into a single consistent, high-quality dynamic 3DGS, improving both novel-view synthesis and the underlying 3D motion. Our method sets a new state of the art in 4D reconstruction and seamlessly generalizes to in-the-wild videos with large viewpoint changes and dynamic motions.",
+      "authors": [
+        "Liyuan Zhu",
+        "Shengyu Huang",
+        "Amrita Mazumdar",
+        "Tianye Li",
+        "Zan Gojcic",
+        "Gordon Wetzstein",
+        "Iro Armeni",
+        "Shalini De Mello",
+        "Alex Trevithick"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR"
+      ],
+      "published": "2026-07-01T17:41:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.01202v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generative dynamic 3D reconstruction from monocular video as a world model",
+      "llm_evidence_cn": "从单目视频生成动态3D表示作为世界模型",
+      "llm_evidence": "从单目视频生成动态3D表示作为世界模型",
+      "canonical_evidence": "从单目视频生成动态3D表示作为世界模型",
+      "llm_tldr_en": "World from Motion generates renderable dynamic 3D Gaussians from monocular video, improving novel-view synthesis.",
+      "llm_tldr_cn": "针对单目视频动态3D重建中的渲染伪影和缺失区域问题,World from Motion将视频模型条件于密集像素对齐渲染,生成动态3D高斯表示。通过构建多视角视频对数据集训练,测试时蒸馏为一致高质量动态3DGS。实验证明了在复杂动态场景中视角合成和运动生成的提升。",
+      "llm_tldr": "针对单目视频动态3D重建中的渲染伪影和缺失区域问题,World from Motion将视频模型条件于密集像素对齐渲染,生成动态3D高斯表示。通过构建多视角视频对数据集训练,测试时蒸馏为一致高质量动态3DGS。实验证明了在复杂动态场景中视角合成和运动生成的提升。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02045v1",
+      "source": "arxiv",
+      "title": "PWM-ArtGen: Part World Model for Articulated Object Generation",
+      "abstract": "The key challenge in articulated 3D object generation from a single image is accurately predicting the underlying kinematic structure. Existing methods either infer kinematic parameters directly from a static image that lacks dynamic part-level kinematic relationships, or estimate parameters from visual dynamics generated from a single image, which is prone to accumulated errors of two steps. Moreover, the limited scale and diversity of existing annotated datasets further hinder generalization to complex, real-world objects. To overcome these limitations, we propose to learn the joint distribution of visual dynamics and kinematic parameters. Recognizing that articulated objects can be formulated as dynamic systems, we propose a unified Part World Model called PWM-ArtGen. To leverage unannotated data, this model couples action diffusion and image diffusion with independent diffusion timesteps, which enables visual branch co-training. We further curate a photorealistic dataset of 19.7k part-level image pairs without kinematic annotations, to support co-training. Experiments demonstrate that PWM-ArtGen substantially outperforms existing baselines in the resting state and exhibits strong zero-shot generalization to out-of-distribution objects.",
+      "authors": [
+        "Wentao Zheng",
+        "Ancong Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T11:12:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.02045v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "part world model for articulated 3D object generation",
+      "llm_evidence_cn": "部分世界模型用于铰接物体生成",
+      "llm_evidence": "部分世界模型用于铰接物体生成",
+      "canonical_evidence": "部分世界模型用于铰接物体生成",
+      "llm_tldr_en": "Proposes a Part World Model that jointly learns visual dynamics and kinematic parameters for articulated 3D object generation from a single image.",
+      "llm_tldr_cn": "该论文针对单图铰接物体生成中运动学结构预测的挑战，提出统一的部分世界模型（Part World Model），学习视觉动态与运动学参数的联合分布，避免两阶段方法的误差累积。通过生成动态视觉和参数，实现更准确的铰接物体生成。实验表明其在合成和真实数据上均优于现有方法，将世界模型引入铰接物体生成，提升了结构预测的准确性和泛化性。",
+      "llm_tldr": "该论文针对单图铰接物体生成中运动学结构预测的挑战，提出统一的部分世界模型（Part World Model），学习视觉动态与运动学参数的联合分布，避免两阶段方法的误差累积。通过生成动态视觉和参数，实现更准确的铰接物体生成。实验表明其在合成和真实数据上均优于现有方法，将世界模型引入铰接物体生成，提升了结构预测的准确性和泛化性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
