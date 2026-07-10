@@ -1,0 +1,76 @@
+Title: Property-Constrained 3D Porous Media Reconstruction from 2D Images via Conditional Generative Adversarial Networks
+
+URL Source: https://arxiv.org/pdf/2607.02693v1
+
+Published Time: Tue, 07 Jul 2026 00:07:15 GMT
+
+Number of Pages: 6
+
+Markdown Content:
+# Property-Constrained 3D Porous Media Reconstruction from 2D Images via Conditional Generative Adversarial Networks 
+
+A. Sadeghkhani a, ∗, B. Bennett a, A. Rabbani a
+
+> aSchool of Computer Science, University of Leeds, Leeds, UK
+
+Abstract 
+
+This study presents a conditional Generative Adversarial Network (cGAN) framework for generating 3D porous media volumes with controlled porosity, trained exclusively on 2D thin section images. The key innovation lies in combining property-conditioned generation with 2D-to-3D reconstruction, eliminating the need for expensive 3D training data while maintaining control over petrophysical properties. The framework employs a hybrid architecture with a 3D generator and 2D discriminator, where multi-axis slice extraction enables learning 3D-consistent structures from 2D training data. Porosity labels are extracted using an Enhanced U-Net segmentation model. The methodology was demonstrated on two carbonate samples with different lithologies: dolomite-anhydrite and pure dolomite. Results show that the framework successfully generates realistic 3D volumes capturing lithological features such as anhydrite inclusions and fine crystalline textures. Porosity control achieved an R2 of 0.93, with mean absolute errors of 0.019 and 0.010 for the heterogeneous and homogeneous samples, respectively. 
+
+Keywords: Conditional Generative Adversarial Networks, 3D reconstruction, Porous media, Porosity control, Deep learning, Carbonate rocks, Thin sections 
+
+1. Introduction 
+
+Three-dimensional characterisation of porous media microstructure is essential for understanding fluid flow behaviour in subsurface applications, including carbon storage, geothermal energy extraction, and groundwater management [1]. While advanced imaging technologies such as micro-CT and FIB-SEM can provide detailed 3D pore-scale data, these methods are constrained by high costs, limited sample availability, and practical acquisition challenges [2]. In contrast, two-dimensional images remain widely available and cost-effective, yet they provide only partial information about the inherently three-dimensional pore network structure. Recent advances in deep learning, particularly Generative Adversarial Networks (GANs), have demon-strated remarkable capabilities in generating realistic porous media images [3, 4]. Several studies have explored 2D-to-3D reconstruction approaches, where 3D volumes are generated from 2D training data by   
+
+> ∗Corresponding author
+> Email address: alisdkhani@gmail.com (A. Sadeghkhani)
+> 87th EAGE Annual Conference & Exhibition, Aberdeen, UK, June 2026
+> arXiv:2607.02693v1 [cs.CV] 2 Jul 2026
+
+exploiting statistical similarities between orthogonal cross-sections [4, 5]. However, most existing meth-ods focus on unconditional generation without explicit control over petrophysical properties, limiting their practical utility for engineering applications that require specific property values. Conditional GANs (cGANs) address this limitation by incorporating additional input parameters to guide the generation process [6]. Recent work has demonstrated property-controlled 3D porous media reconstruc-tion, achieving precise control over porosity and other characteristics [8, 9]. However, these methods rely on 3D training data obtained from micro-CT imaging. Extending property-conditioned generation to 3D volumes while training exclusively on 2D images remains a significant challenge. This study presents a slice-based cGAN framework for generating 3D porous media volumes (256 3 voxels) with controlled porosity, trained using only 2D thin section images. The key innovation lies in combining property-conditioned generation with 2D-to-3D reconstruction, enabling control over petrophysical properties without requiring 3D training data. This is achieved through a hybrid architecture employing a 3D gener-ator with a 2D discriminator, where multi-axis slice extraction enables the network to learn 3D-consistent structures from 2D training data. The methodology is demonstrated using carbonate thin section samples from a reservoir formation [10]. 
+
+2. Method and Theory 
+
+The proposed framework combines property-conditioned generation with 2D-to-3D reconstruction through an asymmetric architecture consisting of a 3D generator and a 2D discriminator (Figure 1). The workflow comprises three main components including porosity label extraction, conditional 3D generation, and multi-axis discriminator training. Porosity labels are extracted from training images using an Enhanced U-Net segmentation model [7], which binarises the images by distinguishing pore spaces (identified by blue-dyed epoxy resin) from solid matrix with high accuracy (Dice coefficient = 0.95). The computed porosity values serve as conditioning labels for the GAN training. The generator G receives a latent noise vector concatenated with a target porosity value c, and pro-duces a 256 3 voxel RGB volume. The discriminator D operates on 2D slices and evaluates whether they exhibit realistic pore structures consistent with the specified porosity. During training, multiple 2D slices are extracted from generated volumes along three orthogonal axes ( X, Y , Z) and compared against real 2D training images, both paired with their corresponding porosity labels. The training follows the standard conditional adversarial objective: 
+
+L = Ex[log D(x|c)] + Ez [log(1 − D(G(z|c)|c))] (1) where x represents real 2D images, z is the latent vector, and c is the porosity condition. 2Discriminator  
+
+> Noise
+> Fake 3D Images
+> Real or Fake
+> Generator
+> Enhanced U -Net Real Images
+> Porosity Label
+> Real 2D Images Binarization
+> Condition
+> Concatenation
+> X, Y, Z Slicer Figure 1: Overview of the proposed framework. Real 2D thin section images are binarised using an Enhanced U-Net to extract porosity labels. The generator receives noise concatenated with target porosity to produce 3D volumes, which are sliced along X, Y, and Z axes. The discriminator evaluates extracted slices against real 2D images, both conditioned on porosity labels.
+
+The model was trained on thin section images from two core samples obtained from a carbonate reservoir formation [10]. Both samples exhibit crystalline fabric with intercrystalline pore types; the first comprises dolomite-anhydrite lithology with distinctive anhydrite mineral inclusions, while the second consists of pure dolomite with fine-grained crystalline texture. 
+
+3. Results 
+
+The framework was evaluated on two carbonate samples with distinct lithological characteristics. Figure 2 presents results for the dolomite-anhydrite sample, where the generated 3D volumes successfully reproduce the characteristic light-coloured anhydrite mineral inclusions observed in the training images. These im-permeable anhydrite patches are consistently represented throughout the generated volumes, demonstrating that the network captures lithological heterogeneity beyond simple pore-solid distributions. Figure 3 shows results for the pure dolomite sample, which exhibits a finer crystalline texture with smaller, more uniformly distributed pores. The generated 3D volumes faithfully reproduce this fine-grained pattern, with the pore space visualisations confirming the characteristic small-scale porosity distribution observed in the training images. 3Training 2D Images Synthetic 3D Images Pore Space       
+
+> Porosity = 0.043 Porosity = 0.064 Porosity = 0.088 Porosity = 0.119
+> Porosity = 0.037 Porosity = 0.058 Porosity = 0.080 Porosity = 0.134
+
+Figure 2: Results for Sample 1 (dolomite-anhydrite). Top row: training 2D thin section images with corresponding porosity values. Middle row: generated 3D volumes at specified target porosities. Bottom row: extracted pore space from generated volumes showing increasing pore volume with porosity. Training 2D Images Synthetic 3D Images Pore Space       
+
+> Porosity = 0.057 Porosity = 0.082 Porosity = 0.106 Porosity = 0.155
+> Porosity = 0.059 Porosity = 0.080 Porosity = 0.103 Porosity = 0.152
+
+Figure 3: Results for Sample 2 (pure dolomite). Top row: training 2D thin section images with corresponding porosity values. Middle row: generated 3D volumes at specified target porosities. Bottom row: extracted pore space from generated volumes. 
+
+Porosity control accuracy was assessed by comparing target values with measured porosities from gener-ated volumes. The framework achieved an overall coefficient of determination ( R2) of 0.93, indicating strong 4correlation between target and generated porosity values. Sample 1 (dolomite-anhydrite) achieved a mean absolute error (MAE) of 0.019, while Sample 2 (pure dolomite) demonstrated higher precision with an MAE of 0.010. The improved accuracy for Sample 2 is attributed to its more homogeneous texture compared to the heterogeneous dolomite-anhydrite lithology. Both samples show that generated porosity increases progressively with target values, confirming effective property conditioning. 
+
+4. Conclusions 
+
+This study presented a conditional GAN framework for generating 3D porous media volumes with con-trolled porosity, trained exclusively on 2D thin section images. The key contribution lies in combining property-conditioned generation with 2D-to-3D reconstruction, eliminating the need for 3D training data while maintaining control over petrophysical properties. Results demonstrated successful generation of realistic 3D volumes for two carbonate samples with dif-ferent lithologies. The framework captures not only porosity variations but also lithological features such as anhydrite inclusions and fine crystalline textures. Porosity control achieved an R2 of 0.93, with MAE values of 0.019 and 0.010 for the heterogeneous and homogeneous samples respectively. Future work will include quantitative validation through pore size distribution analysis, two-point corre-lation functions, and flow simulation studies, as well as extending the framework to additional petrophysical properties. 
+
+References 
+
+[1] Blunt, M.J., Bijeljic, B., Dong, H., Gharbi, O., Iglauer, S., Mostaghimi, P., Paluszny, A. and Pentland, C. (2013) Pore-scale imaging and modelling. Advances in Water Resources , 51, 197–216. [2] Cnudde, V. and Boone, M.N. (2013) High-resolution X-ray computed tomography in geosciences: Areview of the current technology and applications. Earth-Science Reviews , 123, 1–17. [3] Goodfellow, I.J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A. and Bengio, Y. (2014) Generative Adversarial Networks. arXiv preprint arXiv:1406.2661. [4] Feng, J., Teng, Q., Li, B., He, X., Chen, H. and Li, Y. (2020) An end-to-end three-dimensional re-construction framework of porous media from a single two-dimensional image based on deep learning. 
+
+Computer Methods in Applied Mechanics and Engineering , 368, 113043. [5] Shams, R., Masihi, M., Boozarjomehry, R.B. and Blunt, M.J. (2021) A hybrid of statistical and con-ditional generative adversarial neural network approaches for reconstruction of 3D porous media (ST-CGAN). Advances in Water Resources , 158, 104064. [6] Mirza, M. and Osindero, S. (2014) Conditional Generative Adversarial Nets. arXiv preprint arXiv:1411.1784. 5[7] Sadeghkhani, A., Bennett, B., Babaei, M. and Rabbani, A. (2025) PCP-GAN: Property-Constrained Pore-scale image reconstruction via conditional Generative Adversarial Networks. arXiv preprint arXiv:2510.19465 .[8] Zhou, R. and Wu, C.D. (2023) 3D reconstruction of digital rock guided by petrophysical parameters with deep learning. Geoenergy Science and Engineering , 231, 212320. [9] Zheng, Q. and Zhang, D. (2022) Digital Rock Reconstruction with User-Defined Properties Using Con-ditional Generative Adversarial Networks. Transport in Porous Media , 144, 479–505. [10] Rabbani, A., Assadi, A., Kharrat, R., Dashti, N. and Ayatollahi, S. (2017) Estimation of carbonates permeability using pore network parameters extracted from thin section images and comparison with experimental data. Journal of Natural Gas Science and Engineering , 42, 85–98. 6

@@ -1,0 +1,719 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-10T21:37:33.421184+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 19,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 34,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.03789v1",
+      "source": "arxiv",
+      "title": "G$^2$TAM: Geometry Grounded Track Anything Model",
+      "abstract": "Human spatial understanding arises from jointly perceiving geometry and semantics, enabling consistent object identification and localization across viewpoints and time. Current video segmentation models depend on explicit object appearance memory banks for instance tracking, yet they remain vulnerable to large viewpoint changes and long-term occlusions. Leveraging the spatial consistency afforded by modern feed-forward 3D reconstruction models, we propose the Geometry Grounded Tracking Anything Model (G$^2$TAM), a unified framework for promptable instance tracking in 3D using only unordered RGB images or videos. G$^2$TAM employs spatially aligned geometric representations as implicit memory, ensuring stable instance identity and localization across frames and views. At its core is a cross-modal spatial encoder that integrates visual and textual prompts into a shared geometric space, enabling end-to-end spatial reconstruction and instance-consistent mask prediction. To support training and evaluation, we construct InsTrack, a large-scale dataset with a dedicated validation split for benchmarking. Extensive experiments show that G$^2$TAM delivers strong cross-view consistency, promptable instance spatial tracking, video object segmentation and spatial reconstruction, establishing a foundation for interactive, geometry-grounded spatial reasoning.",
+      "authors": [
+        "Chenming Zhu",
+        "Peizhou Cao",
+        "Jingli Lin",
+        "Wenbo Hu",
+        "Yunlong Ran",
+        "Jiangmiao Pang",
+        "Tai Wang",
+        "Xihui Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T09:32:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.03789v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Geometry Grounded Track Anything Model",
+      "llm_evidence_cn": "几何基础跟踪任何模型",
+      "llm_evidence": "几何基础跟踪任何模型",
+      "canonical_evidence": "几何基础跟踪任何模型",
+      "llm_tldr_en": "G2TAM leverages feed-forward 3D reconstruction for promptable instance tracking in 3D, using geometric representations as implicit memory.",
+      "llm_tldr_cn": "针对当前视频分割模型在大视角变化和长期遮挡下跟踪不稳定的问题，G2TAM利用前馈3D重建模型的空间一致性，提出以几何表示作为隐式记忆的统一框架，仅用无序RGB图像或视频即可实现3D实例跟踪。该方法在跨视角和跨时域定位上保持稳定身份。",
+      "llm_tldr": "针对当前视频分割模型在大视角变化和长期遮挡下跟踪不稳定的问题，G2TAM利用前馈3D重建模型的空间一致性，提出以几何表示作为隐式记忆的统一框架，仅用无序RGB图像或视频即可实现3D实例跟踪。该方法在跨视角和跨时域定位上保持稳定身份。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "Visual Geometry Grounded Transformer",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03819v1",
+      "source": "arxiv",
+      "title": "CGGS: Consistency-Augmented Geometric Gaussian Splatting for Ego-centric 3D Scene Generation",
+      "abstract": "Challenges remain in ego-centric 3D scene generation due to limited view overlap and the dominant influence of individual perspectives on scene interpretation. These factors hinder the creation of viewpoint-consistent and semantically aligned visual content, as well as the construction of accurate geometric structures. In this paper, we propose CGGS, a text-to-3D framework aiming to enhance 3D-content-awareness and address geometric distortions in ego-centric scene generation. Firstly, the Ego-centric Generator is proposed by fine-tuning a Multi-View Latent Diffusion Model with consistency-augmented loss to generate consistent, high-fidelity 2D content aligned with textual descriptions. Then, Layout Decorator leverages optical flow and point-track correspondence to estimate depth, therefore producing dense point clouds as coarse layouts from the ego-centric 2D priors. Building on this initialization, Geometric Refiner is proposed to enhance 3D Gaussian reconstruction via an entropy-based Mutual Information Depth Loss (MID) combined with a hierarchical optimization scheme for improving visual quality and geometric structure. Comprehensive experiments demonstrate that \\textcolor{softred}{CGGS} outperforms previous methods in generating coherent and accurate text-driven 3D scenes. Project page: https://cggs-26.github.io/cggs26/.",
+      "authors": [
+        "Zhenyu Sun",
+        "Xiaohan Zhang",
+        "Qi Liu",
+        "Huan Wang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T11:06:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.03819v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "uses multi-view latent diffusion for 3D scene generation",
+      "llm_evidence_cn": "使用多视角隐扩散模型进行3D场景生成",
+      "llm_evidence": "使用多视角隐扩散模型进行3D场景生成",
+      "canonical_evidence": "使用多视角隐扩散模型进行3D场景生成",
+      "llm_tldr_en": "CGGS proposes a text-to-3D framework with consistency-augmented multi-view latent diffusion and layout decoration for ego-centric 3D scene generation.",
+      "llm_tldr_cn": "针对第一视角3D场景生成中视角重叠少、几何失真等问题，本文提出CGGS框架，通过微调多视角隐扩散模型并引入一致性增强损失，生成视角一致且语义对齐的2D内容，再结合布局装饰器优化3D结构。实验证明该方法能生成高质量、几何准确的3D场景，推动了文本驱动3D生成的发展。",
+      "llm_tldr": "针对第一视角3D场景生成中视角重叠少、几何失真等问题，本文提出CGGS框架，通过微调多视角隐扩散模型并引入一致性增强损失，生成视角一致且语义对齐的2D内容，再结合布局装饰器优化3D结构。实验证明该方法能生成高质量、几何准确的3D场景，推动了文本驱动3D生成的发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04112v1",
+      "source": "arxiv",
+      "title": "DynaVieW: Schema-Guided World Modeling for Understanding Hierarchical Visual Dynamics",
+      "abstract": "Multimodal LLMs struggle to systematically model the temporal evolution of visual scenes in videos or multi-image sequences. Such inputs require models to predict or simulate multiple levels of dynamic constituents, such as actions taken in the visual sequence, and the associated changes to the visual environment that result. To address this challenge, we propose a dynamic schema-guided world model, DynaVieW, optimized for visual dynamic prediction and simulation. DynaVieW achieves an in-depth understanding of visual dynamics by learning interleaved state-transition sequences, where states cover broad visual scenes from video keyframes, and transitions capture comprehensive dynamic constituents within a hierarchical schema. DynaVieW jointly models transition prediction and state simulation under a mixture-of-experts architecture, with a cross-expert selective attention and a schema token re-weighted loss, to ensure effective and robust learning. DynaVieW's understanding of visual dynamics boosts its downstream performance in visual narrative creation and world simulation, showing improved consistency, controllability, and instruction-following.",
+      "authors": [
+        "Silin Gao",
+        "Hao Zhao",
+        "Zeming Chen",
+        "Sepideh Mamooler",
+        "Antara Raaghavi Bhattacharya",
+        "Qiyu Wu",
+        "Hiromi Wakaki",
+        "Yuki Mitsufuji",
+        "Li Mi",
+        "Syrielle Montariol",
+        "Antoine Bosselut"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-07-05T04:44:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.04112v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "schema-guided world model for visual dynamics",
+      "llm_evidence_cn": "模式引导的世界模型用于视觉动态理解",
+      "llm_evidence": "模式引导的世界模型用于视觉动态理解",
+      "canonical_evidence": "模式引导的世界模型用于视觉动态理解",
+      "llm_tldr_en": "DynaVieW proposes a dynamic schema-guided world model for predicting and simulating visual temporal dynamics in videos.",
+      "llm_tldr_cn": "针对多模态LLM难以系统建模视频时序演化的问题，DynaVieW提出动态模式引导的世界模型，通过学习交错的状态-转移序列来理解视觉动态。状态覆盖视频关键帧场景，转移捕获层次化动态要素。实验验证了模型在视觉动态预测和模拟上的有效性。",
+      "llm_tldr": "针对多模态LLM难以系统建模视频时序演化的问题，DynaVieW提出动态模式引导的世界模型，通过学习交错的状态-转移序列来理解视觉动态。状态覆盖视频关键帧场景，转移捕获层次化动态要素。实验验证了模型在视觉动态预测和模拟上的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04409v1",
+      "source": "arxiv",
+      "title": "Learning Task-Sufficient World Models by Synergizing Agentic Exploration and Structured Modeling",
+      "abstract": "Learning and planning in imagination using world models provides an effective paradigm for training agents for decision-making. However, existing approaches often rely on high-dimensional latent spaces or generic visual embeddings that retain many factors irrelevant to control, limiting efficiency and generalization across tasks. To this end, we study how agents can learn world models with representations that are task-specific, minimal, and sufficient for decision-making. We achieve this via a closed-loop synergy between the agent and the world model, in which structured world-model learning distills task-sufficient representations from informative interaction data. On the agent side, agents actively probe the environment to collect informative trajectories that expose task-relevant latent factors, guided by an adaptive curriculum. On the world-model side, we learn structured representations over observations to distill compact, task-sufficient latent states from the collected interaction data. This synergy enables the empirical recovery of task-sufficient latent representations that capture all control-relevant factors. Leveraging these representations, the resulting policies achieve improved sample efficiency and generalization, including generalization across skills, object-skill compositions, and previously unseen tasks on standard continuous-control and robotic-manipulation benchmarks.",
+      "authors": [
+        "Fan Feng",
+        "Yujia Zheng",
+        "Minghao Fu",
+        "Yongqiang Chen",
+        "Guangyi Chen",
+        "Kevin Murphy",
+        "Biwei Huang",
+        "Kun Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-05T17:02:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.04409v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "world models, agentic exploration, structured modeling",
+      "llm_evidence_cn": "世界模型，智能体探索，结构化建模",
+      "llm_evidence": "世界模型，智能体探索，结构化建模",
+      "canonical_evidence": "世界模型，智能体探索，结构化建模",
+      "llm_tldr_en": "Proposes a closed-loop synergy between agent and world model to learn task-specific, minimal, and sufficient representations for decision-making, improving efficiency and generalization.",
+      "llm_tldr_cn": "现有世界模型方法常依赖高维潜在空间或通用视觉嵌入，保留许多与控制无关的因素，限制了效率和泛化能力。为此，本文提出一种智能体与世界模型之间的闭环协同机制，通过结构化世界模型从交互数据中提取任务充分表示，智能体主动探索环境以产生信息丰富的交互数据。该方法在决策任务上实现了更高效的学习和泛化。",
+      "llm_tldr": "现有世界模型方法常依赖高维潜在空间或通用视觉嵌入，保留许多与控制无关的因素，限制了效率和泛化能力。为此，本文提出一种智能体与世界模型之间的闭环协同机制，通过结构化世界模型从交互数据中提取任务充分表示，智能体主动探索环境以产生信息丰富的交互数据。该方法在决策任务上实现了更高效的学习和泛化。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05390v1",
+      "source": "arxiv",
+      "title": "Deform360: A Massive Multi-view Visuotactile Dataset for Deformable World Models",
+      "abstract": "Predicting object dynamics (i.e., world modeling) is a fundamental challenge for robotic manipulation, and modeling deformable objects presents a particularly difficult case due to their high-dimensional state spaces and complex material properties. While current world models approach this through two distinct paradigms: learning the dynamics over the 2D pixel space or more explicit 3D geometric space. A systematic understanding of their relative strengths and limitations remains elusive due to the lack of diverse, large-scale real-world data. To address this, we present Deform360, a large-scale visuotactile dataset featuring 198 daily-life objects, 1,980 interaction sequences, and over 215 hours of observations from 41 surround-view cameras and bimanual tactile grippers to capture both global motion and contact-induced local deformations. Leveraging a novel markerless visuotactile 3D tracking pipeline to extract dense geometry and motion, we systematically evaluate current state-of-the-art world models, comparing 2D video models against 3D particle models. Finally, we provide a preliminary demonstration indicating the real-world applicability of our dataset by performing robot planning tasks on deformable objects. Our analysis reveals key insights into the trade-offs between structural priors and scalability, providing a solid benchmark for future research in generalizable deformable object-centric world modeling. Project website: https://deform360.lhy.xyz",
+      "authors": [
+        "Hongyu Li",
+        "Wanjia Fu",
+        "Xiaoyan Cong",
+        "Zekun Li",
+        "Binghao Huang",
+        "Hanxiao Jiang",
+        "Xintong He",
+        "Yiqing Liang",
+        "Rao Fu",
+        "Tao Lu",
+        "Srinath Sridhar",
+        "Kevin A. Smith",
+        "George Konidaris",
+        "Yunzhu Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:59:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.05390v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "large-scale dataset for deformable world models",
+      "llm_evidence_cn": "面向可变形世界模型的大规模数据集",
+      "llm_evidence": "面向可变形世界模型的大规模数据集",
+      "canonical_evidence": "面向可变形世界模型的大规模数据集",
+      "llm_tldr_en": "Deform360 provides a large-scale multi-view visuotactile dataset with 198 objects for benchmarking deformable world models.",
+      "llm_tldr_cn": "由于缺乏大规模真实数据，当前可变形世界模型的研究难以系统比较2D与3D方法的优劣。Deform360数据集包含198个日常物体、1980次交互序列及超过215小时的41视角观测，为可变形世界模型的评估提供了丰富资源。该数据集有助于推动更鲁棒的动力学预测方法发展。",
+      "llm_tldr": "由于缺乏大规模真实数据，当前可变形世界模型的研究难以系统比较2D与3D方法的优劣。Deform360数据集包含198个日常物体、1980次交互序列及超过215小时的41视角观测，为可变形世界模型的评估提供了丰富资源。该数据集有助于推动更鲁棒的动力学预测方法发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05493v1",
+      "source": "arxiv",
+      "title": "Ground3D-LMM: Fine-Grained 3D Point Grounding and Spatial Reasoning with LMM",
+      "abstract": "Natural-language queries about 3D environments become actionable when responses are verifiable and metric. Verifiability requires explicit grounding to the referred 3D region, while metric answers report physical measurements in real-world units (e.g., size, thickness, clearance, and distance). Existing 3D large multimodal models (LMMs) approaches remain limited: conversational systems typically respond without explicit 3D grounding, while 3D grounding models are not designed for interactive, metric-aware dialogue. In this paper, we present Ground3D-LMM, a unified model that takes a point cloud and an optional RGB image as input and supports 3D spatial conversation with (i) point-grounded responses and (ii) metric numeric outputs at both object and part granularity, including multi-object queries. To evaluate this intersection of grounding and measurement, we define the 3D Grounded Measurement task, which requires predicting the referred 3D region and the corresponding metric quantities in real-world units. We introduce a large-scale dataset built on ScanNet and ScanNet++ datasets with dense object and part annotations and roughly 2.5M question-answer pairs spanning eight tasks, along with a manually verified test set. Extensive experiments on multiple datasets and tasks show that our proposed Ground3D-LMM model provides a strong baseline for grounded, metric-aware 3D conversational understanding. Our dataset and model are publicly available.",
+      "authors": [
+        "Amol Harsh",
+        "Zongyan Han",
+        "Jean Lahoud",
+        "Ye Liu",
+        "Rao Muhammad Anwer",
+        "Hisham Cholakkal",
+        "Salman Khan",
+        "Fahad Khan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T18:00:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.05493v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "fine-grained 3D point grounding and spatial reasoning",
+      "llm_evidence_cn": "细粒度3D点云定位与空间推理",
+      "llm_evidence": "细粒度3D点云定位与空间推理",
+      "canonical_evidence": "细粒度3D点云定位与空间推理",
+      "llm_tldr_en": "Ground3D-LMM unifies 3D grounding and metric-aware dialogue for point clouds, enabling verifiable and measurable spatial reasoning.",
+      "llm_tldr_cn": "现有3D大模型在交互时缺乏显式3D定位和度量输出。Ground3D-LMM提出了一个统一框架，融合点云和图像输入，生成点级定位和物理量数值响应。在多个3D定位和问答基准上，该方法显著优于现有方案，推动了3D空间推理向可验证、可度量的方向发展。",
+      "llm_tldr": "现有3D大模型在交互时缺乏显式3D定位和度量输出。Ground3D-LMM提出了一个统一框架，融合点云和图像输入，生成点级定位和物理量数值响应。在多个3D定位和问答基准上，该方法显著优于现有方案，推动了3D空间推理向可验证、可度量的方向发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.01708v1",
+      "source": "arxiv",
+      "title": "Consistent Scene Understanding in 3D Gaussian Splatting via Multi-Cue Mask Refinement",
+      "abstract": "Reliable instance-level scene understanding is a fundamental prerequisite for object-level interactions and high-fidelity 3D representations. While current methods often leverage 2D foundation segmentation models to obtain these priors, their 2D-centric design typically yields fragmented masks and inconsistent predictions across different views. To address these issues, we propose a novel framework that produces consistent 2D instance masks to guide the optimization of 3D Gaussian Splatting (3DGS) feature fields. Our framework consists of three main stages. (1) Multi-Cue Extraction that generates synergistic semantic, geometric, and structural priors from input images. (2) Multi-Cue-Guided Mask Merging process that consolidates fragmented masks using a composite merge score derived from semantic, depth, and edge cues. (3) Cross-View Mask Matching that establishes globally consistent identity assignments across all viewpoints. By transforming viewpoint-specific segments into coherent 3D primitives, our approach enables stable 3D instance segmentation and effective downstream editing tasks. Experiments demonstrate that our method significantly improves cross-view consistency and segmentation stability over existing baselines while maintaining high-fidelity photometric reconstruction.",
+      "authors": [
+        "Hyunjoon Park",
+        "Donghyeon Cho"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T05:00:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.01708v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "consistent instance masks for 3DGS scene understanding via multi-cue refinement",
+      "llm_evidence_cn": "通过多线索细化在3DGS中实现一致实例分割理解",
+      "llm_evidence": "通过多线索细化在3DGS中实现一致实例分割理解",
+      "canonical_evidence": "通过多线索细化在3DGS中实现一致实例分割理解",
+      "llm_tldr_en": "Proposes a framework for consistent 2D instance masks to guide 3DGS feature fields, leveraging multi-cue extraction and mask merging to improve 3D scene understanding.",
+      "llm_tldr_cn": "针对2D分割模型在3D场景中不一致的问题，提出多线索掩膜细化框架。首先从输入图像提取语义、几何和结构先验，然后通过多线索引导的掩膜合并过程生成一致的2D实例掩膜，最后用于优化3D高斯泼溅特征场。实验表明该方法提升了3D场景理解的实例级一致性。",
+      "llm_tldr": "针对2D分割模型在3D场景中不一致的问题，提出多线索掩膜细化框架。首先从输入图像提取语义、几何和结构先验，然后通过多线索引导的掩膜合并过程生成一致的2D实例掩膜，最后用于优化3D高斯泼溅特征场。实验表明该方法提升了3D场景理解的实例级一致性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02908v1",
+      "source": "arxiv",
+      "title": "Holo-Captioning: Toward the Text Equivalent of 3D Scenes",
+      "abstract": "This work introduces holo-captioning, a novel task that strives to seek the text equivalent of 3D scenes. As the initial step, we formulate holo-captioning as generating a structured textual description that comprehensively depicts all entities within a 3D scene -- including their semantic tags, spatial locations, attributes, and inter-entity relations. To tackle this challenging task, we first develop an effective captioning engine to produce detailed descriptions of individual entity instances and instance pairs, and contribute a large-scale benchmark comprising over 15K scenes for training and evaluation. Building upon this foundation, we propose HoloScribe, a novel model that features an instance-aware decoupled pipeline for generating structured holo-captions, and further incorporates anchor-aware instance linking to identify relational instance pairs. Additionally, we propose a comprehensive evaluation metric named HoloScore, and provide a human-curated test set to ensure reliable model assessment. Experimental results demonstrate that HoloScribe significantly outperforms state-of-the-art 3D dense captioners and 3D LLM generalists, underscoring the effectiveness of our approach. Project page: https://visual-ai.github.io/holocap/",
+      "authors": [
+        "Kun-Yu Lin",
+        "Chengke Bu",
+        "Zhenguo Li",
+        "Kai Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T03:14:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.02908v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "generating structured text descriptions of 3D scenes, i.e., 3D understanding",
+      "llm_evidence_cn": "生成3D场景的结构化文本描述，即3D理解",
+      "llm_evidence": "生成3D场景的结构化文本描述，即3D理解",
+      "canonical_evidence": "生成3D场景的结构化文本描述，即3D理解",
+      "llm_tldr_en": "HoloScribe generates structured holo-captions for 3D scenes, covering entities, locations, attributes, and relations, advancing 3D scene understanding.",
+      "llm_tldr_cn": "本文提出全息字幕（holo-captioning）任务，旨在生成3D场景的等效文本描述，包括所有实体的语义标签、空间位置、属性及相互关系。作者开发了高效的字幕引擎，构建了包含15K场景的大规模基准，并提出HoloScribe模型，采用实例感知解耦管道生成结构化全息字幕。该工作为3D场景理解提供了新的细粒度评估方式。",
+      "llm_tldr": "本文提出全息字幕（holo-captioning）任务，旨在生成3D场景的等效文本描述，包括所有实体的语义标签、空间位置、属性及相互关系。作者开发了高效的字幕引擎，构建了包含15K场景的大规模基准，并提出HoloScribe模型，采用实例感知解耦管道生成结构化全息字幕。该工作为3D场景理解提供了新的细粒度评估方式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.02693v1",
+      "source": "arxiv",
+      "title": "Property-Constrained 3D Porous Media Reconstruction from 2D Images via Conditional Generative Adversarial Networks",
+      "abstract": "This study presents a conditional Generative Adversarial Network (cGAN) framework for generating 3D porous media volumes with controlled porosity, trained exclusively on 2D thin section images. The key innovation lies in combining property-conditioned generation with 2D-to-3D reconstruction, eliminating the need for expensive 3D training data while maintaining control over petrophysical properties. The framework employs a hybrid architecture with a 3D generator and 2D discriminator, where multi-axis slice extraction enables learning 3D-consistent structures from 2D training data. Porosity labels are extracted using an Enhanced U-Net segmentation model. The methodology was demonstrated on two carbonate samples with different lithologies: dolomite-anhydrite and pure dolomite. Results show that the framework successfully generates realistic 3D volumes capturing lithological features such as anhydrite inclusions and fine crystalline textures. Porosity control achieved an $R^2$ of 0.93, with mean absolute errors of 0.019 and 0.010 for the heterogeneous and homogeneous samples, respectively.",
+      "authors": [
+        "Ali Sadeghkhani",
+        "Brandon Bennett",
+        "Arash Rabbani"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG",
+        "physics.geo-ph"
+      ],
+      "published": "2026-07-02T18:34:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.02693v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "conditional GAN for 3D porous media reconstruction from 2D images, property-constrained generation",
+      "llm_evidence_cn": "条件GAN从2D图像重建3D多孔介质，属性约束生成",
+      "llm_evidence": "条件GAN从2D图像重建3D多孔介质，属性约束生成",
+      "canonical_evidence": "条件GAN从2D图像重建3D多孔介质，属性约束生成",
+      "llm_tldr_en": "Proposes a cGAN framework for 3D porous media reconstruction from 2D thin sections, using a 3D generator and 2D discriminator with multi-axis slice extraction.",
+      "llm_tldr_cn": "针对3D训练数据稀缺的问题，提出条件GAN框架从2D薄片图像生成控制孔隙度的3D多孔介质体积。采用3D生成器和2D判别器，通过多轴切片提取学习3D一致性结构。在碳酸盐样本上验证，生成的3D体积满足属性约束且结构合理。为3D生成提供低成本方案。",
+      "llm_tldr": "针对3D训练数据稀缺的问题，提出条件GAN框架从2D薄片图像生成控制孔隙度的3D多孔介质体积。采用3D生成器和2D判别器，通过多轴切片提取学习3D一致性结构。在碳酸盐样本上验证，生成的3D体积满足属性约束且结构合理。为3D生成提供低成本方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02407v1",
+      "source": "arxiv",
+      "title": "Text-Driven 3D Indoor Scene Synthesis in Non-Manhattan Environments",
+      "abstract": "Large Language Models (LLMs) have demonstrated remarkable capabilities in 3D indoor synthesis for Manhattan environments. However, existing methods often fail to capture plausible object layout patterns in non-Manhattan settings, primarily because they struggle to model non-orthogonal spatial relationships, leading to high geometric violations and low physical fidelity. To address this challenge, we propose SPG-Layout, a novel text-driven framework designed to generate physically plausible indoor scenes within complex non-Manhattan environments. Specifically, we first utilize statistical priors of object distributions to guide the training process, enhancing environmental understanding and fidelity. Furthermore, mirroring human design workflows, we adopt a hierarchical layout strategy that prioritizes the placement of large objects, thereby substantially minimizing layout violations. By synergizing these components, SPG-Layout achieves a balanced optimization of semantic realism and physical plausibility. To evaluate performance in these complex settings, we constructed a new benchmark comprising 500 diverse non-Manhattan environments. Extensive experiments demonstrate that SPG-Layout consistently and significantly outperforms existing methods across both Manhattan and non-Manhattan environments. The code will be publicly released.",
+      "authors": [
+        "Xianhui Meng",
+        "Zirui Song",
+        "Yuchen Zhang",
+        "Li Zhang",
+        "Yongxuan Lv",
+        "Xiuying Chen",
+        "Kun Wang",
+        "Yan Luo",
+        "Kai Chen",
+        "Hangjun Ye",
+        "Long Chen",
+        "Jun Liu",
+        "Xiaoshuai Hao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-07-02T16:40:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.02407v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "text-driven 3D indoor scene synthesis",
+      "llm_evidence_cn": "文本驱动的3D室内场景合成",
+      "llm_evidence": "文本驱动的3D室内场景合成",
+      "canonical_evidence": "文本驱动的3D室内场景合成",
+      "llm_tldr_en": "SPG-Layout generates physically plausible 3D indoor scenes in non-Manhattan environments using LLMs and statistical priors.",
+      "llm_tldr_cn": "针对现有3D室内场景合成方法仅适用于曼哈顿环境、无法处理非正交空间关系的问题，SPG-Layout提出文本驱动框架，利用物体分布统计先验引导训练，并模仿人类设计流程逐步布局。在非曼哈顿场景中生成结果具有高几何合规性和物理真实感。",
+      "llm_tldr": "针对现有3D室内场景合成方法仅适用于曼哈顿环境、无法处理非正交空间关系的问题，SPG-Layout提出文本驱动框架，利用物体分布统计先验引导训练，并模仿人类设计流程逐步布局。在非曼哈顿场景中生成结果具有高几何合规性和物理真实感。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02921v1",
+      "source": "arxiv",
+      "title": "R3D: Quantitative 3D Spatial Reasoning for Egocentric Wearables",
+      "abstract": "Quantitative 3D spatial reasoning from egocentric RGB-D video is a critical capability for next-generation wearable assistants. Yet existing benchmarks do not reflect the challenges of handling (1) natural egocentric video, (2) posed RGB-D video inputs, and (3) challenging quantitative 3D spatial reasoning Q&A. To fill this gap, we introduce R3D-Bench (Reasoning in 3D), a benchmark of 3,033 quantitative spatial reasoning questions across 15 types -- spanning multiple-choice, distance-based, and volumetric reasoning questions -- built on top of 57 egocentric video sequences from Aria Digital Twin. To set a strong baseline on this dataset, we introduce R3D, a model-agnostic spatial tool-calling framework. In contrast to existing approaches that directly embed 3D information into the model's input representation, R3D constructs a 3D scene from video using segmentation and depth-lifted object representations. It provides this information to an LLM through eight composable spatial tools. On R3D-Bench, R3D with Qwen3-VL 235B achieves 73.5% mean relative accuracy, substantially outperforming the best depth-enabled baseline (CuTR+Tools, 61.9%) and the best RGB-only baseline (Gemini 3 Flash, 46.5%).",
+      "authors": [
+        "Maxwell Horton",
+        "Wei Lu",
+        "Quan Tran",
+        "Yury Astashonok",
+        "Kirmani Ahmed",
+        "Babak Damavandi",
+        "Anuj Kumar",
+        "Xiao Zhang",
+        "Seungwhan Moon"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-03T03:25:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.02921v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "quantitative 3D spatial reasoning benchmark and framework",
+      "llm_evidence_cn": "定量3D空间推理基准和框架",
+      "llm_evidence": "定量3D空间推理基准和框架",
+      "canonical_evidence": "定量3D空间推理基准和框架",
+      "llm_tldr_en": "R3D introduces a benchmark for quantitative 3D spatial reasoning from egocentric RGB-D video and a model-agnostic tool-calling framework.",
+      "llm_tldr_cn": "现有基准未反映真实第一视角3D空间推理的挑战。本文构建R3D-Bench，包含3033个定量问题，并提出R3D框架，通过工具调用实现模型无关的空间推理。实验表明该框架能有效处理距离、体积等复杂推理问题，为3D理解提供了新评测标准。",
+      "llm_tldr": "现有基准未反映真实第一视角3D空间推理的挑战。本文构建R3D-Bench，包含3033个定量问题，并提出R3D框架，通过工具调用实现模型无关的空间推理。实验表明该框架能有效处理距离、体积等复杂推理问题，为3D理解提供了新评测标准。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.03822v1",
+      "source": "arxiv",
+      "title": "FDR-Occ: Factorized Dense Routing for Full-Spectrum 3D Occupancy Prediction",
+      "abstract": "Vision-based 3D occupancy prediction fundamentally relies on the 2D-to-3D view transformation. Current paradigms predominantly utilize explicit physical projection, which artificially restricts the routing matrix to strict, sparse camera rays. While computationally efficient, this imposes a severe Locality Bottleneck, preventing the network from constructing holistic contextual understanding and degrading sharply when camera extrinsics are unreliable or absent. To break this bottleneck, we abstract view transformation as unconstrained bipartite routing and propose Factorized Dense Routing (FDR). By approximating dense 2D-to-3D mixing through hierarchical tensor contractions, FDR guarantees a fully-global receptive field with tractable, sub-quadratic complexity. Crucially, the mandatory spatial contraction in dense routing exposes a fundamental Resolution-Context Trade-off. To address this, we introduce a Resolution-Context Decoupled Architecture. We factorize the 3D space into a global macroscopic topological anchor (via FDR) and precise local geometric planes (via explicit projection). This decoupling enables global semantic inference and exact surface localization to complement each other without mutual compromise. Extensive experiments demonstrate that our framework achieves state-of-the-art performance on the Occ3D-nuScenes and Occ3D-Waymo benchmarks. More notably, in an uncalibrated setting where physical extrinsics are withheld, our global routing internalizes the implicit multi-camera rig topology and exhibits substantially stronger structural robustness than physical-projection baselines under the same protocol.",
+      "authors": [
+        "Dubing Chen",
+        "Huan Zheng",
+        "Tianyi Yan",
+        "Yucheng Zhou",
+        "Runzhou Tao",
+        "Zhongying Qiu",
+        "Jianfei Yang",
+        "Jianbing Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T11:12:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.03822v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Full-spectrum 3D occupancy prediction using factorized dense routing",
+      "llm_evidence_cn": "使用因子化密集路由进行全谱3D占用预测",
+      "llm_evidence": "使用因子化密集路由进行全谱3D占用预测",
+      "canonical_evidence": "使用因子化密集路由进行全谱3D占用预测",
+      "llm_tldr_en": "Proposes FDR-Occ, a factorized dense routing method for 3D occupancy prediction that overcomes the locality bottleneck of explicit projection.",
+      "llm_tldr_cn": "视觉3D占用预测依赖2D到3D视图变换，现有显式投影方法受限于局部瓶颈。本文提出因子化密集路由（FDR），通过层次化张量收缩实现全局感受野，同时保持计算可行性。实验表明，FDR-Occ在多个数据集上显著提升了占用预测精度，尤其在外参不可靠时表现鲁棒。",
+      "llm_tldr": "视觉3D占用预测依赖2D到3D视图变换，现有显式投影方法受限于局部瓶颈。本文提出因子化密集路由（FDR），通过层次化张量收缩实现全局感受野，同时保持计算可行性。实验表明，FDR-Occ在多个数据集上显著提升了占用预测精度，尤其在外参不可靠时表现鲁棒。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02516v1",
+      "source": "arxiv",
+      "title": "Alignment Is All You Need For X-to-4D Generation",
+      "abstract": "Generative diffusion models excel at synthesizing high-quality images, videos, and 3D content under multimodal control. However, arbitrary user-defined modality-to-4D (X-to-4D) generation remains challenging due to the high cost of constructing diverse datasets and the limited scalability of existing methods. This paper presents Align4D, a flexible framework that translates any-modal input into coherent video-3D pairs, using video to guide 4D motion and 3D data to shape 4D geometry. Align4D introduces three key techniques: (1) Object Distance Alignment, which searches Video-Aligned and Multiview-Aligned Object Distances (VAOD/MAOD), respectively, to reconcile 4D renderings with video and the priors of multiview diffusion models; (2) Motion-Geometry Joint Alignment, which constrains known and unknown views through synchronized video and 3D inputs, ensuring consistent 4D generation; and (3) Asynchronous Optimization, which decouples Gaussian attribute and deformation network training to enhance motion and geometry fidelity. We further propose the X4D dataset, which integrates prompt, image, video, and 3D data for benchmarking. Experiments on X4D and Consistent4D demonstrate that Align4D achieves state-of-the-art quality and consistency in X-to-4D generation. Project page: https://miaoqiaowei.github.io/Align4D/.",
+      "authors": [
+        "Qiaowei Miao",
+        "Kehan Li",
+        "Yawei Luo",
+        "Yi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T17:59:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.02516v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion models for multi-modal to 4D generation",
+      "llm_evidence_cn": "扩散模型实现多模态到4D生成",
+      "llm_evidence": "扩散模型实现多模态到4D生成",
+      "canonical_evidence": "扩散模型实现多模态到4D生成",
+      "llm_tldr_en": "Align4D uses diffusion models to translate any-modal input into coherent video-3D pairs for 4D generation, with object distance alignment and motion-geometry joint alignment.",
+      "llm_tldr_cn": "针对任意模态到4D生成中数据构建成本高和可扩展性有限的问题，本文提出Align4D，一个基于扩散模型的灵活框架，将任意模态输入转化为一致的视频-3D对，从而生成动态4D内容。核心包括物体距离对齐和运动-几何联合对齐技术，使4D渲染与视频和多视图扩散先验保持一致。实验证明Align4D在多种模态输入下生成高质量4D内容。",
+      "llm_tldr": "针对任意模态到4D生成中数据构建成本高和可扩展性有限的问题，本文提出Align4D，一个基于扩散模型的灵活框架，将任意模态输入转化为一致的视频-3D对，从而生成动态4D内容。核心包括物体距离对齐和运动-几何联合对齐技术，使4D渲染与视频和多视图扩散先验保持一致。实验证明Align4D在多种模态输入下生成高质量4D内容。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02998v1",
+      "source": "arxiv",
+      "title": "CONFLUX: A Latent Diusion Model for 3D Chest-CT Synthesis with RL Post-Training",
+      "abstract": "Controllable generative models of 3D medical images can synthesize volumes with specified clinical attributes, but this demands samples that are simultaneously high-fidelity, natively 3D, and faithful to the requested conditioning. We present CONFLUX, a latent diffusion model for chest computed tomography (CT): a 3D variational autoencoder compresses each volume, and a rectified-flow transformer generates in the latent space. Generation is conditioned on structured radiological metadata (18 abnormality findings, sex, age, and reconstruction kernel) through adaptive layer normalization. The model leads strong volumetric baselines on tri-planar Frechet distance (FID 32.3 vs. 74.6 for MAISI) while exposing direct control over clinical attributes. To strengthen that control we add an online reinforcement-learning post-training stage (group-relative policy optimization) that rewards how reliably a classifier recovers the requested findings from each generated volume. Judged by a separate, independent classifier, post-training removes 47% of the shortfall relative to real-scan reliability. We release the model and a ~200k synthetic chest-CT dataset with conditioning metadata spanning a wide variety of clinical findings.",
+      "authors": [
+        "Max Van Puyvelde",
+        "Halil Ibrahim Gulluk",
+        "Wim Van Criekinge",
+        "Olivier Gevaert"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T06:31:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.02998v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "latent diffusion model for 3D medical CT synthesis",
+      "llm_evidence_cn": "3D医学CT的潜在扩散模型",
+      "llm_evidence": "3D医学CT的潜在扩散模型",
+      "canonical_evidence": "3D医学CT的潜在扩散模型",
+      "llm_tldr_en": "CONFLUX is a latent diffusion model for controllable 3D chest CT synthesis, using a rectified-flow transformer in latent space conditioned on radiological metadata, achieving state-of-the-art FID.",
+      "llm_tldr_cn": "针对可控3D医学图像生成，CONFLUX提出潜在扩散模型，用3D变分自编码器压缩体积，整流流变压器在隐空间生成，并基于18种异常发现等元数据进行条件生成。在FID指标上以32.3超越MAISI的74.6，实现高质量可控制的3D CT合成。",
+      "llm_tldr": "针对可控3D医学图像生成，CONFLUX提出潜在扩散模型，用3D变分自编码器压缩体积，整流流变压器在隐空间生成，并基于18种异常发现等元数据进行条件生成。在FID指标上以32.3超越MAISI的74.6，实现高质量可控制的3D CT合成。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.03872v1",
+      "source": "arxiv",
+      "title": "SharpSplat: Edge-Regularized 3D Gaussian Splatting for High Fidelity Urban Building Reconstruction from UAV images",
+      "abstract": "Reconstructing high-fidelity 3D building models from UAV imagery is essential for large-scale digital twin development. However, existing 3D Gaussian Splatting (3DGS) techniques often struggle with building facades, failing to capture sharp geometric transitions. To address this, we propose a semantic edge regularization framework that supervises 3DGS to produce crisp architectural boundaries. Our method leverages SAM 3 to generate precise building masks, from which we extract architecturally significant edges. During training, we align rendered image gradients with these extracted edges, forcing the Gaussians to converge into sharp structural geometries. Evaluations across campus environments, dense urban centers, and custom residential datasets demonstrate significant improvements in edge fidelity without requiring architectural modifications to the 3DGS pipeline. Our approach proves robust across diverse building types, roof geometries, and urban densities.",
+      "authors": [
+        "Porus Vaid",
+        "Shivam Chopra",
+        "Vaibhav Kumar"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T13:31:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.03872v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "edge-regularized 3D Gaussian Splatting for high-fidelity building reconstruction",
+      "llm_evidence_cn": "边缘正则化3D高斯泼溅用于高质量建筑重建",
+      "llm_evidence": "边缘正则化3D高斯泼溅用于高质量建筑重建",
+      "canonical_evidence": "边缘正则化3D高斯泼溅用于高质量建筑重建",
+      "llm_tldr_en": "SharpSplat regularizes 3D Gaussian Splatting with semantic edge supervision from SAM to produce sharp architectural boundaries in urban building reconstruction from UAV imagery.",
+      "llm_tldr_cn": "针对3D高斯泼溅在城市建筑重建中边缘模糊问题，提出语义边缘正则化框架。利用SAM提取建筑掩码和显著边缘，训练中强制渲染图像梯度对齐边缘，使高斯体收敛到锐利结构几何，在校园、密集城区等场景中提升重建保真度。",
+      "llm_tldr": "针对3D高斯泼溅在城市建筑重建中边缘模糊问题，提出语义边缘正则化框架。利用SAM提取建筑掩码和显著边缘，训练中强制渲染图像梯度对齐边缘，使高斯体收敛到锐利结构几何，在校园、密集城区等场景中提升重建保真度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02798v1",
+      "source": "arxiv",
+      "title": "Track the Noise, Move the World:3D-Grounded Motion-Consistent Noise for Controllable Video Generation",
+      "abstract": "Modern image-and-text-to-video diffusion models can synthesize highly realistic videos by iteratively denoising an initial Gaussian noise tensor conditioned on reference image and text inputs. However, existing approaches still lack precise and unified controllability over both object motion and camera motion within a single generation process. We present UniCaMo, a unified framework that enables simultaneous control of object trajectories and camera viewpoints by directly constructing the input noise of the diffusion model. Specifically, UniCaMo builds a shared 3D-grounded motion-consistent noise space across latent video frames. Sparse 3D point tracks are used to warp the Gaussian noise of the reference frame along desired object trajectories, while a virtual spherical noise representation provides globally consistent noise values for newly revealed scene regions under camera motion. By combining local track-guided noise warping with global sphere-based noise sampling, UniCaMo maintains geometric and temporal consistency under both object movement and viewpoint changes. Because UniCaMo modifies only the input noise, it requires no auxiliary adapters, control branches, or architectural changes to the underlying video diffusion model. With lightweight LoRA fine-tuning on large pretrained video diffusion models, including Wan 2.1 (14B), UniCaMo achieves state-of-the-art results in both video quality and motion controllability on standard controllable video generation benchmarks.",
+      "authors": [
+        "Long Vu",
+        "Tan Ngo",
+        "Animesh Karnewar",
+        "Amir Habibian",
+        "Binh-Son Hua",
+        "Hung Bui",
+        "Minh Hoai Nguyen",
+        "Phong Nguyen-Ha"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-02T22:17:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.02798v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion model with 3D-grounded noise for controllable video generation",
+      "llm_evidence_cn": "基于3D接地噪声的扩散模型用于可控视频生成",
+      "llm_evidence": "基于3D接地噪声的扩散模型用于可控视频生成",
+      "canonical_evidence": "基于3D接地噪声的扩散模型用于可控视频生成",
+      "llm_tldr_en": "UniCaMo builds a 3D-grounded motion-consistent noise space in diffusion models for simultaneous control of object and camera motion in video generation.",
+      "llm_tldr_cn": "针对视频扩散模型难以同时控制物体运动和相机运动的问题，本文提出UniCaMo，通过构建3D接地的运动一致噪声空间，利用稀疏3D点轨迹对参考帧噪声进行变形，实现对物体轨迹和相机视角的统一控制。该方法不修改模型参数，直接在噪声层面操作，实现了精确且协调的运动控制。",
+      "llm_tldr": "针对视频扩散模型难以同时控制物体运动和相机运动的问题，本文提出UniCaMo，通过构建3D接地的运动一致噪声空间，利用稀疏3D点轨迹对参考帧噪声进行变形，实现对物体轨迹和相机视角的统一控制。该方法不修改模型参数，直接在噪声层面操作，实现了精确且协调的运动控制。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02998v2",
+      "source": "arxiv",
+      "title": "CONFLUX: A Latent Diffusion Model for 3D Chest-CT Synthesis with RL Post-Training",
+      "abstract": "Controllable generative models of 3D medical images can synthesize volumes with specified clinical attributes, but this demands samples that are simultaneously high-fidelity, natively 3D, and faithful to the requested conditioning. We present CONFLUX, a latent diffusion model for chest computed tomography (CT): a 3D variational autoencoder compresses each volume, and a rectified-flow transformer generates in the latent space. Generation is conditioned on structured radiological metadata (18 abnormality findings, sex, age, and reconstruction kernel) through adaptive layer normalization. The model leads strong volumetric baselines on tri-planar Frechet distance (FID 32.3 vs. 74.6 for MAISI) while exposing direct control over clinical attributes. To strengthen that control we add an online reinforcement-learning post-training stage (group-relative policy optimization) that rewards how reliably a classifier recovers the requested findings from each generated volume. Judged by a separate, independent classifier, post-training removes 47% of the shortfall relative to real-scan reliability. We release the model and a ~200k synthetic chest-CT dataset with conditioning metadata spanning a wide variety of clinical findings.",
+      "authors": [
+        "Max Van Puyvelde",
+        "Halil Ibrahim Gulluk",
+        "Wim Van Criekinge",
+        "Olivier Gevaert"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T06:31:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.02998v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Latent diffusion model for 3D chest-CT synthesis with RL post-training",
+      "llm_evidence_cn": "用于3D胸部CT合成的潜在扩散模型与强化学习后训练",
+      "llm_evidence": "用于3D胸部CT合成的潜在扩散模型与强化学习后训练",
+      "canonical_evidence": "用于3D胸部CT合成的潜在扩散模型与强化学习后训练",
+      "llm_tldr_en": "CONFLUX is a latent diffusion model for 3D chest CT synthesis conditioned on clinical metadata, achieving high fidelity and controllability with RL fine-tuning.",
+      "llm_tldr_cn": "可控3D医学图像生成需要同时保证高保真度和条件一致性。本文提出CONFLUX，一种潜在扩散模型，在3D VAE压缩后用整流流变换器生成，条件为放射学元数据。通过强化学习后训练进一步对齐生成质量。实验表明，CONFLUX在FID上显著优于先前方法（32.3 vs 74.6），且能精确控制临床属性。",
+      "llm_tldr": "可控3D医学图像生成需要同时保证高保真度和条件一致性。本文提出CONFLUX，一种潜在扩散模型，在3D VAE压缩后用整流流变换器生成，条件为放射学元数据。通过强化学习后训练进一步对齐生成质量。实验表明，CONFLUX在FID上显著优于先前方法（32.3 vs 74.6），且能精确控制临床属性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

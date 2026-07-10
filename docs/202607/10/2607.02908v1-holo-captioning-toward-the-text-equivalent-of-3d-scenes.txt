@@ -1,0 +1,639 @@
+Title: Holo-Captioning: Toward the Text Equivalent of 3D Scenes
+
+URL Source: https://arxiv.org/pdf/2607.02908v1
+
+Published Time: Tue, 07 Jul 2026 00:24:42 GMT
+
+Number of Pages: 30
+
+Markdown Content:
+# Holo-Captioning: Toward the Text Equivalent of 3D Scenes 
+
+Kun-Yu Lin 1, Chengke Bu 1, Zhenguo Li 2, and Kai Han 1⋆ 
+
+> 1
+
+Visual AI Lab, The University of Hong Kong  
+
+> 2
+
+Frontier Robotics 
+
+Abstract. This work introduces holo-captioning, a novel task that strives to seek the text equivalent of 3D scenes. As the initial step, we formu-late holo-captioning as generating a structured textual description that comprehensively depicts all entities within a 3D scene—including their semantic tags, spatial locations, attributes, and inter-entity relations. To tackle this challenging task, we first develop an effective captioning en-gine to produce detailed descriptions of individual entity instances and instance pairs, and contribute a large-scale benchmark comprising over 15K scenes for training and evaluation. Building upon this foundation, we propose HoloScribe, a novel model that features an instance-aware decoupled pipeline for generating structured holo-captions, and further incorporates anchor-aware instance linking to identify relational instance pairs. Additionally, we propose a comprehensive evaluation metric named HoloScore, and provide a human-curated test set to ensure reliable model assessment. Experimental results demonstrate that HoloScribe signifi-cantly outperforms state-of-the-art 3D dense captioners and 3D LLM generalists, underscoring the effectiveness of our approach. Project page: 
+
+https://visual-ai.github.io/holocap/ 
+
+Keywords: 3D Scene Captioning · Holo-captioning 
+
+1 Introduction 
+
+Describing the 3D world with natural language is a fundamental field in com-puter vision and natural language processing, benefiting diverse 3D applications such as scene modeling [24, 75], vision navigation [69, 71] and robotic manipula-tion [5,7,88,89]. As a pivotal task in this field, 3D dense captioning [14,17] aims to simultaneously detect and describe object instances within a 3D scene. However, existing 3D dense captioning methods are constrained by a limited range of ob-ject categories and typically produce short, coarse textual descriptions. Driven by the rapid advances in Large Language Models (LLMs), some recent stud-ies [3, 52] have proposed generating structured linguistic sequences to describe 3D scenes, thereby covering a broader range of categories in an open-vocabulary paradigm. Nevertheless, they primarily focus on detecting architectural layouts and salient objects, overlooking fine-grained entity attributes and inter-entity  
+
+> ⋆
+
+Corresponding author. 
+
+> arXiv:2607.02908v1 [cs.CV] 3 Jul 2026
+
+2 K.-Y. Lin et al. Input 3D Scene                 
+
+> Tag and Location
+> •ID 1: Chair
+> Center : ( -215, -250, 46)
+> Extent : (46, 64, 95)
+> Rotate : ( -90, 0, 0)
+> •ID 21: Bed
+> Center : ( -30, -247, 40)
+> Extent : (199, 156, 83)
+> Rotate : (90, 0, 0)
+> •ID 60: Guitar
+> Center : (119, -159, 49)
+> Extent : (30, 45, 103)
+> Rotate : (138, 158, 16)
+> … …
+> Attribute
+> •ID 21: Bed
+> •The bed is a rectangular
+> structure with a white
+> frame. It contains a dark
+> blue covering. The mate -
+> rial appears to be textile
+> with a smooth and …
+> Relation
+> •ID 21: Bed vs. ID 34:
+> Helmet
+> •Direct: The bed supp -
+> orts the helmet.
+> •Reverse: The helmet is
+> placed on the bed.
+
+Holo -Caption 
+
+Fig. 1: An example to demonstrate our proposed holo-captioning task, which is for-mulated as generating a comprehensive structured textual description for a 3D scene. A holo-caption comprehensively depicts all entity instances within a 3D scene, includ-ing their respective semantic tags , spatial locations and attributes , as well as relations 
+
+between entity instances. Best viewed in color. 
+
+relations. These omissions make existing methods inadequate for comprehen-sive scene understanding and limit their downstream applicability. Motivated by these limitations, this work conceives of finding the text equivalent of a 3D scene , an ambitious yet very challenging goal, which aims to develop a com-prehensive textual description that captures all essential elements within a 3D scene, thereby offering great practical value and potentially facilitating diverse downstream applications. In this work, we introduce holo-captioning, a novel task that strives to seek the text equivalent of 3D scenes. Our work serves as the initial step toward this challenging objective. To render the problem tractable, we formulate holo-captioning as generating a structured textual description of a 3D scene, which 
+
+comprehensively depicts all entity instances along with their semantic tags, spa-tial locations, attributes, and inter-entity relations , as shown in Fig. 1. Compared with previous 3D dense captioners [14, 17] and structural description genera-tors [3, 52], our formulation serves as a significantly closer approximation to the conceptual “text equivalence” due to its strong comprehensiveness. Specifically, it demands not only precise entity localization but also fine-grained descriptions for entity attributes and inter-entity relations. More importantly, our formula-tion requires models to directly predict entity locations purely in textual form ,without relying on any auxiliary detectors or segmenters, thereby establishing a more intrinsic alignment between 3D scenes and text. To systematically study holo-captioning, we propose HoloEngine, an effective captioning engine, and use it to construct HoloScan, a large-scale benchmark spanning over 15K indoor scenes across diverse categories. Specifically, Holo-Engine produces high-quality captions in an instance-centric manner. First, given 3D oriented bounding boxes from a 3D scene, HoloEngine projects these boxes into each camera view via the known intrinsics and extrinsics, yielding view-specific 2D boxes for each entity instance. Leveraging these view-specific boxes, Holo-Captioning 3
+
+we craft entity-aware prompts and instruct MLLMs to produce detailed view-specific descriptions for entity instances in perspective images. Finally, we use LLMs to perform viewpoint-aware consolidation, aggregating the view-specific texts into comprehensive captions. Built with HoloEngine, the HoloScan bench-mark features comprehensive structured holo-captions and is accompanied by a test set rigorously curated by human experts to ensure reliability. To support comprehensive evaluation of holo-captioning, we propose HoloScore, a tailored metric that assesses model performance across four dimensions. Tra-ditional captioning metrics, typically based on n-gram or lexical similarity ( e.g ., BLEU [54], CIDEr [61]), fall short in evaluating holo-captions due to their sub-stantial length and high degree of granularity. To address this, HoloScore em-ploys an LLM-empowered procedure, leveraging the structured nature of holo-captions. First, HoloScore performs grounded instance matching to assess seman-tic tagging and spatial localization. It then applies granular descriptor extraction to break long captions into atomic units. Finally, it evaluates the attribute and relation dimensions via dual descriptor matching. Furthermore, we propose HoloScribe, a novel model to improve holo-captioning via an instance-aware decoupled pipeline. Our model is motivated by the fact that holo-captions are long and information-dense, making it difficult for models to perceive all elements within 3D scenes in a single forward pass. Accordingly, HoloScribe groups scene elements by entity instance and generates a structured textual description of the entire scene element by element. Specifically, Holo-Scribe first localizes entity instances and assigns semantic tags, and then gen-erates detailed attribute and relation descriptions conditioned on the identified instances. To improve relation modeling, we further propose anchor-aware in-stance linking, which identifies relational instance pairs within a sampled sub-graph conditioned on a given anchor instance. Our experiments demonstrate that HoloScribe significantly outperforms state-of-the-art 3D dense captioners and 3D LLM generalists in holo-captioning. Additionally, we evaluate HoloScribe in the 3D detection task on MultiScan [51], a dataset unseen during training. As shown in Table 1, it achieves superior performance over two representative 3D LLMs in a          
+
+> Table 1: Tagging and lo-calization F-scores on Mul-tiScan.
+> Models Tag Loc LL3DA [16] 24.9 17.3 SpatialLM [52] 20.2 9.6 HoloScribe 53.5 20.2
+
+zero-shot setting. Furthermore, we deploy Holo-Scribe for downstream mobile robotic object navi-gation tasks, where it achieves a 75% success rate, surpassing the SpatialLM baseline (25%). These re-sults underscore the effectiveness and practical util-ity of our task and model. In summary, our contributions are listed as fol-lows: (1) We introduce the novel task of holo-captioning, which aims to find the textual equivalent of 3D scenes. We take the initial step toward this ambitious goal by formulating it as generating comprehensive structured textual descrip-tions that cover four fundamental dimensions, and we contribute a reliable metric for evaluation. (2) We propose an effective instance-centric captioning engine to produce high-quality holo-captions, and contribute a large-scale benchmark of over 15K indoor scenes spanning diverse categories for training and evaluation. 4 K.-Y. Lin et al. 
+
+(3) We propose HoloScribe, a novel model that follows an instance-aware decou-pled pipeline to generate comprehensive textual descriptions element by element. To the best of our knowledge, HoloScribe is the first 3D LLM capable of jointly localizing entity instances and generating detailed descriptions in pure text form 
+
+without extra detectors. 
+
+2 Related Work 
+
+3D Captioning. 3D dense captioning [14] is a foundational task in the 3D vision-language field that aims to simultaneously detect and describe object instances within a 3D scene. As a pioneering work, Scan2Cap [14] proposed an end-to-end method that leverages attention mechanisms and message-passing graphs to process point clouds and generate captions. In recent years, the field has witnessed substantial progress driven by a variety of technical innovations [9, 15,17,18,37,39,82]. Despite these advances, existing models are built upon small-scale benchmarks ( e.g ., ScanRefer [13], Nr3D [1]), which restrict the range of object categories and yield short, coarse descriptions. ExCap3D [81] represents a notable step forward, proposing a fine-grained captioning benchmark and a model capable of generating both detailed object- and part-level descriptions. Overall, previous works typically use benchmarks with fewer than 1K scenes and rely on 3D detectors or segmenters for object localization [17,27,58]. In con-trast, our work covers a substantially larger number of scenes and directly pre-dicts all elements (including entity locations) in pure text form without requiring any additional models, marking a significant stride toward 3D-text alignment. 
+
+Additionally, while holo-captioning is related to 3D object captioning, the latter focuses on generating descriptive sentences for isolated 3D objects [25, 47, 48, 76] rather than complex multi-object scenes, and heavily relies on 2D MLLMs with limited 3D spatial capabilities. Another related field is 3D scene graph (3DSG) generation, which represents a 3D scene as a graph consisting of object nodes and relation edges [2, 40,63, 70]. 3DSG fundamentally differs from our task, as it primarily focuses on predicting objects and relations, whereas capturing other aspects such as attributes typically requires auxiliary models. More broadly, our work pursues the text equivalent of visual content , a funda-mental goal in vision-language research. Our prior panoptic captioning work [44] explores this goal for 2D images by representing an image as a purely textual de-scription of entity instances, their locations and attributes, inter-entity relations, and the global image state. Holo-captioning extends this pursuit to 3D scenes, a more challenging setting where visual-text alignment shifts from the 2D image plane to metric 3D space, requiring entities to be characterized by their 3D posi-tions, spatial extents, orientations, attributes, and physical relations. Together, panoptic captioning and holo-captioning are complementary steps toward our ultimate goal of visual-text equivalence. 
+
+3D Large Language Models (3D LLMs). Inspired by advances in 2D Multi-modal LLMs (MLLMs) [23, 46, 64], the field of 3D LLMs [83] has witnessed re-markable progress in recent years. These models develop general 3D scene under-standing capabilities through training on diverse 3D vision-language tasks, such Holo-Captioning 5
+
+as 3D question answering and 3D grounding [1,4,13,31,32,35,45,49,50,65,79,85]. Existing 3D LLMs can be broadly categorized into two types based on their 3D vision representations. The first type relies on object-centric 3D represen-tations [29, 30, 66, 90], i.e ., these models typically first parse objects using 3D detectors or segmenters, then extract 3D object features, and use these object features as vision inputs. The second type employs holistic scene-level represen-tations without explicitly delineating objects [16, 21, 28, 53, 91], e.g ., LL3DA [16] develops a QFormer to connect 3D point clouds, visual prompts, and text. Ad-ditionally, motivated by the success of 2D MLLMs, some works attempt to con-struct 3D LLMs based on well-trained 2D video MLLMs, taking multi-view images as input [34, 55, 86]. The development of 3D LLMs can benefit a wide range of downstream tasks, such as robotic tasks [5, 7, 33, 36, 42, 67–69, 71–73]. Despite these advances, existing 3D LLMs are limited to handling relatively sim-ple 3D vision-language tasks, e.g ., generating concise captions and recognizing a restricted set of object categories. Pioneering efforts have explored pure textual representations for 3D scenes by developing specialized 3D LLMs [3,52]. However, these works only focus on localizing and recognizing entity instances, while our holo-captioning aims to generate more comprehensive textual descriptions that incorporate attributes and relations. Another related work is Text-Scene [41], a hybrid approach that parses 3D scenes into textual descriptions using a suite of off-the-shelf models. This differs from our work, as we propose a single, unified model to produce comprehensive textual descriptions, with the goal of bridging 3D scenes and text. 
+
+3 Holo-Captioning 
+
+3.1 Task Formulation 
+
+In this work, we formulate holo-captioning as generating a structured textual description that comprehensively depicts all entity instances within a 3D scene, including their semantic tags, spatial locations, attributes, and the relations be-tween entities. Unlike previous 3D captioning approaches [14, 17], our formula-tion encodes these four dimensions purely in text, resulting in a unified textual description that fully encapsulates the 3D scene. In principle, holo-captioning considers four dimensions as follows: 
+
+Semantic tag refers to the category label assigned to each entity instance in a 3D scene. We define “entities” as both architectural elements ( e.g ., floor, wall, window) and free-standing objects ( e.g ., table, bag, cabinet). Following SceneScript [3] and SpatialLM [52], we represent these category labels purely in text, without relying on class indices and predefined vocabularies. 
+
+Spatial location refers to the position and extent of an entity instance, repre-sented by a 3D oriented bounding box. Specifically, in line with previous 3D ob-ject detection works [8, 20,65], we represent the oriented bounding box of an en-tity instance as a 9-DoF vector (cx, c y , c z , e x, e y , e z , r x, r y , r z ), where (cx, c y , c z ),
+
+(ex, e y , e z ) and (rx, r y , r z ) denote the center, size, and Euler-angle orientation of the box, respectively. By using oriented bounding boxes, a holo-caption can 6 K.-Y. Lin et al. 
+
+accurately describe the locations and spatial extents of instances in pure text, avoiding vague expressions such as “at the center of the scene”. As detailed in Sec. 5, our work adopts a structured text form to specify semantic tags and spatial locations of instances. Notably, the direct prediction of precise spatial coordinates in a purely textual form, without the aid of auxiliary models, is highly non-trivial, necessitating strong 3D-text alignment capabilities. 
+
+Attribute refers to characteristics or properties that describe the appearance or state of an entity instance. This dimension encompasses a wide range of attribute types, e.g ., color, shape, material, texture, and constituent parts. Our work uses free-form text to describe attributes, which facilitates fine-grained instance identification and enhances the comprehensiveness of scene descriptions [1,13,81]. 
+
+Relation refers to the connections or interactions between two entity instances within a scene. This dimension encompasses a wide range of relation types, and our work focuses on those between nearby instances, as we primarily consider static indoor scenes where most meaningful relations occur among spatially ad-jacent entities. Typical examples include spatial relations ( e.g ., “A is placed on B”) and state relations ( e.g ., “A is leaning against B”). Similar to the attribute dimension, we describe inter-entity relations in free-form text, which facilitates a more comprehensive understanding of the structural organization and contextual semantics of 3D scenes [12, 26, 57]. An example of our task formulation is presented in Fig. 1. By considering these four fundamental dimensions, holo-captioning leads to a comprehensive textual description of a 3D scene. Compared to previous works that pursue structural textual representations [3, 52], holo-captions not only capture entity categories and locations, but also describe entity attributes and inter-entity re-lations, thereby enabling a comprehensive understanding of 3D scenes. Notably, holo-captioning requires a single model to directly predict all scene elements in pure text form without relying on any additional models. This significantly dif-fers from previous 3D dense captioning works that require auxiliary detectors to predict entity locations [14,17,18,81]. Such a formulation fosters a more intrinsic alignment between 3D scenes and text. 
+
+3.2 The HoloScore Metric 
+
+Previous 3D captioning works [14, 17] primarily rely on traditional metrics like BLEU [54], METEOR [6], and CIDEr [61]. However, these metrics are tailored for short captions and have been shown to perform poorly on long, descriptive texts [22,80]. To address this limitation, we propose HoloScore, a novel evaluation metric that comprehensively assesses holo-captions across four dimensions and achieves faithful alignment with our task objective. Given the structured nature of holo-captions, we group caption elements into three aspects, namely entity tags with spatial locations, entity attributes, and inter-entity relations. Based on this grouping, we design a three-step evaluation procedure comprising grounded instance matching, granular descriptor extrac-tion, and dual descriptor matching. In what follows, we detail these three steps, and an overview of HoloScore is shown in Fig. 2. Holo-Captioning 7Grounded  
+
+> Instance Matching
+> Input 3D Scene Reference
+> Holo -caption
+> (Ground -truth)
+> Predicted
+> Holo -caption
+
+···  
+
+> Bed Chair Guitar
+
+···                                    
+
+> Desk Bed Chair
+> The bed is rectangular.
+> The bed has white frame.
+> The bed is made of tex...
+> ···
+> The bed is a rectangular
+> structure with a white f -
+> rame . It contains a dark...
+> Reference Attributes
+> The bed is rectangular.
+> The bed has a dark blue...
+> The bed has blue frame.
+> ···
+> The bed is a rectangular
+> structure with a dark bl -
+> ue covering. It contains ...
+> Predicted Attributes
+> Granular Descriptor Extraction
+> The bed
+> supports
+> the helmet .
+> The guitar
+> is adjacent
+> to the wall .
+> The guitar
+> leans again -
+> st the wall .
+> The helmet
+> is placed on
+> the bed .
+> The chair is
+> place don
+> the floor .
+> The desk
+> is placed
+> near the ...
+> Relation
+> Descriptor Matching
+> ···
+> ···
+> Reference Prediction Reference Prediction Attribute Descriptor Matching
+
+Fig. 2: An overview of our HoloScore metric. HoloScore first groups holo-caption el-ements into three aspects: semantic tags with spatial locations, entity attributes and inter-entity relations. It then performs grounded instance matching to assess tagging and localization, applies granular descriptor extraction to process attributes, and per-forms dual descriptor matching to assess attribute and relation dimensions. 
+
+Grounded Instance Matching. Given a set of ground-truth instances and a set of predicted ones, our grounded instance matching establishes a one-to-one correspondence between the two sets based on their semantic tags and spatial locations. Formally, let {(ti, l i)}ni=1 and {(ˆ tj , ˆlj )}mj=1 denote the ground-truth and predicted entity instance sets, where n and m denote the total numbers of instances. Here, (ti, l i) represents the semantic tag and oriented bounding box of the i-th ground-truth instance, and (ˆ tj , ˆlj ) represents those of the j-th prediction. Based on these definitions, we formulate grounded instance matching as an optimal bipartite matching problem: 
+
+Θ = arg max 
+
+Θ
+
+Xni=1 
+
+Xmj=1 (α sim i,j + iou( li, ˆlj )) · Θi,j , s.t. X
+
+i Θi,j ≤ 1, X
+
+j Θi,j ≤ 1,
+
+where Θ is a binary assignment matrix with Θi,j ∈ { 0, 1} indicating whether the 
+
+i-th ground-truth instance is matched to the j-th prediction, i.e ., Θi,j = 1 means a match. sim i,j denotes the semantic similarity between ti and ˆtj , computed using synonym matching and embedding similarity, while iou( li, ˆlj ) represents the 3D bounding-box IoU. A weighting factor α = 10 is used to prioritize semantic tagging. In principle, two instances are considered a match when they share similar tags and are spatially close. Based on the assignment matrix Θ, we quantify model performance in se-mantic tagging and spatial localization. For semantic tagging, a matched pair is regarded as semantically consistent if their category tags share synonymous nouns or have similar text embeddings, i.e ., sim i,j ≥ δtag . By aggregating over all instances, we compute the precision and recall of semantic tagging and de-rive the corresponding F-score. Precision measures the proportion of correctly tagged predictions, while recall measures the proportion of ground-truth enti-ties correctly identified. For spatial localization, two instances are regarded as location-consistent only if they are semantically consistent and their bounding boxes have an IoU above a preset threshold, i.e ., iou( li, ˆlj ) ≥ δloc . Following a similar protocol, we compute localization precision, recall, and the F-score to assess spatial localization quality. 
+
+Granular Descriptor Extraction. To evaluate the nuanced attribute dimen-sion more precisely, we propose a granular descriptor extraction method to de-8 K.-Y. Lin et al. 
+
+compose long and detailed textual descriptions into a set of atomic descriptors. Specifically, for the i-th ground-truth entity instance, our method takes its paired attribute description Ai as input. We then prompt a state-of-the-art LLM to ex-tract atomic descriptors from Ai, using carefully designed instruction prompts and in-context examples. This process is formulated as: {ai,k }ni 
+
+> k=1
+
+= fgde (Ai),where ai,k denotes the k-th atomic descriptor, fgde (·) is the extraction func-tion, and ni is the number of extracted descriptors of the i-th instance. Sim-ilarly, the extracted descriptors of the j-th predicted instance are denoted by 
+
+{ˆaj,k }mj 
+
+> k=1
+
+= fgde ( ˆAj ), where ˆAj denotes the predicted attribute description and 
+
+mj is the number of extracted descriptors. This decomposition yields superior interpretability and controllability compared to directly evaluating long, unstruc-tured descriptions. 
+
+Dual Descriptor Matching. Finally, we evaluate model performance on the attribute and relation dimensions via descriptor matching. We employ an LLM-based embedding model [84] to encode text features, guided by a tailored prompt for robust similarity estimation between textual descriptors. For the attribute dimension, we establish a one-to-one correspondence between the atomic de-scriptors of each ground-truth instance and its matched predicted instance. The bipartite matching problem for the i-th ground-truth instance is formulated as follows: 
+
+Ωi = arg max 
+
+> Ωi
+
+Xni
+
+> k=1
+
+Xmˆi 
+
+> p=1
+
+sim ik,p · Ωik,p , s.t. X 
+
+> k
+
+Ωik,p ≤ 1, X 
+
+> p
+
+Ωik,p ≤ 1,
+
+where Ωi is the assignment matrix of the i-th instance, and Ωik,p = 1 indicates a match. sim ik,p denotes the feature similarity between descriptors ai,k and ˆaˆi,p ,where the ˆi-th predicted instance is the matched one. A descriptor pair is con-sidered consistent when sim ik,p ≥ δattr . For each instance, we compute precision, recall, and the corresponding F-score, and then aggregate the F-scores across all instances to obtain the overall attribute metric. For the relation dimension, we adopt a simplified procedure by direct de-scriptor matching, as relation descriptions are typically concise and each can be treated as a single atomic descriptor for efficiency. Given a ground-truth relation description ri,j , we measure its similarity to the corresponding prediction ˆrˆi, ˆj ,where ˆi and ˆj are determined from the prior instance matching. A relation pair is considered consistent if its similarity exceeds δrel , and the overall F-score is derived in a similar manner to other dimensions. In summary, our HoloScore metric comprises four F-scores, namely seman-tic tagging ( st), spatial localization ( sl), entity attributes ( sa), and inter-entity relations ( sr ). The final overall HoloScore is computed as s = st + sl + sa + sr .
+
+4 Captioning Engine and Benchmark 
+
+4.1 HoloEngine 
+
+According to the task definition, we aim to generate comprehensive holo-captions that are both highly structured and instance-isolated. To this end, we develop Holo-Captioning 9
+
+HoloEngine, an instance-centric captioning engine that produces structured de-scriptions, facilitating seamless integration across instances. Overall, HoloEngine first localizes entity instances in multi-view images based on projected 2D bound-ing boxes, then generates view-specific attribute and relation descriptions using state-of-the-art Multi-modal Large Language Models (MLLMs), and finally ag-gregates view-specific descriptions into holistic captions via LLMs. Specifically, for the attribute dimension, we first obtain 3D oriented bound-ing boxes from 3D scenes, and project them into 2D regions across multi-view images using known camera intrinsics and extrinsics. Each 2D bounding box is overlaid on the image to explicitly indicate the target instance, and the cate-gory label is included in the text prompt ( e.g ., “Describe the chair within the highlighted box”). This setup helps the MLLM focus on the correct instance and avoid confusion with nearby instances. The MLLM then produces detailed at-tribute descriptions, guided by prompts that discourage horizontal spatial terms (e.g ., “left”, “right”) and favor rotation-invariant phrasing ( e.g ., “contain”), ensur-ing robustness to arbitrary scene orientations. Descriptions from all multi-view images are subsequently aggregated into a single, comprehensive caption by an LLM, conditioned on the corresponding viewing angles. To ensure efficiency, we sample entity-centric views at fixed angular intervals ( e.g ., every 30 ◦) instead of using all possible viewpoints. For the relation dimension, we generate captions for instance pairs similarly, with three key differences. First, for each relational pair, we overlay a red and a blue bounding box in the image to explicitly indicate the subject and object instances, which we find significantly improves annotation quality in our pre-liminary validation. Second, as most inter-entity relations occur between nearby instances, HoloEngine focuses exclusively on spatially proximate instance pairs, thereby improving efficiency. Third, for each instance pair ( e.g ., A and B), we instruct the MLLM to produce relation descriptions from both perspectives, namely A relative to B ( e.g ., “A is on top of B”) and B relative to A ( e.g ., “B is below A”). This bidirectional strategy enriches the diversity of training data, and improves the comprehensiveness and reliability of evaluation. Moreover, to ensure higher annotation quality, we apply an MLLM-based category refinement step before MLLM captioning on both dimensions, assigning more specific cate-gory labels to instances with coarse ones ( e.g ., replacing generic “object” labels). 
+
+4.2 HoloScan 
+
+Based on HoloEngine, we contribute a new benchmark named HoloScan for the holo-captioning task. We utilize publicly available 3D indoor scene scans from five data sources, including four real datasets (ScanNet [19], 3RScan [62], Matter-port3D [11] and ARKitScenes [20]) and one synthetic dataset Structured3D [87]. This results in a large-scale benchmark comprising over 8.4K real 3D scans and 7.5K synthetic scenes. Its category labels and 3D bounding boxes are annotated with reference to EmbodiedScan [65], MMScan [49] and Structured3D. Following previous works [35,49,65], we standardize the data format, scene scale, sampling 10 K.-Y. Lin et al. 
+
+frequency, and viewpoint configuration across all datasets. In addition, we uti-lize only the spatial location information of Structured3D to improve training, as its synthetic instance appearance differs from that of real scenes. During data production, we select the best MLLM for each step through preliminary ex-periments, balancing image understanding, instruction-following, and inference efficiency. Overall, HoloScan comprises over 13K training scenes and 619 valida-tion scenes paired with high-quality auto-generated holo-captions, along with 83                                    
+
+> Table 2: Comparison with 3D dense captioning and structural description generation benchmarks.
+> Data Type Box Category Scene Word ScanRefer [13] Real ✓18 0.7K 17.9 Nr3D [1] Real ✓18 0.6K 11.4 ExCap3D [81] Real ✗84 0.9K 82.8 ASE [3] Synthetic ✓Layout 100K ✗
+> SpatialLM [52] Synthetic ✓62 54K ✗
+> HoloScan Hybrid ✓734 15K 89.0
+
+test scenes paired with holo-captions rigorously curated by human experts. In summary, HoloScan fea-tures high-quality structured holo-captions that compre-hensively depict scene ele-ments along four fundamen-tal dimensions. As shown in Table 2, compared with previous 3D dense captioning benchmarks [1, 13, 81], HoloScan provides longer and more detailed instance descriptions (more words on average) and encompasses a broader range of entity categories. Moreover, it cov-ers a wider variety of real scenes and sources data from multiple datasets, unlike previous benchmarks that rely solely on a single source ( e.g ., ScanNet [19]). Ad-ditionally, unlike previous structural description generation benchmarks that fo-cus primarily on synthetic scenes [3,52], HoloScan contains a substantial number of real-world scenes and provides comprehensive descriptions with fine-grained coverage of attributes and relations. Collectively, these advancements position our task formulation as a significantly closer approximation to the conceptual “text equivalence”. 
+
+5 HoloScribe 
+
+To address holo-captioning, we propose HoloScribe, a novel model that follows an instance-aware decoupled pipeline. The design of HoloScribe is motivated by the fact that holo-captions are long and information-dense, making it diffi-cult for models to perceive all elements in 3D scenes in a single forward pass. To tackle this challenge, HoloScribe decomposes the captioning process into instance-centric subtasks, progressively generating the structured textual de-scription of a scene element by element. Specifically, HoloScribe first localizes entity instances and assigns semantic tags, and then generates detailed attribute and relation descriptions conditioned on the identified instances. An overview of HoloScribe is shown in Fig. 3. Formally, HoloScribe takes as input a 3D scene in point cloud format, de-noted by Qv , and produces a holo-caption ˆH via three phases, namely grounded instance discovery, anchor-aware instance linking, and grounded description gen-eration, which we detail below. Following SpatialLM [52], HoloScribe adopts a LLaVA-style 3D LLM architecture, consisting of a point cloud encoder, an MLP Holo-Captioning 11 Grounded                   
+
+> Instance Discovery
+> bbox_1= Bbox (chair, -215, -250,
+> 46, 46, 64, 95, -90)
+> bbox_2= Bbox (desk, -220, -315,
+> 34, 64, 117, 76, 90)
+> bbox_49= Bbox (couch, 279, 117,
+> 88, 93, 75, 176, 180)
+> bbox_50= Bbox (guitar, 119, -159,
+> 49, 30, 45, 103, 150)
+> Prompt: Detect instances.
+> ···
+> Input 3D Scene Anchor -aware
+> Instance Linking
+> Prompt: Identify relational pairs.
+> bbox_1
+> bbox_2
+> bbox_4
+> bbox_1
+> bbox_2
+> bbox_3
+> ···
+> ···
+> bbox_1
+> bbox_3
+> ···
+> Grounded
+> Description Generation
+> Prompt: Generate an
+> attribute description.
+> The bed is a rectang -
+> ular structure with a
+> white frame. It …
+> The bed supports the
+> helmet .Anchor Instance
+> Prompt: Generate a
+> relation description.
+
+Fig. 3: An overview of our HoloScribe. Given an input 3D scene, HoloScribe generates holo-captions following an instance-aware decoupling pipeline, consisting of grounded instance discovery, anchor-aware instance linking, and grounded description generation. 
+
+connector, and a decoder-only LLM. In each phase, we employ a specific prompt to guide HoloScribe in producing desired outputs in pure text form. 
+
+Grounded Instance Discovery. This phase aims to identify all entity in-stances within the input scene, serving as the foundation for a holo-caption. For training, we first extract entity instances along with their semantic tags and spatial locations from the ground-truth holo-caption H. We then construct a point-text training tuple (Qv , Qinst , Hinst ), where Qinst denotes the tailored prompt and Hinst is a holo-instance text composed of individual instance texts. During inference, this phase outputs a predicted holo-instance text ˆHinst given a scene. Each instance in Hinst is represented by a structured text of the format “bbox_ i=Bbox( ti,ci,x ,ci,y ,ci,z ,ei,x ,ei,y ,ei,z ,ri,z )”, where i denotes the instance index, ti is the semantic tag, and the remaining terms are box parameters as defined in Sec. 3.1. To simplify learning, we adopt 7-DoF bounding boxes during training, which are recomputed from each entity’s point cloud by constraining 
+
+ri,x = ri,y = 0 . Given that real-world scenes often contain dozens of instances, we further divide them into three types, namely architectural elements , common objects , and other objects . During inference, we predict each type independently with tailored prompts and then aggregate the results. 
+
+Anchor-aware Instance Linking. Given the detected entity instances, this phase aims to identify instance pairs that exhibit inter-entity relations. A straight-forward approach is to predict relations for every instance pair in the scene. However, since typical scenes often contain dozens of instances, exhaustively considering every possible pair would result in an excessive number of relation candidates and high computational cost. To address this, we propose an anchor-aware edge formation strategy that learns relation modeling within sampled subgraphs of the complete instance graph. This design enables HoloScribe to efficiently focus on instance pairs that are likely to exhibit meaningful relation-ships, and to generate relation descriptions only for these selected pairs. Given a scene, we first construct a graph where each entity instance cor-responds to a node. The goal of anchor-aware instance linking is to determine whether an edge should be formed between two nodes, indicating the presence of a relationship between the corresponding instances. Since the complete instance graph can be large, we instead sample smaller subgraphs and perform instance linking within these subgraphs to make relation learning more tractable. During 12 K.-Y. Lin et al. 
+
+Table 3: Comparison results on the validation and test sets of HoloScan. Performance is measured by HoloScore, and we report the scores in tagging, location, attribute, relation, and the overall score. Bold indicates the best, and “-” means the model does not support that dimension.                                                                                           
+
+> Models LLM Tagging Location Attribute Relation Overall
+> Validation Set
+> Vote2Cap-DETR [17] -32.87 17.00 2.49 --Vote2Cap-DETR++ [18] -30.84 16.70 2.38 --LEO [30] Vicuna-7B 23.34 14.25 1.53 --LL3DA [16] OPT-1.3B 31.28 16.50 2.99 --SpatialLM-Tuned [30] Qwen2.5-0.5B 51.73 9.94 6.74 2.60 71.01 LL3DA-Tuned [16] Qwen2.5-0.5B 31.25 16.50 10.36 4.83 62.94 HoloScribe (Ours) Qwen2.5-0.5B 60.43 22.33 22.52 11.08 116.36 Test Set
+> Vote2Cap-DETR [17] -32.50 17.71 2.70 --Vote2Cap-DETR++ [18] -31.39 17.04 2.67 --LEO [30] Vicuna-7B 25.91 14.93 1.60 --LL3DA [16] OPT-1.3B 31.28 16.89 3.27 --SpatialLM-Tuned [30] Qwen2.5-0.5B 49.82 9.23 7.01 3.57 69.63 LL3DA-Tuned [16] Qwen2.5-0.5B 31.28 16.88 9.54 3.97 61.67 HoloScribe (Ours) Qwen2.5-0.5B 61.83 22.75 23.72 8.74 117.04
+
+training, we sample a large and diverse set of subgraphs to improve learning cov-erage. This yields a set of point-text tuples {(Qv , Qpair , Hsubg , Hpair )} from the ground-truth instance set, where Qpair is the prompt, Hsubg is text describing a sampled subgraph, and Hpair is a relation text specifying relationship existence. For each subgraph, we designate one instance as the anchor and sample ng −1
+
+additional instances to form a subgraph with ng nodes in total. The subgraph is then serialized into Hsubg and fed into HoloScribe. Its textual format mirrors the holo-instance text used in grounded instance discovery, listing the ng sampled instances with the anchor instance always placed first. The corresponding target text Hpair specifies which of the remaining instances are related to the anchor. For example, the relation text “ bbox_1,bbox_2,bbox_3 ” indicates that the second and third instances are related to the anchor ( i.e ., the first instance). To ensure decoding stability and prevent empty outputs, we enforce that each relation text always begins with “ bbox_1 ”. During inference, each discovered instance is treated as the anchor in turn, and we construct subgraphs { ˆHsubg } accordingly. By aggregating the predicted relation texts { ˆHpair } across all anchor-centric subgraphs, we obtain the complete set of relational instance pairs for the entire scene. 
+
+Grounded Description Generation. After discovering entity instances and identifying relational pairs, we proceed to generate detailed attribute and rela-tion descriptions based on entity tags and locations. For the attribute dimension, we construct point-text tuples {(Qv , Qattr , Hi, Hai )} for training, where Qattr is the prompt. Hi is a text indicating the semantic tag and spatial location of the i-th ground-truth instance, resembling holo-instance texts. Hai is the corre-Holo-Captioning 13 
+
+Table 4: Ablation study of our HoloScribe on the validation set of HoloScan.                               
+
+> Models Tagging Location Attribute Relation Overall Baseline 46.98 8.23 2.39 1.04 58.64 w/ decoupling 51.73 9.94 6.74 2.60 71.01 w/ instance-aware prediction 59.20 20.45 22.41 7.92 109.98 Full w/o anchor 58.67 17.94 22.46 9.20 108.27 Full 60.43 22.33 22.52 11.08 116.36
+
+sponding ground-truth attribute description, which serves as the target output of the attribute dimension. Similarly, for the relation dimension, we construct point-text tuples {(Qv , Qrel , Hi,j , Hri,j )} for training. Qrel is the prompt, Hi,j 
+
+is the instance text composed of the i-th and j-th instances, and Hri,j is the corresponding ground-truth relation description. During inference, we take the discovered instances { ˆHi} and identified instance pairs { ˆHi,j } as inputs, and generate attribute descriptions { ˆHai } and relation descriptions { ˆHri,j }. Finally, by aggregating model outputs across all four dimensions, HoloScribe produces complete holo-captions in a structured text form. 
+
+6 Experiment 
+
+Implementation Details. Following SpatialLM [52], our HoloScribe adopts an “Encoder-MLP-LLM” architecture with Sonata [74] as the vision encoder, and it is initialized using the SpatialLM1.1-Qwen-0.5B checkpoint. We finetune our model on the training set of HoloScan for one epoch using LoRA. For HoloEngine, we use Gemma3-12B [38] to produce descriptions of images and Qwen3-4B-Thinking [77] to aggregate descriptions. For HoloScore, we use Gemma3-1B [38] for granular descriptor extraction, and use Qwen3-Embedding-0.6B [84] for en-coding text in dual descriptor matching. The coefficients are set as δtag = 0 .5,
+
+δloc = 0 .3, and δattr = δrel = 0 .6.
+
+Comparison with State-of-the-Arts. Table 3 summarizes the comparison with state-of-the-art captioning models, including 3D dense captioners [17, 18], 3D LLM generalists [16, 30], and holo-captioning specialists (see the Appendix for baseline details). From the table, we find that both 3D dense captioners and 3D LLM generalists obtain poor performance in holo-captioning, especially on the attribute dimension. This is because these models are trained on traditional captioning benchmarks ( e.g ., ScanRefer [13]) and thus can only produce short captions describing simple attributes like color or shape. Compared with holo-captioning specialists trained on HoloScan, our HoloScribe obtains significant improvements on all dimensions, which is attributed to our proposed instance-aware decoupled pipeline. 
+
+Ablation Study. Table 4 summarizes the ablation study of HoloScribe. We adopt the directly tuned SpatialLM as the baseline, which performs poorly be-cause the desired holo-captioning outputs are long and highly content-rich. After isolating the relation prediction component, we observe a clear performance im-provement, as shown by “w/ decoupling”. By introducing the instance-aware 14 K.-Y. Lin et al. (a) Original Scene  (b) Our Reconstruc tion  (c) LL3DA -based Reconstruc tion  
+
+> Fig. 4: Demonstration of (a) a real scene from HoloScan, (b) the HoloScribe-based reconstruction, and (c) LL3DA-based reconstruction. We highlight entities by 3D boxes.
+
+attribute and relation prediction mechanism (“w/ instance-aware prediction”), the overall performance of HoloScribe improves significantly, where relation pre-diction is performed for every instance pair. By further incorporating our anchor-aware linking mechanism (“Full”), HoloScribe obtains substantial improvement on the relation dimension, as the model can identify meaningful relational pairs while filtering out irrelevant pairs, thereby reducing erroneous predictions. Fi-nally, we conduct an additional comparison against a variant without the anchor mechanism (“Full w/o anchor”), i.e ., one that predicts all relational pairs within each subgraph. The results demonstrate the effectiveness of our anchor-aware de-sign, as the anchor-free variant struggles to capture relations among all possible pairs simultaneously. 
+
+3D Scene Reconstruction. We conduct a scene reconstruction experiment to qualitatively demonstrate the effectiveness and value of our model. Specifically, we employ Hunyuan3D [59] to generate 3D objects using instance tags and at-tributes derived from a generated holo-caption. The size and pose of each object are then refined according to the predicted bounding boxes, and the objects are positioned in 3D space to assemble the reconstructed scene. As shown in Fig. 4 (a) and (b), HoloScribe produces reconstructed 3D scenes that closely match the original ones, particularly in terms of accurate semantic tagging and precise entity localization. As shown in Fig. 4 (c), our reconstruction outperforms the LL3DA-based one, as LL3DA suffers from inaccurate entity detection (yielding redundant, incorrect chairs) and monotonous attributes (usually predicting the single “black” attribute). 
+
+Cross-Dataset Detection. To demonstrate the generalizability of HoloScribe, we conduct a detection experiment using MultiScan [51], which is unseen during training. Specifically, for each scene, we apply HoloScribe to produce a holo-caption, from which we extract the entity tags and locations to perform the de-tection task. As shown in Table 1, two representative 3D LLMs, namely LL3DA and SpatialLM, perform poorly on MultiScan. This is because LL3DA can only detect a limited range of categories, and SpatialLM is trained solely on syn-thetic scenes and thus hardly generalizes to real scenes. In contrast, HoloScribe significantly outperforms these baselines as it can recognize diverse categories and generalize more effectively to real scenes from unseen datasets. Additional results in the Appendix show that holo-captions enable flexible scene editing. Holo-Captioning 15 
+
+7 Conclusion 
+
+This work introduces holo-captioning, a novel task that pursues the text equiva-lent of 3D scenes. We take the initial step toward this ambitious goal by formulat-ing it as the generation of a structured textual description that comprehensively depicts scene elements across four dimensions. To enable systematic study, we propose a comprehensive evaluation metric, develop an effective captioning en-gine, and contribute a large-scale benchmark. We further propose HoloScribe, which follows an instance-aware decoupled pipeline to address holo-captioning. To our knowledge, HoloScribe is the first 3D LLM capable of jointly localizing en-tity instances and generating detailed descriptions purely in text, demonstrating strong performance in extensive experiments. Despite our efforts, this work represents only the initial attempt toward our conceptual goal of “text equivalence”, and holo-captioning still presents numerous open challenges. Our experiments reveal that the task remains highly challenging for existing models, partially due to the inherent difficulty of predicting entity locations in pure text form. We consider scaling up the model a promising di-rection for future work. Nevertheless, this work establishes a solid foundation for future research and is expected to catalyze further advances in bridging 3D scenes and text. 
+
+Acknowledgments. This work is supported by the Hong Kong Research Grants Council - General Research Fund (Grant No.: 17211024 ), the Innovation and Technology Fund (ITS/488/24FP), and the HKU Seed Fund for PI Research. The authors would like to thank Yi-Xiang He and Yi-Lin Wei for their support in downstream experiments. The authors also thank Jiaming Zhou, Yu-Ming Tang, and Weining Ren for their valuable suggestions on the writing. The authors also thank Yuxian Li, Mingshan Huang, Huairong Chen, Shenru Zhang, Yixuan Chen, Junming Chen, Yifei Zhang, Zhenyi Fan, Jialu Tang, and Boning Shao for their help and support for our project. 
+
+Appendix A1 More Details of Task Formulation 
+
+A1.1 Annotation Examples 
+
+In this part, we provide an example to clearly illustrate the task formulation of our proposed holo-captioning in greater detail. Since holo-captions are struc-tured textual descriptions, they can be naturally expressed in JSON format for clarity and parsability, as illustrated by the example in Fig. A1. Here, we present two entity instances within a scene, along with the relations between two spe-cific pairs of instances. Because a full scene typically contains numerous entity instances and relation pairs, we omit the remainder for clarity and due to space constraints. As shown in Fig. A1, our holo-captioning includes a semantic tag, a precise 9-DoF bounding box, and a detailed attribute description for each entity instance in the 3D scene. Additionally, it includes a relation description 16 K.-Y. Lin et al. 
+
+for each instance pair that has a relation. Notably, our attribute descriptions encompass a wide range of attribute types, e.g ., color, shape, material, texture, and constituent parts, making them much more comprehensive than those in previous 3D captioning benchmarks ( e.g ., Scan2Cap [14], which consists of only brief descriptions like “the table is black”). {  
+
+> "instances ": {
+> “1”: {
+> “class_label ”: “door”,
+> “bbox_3d ”: [194, 258, 126, 17, 96, 176, 180, -10, 0],
+> “attribute ”: “The door is rectangular with a wooden frame and a glass pane. The frame has a light brown color and smooth texture
+> with visible grain patterns. The door includes a metal lever -style handle and metal hinges, exhibiting a contemporary style.”,
+> },
+> “2”: {
+> “class_label ”: “table”,
+> “bbox_3d ”: [106, -36, 43, 86, 169, 87, -90, 0, 0],
+> “attribute ”: “The table is rectangular with a light tan or light beige surface made of wood -like material, featuring a smooth, slightly
+> matte texture and straight edges. It contains a rectangular cutout revealing structure behind. The supporting structure is me tal lic gray,
+> consisting of a central leg with adjustable mechanisms and additional supports extending from the leg to the top surface, exh ibi ting a smooth
+> metallic sheen and squared edges.”,
+> },
+> ……
+> },
+> “relations ": [
+> {
+> “index1 ”: “1”,
+> “index2 ”: “16”,
+> "relation ": "The door is on the floor.",
+> "reverse_relation ": "The floor supports the door."
+> },
+> {
+> “index1 ”: “2”,
+> “index2 ”: “8”,
+> "relation ": "The table holds the backpack.",
+> "reverse_relation ": "The backpack is placed on the table."
+> },
+> ……
+> ]
+> }
+
+Fig. A1: An example of holo-captioning data in JSON format. A holo-caption is a structured textual description that comprehensively depicts all entities within a 3D scene, including their semantic tags, spatial locations, attributes, and inter-entity re-lations. Best viewed in color. 
+
+A1.2 Properties of our Holo-captioning Formulation 
+
+In this part, we discuss the properties of our holo-captioning formulation, which serves as the initial effort toward our concept of “text equivalence”. At its core, our formulation decomposes 3D scenes into four fundamental aspects, namely semantic tags, spatial locations (parameterized as 3D bounding boxes), attribute descriptions, and inter-entity relation descriptions. This design ensures a highly comprehensive representation of a 3D scene, and also maintains efficiency by strategically omitting inferable details. To demonstrate the comprehensiveness of our formulation, we provide three representative examples illustrating how the strategically omitted details can be accurately derived from the provided information. 
+
+– First, holo-captions omit location descriptions in pure words ( e.g ., “A is at the center of the scene”). Instead, we employ 9-DoF bounding boxes to Holo-Captioning 17 
+
+describe entity locations. These bounding boxes are much more precise than vague textual descriptors, and allow us to derive location descriptions in natural language. 
+
+– Second, we omit distance descriptions between entity instances ( e.g ., “A is 5 meters away from B”), since this information can be computed from instance boxes, and including it would introduce redundancy into holo-captions. 
+
+– Third, we exclude position-aware relational descriptions ( e.g ., “A is on the right corner of B”), retaining only position-agnostic relational descriptions (e.g ., “A is on B”). This design choice is motivated by two factors: (1) 3D scenes are rotation-invariant, making terms like “left” or “right” inherently ambiguous; and (2) fine-grained, position-aware relations can be determin-istically inferred by combining the exact 3D bounding boxes with basic position-agnostic relations. 
+
+A2 More Details of HoloScan 
+
+A2.1 Human Curation 
+
+To construct a high-quality test set for evaluating holo-captioning models, we design a rigorous human-in-the-loop annotation refinement procedure to rectify the semantic labels, attribute descriptions, and inter-entity relation descriptions produced by (M)LLMs. We keep the 3D bounding boxes fixed as spatial anchors, as these bounding boxes have been previously human-annotated in established benchmarks and datasets. The procedure consists of three primary stages sup-ported by a custom Open3D-based visualization tool that renders point clouds and projects multi-view 2D RGB observations. First, by utilizing the 3D bound-ing boxes, we locate the corresponding entity instances within the 3D scene and incorporate multi-view images to verify whether the semantic tags are correctly annotated. Any identified errors are subsequently corrected by human experts. In the second step, with both the multi-view images and 3D scene content as ref-erences, we validate whether the attribute descriptions are correct. This involves verifying not only the accuracy of the existing content but also the compre-hensiveness of the descriptions ( i.e ., whether any attributes have been missed). Concurrently, we strictly regulate the terminology used in the descriptions. For example, view-dependent terms such as “left” and “right” should be avoided, be-cause they are not invariant under scene rotation. Finally, based on the same 2D and 3D context, we refine pairwise relational descriptions. Specifically, these relational annotations strictly prioritize physical-contact relations. If no explicit interaction is observed, the description is simplified to a standard adjacency state (e.g ., “A is adjacent to B”), and references to unassociated third-party objects are strictly prohibited to maintain purely pairwise contextualization. Additionally, we enforce semantic consistency between a relation description and its reverse (i.e ., the (A, B) and (B, A) counterparts). Overall, this rigorous annotation refinement procedure yields a reliable test set for model evaluation. 18 K.-Y. Lin et al. 
+
+A2.2 Reliability 
+
+The reliability of our HoloScan benchmark rests on two key factors, namely the effectiveness of our proposed data engine, HoloEngine, and the rigorous human curation procedure applied to the test set. First, our proposed HoloEngine is specifically tailored to our proposed holo-captioning task. To effectively handle scene complexity, we propose to produce captions in an instance-centric man-ner, decomposing holistic, complex scenes into discrete, manageable elements for annotation. This strategy significantly enhances annotation quality, as gen-erating accurate captions for isolated entity instances is demonstrably easier for (M)LLMs than parsing and comprehensively describing highly cluttered scenes in a single pass. Additionally, we systematically select the most capable (M)LLM for each specific stage of HoloEngine, considering the unique characteristics of the data and each stage. We validated these selections through pilot experi-ments, wherein human experts meticulously evaluated the generation quality of various (M)LLMs on a compact yet diverse subset to identify the most suitable candidate for each subtask. Regarding the second factor, namely the reliability of the test set, we have already elaborated on the human curation procedure in the preceding subsection, and thus we omit the details here. Crucially, the high quality of our data production pipeline is further verified by compelling empirical evidence. Notably, we observe a strong alignment in the performance trends of various models when evaluated on the auto-generated validation set versus the human-curated test set. This consistency serves as strong evidence of the high quality of our generated annotations. More importantly, models trained on the data produced by HoloEngine achieve substantial performance gains over previous state-of-the-art methods. This superiority validates the effectiveness of our HoloEngine and the reliability of the HoloScan benchmark. 
+
+A3 More Implementation Details 
+
+A3.1 HoloScribe Details 
+
+Our proposed HoloScribe model adopts an “Encoder-MLP-LLM” architecture following SpatialLM [52]. Specifically, HoloScribe adopts Sonata [74] as the vi-sion encoder, Qwen2.5-0.5B [78] as the LLM, and a two-layer MLP as the projec-tor. The model is initialized from the SpatialLM1.1-Qwen-0.5B checkpoint, and finetuned on the training set of HoloScan for one epoch using LoRA (rank r = 64 
+
+and α = 128 ). We use the AdamW optimizer with a batch size of 12 and a learn-ing rate of 5 × 10 −4. Since HoloScribe decomposes scene captions into multiple aspects, we use three types of QA-formatted point-text data for training, which are detailed below. We mix these three types of point-text data together for training models, and the training loss is the standard auto-regressive loss ( i.e ., next token prediction). During inference, we generate holo-captions step-by-step using the same prompts as in training. 
+
+Grounded Instance Discovery. For each 3D scene, we construct point-text tuples in the format of (Qv , Qinst , Hinst ) for training, where Qv is the input Holo-Captioning 19 
+
+3D scene in point cloud format, Qinst denotes the prompt and Hinst is a holo-instance text composed of individual instance texts. Given that real-world scenes often contain dozens of instances, we divide these instances into three types, namely architectural elements , common objects , and other objects , to improve model prediction. This results in several point-text tuples per scene, and we use different prompts to instruct HoloScribe to generate the desired output. These prompts are:     
+
+> –Detect wall, door and window instances.
+> –Detect floor and ceiling instances.
+> –Detect basic instances.
+> –Detect more instances except basic categories.
+
+The first two prompts are for architectural elements, the third covers common objects, and the fourth handles other objects. We treat the categories recogniz-able by SpatialLM [52] as common objects. 
+
+Anchor-aware Instance Linking. This phase yields a set of point-text tuples 
+
+{(Qv , Qpair , Hsubg , Hpair )} for training, where Qpair is a tailored prompt, and 
+
+Hsubg is text describing a sampled subgraph. Hpair is a relation text specifying relationship existence, serving as the target output in this phase. The prompt is given as follows:  
+
+> –Predict relation pairs among boxes as follows: {}.
+
+In this prompt, the placeholder “ {} ” is filled with the instance text of the sampled subgraph. 
+
+Grounded Description Generation. For the attribute dimension, we con-struct point-text tuples {(Qv , Qattr , Hi, Hai )} for training, where Qattr is the prompt. Hi is a text indicating the semantic tag and spatial location of the i-th ground-truth instance, resembling holo-instance texts. Hai is the corresponding ground-truth attribute description, which serves as the target output of the at-tribute dimension. The prompt is given as follows:  
+
+> –Comprehensively describe the attributes of the instance as follows: {}. Please output the description:
+
+In this prompt, the placeholder “ {} ” is filled with the instance text of the specified instance. Additionally, this phase constructs point-text tuples {(Qv , Qrel , Hi,j , Hri,j )}
+
+for training relation description prediction, where Qrel is the prompt. Hi,j is the instance text composed of the i-th and j-th instances, and Hri,j is the corre-sponding ground-truth relation description. The prompt is given as follows:  
+
+> –Describe the relation between the two boxes as follows: {}
+
+In this prompt, the placeholder “ {} ” is filled with the instance text of the specified pair of instances. 20 K.-Y. Lin et al. 
+
+A3.2 Baseline Details 
+
+In our main experiments, we use three types of models for comparison, namely 3D dense captioners, 3D LLM generalists, and holo-captioning specialists. For 3D dense captioners ( e.g ., Vote2Cap-DETR [17]) and 3D LLM generalists ( e.g ., LL3DA [16]), we directly use the released checkpoints and apply them to holo-captioning following their default dense captioning pipelines. To establish holo-captioning specialists ( e.g ., SpatialLM-Tuned), we use the training data from HoloScan to finetune 3D LLMs ( e.g ., SpatialLM [52]), thereby endowing them with holo-captioning capabilities. More specifically, to improve holo-captioning performance, we adopt a simple decoupled pipeline by performing attribute and relation prediction separately, as holo-captions for 3D scenes are usually long and information-dense. As shown in Table 3 in the main manuscript, our HoloScribe significantly outperforms these baselines, which is attributed to our proposed instance-aware decoupled pipeline. 
+
+A4 More Experiment Results 
+
+A4.1 Scene Reconstruction 
+
+In this part, we extend the experiments in the main manuscript by showcasing more scene reconstruction results, which qualitatively demonstrate the effective-ness and utility of our proposed HoloScribe model. Specifically, given an input 3D scene, we first use HoloScribe to generate a holo-caption, which serves as a textual representation of the scene. Next, we employ Hunyuan3D [59] to generate 3D assets based on the semantic tags and attributes of entity instances extracted from the holo-caption. We further refine the size and pose of each instance using the predicted bounding boxes and place them in 3D space to assemble the recon-structed scene. To enhance visualization quality, all floor instances (except the first example) are rendered using solid-colored cubes. As shown in Fig. A2 (b), HoloScribe produces reconstructed scenes that resemble the original scenes, par-ticularly in terms of accurate semantic tagging and spatial localization. Additionally, we conduct a scene editing experiment to showcase a practical application enabled by our holo-captioning. Specifically, to edit a reconstructed scene, we simply modify the generated holo-caption and then reconstruct a new scene based on the edited text. Fig. A2 (c) presents four scene editing examples, namely attribute editing, instance deletion, instance relocation, and instance addition. As shown in the figure, our holo-captioning enables flexible, instance-level modifications while keeping all non-edited instances identical to those in the unedited scene. Together, these experiments demonstrate the versatility and practicality of our holo-captions. 
+
+A4.2 Human Consistency Analysis for HoloScore 
+
+Following Dong et al. [22], we conduct a consistency analysis between human ratings and HoloScore values using Pearson correlation (PCC), Kendall’s τ , and Holo-Captioning 21 … The chair is white … Edit Attribute : … The chair is red …          
+
+> (a) Original Scenes (b) Our Reconstructed Scenes (c) Edited Reconstructed Scenes
+> Delete Instance : Remove the table .
+> Modify Location : Move the chair …
+> Add Instance : Copy the lamp …
+
+Fig. A2: Qualitative analysis based on scene reconstruction. We show several examples of real scenes from HoloScan, along with their text-based reconstructed scenes and the corresponding edited reconstructed scenes. Entity instances are highlighted with violet boxes, while yellow boxes mark the instances selected for editing in the reconstructed scenes and their edited counterparts in the edited scenes. Best viewed in color. 
+
+sample-wise τ . As shown in Table A1, HoloScore aligns much better with human judgments than BLEU/CIDEr-based metrics. Additionally, the default thresh-olds of HoloScore are set based on preliminary human-consistency experiments. While threshold changes affect absolute metric scores ( e.g ., increasing all thresh-olds by +0 .05 causes a 9% overall drop), the relative rankings of all models re-main unchanged across multiple tested thresholds, demonstrating the robustness of our metric. Equal weighting is adopted as a parameter-free default for sim-plicity. Our experimental conclusions do not rely solely on this aggregation, as our model consistently performs best on each sub-metric. In practice, users can adjust these weights as needed. 
+
+A4.3 Downstream Robotics Applications 
+
+To demonstrate the utility of our HoloScribe, we deploy it in two real-world downstream robotics tasks, namely open-vocabulary object navigation [10] and mobile manipulation [60]. In these downstream tasks, our HoloScribe is employed to generate holo-captions for scenes, from which we extract entity detection re-sults and use them for performing robotics tasks. The hardware platform utilizes 22 K.-Y. Lin et al.                               
+
+> Table A1: Human consistency analysis for HoloScore. We report Pearson correlation (PCC), Kendall’s τ, and sample-wise τbetween metric scores and human ratings. Bold
+> highlights the best results.
+> Metrics PCC ( ρ)↑K-τ↑Sw-τ↑
+> BLEU [54] + 3D Box IoU 0.35 0.33 0.38 CIDEr [61] + 3D Box IoU 0.39 0.35 0.40 HoloScore 0.60 0.55 0.56 (a) Target: Desk (b)Target :Couch
+> (c)Target :Chair (d)Target :Luggage
+> Fig. A3: Demonstration of four real-world scenes for open-vocabulary object naviga-tion. Best viewed in color.
+
+an Agilex Cobot Magic robot, equipped with two Intel RealSense D435 RGB-D cameras. These two cameras are referred to as the global and local cameras, serving the navigation and manipulation tasks, respectively. In the open-vocabulary object navigation task, the robot plans and navigates to the nearest instance of a specified object class. First, the scene point cloud is acquired via the global RGB-D camera and transformed from the camera coordinate system to the robot’s local frame using a hand-eye transformation matrix. Then, the aligned scene point cloud is fed into our HoloScribe model to generate holo-captions, from which the entity detection results are extracted. Given a specific object label in text format, the system first retrieves the detected entity instances that match the label and then identifies the target instance based on Euclidean distance. If multiple instances match the given label, the closest one is selected as the target. Based on the center coordinates of the identified target instance, the system further calculates the positional deviation ( ∆x , ∆y ) and the angular deviation ( ∆θ ) between the current robot position and the target position. These deviations are then used to generate a trajectory to drive the robot toward the target, thereby accomplishing the object navigation task. In this experiment, we evaluate the open-vocabulary object navigation task across four scenes, each featuring a distinct target object, as shown in Fig. A3. For each scene, we command the robot to execute the task 10 times and report the average success rate. Task execution strongly depends on the entity instances Holo-Captioning 23 
+
+detected by HoloScribe. Table A2 reports the performance comparison in terms of average success rate. As shown in the table, HoloScribe achieves a 75% overall average success rate, significantly surpassing the SpatialLM baseline (25%). This demonstrates the superiority of our proposed HoloScribe model. 
+
+Table A2: Comparison between our HoloScribe and SpatialLM in open-vocabulary object navigation. The performance is measured in terms of success rate (%).                
+
+> Models Scene (a) Scene (b) Scene (c) Scene (d) Overall SpatialLM [52] 100.0 0.0 0.0 0.0 25.0 HoloScribe (Ours) 100.0 100.0 100.0 0.0 75.0
+
+In the mobile manipulation task, the robot builds upon object navigation to transfer small objects between target locations within the scene. For the nav-igation component, the key difference is that the system initially determines both the starting and terminal positions. During the manipulation phase, we deploy a framework inspired by CaP [43]. Given visual prompts captured by the local camera, we employ an MLLM ( i.e ., Qwen3-VL-Plus [56]) to accomplish two objectives: selecting an appropriate action primitive ( e.g ., grasping, plac-ing) from a predefined library, and predicting interaction keypoints as 2D pixel coordinates. These 2D points are subsequently projected into 3D space to deter-mine the target spatial positions for the robotic arm. By composing the selected primitive with the corresponding 3D keypoints, the system seamlessly executes complex manipulation tasks. In the project page, we provide a demonstration video of the mobile manipulation process. This demonstration further validates the robustness of HoloScribe in real-world scenarios. 
+
+A4.4 Quantitative analysis with different LLMs 
+
+In this part, we conduct a quantitative analysis to verify the generalizability of our HoloScribe method across different LLMs. While our primary experiments utilized Qwen2.5-0.5B, here we extend our analysis to Llama3.2-1B. Both back-bones were initialized from the SpatialLM [52] checkpoints ( i.e ., SpatialLM1.1-Qwen-0.5B and SpatialLM1.1-Llama-1B), and then finetuned on the training set of HoloScan. As shown in Table A3, our model with Llama3.2 achieves perfor-mance comparable to that with Qwen2.5, with both configurations significantly outperforming previous state-of-the-art models. These results demonstrate that 
+
+Table A3: Quantitative analysis of our HoloScribe based on different LLMs. We report the results on the validation set of HoloScan. Performance is measured by HoloScore, and we report the scores in tagging, location, attribute, relation, and the overall score. 
+
+Bold highlights our results.                               
+
+> Models LLM Tagging Location Attribute Relation Overall SpatialLM-Tuned [30] Qwen2.5-0.5B 51.73 9.94 6.74 2.60 71.01 LL3DA-Tuned [16] Qwen2.5-0.5B 31.25 16.50 10.36 4.83 62.94 HoloScribe (Ours) Qwen2.5-0.5B 60.43 22.33 22.52 11.08 116.36
+> HoloScribe (Ours) Llama3.2-1B 60.24 25.75 23.47 9.51 118.97
+
+24 K.-Y. Lin et al. {
+
+“entity_idx ”: 10, 
+
+"class_label ": "pillow", 
+
+"bbox_3d ": [ 
+
+1.908787, 0.943822, 0.888914, 
+
+0.390625, 0.734375, 0.265625, 
+
+0.000000, 0.000000, 0.000000 
+
+], 
+
+“attribute ": "The pillow is white, with a smooth texture. It appears to be made 
+
+of a soft, cotton or linen -like material. It has a rectangular shape with rounded 
+
+corners, though its edges are not clearly defined. The surface is relatively flat 
+
+with minor creases and slight depressions. The pillow appears to be in a relatively 
+
+clean state.", 
+
+“relation ”: [ 
+
+“index1”: 9, “index2”: 10, 
+
+“description”: “The bed supports the pillow placed upon it.” 
+
+], 
+
+}
+
+{
+
+“entity_idx ”: 5, 
+
+"class_label ": “ tv ", 
+
+"bbox_3d ": [ 
+
+-0.353758, -2.150880, 1.460068, 
+
+0.968750, 0.171875, 0.546875, 
+
+0.000000, 0.000000, 0.000000 
+
+], 
+
+"attribute ": "The TV is a rectangular object with rounded corners. It appears 
+
+to be made of a smooth, dark -colored material with a uniformly black appearance, 
+
+exhibiting a glossy texture and a uniform color without visible markings or 
+
+patterns. The object is stationary and in a pristine condition.", 
+
+“relation ”: [ 
+
+“index1”: 5, “index2”: 1, 
+
+“description”: “The tv is mounted to the wall.” 
+
+], 
+
+}
+
+{
+
+“entity_idx ”: 6, 
+
+"class_label ": “chair", 
+
+"bbox_3d ": [ 
+
+-0.616212, -2.956177, 0.488914, 
+
+0.562500, 0.609375, 0.890625, 
+
+0.000000, 0.000000, 0.000000 
+
+], 
+
+"attribute ": "The chair is composed of a light -brown wooden frame and a light 
+
+beige fabric seat. The frame appears to be constructed from curved wooden 
+
+pieces. The fabric has a textured appearance and contains a repeating pattern of 
+
+darker brown and beige stripes. The chair has a curved backrest that is vertically 
+
+oriented and tapers slightly toward the top. The seat appears to be cushioned. 
+
+The chair's surface shows a slightly worn texture.", 
+
+“relation ”: [ 
+
+“index1”: 6, “index2”: 2, 
+
+“description”: “The chair is adjacent to the wall.” 
+
+], 
+
+}
+
+Fig. A4: Example outputs of our HoloScribe model in JSON format. For each sample, we visualize the entity instance by rendering the raw point cloud of the 3D scene, with a 3D bounding box employed to localize the target instance. Additionally, we show the text from the 3D scene’s predicted holo-caption that is relevant to the specified target instance. Note that due to space constraints, presenting the full holo-caption of a scene in the manuscript is impractical given the large number of entity instances involved, thus we only showcase one representative example for illustration. Best viewed in color. 
+
+the effectiveness of HoloScribe is not dependent on a specific backbone, thereby confirming its robustness. 
+
+A4.5 Qualitative Examples 
+
+In this part, we show qualitative examples to demonstrate the holo-captioning capabilities of our HoloScribe model. Fig. A4 presents three examples of holo-captions, where each example corresponds to a specific entity instance in a 3D scene. As shown in the figure, our model generates holo-captions that are largely accurate and satisfactory for entity instances. Holo-Captioning 25 
+
+References 
+
+1. Achlioptas, P., Abdelreheem, A., Xia, F., Elhoseiny, M., Guibas, L.J.: ReferIt3D: Neural listeners for fine-grained 3D object identification in real-world scenes. In: European Conference on Computer Vision (2020) 4, 5, 6, 10 2. Armeni, I., He, Z., Zamir, A., Gwak, J., Malik, J., Fischer, M., Savarese, S.: 3D Scene Graph: A structure for unified semantics, 3D space, and camera. In: IEEE/CVF International Conference on Computer Vision (2019) 4 3. Avetisyan, A., Xie, C., Howard-Jenkins, H., Yang, T., Aroudj, S., Patra, S., Zhang, F., Frost, D.P., Holland, L., Orme, C., Engel, J.J., Miller, E., Newcombe, R.A., Balntas, V.: SceneScript: Reconstructing scenes with an autoregressive structured language model. In: European Conference on Computer Vision (2024) 1, 2, 5, 6, 10 4. Azuma, D., Miyanishi, T., Kurita, S., Kawanabe, M.: ScanQA: 3D question an-swering for spatial scene understanding. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2022) 5 5. Bai, S., Song, W., Chen, J., Ji, Y., Zhong, Z., Yang, J., Zhao, H., Zhou, W., Zhao, W., Li, Z., Ding, P., Chi, C., Li, H., Xu, C., Zheng, X., Wang, D., Zhang, S., Chen, B.: Towards a unified understanding of robot manipulation: A comprehensive survey. arXiv preprint arXiv:2510.10903 (2025) 1, 5 6. Banerjee, S., Lavie, A.: METEOR: An automatic metric for MT evaluation with improved correlation with human judgments. In: Proceedings of the Workshop on Intrinsic and Extrinsic Evaluation Measures for Machine Translation and/or Summarization@ACL 2005 (2005) 6 7. Black, K., Brown, N., Driess, D., Esmail, A., Equi, M., Finn, C., Fusai, N., Groom, L., Hausman, K., Ichter, B., Jakubczak, S., Jones, T., Ke, L., Levine, S., Li-Bell, A., Mothukuri, M., Nair, S., Pertsch, K., Shi, L.X., Tanner, J., Vuong, Q., Walling, A., Wang, H., Zhilinsky, U.:  π0: A vision-language-action flow model for general robot control. arXiv preprint arXiv:2410.24164 (2024) 1, 5 8. Brazil, G., Kumar, A., Straub, J., Ravi, N., Johnson, J., Gkioxari, G.: Omni3D: A large benchmark and model for 3D object detection in the wild. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2023) 5 9. Cai, D., Zhao, L., Zhang, J., Sheng, L., Xu, D.: 3DJCG: A unified framework for joint dense captioning and visual grounding on 3D point clouds. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 16464–16473 (2022) 410. Campari, T., Eccher, P., Serafini, L., Ballan, L.: Exploiting scene-specific features for object goal navigation. arXiv preprint arXiv:2008.09403 (2020) 21 11. Chang, A., Dai, A., Funkhouser, T., Halber, M., Nießner, M., Savva, M., Song, S., Zeng, A., Zhang, Y.: Matterport3D: Learning from rgb-d data in indoor environ-ments. In: International Conference on 3D Vision (2017) 9 12. Chang, H., Boyalakuntla, K., Lu, S., Cai, S., Jing, E.P., Keskar, S., Geng, S., Abbas, A., Zhou, L., Bekris, K.E., Boularias, A.: Context-aware entity grounding with open-vocabulary 3D scene graphs. In: Conference on Robot Learning (2023) 613. Chen, D.Z., Chang, A.X., Nießner, M.: ScanRefer: 3D object localization in RGB-D scans using natural language. In: European Conference on Computer Vision (2020) 4, 5, 6, 10, 13 14. Chen, D.Z., Gholami, A., Nießner, M., Chang, A.X.: Scan2Cap: Context-aware dense captioning in RGB-D scans. In: IEEE Conference on Computer Vision and Pattern Recognition (2021) 1, 2, 4, 5, 6, 16 26 K.-Y. Lin et al. 15. Chen, D.Z., Wu, Q., Nießner, M., Chang, A.X.: D3Net: A unified speaker-listener architecture for 3D dense captioning and visual grounding. In: European Confer-ence on Computer Vision. Springer-Verlag, Berlin, Heidelberg (2022) 4 16. Chen, S., Chen, X., Zhang, C., Li, M., Yu, G., Fei, H., Zhu, H., Fan, J., Chen, T.: LL3DA: visual interactive instruction tuning for omni-3D understanding, reason-ing, and planning. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 3, 5, 12, 13, 20, 23 17. Chen, S., Zhu, H., Chen, X., Lei, Y., Yu, G., Chen, T.: End-to-end 3D dense captioning with vote2cap-detr. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2023) 1, 2, 4, 5, 6, 12, 13, 20 18. Chen, S., Zhu, H., Li, M., Chen, X., Guo, P., Lei, Y., Yu, G., Li, T., Chen, T.: Vote2Cap-DETR++: Decoupling localization and describing for end-to-end 3D dense captioning. IEEE Transactions on Pattern Analysis and Machine Intelligence 
+
+46 (2024) 4, 6, 12, 13 19. Dai, A., Chang, A.X., Savva, M., Halber, M., Funkhouser, T., Nießner, M.: Scan-Net: Richly-annotated 3D reconstructions of indoor scenes. In: IEEE Conference on Computer Vision and Pattern Recognition (2017) 9, 10 20. Dehghan, A., Baruch, G., Chen, Z., Feigin, Y., Fu, P., Gebauer, T., Kurz, D., Dimry, T., Joffe, B., Schwartz, A., Shulman, E.: ARKitScenes: A diverse real-world dataset for 3D indoor scene understanding using mobile RGB-D data. In: Neural Information Processing Systems Datasets and Benchmarks Track (2021) 5, 921. Deng, J., He, T., Jiang, L., Wang, T., Dayoub, F., Reid, I.D.: 3D-LLaVA: Towards generalist 3D lmms with omni superpoint transformer. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 5 22. Dong, H., Li, J., Wu, B., Wang, J., Zhang, Y., Guo, H.: Benchmarking and im-proving detail image caption. arXiv preprint arXiv:2405.19092 (2024) 6, 20 23. Dubey, A., Jauhri, A., Pandey, A., Kadian, A., Al-Dahle, A., et al.: The llama 3 herd of models. arXiv preprint arXiv:2407.21783 (2024) 4 24. Fang, C., Li, H., Liang, Y., Zheng, J., Mao, Y., Liu, Y., Tang, R., Zhou, Z., Tan, P.: SPATIALGEN: Layout-guided 3D indoor scene generation. arXiv preprint arXiv:2509.14981 (2025) 1 25. Ge, Y., Zeng, X., Huffman, J.S., Lin, T., Liu, M., Cui, Y.: Visual Fact Checker: Enabling high-fidelity detailed caption generation. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 4 26. Gu, Q., Kuwajerwala, A., Morin, S., Jatavallabhula, K.M., Sen, B., Agarwal, A., Rivera, C., Paul, W., Ellis, K., Chellappa, R., Gan, C., de Melo, C.M., Tenenbaum, J.B., Torralba, A., Shkurti, F., Paull, L.: ConceptGraphs: Open-vocabulary 3D scene graphs for perception and planning. In: IEEE International Conference on Robotics and Automation (2024) 6 27. Guo, K., Huang, Y., Jia, T., Song, X., Sun, S., Wei, H., Han, X.F., Huang, S., Strisciuglio, N., Li, S.: Visual Grounding in 2D and 3D: A unified perspective and survey. Inf. Fusion (2026) 4 28. Hong, Y., Zhen, H., Chen, P., Zheng, S., Du, Y., Chen, Z., Gan, C.: 3D-LLM: In-jecting the 3D world into large language models. In: Neural Information Processing Systems (2023) 5 29. Huang, H., Chen, Y., Wang, Z., Huang, R., Xu, R., Wang, T., Liu, L., Cheng, X., Zhao, Y., Pang, J., Zhao, Z.: Chat-Scene: Bridging 3D scene and large language models with object identifiers. In: Neural Information Processing Systems (2024) 5Holo-Captioning 27 30. Huang, J., Yong, S., Ma, X., Linghu, X., Li, P., Wang, Y., Li, Q., Zhu, S., Jia, B., Huang, S.: An embodied generalist agent in 3D world. In: International Conference on Machine Learning (2024) 5, 12, 13, 23 31. Huang, J., Li, Z., Zhang, H., Chen, R., He, X., Guo, Y., Wang, W., Liu, T., Gong, M.: SURPRISE3D: A dataset for spatial understanding and reasoning in complex 3D scenes. arXiv preprint arXiv:2507.07781 (2025) 5 32. Huang, T., Zhang, Z., Tang, H.: 3D-R1: Enhancing reasoning in 3D VLMs for unified scene understanding. arXiv preprint arXiv:2507.23478 (2025) 5 33. Huang, W.J., Zhang, Y.Y., Wei, Y.L., Xia, Z.W., Tan, J., Li, Y.M., Zhao, Z., Zheng, W.S.: Beyond Mimicry: Learning whole-body human-humanoid interaction from human-human demonstrations. In: IEEE Conference on Computer Vision and Pattern Recognition (2026) 5 34. Huang, X., Wu, J., Xie, Q., Han, K.: 3DRS: MLLMs Need 3D-Aware Represen-tation Supervision for Scene Understanding. In: Neural Information Processing Systems (2025) 5 35. Jia, B., Chen, Y., Yu, H., Wang, Y., Niu, X., Liu, T., Li, Q., Huang, S.: Scen-eVerse: Scaling 3D vision-language learning for grounded scene understanding. In: European Conference on Computer Vision (2024) 5, 9 36. Jiang, J., Wu, X., He, Y., Zeng, L., Wei, Y., Zhang, D., Zheng, W.: Rethinking bimanual robotic manipulation: Learning with decoupled interaction framework. In: IEEE/CVF International Conference on Computer Vision (2025) 5 37. Jiao, Y., Chen, S., Jie, Z., Chen, J., Ma, L., Jiang, Y.G.: MORE: Multi-order relation mining for dense captioning in 3D scenes. In: European Conference on Computer Vision. pp. 528–545. Springer Nature Switzerland, Cham (2022) 4 38. Kamath, A., Ferret, J., Pathak, S., Vieillard, N., Merhej, R., et al.: Gemma 3 technical report. arXiv preprint arXiv:2503.19786 (2025) 13 39. Kim, M., Lim, H., Kim, S.H., Lee, S., Kim, B., Kim, G.: See It All: Contextual-ized late aggregation for 3D dense captioning. In: Findings of the Association for Computational Linguistics (2024) 4 40. Koch, S., Vaskevicius, N., Colosi, M., Hermosilla, P., Ropinski, T.: Open3DSG: Open-vocabulary 3D scene graphs from point clouds with queryable objects and open-set relationships. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 4 41. Li, H., Liu, R., Fan, H., Yang, Y.: Text-scene: A scene-to-language parsing frame-work for 3D scene understanding. arXiv preprint arXiv:2509.16721 (2025) 5 42. Li, Y.M., Huang, W.J., Wang, A.L., Zeng, L.A., Meng, J.K., Zheng, W.S.: EgoExo-Fitness: Towards egocentric and exocentric full-body action understanding. In: European Conference on Computer Vision. Springer (2024) 5 43. Liang, J., Huang, W., Xia, F., Xu, P., Hausman, K., Ichter, B., Florence, P., Zeng, A.: Code as policies: Language model programs for embodied control. arXiv preprint arXiv:2209.07753 (2022) 23 44. Lin, K.Y., Wang, H., Ren, W., Han, K.: Panoptic Captioning: An equivalence bridge for image and text. In: Neural Information Processing Systems (2025) 4 45. Linghu, X., Huang, J., Niu, X., Ma, X., Jia, B., Huang, S.: Multi-modal situated reasoning in 3D scenes. In: Neural Information Processing Systems Datasets and Benchmarks Track (2024) 5 46. Liu, H., Li, C., Wu, Q., Lee, Y.J.: Visual instruction tuning. In: Neural Information Processing Systems (2023) 4 47. Luo, T., Johnson, J., Lee, H.: View selection for 3D captioning via diffusion ranking. In: European Conference on Computer Vision (2024) 4 28 K.-Y. Lin et al. 48. Luo, T., Rockwell, C., Lee, H., Johnson, J.: Scalable 3D captioning with pretrained models. In: Oh, A., Naumann, T., Globerson, A., Saenko, K., Hardt, M., Levine, S. (eds.) Neural Information Processing Systems (2023) 4 49. Lyu, R., Lin, J., Wang, T., Yang, S., Mao, X., Chen, Y., Xu, R., Huang, H., Zhu, C., Lin, D., Pang, J.: MMScan: A multi-modal 3D scene dataset with hierarchical grounded language annotations. In: Neural Information Processing Systems (2024) 5, 9 50. Ma, X., Yong, S., Zheng, Z., Li, Q., Liang, Y., Zhu, S.C., Huang, S.: SQA3D: Situated question answering in 3D scenes. In: International Conference on Learning Representations (2023) 5 51. Mao, Y., Zhang, Y., Jiang, H., Chang, A.X., Savva, M.: MultiScan: Scalable RGBD scanning for 3D environments with articulated objects. In: Neural Information Processing Systems (2022) 3, 14 52. Mao, Y., Zhong, J., Fang, C., Zheng, J., Tang, R., Zhu, H., Tan, P., Zhou, Z.: SpatialLM: Training large language models for structured indoor modeling. In: Neural Information Processing Systems (2025) 1, 2, 3, 5, 6, 10, 13, 18, 19, 20, 23 53. Mei, G., Lin, W., Riz, L., Wu, Y., Poiesi, F., Wang, Y.: PerLA: Perceptive 3D language assistant. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 5 54. Papineni, K., Roukos, S., Ward, T., Zhu, W.: Bleu: a method for automatic eval-uation of machine translation. In: Annual Meeting of the Association for Compu-tational Linguistics (2002) 3, 6, 22 55. Qi, Z., Zhang, Z., Fang, Y., Wang, J., Zhao, H.: GPT4Scene: Understand 3D scenes from videos with vision-language models. arXiv preprint arXiv:2501.01428 (2025) 556. Qwen Team: Qwen3-VL technical report. arXiv preprint arXiv:2511.21631 (2025) 23 57. Rana, K., Haviland, J., Garg, S., Abou-Chakra, J., Reid, I.D., Sünderhauf, N.: SayPlan: Grounding large language models using 3D scene graphs for scalable robot task planning. In: Conference on Robot Learning (2023) 6 58. Schult, J., Engelmann, F., Hermans, A., Litany, O., Tang, S., Leibe, B.: Mask3D: Mask transformer for 3D semantic instance segmentation. In: IEEE International Conference on Robotics and Automation (2023) 4 59. Team Hunyuan3D, Yang, S., Yang, M., Feng, Y., Huang, X., et al.: Hunyuan3D 2.1: From images to high-fidelity 3D assets with production-ready PBR material. arXiv preprint arXiv:2506.15442 (2025) 14, 20 60. Thakar, S., Srinivasan, S., Al-Hussaini, S., Bhatt, P.M., Rajendran, P., Jung Yoon, Y., Dhanaraj, N., Malhan, R.K., Schmid, M., Krovi, V.N., Gupta, S.K.: A survey of wheeled mobile manipulation: A decision-making perspective. Journal of Mech-anisms and Robotics 15 (2), 020801 (2022) 21 61. Vedantam, R., Zitnick, C.L., Parikh, D.: CIDEr: Consensus-based image descrip-tion evaluation. In: IEEE Conference on Computer Vision and Pattern Recognition (2015) 3, 6, 22 62. Wald, J., Avetisyan, A., Navab, N., Tombari, F., Niessner, M.: RIO: 3D object instance re-localization in changing indoor environments. In: IEEE/CVF Interna-tional Conference on Computer Vision (2019) 9 63. Wald, J., Dhamo, H., Navab, N., Tombari, F.: Learning 3D semantic scene graphs from 3D indoor reconstructions. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2020) 4 Holo-Captioning 29 64. Wang, A., Shan, B., Shi, W., Lin, K., Fei, X., Tang, G., Liao, L., Tang, J., Huang, C., Zheng, W.: ParGo: Bridging vision-language with partial and global views. In: AAAI (2025) 4 65. Wang, T., Mao, X., Zhu, C., Xu, R., Lyu, R., Li, P., Chen, X., Zhang, W., Chen, K., Xue, T., Liu, X., Lu, C., Lin, D., Pang, J.: EmbodiedScan: A holistic multi-modal 3D perception suite towards embodied AI. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2024) 5, 9 66. Wang, Z., Huang, H., Zhao, Y., Zhang, Z., Zhao, Z.: Chat-3D: Data-efficiently tuning large language model for universal dialogue of 3D scenes. arXiv preprint arXiv:2308.08769 (2023) 5 67. Wei, Y.L., Jiang, J.J., Xing, C., Tan, X.T., Wu, X.M., Li, H., Cutkosky, M., Zheng, W.S.: Grasp as you say: Language-guided dexterous grasp generation. In: Neural Information Processing Systems (2024) 5 68. Wei, Y.L., Lin, M., Lin, Y., Jiang, J.J., Wu, X.M., Zeng, L.A., Zheng, W.S.: AffordDexGrasp: Open-set language-guided dexterous grasp with generalizable-instructive affordance. In: IEEE/CVF International Conference on Computer Vi-sion. pp. 11818–11828 (2025) 5 69. Werby, A., Huang, C., Büchner, M., Valada, A., Burgard, W.: Hierarchical open-vocabulary 3D scene graphs for language-grounded robot navigation. In: Robotics: Science and Systems (2024) 1, 5 70. Wu, S., Fei, H., Chua, T.: Universal scene graph generation. In: IEEE/CVF Con-ference on Computer Vision and Pattern Recognition (2025) 4 71. Wu, W., Chang, T., Li, X., Yin, Q., Hu, Y.: Vision-language navigation: a survey and taxonomy. Neural Comput. Appl. (2024) 1, 5 72. Wu, X.M., Cai, J.F., Jiang, J.J., Zheng, D., Wei, Y.L., Zheng, W.S.: An economic framework for 6-DoF grasp detection. In: European Conference on Computer Vi-sion (2024) 5 73. Wu, X.M., Fan, B., Liao, K., Jiang, J.J., Yang, R., Luo, Y., Wu, Z., Zheng, W.S., Loy, C.C.: VLANeXt: Recipes for building strong VLA models. In: International Conference on Machine Learning (2026) 5 74. Wu, X., DeTone, D., Frost, D.P., Shen, T., Xie, C., Yang, N., Engel, J.J., New-combe, R.A., Zhao, H., Straub, J.: Sonata: Self-supervised learning of reliable point representations. In: IEEE/CVF Conference on Computer Vision and Pat-tern Recognition (2025) 13, 18 75. Xie, C., Avetisyan, A., Howard-Jenkins, H., Siddiqui, Y., Straub, J., Newcombe, R.A., Balntas, V., Engel, J.J.: Human-in-the-loop local corrections of 3D scene layouts via infilling. arXiv preprint arXiv:2503.11806 (2025) 1 76. Yan, J., Gao, Y., Yang, Q., Wei, X., Xie, X., Wu, A., Zheng, W.: DreamView: Inject-ing view-specific text guidance into text-to-3d generation. In: European Conference on Computer Vision (2024) 4 77. Yang, A., Li, A., Yang, B., Zhang, B., Hui, B., et al.: Qwen3 technical report. arXiv preprint arXiv:2505.09388 (2025) 13 78. Yang, A., Yang, B., Zhang, B., Hui, B., Zheng, B., et al.: Qwen2.5 technical report. arXiv preprint arXiv:2412.15115 (2024) 18 79. Yang, J., Chen, X., Madaan, N., Iyengar, M., Qian, S., Fouhey, D.F., Chai, J.: 3D-GRAND: A million-scale dataset for 3D-llms with better grounding and less hallucination. In: IEEE/CVF Conference on Computer Vision and Pattern Recog-nition. pp. 29501–29512 (2025) 5 80. Ye, Q., Zeng, X., Li, F., Li, C., Fan, H.: Painting with Words: Elevating detailed image captioning with benchmark and alignment learning. In: International Con-ference on Learning Representations (2025) 6 30 K.-Y. Lin et al. 81. Yeshwanth, C., Rozenberszki, D., Dai, A.: ExCap3D: Expressive 3D scene under-standing via object captioning with varying detail. In: IEEE/CVF International Conference on Computer Vision (2025) 4, 6, 10 82. Yuan, Z., Yan, X., Liao, Y., Guo, Y., Li, G., Cui, S., Li, Z.: X-Trans2Cap: Cross-modal knowledge transfer using transformer for 3D dense captioning. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2022) 4 83. Zha, J., Fan, Y., Yang, X., Gao, C., Chen, X.: How to enable LLM with 3D capacity? A survey of spatial reasoning in LLM. In: International Joint Conference on Artificial Intelligence (2025) 4 84. Zhang, Y., Li, M., Long, D., Zhang, X., Lin, H., Yang, B., Xie, P., Yang, A., Liu, D., Lin, J., Huang, F., Zhou, J.: Qwen3 Embedding: Advancing text embedding and reranking through foundation models. arXiv preprint arXiv:2506.05176 (2025) 8, 13 85. Zheng, D., Huang, S., Li, Y., Wang, L.: Learning from videos for 3D world: En-hancing MLLMs with 3D vision geometry priors. In: Neural Information Processing Systems (2025) 5 86. Zheng, D., Huang, S., Wang, L.: Video-3D LLM: learning position-aware video rep-resentation for 3D scene understanding. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 5 87. Zheng, J., Zhang, J., Li, J., Tang, R., Gao, S., Zhou, Z.: Structured3D: A large photo-realistic dataset for structured 3D modeling. In: European Conference on Computer Vision (2020) 9 88. Zhou, J., Ma, T., Lin, K., Qiu, R., Wang, Z., Liang, J.: Mitigating the human-robot domain discrepancy in visual pre-training for robotic manipulation. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (2025) 1 89. Zhou, J., Ye, K., Liu, J., Ma, T., Wang, Z., Qiu, R., Lin, K., Zhao, Z., Liang, J.: Exploring the limits of vision-language-action manipulations in cross-task general-ization. In: Neural Information Processing Systems (2025) 1 90. Zhu, Z., Ma, X., Chen, Y., Deng, Z., Huang, S., Li, Q.: 3D-VisTA: Pre-trained transformer for 3D vision and text alignment. In: IEEE/CVF International Con-ference on Computer Vision (2023) 5 91. Zhu, Z., Zhang, Z., Ma, X., Niu, X., Chen, Y., Jia, B., Deng, Z., Huang, S., Li, Q.: Unifying 3D vision-language understanding via promptable queries. In: European Conference on Computer Vision (2024) 5
