@@ -1,0 +1,737 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-11T20:59:32.581109+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 14,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 22,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.03941v1",
+      "source": "arxiv",
+      "title": "WSA$_1$: a 3D-Centric World-Spatial-Action Model for Generalizable Robot Control",
+      "abstract": "Recent advances in embodied AI have established robot foundation models (RFMs) as the dominant approach for generalist robotic systems to date. By leveraging imitation learning on extensive robot demonstrations, RFMs have achieved impressive capabilities in mapping visual observations and language instructions to continuous robotic actions. However, current RFMs lack an inherent ability to reason about physical dynamics and the causal effects of robot behaviors on the 3D physical world. This creates a fundamental mismatch between 2D-centric visual perception and 3D-centric embodied interaction, severely limiting the generalization ability of RFMs in real-world tasks.To address this gap, we present WSA$_1$, a novel RFM built upon proposed 3D-Centric World-Spatial-Action modeling paradigm. It not only learns 3D world-aware visual thought for future robot behaviors, but also models mutual constraints between 3D world state transitions and robotic actions to enhance behavior generalization. Notably, WSA$_1$ achieves highly data-efficient pre-training with 6k hours of expert demonstration data (only 1k hours from real robot), while delivering competitive manipulation performance (93% success rate) on RoboTwin2.0 simulation benchmark and achieving +20% average boosted performance over state-of-the-art RFMs on real-world robot control tasks. These results reveal that generalizable RFM can be attained without large-scale real robot data when paired with 3D-centric world-action joint modeling, which offers a practical and affordable pathway to generalist robotic systems.",
+      "authors": [
+        "Jiahao Jiang",
+        "Jianing Zhang",
+        "Zhenhan Yin",
+        "Ruidong Chen",
+        "Sen Wang",
+        "Zhaoshu Yu",
+        "Pengpeng Zeng",
+        "Xiaofeng Cao",
+        "Xuanhan Wang",
+        "Jingkuan Song",
+        "Heng Tao Shen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-04T16:26:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.03941v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "3D-centric world-spatial-action model for robot control with physical dynamics reasoning",
+      "llm_evidence_cn": "以3D为中心的世界-空间-动作模型，具备物理动力学推理能力",
+      "llm_evidence": "以3D为中心的世界-空间-动作模型，具备物理动力学推理能力",
+      "canonical_evidence": "以3D为中心的世界-空间-动作模型，具备物理动力学推理能力",
+      "llm_tldr_en": "WSA1 is a 3D-centric robot foundation model that reasons about physical dynamics and causal effects of actions in the 3D world, bridging 2D perception and 3D interaction for generalizable robot control.",
+      "llm_tldr_cn": "现有机器人基础模型缺乏对物理动力学和3D世界因果效应的推理能力，导致2D感知与3D交互不匹配。本文提出WSA1，一种以3D为中心的世界-空间-动作模型，通过构建3D表征和因果推理模块，使机器人能够理解行动对3D世界的影响。在多种真实世界任务中，WSA1显著提升了泛化能力。该工作为具身智能体建立3D世界模型提供了新路径。",
+      "llm_tldr": "现有机器人基础模型缺乏对物理动力学和3D世界因果效应的推理能力，导致2D感知与3D交互不匹配。本文提出WSA1，一种以3D为中心的世界-空间-动作模型，通过构建3D表征和因果推理模块，使机器人能够理解行动对3D世界的影响。在多种真实世界任务中，WSA1显著提升了泛化能力。该工作为具身智能体建立3D世界模型提供了新路径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03964v1",
+      "source": "arxiv",
+      "title": "Worldscape-MoE: A Unified Mixture-of-Experts World Model for Scalable Heterogeneous Action Control",
+      "abstract": "World models are rapidly becoming a core infrastructure for embodied intelligence and interactive agents: they provide controllable simulators in which agents can perceive, act, forecast, and acquire scalable experience. Yet current video generation world models are still organized around isolated control interfaces, such as camera trajectories, robot actions, or hand-joint signals. This fragmentation is increasingly a scaling bottleneck. The central challenge is not the absence of controllable generators, but the lack of a unified and extensible learning framework that can absorb heterogeneous action supervision while preserving a shared model of world dynamics. In this work, we introduce Worldscape-MoE, a Mixture-of-Experts world model built on Diffusion Transformers for scalable heterogeneous action control. Our key observation is that different controls specify different interfaces to the same underlying world: although their representations differ, they constrain shared physical regularities, scene dynamics, and interaction semantics. Worldscape-MoE operationalizes this observation through modality-aware control injection, shared and control-specific experts, and a progressive MoE tuning strategy that supports continual extension to new action modalities. Experiments across locomotion, robotic manipulation, and egocentric hand control show that heterogeneous supervision improves rather than interferes with individual control capabilities. Worldscape-MoE achieves strong results on WorldArena, improves locomotion and hand-control metrics, exhibits robust out-of-distribution generalization, and demonstrates scaling behavior as additional control data and experts are integrated.",
+      "authors": [
+        "Jianjie Fang",
+        "Yongyan Xu",
+        "Ziyou Wang",
+        "Chen Gao",
+        "Yuchao Huang",
+        "Zhaolu Wang",
+        "Rongze Tang",
+        "Mingyuan Jia",
+        "Baining Zhao",
+        "Weichen Zhang",
+        "Xin Zhang",
+        "Haisheng Su",
+        "Yu Shang",
+        "Wei Wu",
+        "Xinlei Chen",
+        "Yong Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T17:45:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.03964v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "mixture-of-experts world model for heterogeneous action control",
+      "llm_evidence_cn": "混合专家世界模型用于异构动作控制",
+      "llm_evidence": "混合专家世界模型用于异构动作控制",
+      "canonical_evidence": "混合专家世界模型用于异构动作控制",
+      "llm_tldr_en": "Worldscape-MoE introduces a unified mixture-of-experts world model that integrates diverse action modalities (camera, robot, hand) into a single scalable framework for embodied intelligence.",
+      "llm_tldr_cn": "当前视频生成世界模型面临控制接口碎片化问题，阻碍扩展。本文提出Worldscape-MoE，通过混合专家架构统一吸收相机轨迹、机器人动作等异构动作信号，保持共享世界动力学。实验证明模型在多种动作控制任务中具有可扩展性和泛化能力。",
+      "llm_tldr": "当前视频生成世界模型面临控制接口碎片化问题，阻碍扩展。本文提出Worldscape-MoE，通过混合专家架构统一吸收相机轨迹、机器人动作等异构动作信号，保持共享世界动力学。实验证明模型在多种动作控制任务中具有可扩展性和泛化能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03163v1",
+      "source": "arxiv",
+      "title": "Beyond Point-Attached Semantics: Object-Centric Semantic Fields for Generalizable Manipulation",
+      "abstract": "Generalizable robot manipulation requires stable 3D understanding of functional object parts, such as handles, tool heads, openings, and graspable regions. Raw point clouds provide geometry but lack explicit part semantics, and their sampled points vary with viewpoint, sensor configuration, and object instance. Existing 2D feature lifting and discrete 3D point-wise features enrich point clouds with semantics, but the resulting features remain attached to observation-dependent samples. We propose an object-centric continuous semantic field that conditions on an object point cloud and reads part-aware semantic embeddings at explicit 3D query locations. The field is trained from part-annotated object models and then frozen to generate semantic point clouds as object-level conditioning for manipulation policies. Experiments on RoboTwin simulation tasks and real-world bimanual object manipulation show that our representation provides more stable functional-part cues and improves policy performance over raw point-cloud, 2D feature lifting, and 3D point-wise feature baselines. Project Page: \\href{https://zainzh.github.io/beyond-point-attached-semantics}{https://zainzh.github.io/beyond-point-attached-semantics}.",
+      "authors": [
+        "Zheng Sun",
+        "Lerong Zhang",
+        "Zhihao Li",
+        "Zhuo Li",
+        "Quentin Rouxel",
+        "Fei Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-03T10:05:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.03163v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "object-centric 3D semantic fields for manipulation",
+      "llm_evidence_cn": "用于操作的目标中心3D语义场",
+      "llm_evidence": "用于操作的目标中心3D语义场",
+      "canonical_evidence": "用于操作的目标中心3D语义场",
+      "llm_tldr_en": "Proposes object-centric continuous semantic fields for generalizable robot manipulation, enabling stable 3D understanding of functional object parts from point clouds.",
+      "llm_tldr_cn": "该文提出目标中心连续语义场，用于通用机器人操作。该方法以物体点云为条件，在显式3D查询位置读取部件感知语义嵌入，解决了传统点云特征依赖观测采样的问题，实现了对功能性部件（如手柄、工具头）的稳定3D理解。",
+      "llm_tldr": "该文提出目标中心连续语义场，用于通用机器人操作。该方法以物体点云为条件，在显式3D查询位置读取部件感知语义嵌入，解决了传统点云特征依赖观测采样的问题，实现了对功能性部件（如手柄、工具头）的稳定3D理解。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03470v1",
+      "source": "arxiv",
+      "title": "PhysMirror: Physics-Aware Mirror Object Generation",
+      "abstract": "Synthesizing physically accurate mirror reflections remains a fundamental challenge for modern text-to-image diffusion models, which are increasingly critical for generating synthetic training data for embodied AI and robotic perception. These models typically struggle with strict geometric constraints, leading to hallucinations that degrade the utility of the synthetic data. To address this, we introduce a novel, end-to-end physics-aware generation framework namely PhysMirror that natively enforces projective geometry through explicit 3D spatial priors. Our method automatically lifts prompted objects into 3D meshes and constructs a lightweight, mathematically exact mirror scene within a simulated environment. By rendering this explicit 3D scene, we extract precise 2D conditioning elements, such as depth maps and segmentation maps, that serve as robust guiding signals for downstream diffusion models, guiding them to generate images with physically correct mirror reflections. Moreover, we introduce Mirror Consistency Score (MCS), reference-free, fully automated metric that quantifies physical correctness using dense feature matching and vanishing point convergence. Experimental results on our newly constructed MirrOB dataset demonstrate that our approach outperforms state-of-the-art baselines in reflection accuracy and physical realism, while maintaining strong text-to-image semantic alignment, providing a reliable pipeline for embodied AI data generation. The source code is released at https://duyphuc0701.github.io/PhysMirror.",
+      "authors": [
+        "Xuan-Bach Mai",
+        "Duy-Phuc Nguyen",
+        "Quoc-Van Le",
+        "Tam V. Nguyen",
+        "Thanh-Toan Do",
+        "Huu Le",
+        "Duong-Van Nguyen",
+        "Minh-Triet Tran",
+        "Trung-Nghia Le"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T16:32:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.03470v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "physics-aware diffusion generation with explicit 3D spatial priors for mirror objects",
+      "llm_evidence_cn": "利用显式3D空间先验的物理感知扩散生成镜面物体",
+      "llm_evidence": "利用显式3D空间先验的物理感知扩散生成镜面物体",
+      "canonical_evidence": "利用显式3D空间先验的物理感知扩散生成镜面物体",
+      "llm_tldr_en": "PhysMirror introduces an end-to-end physics-aware generation framework that enforces projective geometry in diffusion models by lifting objects to 3D meshes and rendering mirror scenes, producing physically accurate reflections.",
+      "llm_tldr_cn": "该论文针对文本到图像扩散模型难以生成物理准确的镜面反射的问题，提出PhysMirror框架。该方法自动将提示物体提升为3D网格，在模拟环境中构建精确的镜面场景，并通过渲染提取2D约束。实验表明，该方法能有效消除反射幻觉，生成符合几何约束的逼真镜面图像，为3D感知数据合成提供了新方案。",
+      "llm_tldr": "该论文针对文本到图像扩散模型难以生成物理准确的镜面反射的问题，提出PhysMirror框架。该方法自动将提示物体提升为3D网格，在模拟环境中构建精确的镜面场景，并通过渲染提取2D约束。实验表明，该方法能有效消除反射幻觉，生成符合几何约束的逼真镜面图像，为3D感知数据合成提供了新方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03765v1",
+      "source": "arxiv",
+      "title": "Sparse-View Surface Reconstruction using Gaussian Splatting through High-Confidence Depth Propagation with Normal Priors",
+      "abstract": "3D reconstruction from sparse views is a challenging task in 3D computer vision. Recent studies on 3D Gaussian Splatting (3DGS) have achieved remarkable results with sparse views in novel view synthesis, yet reconstructing high-quality geometric surfaces from sparse views remains a challenge, due to the limited geometry clues and the discreteness of Gaussians. In this paper, we propose a novel 3DGS-based method for high-fidelity surface reconstruction from sparse views. Our key insight is to introduce a normal-guided depth propagation approach, which can extend depth information from high-confidence regions to constrain the depth in low-confidence areas. Additionally, we propose an abnormal depth edge-aware regularization to address depth discontinuities caused by the discreteness of Gaussians. Extensive experiments on DTU and Tanks-and-Temples datasets demonstrate that our method outperforms the state-of-the-art methods in sparse view surface reconstruction. Project page: https://hanl2010.github.io/DP-GS.",
+      "authors": [
+        "Liang Han",
+        "Bangcai Wei",
+        "Junsheng Zhou",
+        "Yu-Shen Liu",
+        "Zhizhong Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T08:33:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.03765v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D surface reconstruction from sparse views using Gaussian Splatting",
+      "llm_evidence_cn": "基于高斯溅射的稀疏视图表面重建",
+      "llm_evidence": "基于高斯溅射的稀疏视图表面重建",
+      "canonical_evidence": "基于高斯溅射的稀疏视图表面重建",
+      "llm_tldr_en": "Proposes a 3DGS-based method for high-fidelity surface reconstruction from sparse views, using normal-guided depth propagation to extend reliable depth constraints.",
+      "llm_tldr_cn": "稀疏视图下的3D表面重建因几何线索不足和高斯的离散性而困难。本文利用高斯溅射，通过法线引导的深度传播将高置信区域深度扩展到低置信区域，并检测异常深度边缘进行优化。实验表明在稀疏输入下重建表面质量显著提升，为3D感知提供实用方案。",
+      "llm_tldr": "稀疏视图下的3D表面重建因几何线索不足和高斯的离散性而困难。本文利用高斯溅射，通过法线引导的深度传播将高置信区域深度扩展到低置信区域，并检测异常深度边缘进行优化。实验表明在稀疏输入下重建表面质量显著提升，为3D感知提供实用方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03771v1",
+      "source": "arxiv",
+      "title": "City-Level 3D Surface Reconstruction with Viewpoint Orientation Partitioning and Scene Completion",
+      "abstract": "Multi-view 3D surface reconstruction is a longstanding challenge in computer vision. Although recent large-scale reconstruction methods based on 3D Gaussian Splatting (3DGS) achieve impressive novel-view synthesis, producing high-quality surfaces over large scenes remains difficult, due to complex geometry, long optimization, and limited memory. In this paper, we propose a novel yet simple partitioning method to efficiently and faithfully reconstruct large-scale scene surfaces. Our key insight lies in a scene partitioning method based on viewpoint orientation. This partitioning approach ensures that views with similar orientations are jointly involved for more accurate depth estimations, leading to precise surface reconstructions and balanced computation on multiple GPUs in parallel. In addition, we propose a strategy to detect and repair missing regions in the initial point cloud caused by sparse viewpoints or insufficient textures, thereby further improving the geometric quality. Extensive experiments on the GauU-Scene, MatrixCity, and UrbanScene3D datasets demonstrate that our method outperforms the state-of-the-art approaches in surface reconstruction for large-scale scenes. Project page: https://hanl2010.github.io/VOP-GS.",
+      "authors": [
+        "Liang Han",
+        "Wenyuan Zhang",
+        "Junsheng Zhou",
+        "Yu-Shen Liu",
+        "Zhizhong Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T08:44:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.03771v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "large-scale 3D surface reconstruction using viewpoint orientation partitioning",
+      "llm_evidence_cn": "基于视角方向划分的大规模3D表面重建",
+      "llm_evidence": "基于视角方向划分的大规模3D表面重建",
+      "canonical_evidence": "基于视角方向划分的大规模3D表面重建",
+      "llm_tldr_en": "A viewpoint orientation partitioning method for city-level 3D surface reconstruction using 3D Gaussian Splatting, improving depth estimation accuracy and surface quality.",
+      "llm_tldr_cn": "大规模场景3D重建面临几何复杂、内存有限等问题。本文提出基于视角方向划分的场景分割方法，使相似视角联合参与深度估计，提高重建精度。利用3D高斯泼溅实现城市级高质量表面重建，在多个数据集上效果显著。",
+      "llm_tldr": "大规模场景3D重建面临几何复杂、内存有限等问题。本文提出基于视角方向划分的场景分割方法，使相似视角联合参与深度估计，提高重建精度。利用3D高斯泼溅实现城市级高质量表面重建，在多个数据集上效果显著。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.04079v1",
+      "source": "arxiv",
+      "title": "Seeing Once is Enough? Online Geometry-Aware Token Pruning for 3D Question Answering",
+      "abstract": "Recent Multi-modal Large Language Models (MLLMs) have demonstrated remarkable performance on 2D question answering tasks. However, extending these models to the 3D question answering remains challenging, as they typically require multiple views of the scene, which incurs substantial computational cost at inference. To mitigate this issue, existing solutions rely on strategic frame selection or token-merging algorithms that require preprocessing in advance all frames of the scene, i.e., an offline fashion. In contrast, we propose the first online token-pruning method that can be integrated seamlessly with current MLLM models for 3D question answering tasks, without additional training and with lower memory usage.Our key insight is to project each input frame into a shared voxel space using depth information and camera pose, identifying spatially-overlapped regions across frames and selectively pruning redundant image tokens before they enter the language model. Our method enables efficient online processing while reducing up to 50% of token usage. We apply this approach to Qwen2.5-VL-7B and Qwen3-VL-8B, demonstrating improved performance on the ScanQA, SQA3D, and OpenEQA-HM3D benchmarks.",
+      "authors": [
+        "Ruei-Chi Lai",
+        "Bolivar Solarte",
+        "Chin-Hsuan Wu",
+        "Yi-Hsuan Tsai",
+        "Min Sun"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-05T02:00:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.04079v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "online token pruning for 3D question answering, 3D understanding",
+      "llm_evidence_cn": "用于3D问答的在线令牌剪枝，提升3D理解效率",
+      "llm_evidence": "用于3D问答的在线令牌剪枝，提升3D理解效率",
+      "canonical_evidence": "用于3D问答的在线令牌剪枝，提升3D理解效率",
+      "llm_tldr_en": "First online token-pruning method for 3D question answering with MLLMs, projecting 3D point clouds into 2D tokens and pruning geometry-aware tokens on the fly to reduce computation.",
+      "llm_tldr_cn": "MLLM在3D问答中需多视图输入，计算成本高。本文提出首个在线令牌剪枝方法，通过将3D点云投影为2D令牌并动态剪枝感知几何的重要令牌，无需额外训练即可降低内存和计算，同时保持准确率。",
+      "llm_tldr": "MLLM在3D问答中需多视图输入，计算成本高。本文提出首个在线令牌剪枝方法，通过将3D点云投影为2D令牌并动态剪枝感知几何的重要令牌，无需额外训练即可降低内存和计算，同时保持准确率。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.03209v1",
+      "source": "arxiv",
+      "title": "Fast 3D Foundation Model Initialized Gaussian Splatting",
+      "abstract": "This paper introduces a fast method for high-quality 3D Gaussian Splatting (3DGS) reconstruction without traditional Structure-from-Motion (SfM). The proposed approach leverages 3D Foundation Models (3DFMs) for camera pose and point-cloud initialization, then jointly optimizes both camera poses and Gaussian primitives using a depth-guided loss function. This enables fast convergence even from rough initialization with as few as 50-60 input views. To further improve reconstruction quality in sparse-view scenarios, an MLP-based pose refinement module is introduced alongside depth-guided supervision from the foundation model. Extensive experiments on Mip-NeRF 360, Tanks and Temples, and RobustNeRF demonstrate that the proposed method achieves competitive reconstruction quality (23.61 dB PSNR, 0.19 LPIPS) while reducing training time to approximately three minutes per scene. The proposed method produces ready-to-use 3DGS models at a fraction of the time required by existing pipelines, making it suitable for near real-time applications in robotics, VR, and autonomous navigation.",
+      "authors": [
+        "Anurag Dalal",
+        "Daniel Hagen",
+        "Kjell G. Robbersmyr",
+        "Kristian Muri Knausgård"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-07-03T11:24:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.03209v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D reconstruction using foundation models",
+      "llm_evidence_cn": "使用基础模型进行三维重建",
+      "llm_evidence": "使用基础模型进行三维重建",
+      "canonical_evidence": "使用基础模型进行三维重建",
+      "llm_tldr_en": "Fast 3D Foundation Model Initialized Gaussian Splatting uses 3DFMs for camera pose and point-cloud initialization, jointly optimizing poses and Gaussians with depth-guided loss for fast, high-quality reconstruction without SfM.",
+      "llm_tldr_cn": "为加速高质量3D高斯泼溅重建，提出利用3D基础模型（3DFM）进行相机姿态和点云初始化，联合优化姿态与高斯原语，并在稀疏视图下引入MLP姿态精化模块。在多个数据集上实现快速收敛和竞争性重建质量，无需传统SfM。",
+      "llm_tldr": "为加速高质量3D高斯泼溅重建，提出利用3D基础模型（3DFM）进行相机姿态和点云初始化，联合优化姿态与高斯原语，并在稀疏视图下引入MLP姿态精化模块。在多个数据集上实现快速收敛和竞争性重建质量，无需传统SfM。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04426v1",
+      "source": "arxiv",
+      "title": "ACE-Brain-0.5: A Unified Embodied Foundational Model for Physical Agentic AI",
+      "abstract": "Embodied AI is moving from isolated perception or action modules toward physical agents that understand, plan under goals, act through robot bodies, monitor progress, and improve from experience. Existing systems address this loop only in parts: end-to-end policies generate actions but often lack spatial reasoning, planning, and execution assessment, while robot-agent systems orchestrate tools or specialists but do not learn a shared representation. This fragmentation limits general Physical Agentic AI. We present ACE-Brain-0.5, a unified embodied foundation model that organizes robot intelligence into five coupled functions: spatial perception, decision making, embodied interaction, self-monitoring, and self-improvement. Built on ACE-Brain-0, which established spatial intelligence as a shared scaffold across robot platforms, ACE-Brain-0.5 extends an understanding-centric model into a closed-loop foundation model. A single 8B backbone instantiates the first four functions: grounding objects and affordances, reasoning over 3D and egocentric spatial relations, decomposing instructions into subgoals, generating navigation and manipulation actions, and estimating progress for verification and recovery. To unify these capabilities without cross-task interference, we introduce SSR+, which extends Scaffold-Specialize-Reconcile with a Reactivate stage after task-vector merging. The fifth function, self-improvement, is realized by a companion framework that updates external execution state, including task schemas, spatial memory, and failure-recovery cases, from rollouts. Across fifteen benchmarks, ACE-Brain-0.5 improves over ACE-Brain-0 on 14 of 18 spatial perception and grounding benchmarks, achieves competitive navigation and manipulation performance, and provides strong progress estimation in ID and OOD settings. Together, these results mark an early step toward general Physical Agentic AI.",
+      "authors": [
+        "ACE-Brain Team",
+        ":",
+        "Ziyang Gong",
+        "Haoming Gu",
+        "Zehang Luo",
+        "Tianyi Zhang",
+        "Tao Tao",
+        "Yixiao Chi",
+        "Zhe Liu",
+        "Lingsi Zhu",
+        "Jingyuan Liu",
+        "Anke Tang",
+        "Songze Li",
+        "Yilun Kong",
+        "Ningjing Liu",
+        "Tianyu Zhu",
+        "Yunpeng Qing",
+        "Shuang Luo",
+        "Xiang Liu",
+        "Shi Fu",
+        "Dawei Nie",
+        "Sixiang Liu",
+        "Zhexi Wen",
+        "Feng Pan",
+        "Xiaofeng Wang",
+        "Zhi Hou",
+        "Chunxiao Liu",
+        "Xue Yang",
+        "Junchi Yan",
+        "Hengshuang Zhao",
+        "Dacheng Tao",
+        "Xiaogang Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-05T17:43:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.04426v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified embodied foundation model with world model elements",
+      "llm_evidence_cn": "包含世界模型元素的统一具身基础模型",
+      "llm_evidence": "包含世界模型元素的统一具身基础模型",
+      "canonical_evidence": "包含世界模型元素的统一具身基础模型",
+      "llm_tldr_en": "ACE-Brain-0.5 is a unified embodied foundation model integrating spatial perception, decision making, interaction, self-monitoring, and improvement, organizing robot intelligence in five coupled functions for physical agentic AI.",
+      "llm_tldr_cn": "针对具身AI中感知、规划、执行等模块碎片化的问题，提出ACE-Brain-0.5，一个统一具身基础模型，将机器人智能组织为空间感知、决策、交互、自我监控和自我改进五种耦合功能。该模型为通用物理代理AI提供了共享表示和循环学习框架，尽管不直接称为世界模型，但包含世界模型的核心元素。",
+      "llm_tldr": "针对具身AI中感知、规划、执行等模块碎片化的问题，提出ACE-Brain-0.5，一个统一具身基础模型，将机器人智能组织为空间感知、决策、交互、自我监控和自我改进五种耦合功能。该模型为通用物理代理AI提供了共享表示和循环学习框架，尽管不直接称为世界模型，但包含世界模型的核心元素。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.04144v1",
+      "source": "arxiv",
+      "title": "Semantic-Guided Progressive Object Removal with Gaussian Splatting",
+      "abstract": "Removing unwanted objects from reconstructed 3D scenes is an important task in computer vision, supporting applications in AR/VR, robotics, and digital content creation. Existing methods typically complete the entire masked region in a single step and without effectively utilizing semantic information from other views, leading to difficulties in handling complex geometric details and textures. In this work, we propose a novel framework that integrates Semantic-guided Block Matching (SBM) and Region-Wise Progressive Refinement (RPR) for high-quality 3D object removal. First, we leverage DINOv2 to encode semantic guidance from multi-view observations, and the best match tokens are decoded to complete missing regions in the target view while maintaining cross-view consistency. Second, we introduce a RPR strategy that segments the target mask into multiple subregions and selectively refines those with poor visual quality. Our method is built upon Gaussian Splatting, ensuring high-fidelity scene reconstruction with efficient computation. Experimental results demonstrate that our approach outperforms existing Gaussian-based methods in terms of perceptual quality and coherence in 3D object removal.",
+      "authors": [
+        "Xianliang Huang",
+        "Chen Xiao",
+        "Yuanxiang Ni",
+        "Guanming Liu",
+        "Mingkai Liu",
+        "Dikai Fan",
+        "Xiao Liu",
+        "Hao Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-05T07:11:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.04144v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D scene object removal with Gaussian Splatting using semantic guidance",
+      "llm_evidence_cn": "利用高斯泼溅进行语义引导的3D场景物体移除",
+      "llm_evidence": "利用高斯泼溅进行语义引导的3D场景物体移除",
+      "canonical_evidence": "利用高斯泼溅进行语义引导的3D场景物体移除",
+      "llm_tldr_en": "Proposes a semantic-guided progressive 3D object removal framework using Gaussian Splatting, integrating DINOv2 for multi-view semantic matching and progressive refinement for high-quality completion.",
+      "llm_tldr_cn": "现阶段的3D物体移除方法通常单步完成掩膜区域，无法有效利用多视图语义信息。本文提出语义引导的渐进式移除框架，基于高斯泼溅，利用DINOv2从多视图观察中提取语义匹配，并结合区域渐进细化策略，在保持跨视图一致性的同时高质量修复缺失区域。实验表明该方法在复杂几何和纹理细节上优于现有方案。该工作推动了3D场景编辑的实用化。",
+      "llm_tldr": "现阶段的3D物体移除方法通常单步完成掩膜区域，无法有效利用多视图语义信息。本文提出语义引导的渐进式移除框架，基于高斯泼溅，利用DINOv2从多视图观察中提取语义匹配，并结合区域渐进细化策略，在保持跨视图一致性的同时高质量修复缺失区域。实验表明该方法在复杂几何和纹理细节上优于现有方案。该工作推动了3D场景编辑的实用化。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.03731v1",
+      "source": "arxiv",
+      "title": "CoGen3D: An Agentic Human-AI Co-Design Pipeline for 3D Asset Generation for Virtual Reality",
+      "abstract": "Creating 3D assets for virtual reality requires modeling expertise, which restricts the authorship of immersive experiences. Existing generative AI tools rely on unconstrained, command-driven prompting, lacking the conversational scaffolding needed for users to articulate their intent and validate designs prior to rendering. To address this, we introduce CoGen3D, an agentic human-AI co-design pipeline that proactively guides users through conversational intent elicitation, a concept image confirmation, and image-to-3D generation that directly deploys to immersive scenes. We evaluated this system through a user study (N=120) across six affectively diverse immersive scenes, observing 60 Design group participants who co-created 3D assets for the scenes, and 60 Validation group participants who experienced the scenes with generated assets. Our findings show that co-designed assets are associated with higher scene engagement and shifted affective responses, while participants generally preferred concept images over the final 3D assets, with no increased leniency toward degradation in their own creations. Analysis of the human-AI conversations further shows that target environments shape users' conversational patterns. Our results suggest that our staged, intent-based co-design can democratize virtual reality authoring and shift immersive content creation from technical execution toward collaborative spatial design.",
+      "authors": [
+        "Weiwei Jiang",
+        "Wanyu He",
+        "Zheyu Tan",
+        "Zheyuan Kuang",
+        "Difeng Yu",
+        "Shinobu Hasegawa",
+        "Sven Mayer",
+        "Zhanna Sarsenbayeva"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T06:37:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.03731v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Agentic pipeline for 3D asset generation in VR",
+      "llm_evidence_cn": "面向VR的代理式3D资产生成流水线",
+      "llm_evidence": "面向VR的代理式3D资产生成流水线",
+      "canonical_evidence": "面向VR的代理式3D资产生成流水线",
+      "llm_tldr_en": "CoGen3D is an agentic human-AI co-design pipeline that guides users through conversational intent elicitation, concept confirmation, and image-to-3D generation for immersive VR scenes, evaluated with N=120 user study.",
+      "llm_tldr_cn": "针对虚拟现实中3D资产创作需要专业知识的问题，提出CoGen3D，一种代理式人机协同设计流水线，通过对话式意图引导、概念图像确认和图像到3D生成，使用户无需建模技能即可创建沉浸式场景。用户研究（N=120）表明该方法有效提升了创作体验。",
+      "llm_tldr": "针对虚拟现实中3D资产创作需要专业知识的问题，提出CoGen3D，一种代理式人机协同设计流水线，通过对话式意图引导、概念图像确认和图像到3D生成，使用户无需建模技能即可创建沉浸式场景。用户研究（N=120）表明该方法有效提升了创作体验。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04540v1",
+      "source": "arxiv",
+      "title": "SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control",
+      "abstract": "Geometry-conditioned 3D scene generation enables the creation of 3D environments from user-provided geometry, offering direct control over scene structure and object layout. To generate such 3D scenes, current methods commonly adopt a three-stage design that first defines a view schedule, then synthesizes multi-view observations along the scheduled views, and finally reconstructs a 3D representation from the generated images. However, defining the view schedule becomes a major bottleneck for outdoor scenes, where large, unstructured, and unbounded geometry makes it difficult to obtain views that provide sufficient coverage while supporting stable generation. To address this bottleneck, we present SceneFrom3D, a framework that automatically schedules views from outdoor input geometries. SceneFrom3D constructs a directed generation graph whose nodes represent anchor views and whose edges represent interpolation trajectories, defining which views to synthesize, which view pairs to interpolate, and in which order generation should proceed. Beyond automatic view scheduling, SceneFrom3D further improves controllability through object-level conditioning, assigning each object an identity image for appearance guidance and a geometry-adherence parameter for region-wise control over the input geometry. Experiments demonstrate that SceneFrom3D achieves state-of-the-art geometry-conditioned outdoor 3D scene generation, producing high-quality scenes with controllable object appearance and geometry adherence.",
+      "authors": [
+        "Geonung Kim",
+        "Jeongeun Park",
+        "Nuri Ryu",
+        "Di Liu",
+        "Sunghyun Cho"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-05T23:07:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.04540v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "geometry-conditioned 3D scene generation with view scheduling",
+      "llm_evidence_cn": "几何条件3D场景生成，通过视图调度实现物体级控制",
+      "llm_evidence": "几何条件3D场景生成，通过视图调度实现物体级控制",
+      "canonical_evidence": "几何条件3D场景生成，通过视图调度实现物体级控制",
+      "llm_tldr_en": "SceneFrom3D generates outdoor 3D scenes from user-provided geometry by scheduling views for multi-view synthesis and reconstruction, enabling object-level control and addressing view scheduling bottleneck.",
+      "llm_tldr_cn": "室外3D场景生成面临视图调度瓶颈：大尺度非结构化几何难以获得覆盖充分且生成稳定的视图。本文提出SceneFrom3D，设计了一种视图调度策略，先根据用户几何定义视图序列，再合成多视图观测并重建3D表示，支持物体级布局控制。在多个室外场景上实验证明，该方法能生成高质量、结构一致的3D场景，为可控3D场景生成提供了有效方案。",
+      "llm_tldr": "室外3D场景生成面临视图调度瓶颈：大尺度非结构化几何难以获得覆盖充分且生成稳定的视图。本文提出SceneFrom3D，设计了一种视图调度策略，先根据用户几何定义视图序列，再合成多视图观测并重建3D表示，支持物体级布局控制。在多个室外场景上实验证明，该方法能生成高质量、结构一致的3D场景，为可控3D场景生成提供了有效方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.03891v1",
+      "source": "arxiv",
+      "title": "BAT3R: Bootstrapping Articulated 3D Reconstruction from 2D Image Collections",
+      "abstract": "3D reconstruction of articulated objects from a single image is challenging because large training datasets with paired image and 3D supervision are difficult to obtain. Recent point map-based methods achieve strong performance but rely on synthetic datasets rendered from manually created articulated 3D assets with carefully curated pose distributions. While camera viewpoints can be easily sampled, generating realistic object articulations remains costly and labor-intensive. We propose a training framework that reduces this requirement by leveraging unannotated 2D images collections with only a single rigged canonical mesh per category. Starting from a weak 3D shape predictor trained on canonical-pose renders, we iteratively estimate object articulation and camera pose by fitting the mesh to predicted point maps. The recovered articulations and viewpoints are then used to render updated synthetic training data, progressively improving the predictor. Despite using substantially weaker 3D supervision, our models achieve performance comparable with DualPM, which requires manually curated articulated training datasets.",
+      "authors": [
+        "Jakub Zadrozny",
+        "Oisin Mac Aodha",
+        "Hakan Bilen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T14:15:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.03891v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "bootstrapping articulated 3D reconstruction from 2D image collections",
+      "llm_evidence_cn": "从2D图像集引导关节物体3D重建",
+      "llm_evidence": "从2D图像集引导关节物体3D重建",
+      "canonical_evidence": "从2D图像集引导关节物体3D重建",
+      "llm_tldr_en": "BAT3R reduces the need for synthetic 3D data by bootstrapping articulated 3D reconstruction from unannotated 2D image collections with only a single canonical mesh per category.",
+      "llm_tldr_cn": "关节物体3D重建依赖大量合成数据集，成本高。本文提出BAT3R，仅需每类一个标准姿态网格，从无标注2D图像集迭代估计关节参数。方法通过弱预测器与自我改进循环，逐步提升重建精度，在真实图像上取得显著效果。",
+      "llm_tldr": "关节物体3D重建依赖大量合成数据集，成本高。本文提出BAT3R，仅需每类一个标准姿态网格，从无标注2D图像集迭代估计关节参数。方法通过弱预测器与自我改进循环，逐步提升重建精度，在真实图像上取得显著效果。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05243v1",
+      "source": "arxiv",
+      "title": "GUSH3R: Everyone Everywhere All at Once as Gaussians",
+      "abstract": "Reconstructing dynamic human-scene environments from monocular videos is a challenging problem that requires jointly modeling scene geometry, camera motion, and non-rigid human dynamics while enabling photorealistic rendering. Recent feed-forward methods can efficiently predict geometry, but they are often limited to non-photorealistic representations such as point clouds and meshes, or they fail to handle non-rigid objects, particularly dynamic humans. To fill this gap, we present GUSH3R (Gaussian-Unified Scene Human 3D Reconstruction), a feed-forward framework for online dynamic human-scene reconstruction. From a monocular human-scene video, our method reconstructs dynamic humans (everyone) and static scenes (everywhere) in a single forward pass (all at once) as 3D Gaussian Splatting (3DGS) primitives (as gaussians), which are geometrically consistent and capable of novel view synthesis. Experiments on monocular human-scene datasets demonstrate that our approach achieves competitive novel view synthesis quality while significantly improving inference efficiency compared to optimization-based methods.",
+      "authors": [
+        "Keito Abe",
+        "Kaede Shiohara",
+        "Takashi Otonari",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T15:53:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.05243v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dynamic human-scene reconstruction as world modeling",
+      "llm_evidence_cn": "动态人物场景重建作为世界建模",
+      "llm_evidence": "动态人物场景重建作为世界建模",
+      "canonical_evidence": "动态人物场景重建作为世界建模",
+      "llm_tldr_en": "GUSH3R reconstructs dynamic humans and static scenes from monocular video in a single feed-forward pass as 3D Gaussians, enabling photorealistic rendering.",
+      "llm_tldr_cn": "从单目视频重建动态人物场景需同时建模几何、相机运动和非刚性人体动态。现有前馈方法局限于非写实表示或无法处理非刚体。GUSH3R提出高斯统一场景人体3D重建框架，通过单次前馈将动态人物和静态场景表示为3D高斯，实现照片级渲染。该方法在动态场景理解与重渲染上达到新高度。",
+      "llm_tldr": "从单目视频重建动态人物场景需同时建模几何、相机运动和非刚性人体动态。现有前馈方法局限于非写实表示或无法处理非刚体。GUSH3R提出高斯统一场景人体3D重建框架，通过单次前馈将动态人物和静态场景表示为3D高斯，实现照片级渲染。该方法在动态场景理解与重渲染上达到新高度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.04661v1",
+      "source": "arxiv",
+      "title": "Targeted Structure Completion for Sparse-View 3D Reconstruction in Autonomous Driving",
+      "abstract": "Reconstructing 3D scene structures from sparse, low-overlap observations remains a fundamental challenge in autonomous driving. Recent state-of-the-art frameworks achieve promising results by incorporating voxel-based Gaussians, but incur substantial computational redundancy due to a uniform volumetric processing strategy. To bridge the gap between the efficiency of pixel-based Gaussian methods and the structural completeness of voxel-based Gaussian approaches, we propose FocusGS, a simple yet effective framework that shifts the paradigm from global densification to targeted structural completion. Our central insight is that structural completion should be decoupled from deterministic regions, with computation concentrated exclusively on areas exhibiting geometric ambiguity. Specifically, FocusGS addresses the localization challenge by deriving a 3D Geometric Ambiguity Manifold to accurately isolate localized areas prone to occlusion and high geometric uncertainty. To overcome the subsequent manifold completion challenge, we design a lightweight targeted structure completion module that selectively instantiates and optimizes continuous Gaussian queries strictly within this unstructured, sparse topological subspace. Extensive experiments demonstrate that FocusGS achieves a superior efficiency-quality trade-off, advancing state-of-the-art performance on driving-centric benchmarks while naturally reducing the total number of Gaussians by ~74% and decreasing rendering time by ~34%.",
+      "authors": [
+        "Guoqing Wang",
+        "Pin Tang",
+        "Xiangxuan Ren",
+        "Liping Hou",
+        "Chao Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-06T04:31:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.04661v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "sparse-view 3D reconstruction for scene understanding",
+      "llm_evidence_cn": "稀疏视角3D重建用于场景理解",
+      "llm_evidence": "稀疏视角3D重建用于场景理解",
+      "canonical_evidence": "稀疏视角3D重建用于场景理解",
+      "llm_tldr_en": "FocusGS shifts from global densification to targeted structural completion for efficient sparse-view 3D reconstruction in autonomous driving, achieving structural completeness with reduced computation.",
+      "llm_tldr_cn": "从稀疏、低重叠观测中重建3D场景结构是自动驾驶中的基础挑战。现有体素高斯方法计算冗余。FocusGS提出从全局稠密化转向目标结构补全，将结构补全与确定区域解耦，仅在不确定区域集中计算。实验表明该方法在保持结构完整性的同时显著提升效率，为自动驾驶场景感知提供了轻量解决方案。",
+      "llm_tldr": "从稀疏、低重叠观测中重建3D场景结构是自动驾驶中的基础挑战。现有体素高斯方法计算冗余。FocusGS提出从全局稠密化转向目标结构补全，将结构补全与确定区域解耦，仅在不确定区域集中计算。实验表明该方法在保持结构完整性的同时显著提升效率，为自动驾驶场景感知提供了轻量解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.07170v1",
+      "source": "arxiv",
+      "title": "PUF: Plug-and-Play Uncertainty-Aware Fusion for Online 3D Scene Graph Generation",
+      "abstract": "Online 3D scene graph generation builds a persistent, structured representation of a scene by incrementally fusing 2D observations into a global 3D graph. Existing online methods treat this fusion as a fully deterministic pipeline, where we identify three sources of uncertainty that are overlooked: observation, 2D model, and 3D representation. We propose PUF: a Plug-and-play, Uncertainty-aware, and training-free Fusion framework. Scene graph node association is reformulated as a probabilistic likelihood over semantic and spatial factors, replacing binary accept/reject gates. Dirichlet evidence accumulation distributes class and relationship evidence across plausible candidates proportional to association likelihood. An optional class-conditional prior completes edges for sparsely or never co-observed object pairs. We instantiate PUF with both a 3D Gaussian and a 3D voxel backend and observe consistent improvements, demonstrating its ability to generalize across different representations. Experiments on the 3DSSG and ReplicaSSG benchmarks show that our method substantially outperforms existing approaches while maintaining real-time latency. These results establish uncertainty-aware fusion as a principled and effective paradigm for online 3D scene understanding. The source code is publicly available at https://github.com/yyyyangyi/PUF.",
+      "authors": [
+        "Yi Yang",
+        "Myrna Castillo",
+        "Bodo Rosenhahn",
+        "Michael Ying Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T09:05:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.07170v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "online 3D scene graph generation from incremental 2D fusion, addressing uncertainty",
+      "llm_evidence_cn": "通过增量融合2D观测进行在线3D场景图生成，处理不确定性",
+      "llm_evidence": "通过增量融合2D观测进行在线3D场景图生成，处理不确定性",
+      "canonical_evidence": "通过增量融合2D观测进行在线3D场景图生成，处理不确定性",
+      "llm_tldr_en": "PUF proposes a training-free uncertainty-aware fusion framework for online 3D scene graph generation, reformulating node association as probabilistic likelihood over semantic and spatial factors.",
+      "llm_tldr_cn": "该论文针对在线3D场景图生成中确定性子融合忽略不确定性的问题，提出PUF框架。将场景图节点关联重新表述为基于语义和空间因子的概率似然，采用狄利克雷证据积累分配概率。实验证明该方法无需训练即可提升融合鲁棒性，生成更稳定的3D场景表示，对持久场景理解有重要意义。",
+      "llm_tldr": "该论文针对在线3D场景图生成中确定性子融合忽略不确定性的问题，提出PUF框架。将场景图节点关联重新表述为基于语义和空间因子的概率似然，采用狄利克雷证据积累分配概率。实验证明该方法无需训练即可提升融合鲁棒性，生成更稳定的3D场景表示，对持久场景理解有重要意义。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.07187v1",
+      "source": "arxiv",
+      "title": "EditVerse3D: High-Quality 3D Object Editing with Region-Aware Learning",
+      "abstract": "Local editing of 3D objects remains a long-standing challenge. When interacting with 3D content, humans naturally tend to specify a coarse region of interest for modification rather than defining precise editing boundaries. However, previous methods rely on fully edited 2D images, precise 3D masks, or redundant pipelines, which present a gap. To bridge this gap, we propose EditVerse3D, a novel 3D editing framework that enables high-quality object editing under such coarse guidance. Our approach takes as input a 3D object to be edited, a coarse 3D bounding box indicating the target region, and a reference 2D image describing the desired modification. It produces a coherent, high-fidelity edited 3D object. To facilitate this editing, we introduce a novel region-aware adaptive loss that emphasizes hard-to-learn regions and balances the objective between target and preserved areas. Complementing our loss function, we enhance model robustness and generalization through targeted data augmentations, such as training with scaled 3D masks and filtering out unrealistic editing pairs. We construct a large-scale 3D editing dataset derived from parts information. Extensive experiments demonstrate that EditVerse3D achieves superior visual quality and quantitative performance compared to existing 3D editing approaches. Please visit our project page at https://editverse3d.github.io.",
+      "authors": [
+        "Youtan Yin",
+        "Yanning Zhou",
+        "Jiacheng Wei",
+        "Xiaofeng Yang",
+        "Jun Zhang",
+        "Jiayang Bai",
+        "Jingwen Ye",
+        "Weidong Zhang",
+        "Guosheng Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T09:21:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.07187v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D object editing as generation",
+      "llm_evidence_cn": "3D物体编辑属于生成任务",
+      "llm_evidence": "3D物体编辑属于生成任务",
+      "canonical_evidence": "3D物体编辑属于生成任务",
+      "llm_tldr_en": "Proposes EditVerse3D for local 3D object editing under coarse bounding box guidance and a reference 2D image, achieving high-quality coherent editing.",
+      "llm_tldr_cn": "本文针对3D物体局部编辑难题，提出EditVerse3D框架，仅需粗3D包围框和参考2D图像即可实现高质量编辑。该方法引入区域感知学习，无需精确3D掩膜，生成与原物体一致的高保真编辑结果。实验证明，该框架简化了编辑流程，显著提升了编辑质量和用户交互体验。",
+      "llm_tldr": "本文针对3D物体局部编辑难题，提出EditVerse3D框架，仅需粗3D包围框和参考2D图像即可实现高质量编辑。该方法引入区域感知学习，无需精确3D掩膜，生成与原物体一致的高保真编辑结果。实验证明，该框架简化了编辑流程，显著提升了编辑质量和用户交互体验。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
