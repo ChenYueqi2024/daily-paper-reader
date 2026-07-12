@@ -6,73 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-11
-- 运行时间：2026-07-11 21:11:39 UTC
+- 最新运行日期：2026-07-12
+- 运行时间：2026-07-12 21:18:12 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-1) 今日17篇推荐中，两篇高分论文聚焦3D世界模型，实现机器人通用控制的突破性进展。  
-2) 最值得精读《WSA$_1$》与《Worldscape-MoE》，前者以3D中心动作空间提升泛化性，后者用混合专家架构统一异质动作控制。  
-3) 建议优先阅读这两篇9.0分论文，关注其如何将几何理解转化为可泛化机器人策略。
-- 详情：[/202607/11/README](/202607/11/README)
+今日推荐17篇论文，精读6篇，其中《RynnWorld-4D》和《SpaR3D-MoE》均获9.0高分。  
+最值得关注4D具身世界模型用于机器人操作，以及基于稀疏视图的自适应3D空间推理。  
+建议优先精读这两篇高分论文，同时可速读《Foundation Models for Automatic CAD Generation》等8.0分文章，了解自动CAD生成与3D高斯泼溅去伪影技术。
+- 详情：[/202607/12/README](/202607/12/README)
 
 ### 精读区论文标签
-1. [WSA$_1$: a 3D-Centric World-Spatial-Action Model for Generalizable Robot Control](/202607/11/2607.03941v1-wsa1-a-3d-centric-world-spatial-action-model-for-generalizable-robot-control)  
+1. [RynnWorld-4D: 4D Embodied World Models for Robotic Manipulation](/202607/12/2607.06559v1-rynnworld-4d-4d-embodied-world-models-for-robotic-manipulation)  
    标签：评分：9.0/10、query:d
-   evidence：以3D为中心的世界-空间-动作模型，具备物理动力学推理能力
-2. [Worldscape-MoE: A Unified Mixture-of-Experts World Model for Scalable Heterogeneous Action Control](/202607/11/2607.03964v1-worldscape-moe-a-unified-mixture-of-experts-world-model-for-scalable-heterogeneous-action-control)  
+   evidence：用于机器人操作的4D世界模型
+2. [SpaR3D-MoE: Adaptive 3D Spatial Reasoning from Sparse Views Meets Geometry-Inductive Mixture-of-Experts](/202607/12/2607.06620v1-spar3d-moe-adaptive-3d-spatial-reasoning-from-sparse-views-meets-geometry-inductive-mixture-of-experts)  
    标签：评分：9.0/10、query:d
-   evidence：混合专家世界模型用于异构动作控制
-3. [Beyond Point-Attached Semantics: Object-Centric Semantic Fields for Generalizable Manipulation](/202607/11/2607.03163v1-beyond-point-attached-semantics-object-centric-semantic-fields-for-generalizable-manipulation)  
+   evidence：自适应3D空间推理
+3. [IDEAL-Bench: Indoor Dataset and Evaluation suite for Analyzing 3D Layout reasoning](/202607/12/2607.03614v1-ideal-bench-indoor-dataset-and-evaluation-suite-for-analyzing-3d-layout-reasoning)  
    标签：评分：8.0/10、query:d
-   evidence：用于操作的目标中心3D语义场
-4. [PhysMirror: Physics-Aware Mirror Object Generation](/202607/11/2607.03470v1-physmirror-physics-aware-mirror-object-generation)  
+   evidence：3D布局推理基准
+4. [Geometry-Aware Motion Latents for Learning Robust Manipulation Policies](/202607/12/2607.04714v1-geometry-aware-motion-latents-for-learning-robust-manipulation-policies)  
    标签：评分：8.0/10、query:d
-   evidence：利用显式3D空间先验的物理感知扩散生成镜面物体
-5. [Sparse-View Surface Reconstruction using Gaussian Splatting through High-Confidence Depth Propagation with Normal Priors](/202607/11/2607.03765v1-sparse-view-surface-reconstruction-using-gaussian-splatting-through-high-confidence-depth-propagation-with-normal-priors)  
+   evidence：3D几何感知的运动潜在表示
+5. [ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction](/202607/12/2607.05356v1-recal3r-reliability-calibrated-learning-rates-for-streaming-3d-reconstruction)  
    标签：评分：8.0/10、query:d
-   evidence：基于高斯溅射的稀疏视图表面重建
-6. [City-Level 3D Surface Reconstruction with Viewpoint Orientation Partitioning and Scene Completion](/202607/11/2607.03771v1-city-level-3d-surface-reconstruction-with-viewpoint-orientation-partitioning-and-scene-completion)  
+   evidence：通过基于状态可靠性校准学习率改进流式3D重建
+6. [MV-Forcing: Long Multi-View Video Generation via 4D-Grounded Spatio-Temporal Self-Forcing](/202607/12/2607.05376v1-mv-forcing-long-multi-view-video-generation-via-4d-grounded-spatio-temporal-self-forcing)  
    标签：评分：8.0/10、query:d
-   evidence：基于视角方向划分的大规模3D表面重建
+   evidence：使用4D几何桥接的长多视角视频生成
 
 ### 速读区论文标签
-1. [Seeing Once is Enough? Online Geometry-Aware Token Pruning for 3D Question Answering](/202607/11/2607.04079v1-seeing-once-is-enough-online-geometry-aware-token-pruning-for-3d-question-answering)  
+1. [Foundation Models for Automatic CAD Generation](/202607/12/2607.05573v1-foundation-models-for-automatic-cad-generation)  
    标签：评分：8.0/10、query:d
-   evidence：用于3D问答的在线令牌剪枝，提升3D理解效率
-2. [Semantic-Guided Progressive Object Removal with Gaussian Splatting](/202607/11/2607.04144v1-semantic-guided-progressive-object-removal-with-gaussian-splatting)  
+   evidence：文本到CAD的3D生成
+2. [SSA-3DGS: Unsupervised Removal of Screen-Space Artifacts for 3D Gaussian Splatting](/202607/12/2607.05598v1-ssa-3dgs-unsupervised-removal-of-screen-space-artifacts-for-3d-gaussian-splatting)  
    标签：评分：8.0/10、query:d
-   evidence：利用高斯泼溅进行语义引导的3D场景物体移除
-3. [SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control](/202607/11/2607.04540v1-scenefrom3d-geometry-conditioned-outdoor-3d-scene-generation-via-view-scheduling-with-object-level-control)  
+   evidence：去除3D高斯溅射中的屏幕空间伪影，提升3D场景理解
+3. [Lift3D-VLA: Lifting VLA Models to 3D Geometry and Dynamics-Aware Manipulation](/202607/12/2607.06564v1-lift3d-vla-lifting-vla-models-to-3d-geometry-and-dynamics-aware-manipulation)  
    标签：评分：8.0/10、query:d
-   evidence：几何条件3D场景生成，通过视图调度实现物体级控制
-4. [GUSH3R: Everyone Everywhere All at Once as Gaussians](/202607/11/2607.05243v1-gush3r-everyone-everywhere-all-at-once-as-gaussians)  
+   evidence：赋予VLA模型显式3D点云推理和动力学感知动作生成，与世界模型相关
+4. [Projected Energy Matching for Generative 3D Priors](/202607/12/2607.07749v1-projected-energy-matching-for-generative-3d-priors)  
    标签：评分：8.0/10、query:d
-   evidence：动态人物场景重建作为世界建模
-5. [PUF: Plug-and-Play Uncertainty-Aware Fusion for Online 3D Scene Graph Generation](/202607/11/2607.07170v1-puf-plug-and-play-uncertainty-aware-fusion-for-online-3d-scene-graph-generation)  
-   标签：评分：8.0/10、query:d
-   evidence：通过增量融合2D观测进行在线3D场景图生成，处理不确定性
-6. [EditVerse3D: High-Quality 3D Object Editing with Region-Aware Learning](/202607/11/2607.07187v1-editverse3d-high-quality-3d-object-editing-with-region-aware-learning)  
-   标签：评分：8.0/10、query:d
-   evidence：3D物体编辑属于生成任务
-7. [Fast 3D Foundation Model Initialized Gaussian Splatting](/202607/11/2607.03209v1-fast-3d-foundation-model-initialized-gaussian-splatting)  
+   evidence：提出投影能量匹配用于生成式3D先验，解决模式覆盖和生成质量问题
+5. [How to Build Digital Humans? From Priors to Photorealistic Avatars](/202607/12/2607.04341v1-how-to-build-digital-humans-from-priors-to-photorealistic-avatars)  
    标签：评分：7.0/10、query:d
-   evidence：使用基础模型进行三维重建
-8. [CoGen3D: An Agentic Human-AI Co-Design Pipeline for 3D Asset Generation for Virtual Reality](/202607/11/2607.03731v1-cogen3d-an-agentic-human-ai-co-design-pipeline-for-3d-asset-generation-for-virtual-reality)  
+   evidence：3D数字人生成与理解综述
+6. [Vision Pretraining for Dense Spatial Perception](/202607/12/2607.05247v1-vision-pretraining-for-dense-spatial-perception)  
    标签：评分：7.0/10、query:d
-   evidence：面向VR的代理式3D资产生成流水线
-9. [BAT3R: Bootstrapping Articulated 3D Reconstruction from 2D Image Collections](/202607/11/2607.03891v1-bat3r-bootstrapping-articulated-3d-reconstruction-from-2d-image-collections)  
+   evidence：面向密集空间感知与理解的视觉预训练
+7. [Rendering-Aware Bayesian 3D Gaussian Splatting with Native Uncertainty and Adaptive Complexity Control](/202607/12/2607.05522v1-rendering-aware-bayesian-3d-gaussian-splatting-with-native-uncertainty-and-adaptive-complexity-control)  
    标签：评分：7.0/10、query:d
-   evidence：从2D图像集引导关节物体3D重建
-10. [Targeted Structure Completion for Sparse-View 3D Reconstruction in Autonomous Driving](/202607/11/2607.04661v1-targeted-structure-completion-for-sparse-view-3d-reconstruction-in-autonomous-driving)  
+   evidence：具有不确定性估计的贝叶斯3D高斯泼溅新视角合成
+8. [Harnessing Generative Image Models for Training-Free Primitive Shape Abstraction](/202607/12/2607.05568v1-harnessing-generative-image-models-for-training-free-primitive-shape-abstraction)  
    标签：评分：7.0/10、query:d
-   evidence：稀疏视角3D重建用于场景理解
-11. [ACE-Brain-0.5: A Unified Embodied Foundational Model for Physical Agentic AI](/202607/11/2607.04426v1-ace-brain-05-a-unified-embodied-foundational-model-for-physical-agentic-ai)  
+   evidence：无训练的基本形状抽象
+9. [3DMPE: 3D Multi-Perspective Embedding](/202607/12/2607.04898v1-3dmpe-3d-multi-perspective-embedding)  
    标签：评分：6.0/10、query:d
-   evidence：包含世界模型元素的统一具身基础模型
+   evidence：多投影3D点云重建
+10. [Geometric Reciprocity: Unlocking Self-Supervision for Stereoscopic Video Generation](/202607/12/2607.05354v1-geometric-reciprocity-unlocking-self-supervision-for-stereoscopic-video-generation)  
+   标签：评分：6.0/10、query:d
+   evidence：基于几何互易性的自监督立体视频生成
+11. [HoloTetSphere: Unified TetSphere Mesh Reconstruction for Physical Simulations](/202607/12/2607.08398v1-holotetsphere-unified-tetsphere-mesh-reconstruction-for-physical-simulations)  
+   标签：评分：6.0/10、query:d
+   evidence：用于物理仿真的3D网格重建
 
 
 <div class="dpr-home-promo-card">
