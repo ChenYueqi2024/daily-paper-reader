@@ -1,0 +1,688 @@
+Title: Stateful Worlds, Stateless Elasticity: Exact-State Serving for Interactive World Models
+
+URL Source: https://arxiv.org/pdf/2607.10389v1
+
+Published Time: Tue, 14 Jul 2026 01:55:08 GMT
+
+Number of Pages: 20
+
+Markdown Content:
+# Stateful Worlds, Stateless Elasticity: Exact-State Serving for Interactive World Models 
+
+## Jin Li ∗
+
+Harvard University Cambridge, MA, USA 
+
+## Jiawei (Alexon) Chen 
+
+Independent Researcher 
+
+## Abstract 
+
+A persistent interactive world model keeps its running state resident on the GPU that serves it: a multi-gigabyte attention cache, almost all of it rewritten at every generation step. That state cannot be recomputed in interactive time or ap-proximated without changing the world, so a live session pins its device: one user, one GPU. We show the pin is a scheduling problem. WorldMove moves a live session under one guarantee: the destination is bit-identical to the source, or nothing is installed. It relocates the cache in 18 .8 ms same-node, 101 × faster than save/load, to our knowledge the only other deployed exact-class primitive. It holds a checksum-verified 92 .1–94 .8 Gb/s on a 100 Gb fabric. At that rate the cache fits inside one interactive block. Migrating an actively generating session, it converges at a block boundary, and the destination continues the world bit for bit. An admissibility condition decides each move. The move must complete inside the readout horizon, over bandwidth that covers the state plus its dirty rate. The condition lifts to a fleet schedulability test; the consolidation loop it governs executed 48 of 48 fleet migrations bit-identical across two providers. Two constraints are structural. Bit-exactness survives only inside a controlled configuration of one GPU architecture, so moving the state is the only way to preserve it exactly in interactive time. On this fabric, verification cannot hide inside the wire. Receive-path checksums stall the transport at protocol-timer timescales under fan-in, and, separately, unscheduled incast silently collapses a receiver while every delivered byte stays correct. An incast-aware admission controller holds zero misses to 
+
+1.4× offered load and sheds overload as explicit rejects. A lossless GPU codec widens the admission gate to fabrics that raw motion cannot use. We exercise the serving loop and the mover separately, each end to end. Their composition on one fabric is unbuilt. Exact-state elasticity is a joint scheduling problem over transport and verification. 
+
+## 1 Introduction 
+
+An interactive world model’s running state lives on the GPU that serves it: an attention cache of 1.67 GB on one production engine (§3), three-quarters of it rewritten every generation step, and growing with per-session context length. The model advances that state one action-conditioned block at a time, and 
+
+> ∗Work done while on a leave of absence from Harvard University.
+
+once a user is inside the world the state is the running com-putation. It cannot be recomputed from a prompt, re-derived from its log in interactive time, or approximated without vis-ibly changing the world. The contract a viewer holds is exact continuity : the next frame must be the one this exact trajectory would have produced. Because no deployed serving primitive can relocate that state under that contract, a live session 
+
+pins its device for its whole lifetime: one user, one GPU. The vendors say so plainly. World Labs runs one interactive stream per dedicated H100 and prices persistence as “neither feasible nor economically viable given today’s computing infrastruc-ture” [ 13 ]; Decart, operating Oasis in production, calls serving cost “the hidden bottleneck to releasing generative video in production” [ 14 ], and its successor ships at $0.02 per simulated second ($72 per user-hour) [ 58 ]. At one device per stream, 10 4
+
+concurrent sessions provision 10 4 GPUs, the same cost cliff that forced virtualization into the datacenter two decades ago. We measured the pin directly. Under the exact-continuity contract every lossy handle we evaluated (eviction, quan-tization, low-rank projection, cross-session dedup) breaks the world ( 60 –92 dB divergence, §3), so the destination must receive the whole state intact, by moving it. Lossless com-pression, the remaining contract-preserving handle, shrinks the wire payload but still delivers the whole state. Measured in §6.4, it widens the admission gate. Moving it is an operator 
+
+need before it is a workload need (defragmentation, mainte-nance evacuation, failover, heterogeneous placement), as live VM migration was before the cloud demanded it [ 36 ]. The demand has since arrived. A production streaming-video fleet live-migrates stateful sessions tens of times per two-minute window as routine control [33]. That fleet moves state without verifying its bytes, safe only while the fabric is clean. §6.2 reports one that was not. Exact-state elasticity therefore puts motion and its verification 
+
+under one contract, so a fleet can depend on the state it moves. No existing elasticity abstraction supplies this, because stateless routing has no vehicle that carries per-session state. VM pre-copy [ 36 ] needs a small writable working set, and this object rewrites ∼3/4 of its cache every step; append-only KV migration [ 40 ] hides an immutable prefix, and this cache is mostly mutable. Checkpoint/restore [ 39 ] trades away interactive continuity. Lossy reduction is the family of handles measured to break the world, the kill-family of §3 (each neighbor, §7). The two escape hatches that spared arXiv:2607.10389v1 [cs.DC] 11 Jul 2026 Jin Li and Jiawei (Alexon) Chen 
+
+every prior continuous-media system are closed here. An action-conditioned world cannot buffer what depends on an action not yet taken, and native-rate replay breaks across GPU architectures at the hardware level (the same seed and actions diverge at the first block even with the software stack matched to the cuDNN patch version, §6). Software-emulated re-execution can be made bit-exact offline [ 47 ], but cannot serve an interactive readout horizon. On a mixed fleet, the only operation that preserves exactness in interactive time is to move the bytes, and §6.4 measures that motion, verified, within 6% of the mover’s own verify-off ceiling. Not every generated world needs this. A world exported as an explicit asset (Gaussian splats and meshes [ 15 ]) has canonical bytes. The regime that needs exact-state elasticity is the frame-model class (live activations, owned by one session [ 13 ]; the window-rewrite engines measured here rewrite that state every step, §3.3). As per-session context length outgrows HBM’s ∼26% /year growth [ 21 ], the pin tightens. Table 5 (§F) names each present workload’s escape and the force that closes it. The pin is a scheduling problem, and Worldline supplies the primitive so that a session keeps its worldline while the hardware underneath changes. WorldMove makes the resident cache a first-class movable object (flatten, transfer, verify, rehydrate) with one guarantee: the destination is bit-identical to the source, or nothing is installed . Same-node it moves the live cache in 18 .8 ms, 101 × faster than save/load, to our knowledge the only other deployed exact-class primitive (§6.2). The same code path moves a text-LLM KV cache with a token-for-token-identical continuation (§6.2). 
+
+When reconstructing a session’s resident state from its history costs more than the interaction’s latency horizon, elasticity must move that state instead of rebuilding it . That rule governs the design. Demand paging managed a reducible resident set [ 37 , 38 ]; under exact continuity nothing may be evicted or approximated, so the fundamental primitive becomes 
+
+exact-state motion of a stationary generative working set, managed under a deadline (§4 develops the inversion, the admissibility condition, and its fleet test). A serving substrate for these worlds must schedule resident 
+
+state . The scheduled unit is the session object, and requests arrive against it. Worldline treats a session as a typed, contract-bearing state object behind a narrow six-verb API and drives WorldMove fail-closed (§5, Table 1). This paper makes three contributions. First, we characterize a new runtime resource, readout-irreducible resident GPU state, to the point where its motion can be scheduled: the kill-family of lossy handles, the dirty structure, and the update-rule classifier that decides which engines share the regime (§3). Second, we build the discipline that governs its motion: Worldline, a working serving substrate with WorldMove, a bit-exact mover, and the admissibility condition that decides when a move is legal and lifts to a fleet schedulability test. The consolidation loop it governs executed 48 /48 bit-exact across two providers, plus a separate move against an actively generating session (§4, §6). Third, we find that verification is a second scheduling plane : at datacenter rates its placement decides fan-in stability, an unscheduled incast collapses a receiver even though every delivered byte is correct, and an incast-aware admission controller holds zero misses to 1.4×
+
+offered load and sheds overload as explicit rejects (§6.3, §6.5). 
+
+## 2 The Workload 
+
+The workload defines the readout horizon 𝐻 that every later admission decision uses. A causal video world model advances a sliding multi-GB attention-KV window one action-conditioned block at a time (persistence over an hour of interaction requires attending to contexts of well over 100 Mtokens [ 13 ]). The unit of compute is one denoising step of one block (a quantum ; anatomy and costs in §3), and decode is a separable cost with its own quality ladder. Five tenant classes share this substrate: interactive human sessions (C1: hard per-block deadlines at frame rate; Oasis served this class to a million users in its first three days under five-minute session caps [ 18 , 19 ], and Google’s Project Genie rations it to 60 -second sessions [ 20 ]), planner fan-out (C2a: MPC or tree search forking short branches off a live state, latency-bound), rollout cohorts (C2b: episode-parallel RL, wave-synchronous), bulk data generation (C3: throughput, no deadline), and deterministic replay (C4: re-execution for debugging, evaluation, and provenance). Their deployment idiom today, and our baseline, is dedicated, statically provisioned GPUs per class. Odyssey prices the resulting infrastructure at $ 1–$ 2 per user-hour on its H100 clusters [17]. 
+
+## 3 Measurement Study 
+
+Three facts run through the rest of the paper. First, the serving quantum is fixed-shape and non-preemptible. Second, every lossy handle we evaluated breaks the world (the kill-family). Third, generation rewrites most of the cache every step (the dirty structure). 
+
+3.1 Anatomy of a serving quantum 
+
+A distilled causal world model generates video in blocks (12 frames; 3 latent frames) through a fixed denoising schedule. On an RTX 5090 running Matrix-Game 2.0, four uniform quanta of 93.9 ms p50 (three denoise steps plus a context-KV pass of equal cost) yield 375.6 ms blocks, 32 fps against a 400 ms release period with 6% slack at full quality. Per-session state is 5.32 GB of KV caches, bounding co-residency at 4–5 sessions per 32 GB device. State is the binding constraint before FLOPs. Of that resident footprint, the movable session subset (the bit-exact cache set a migration must carry) is a fixed 1.67 GB across 420 tensors, constant in session age. The migration-cost model of §6.2 transports this subset. Stateful Worlds, Stateless Elasticity 
+
+Two features of that timing reach the scheduler. First, within-run quantum jitter is tiny, but across-run variance is 2.3× larger, and near-deterministic quanta phase-lock 
+
+against fixed release grids, a three-phase latency beat that a random-collision model over-predicts by ∼2×. Second, quantum cost tracks the request’s conditioning window ( 85 .8
+
+vs 93 .3 ms for interactive- vs bulk-shaped requests), so a capacity model keys on request shape. 
+
+3.2 Quality, decode, and state 
+
+Three further measurements complete the picture. First, quality is a discrete tier ladder whose cost and floor semantics split by contract class. Second, decode is another workload that reaches 30 fps only with a distilled small decoder. Finally, the state compresses along the quality axis but cannot be reduced lossily under the divergence contract. Co-batching is a weak knob, and each feasibility row is an operating point of device, placement, and knob settings (Appendix D). Degradation is a contract axis, declared at admission with the quality floor. 
+
+3.3 The dirty structure 
+
+The third fact is the write pattern. An action-conditioned window-rewrite world advances a full generation step even on a null action and rewrites its attention window in place. Self-measured on Matrix-Game-2, the per-step writable-working-set (dirty) fraction is 𝜌 WWS =0.71 –0.78 of the cache, and at the measured 0.783 steps/s that is a dirty rate 𝐷 =0.93 GB/s. This is a property of the update rule . An append-only serving loop measures 0.000 on the same instrument, and a third model family, the KV-recache engine LongLive-1.3B [ 16 ], measures 
+
+0.727 at every steady-state block boundary on its 3.545 GB cache tree under the same estimator. The LongLive cache also measures 0.249 during window fill, append-like, and 
+
+0.727 once the window is full. A single cache exhibits both regimes, so the update rule is the classifier for which results transfer. This paper measures the window-rewrite class. Engines whose persistent state is written once and thereafter selected rather than rewritten (frame-bank designs such as RTFM [ 13 ], per its public description) should land in the low-dirty cell with pre-copy open (a prediction, untested here). Avoiding forced exactness carries its own cost: a worse silent-corruption profile. The roll geometry below scrubs half of this cache every block, but a frame bank is never rewritten, so a silently corrupted stored frame conditions every subsequent generation and the corruption half-life goes from about one block to unbounded. In that cell an integrity check on transfer matters even more. Two consequences follow. Pre-copy convergence is governed by 𝜌 bw =𝐷 /𝐵 (the condition of §4, measured on both sides in §6.2), and the movable set itself is stationary , which makes fleet packing a stationary problem. The movable set is also an allocation : ≥19 .4% of it is written by no step and read by none (unwired action-conditioning caches), so a manifest-defined motion set could ship ≥19 .4% 
+
+fewer bytes. This is a projection, and every constant in this paper is measured on the 1.67 GB allocation as shipped (leaf-level accounting, TR §E). The window geometry also bounds what a corrupted byte can do. Each block overwrites half the window before any read reaches it, so a flip’s survival depends first on its position within the window and only secondarily on its bit significance. A placement-pinned single-bit-flip battery ( 𝑛 =24 
+
+stratified) matches the geometry’s prediction, with 0/12 flips in the overwritten half ever visible, erased bit-exactly within one block, while 8/8 exponent- and sign-class flips in the read half surface at the next block (design and the mantissa cells, TR §E). Only the read-before-overwrite half needs integrity protection; the write-once conditioning KV outside the window has no overwrite path and needs its own guard. 
+
+## 4 Exact-State Schedulability 
+
+Classical real-time scheduling draws its power from three relaxations: jobs are preemptible, divisible, and approximation-tolerant. The measurements of §3 remove all three at once. Relocating an in-flight stateful generative session is therefore a new scheduling regime : under an exact-continuity contract a migration is scheduled as a non-preemptive, fixed-size, bit-exact real-time transfer task, and an admissibility condition is what remains. With nothing to evict, the only question is where the whole state is resident and by when . (Irreducibility is scoped to the bit-exact tier T0 of §5; weaker contracts restore a reducible subset, §6.) The job has three properties no classical movable-work model carries together, each of which relaxes exactly one classical assumption (§7). Atomic : nothing is installed until the destination matches a byte-identical fingerprint, and a paused move drains its horizon without shipping bytes (in overlap mode the bytes already shipped go stale at 𝐷 ), so a started move is modeled as running to commit or abort. 
+
+Fixed-size : the 1.67 GB/ 420 -tensor movable subset (§3) cannot be shrunk by eviction, approximation, or dirty-page dropping (the kill-family), so the scheduler can only place the job. 
+
+Bit-exact : all bytes must cross and verify before the horizon or the resumed trajectory is undefined (§4.1). Delivering part of the state earns nothing. 
+
+4.1 The exact-state admissibility condition 
+
+The object has three parts: resident state 𝑆 (here the GPU-resident attention-KV cache), a generation step that rewrites 
+
+𝑆 deterministically given a fixed architecture, seed, and im-plementation, and a readout predicate 𝑅 , true when resuming from the delivered state is contractually indistinguishable from uninterrupted execution, byte equality at the bit-exact tier T0 and a bounded divergence under softer tiers. The hori-zon 𝐻 is a contract parameter each class declares (C1’s block release period, 400 ms here; C2a’s branch budget; C2b’s wave barrier), read as a stall bound for a frozen stop-and-copy and Jin Li and Jiawei (Alexon) Chen 
+
+as a state-age bound for a live overlap move. 𝑇 migrate below folds verification in as a cost ; §6.5 shows it is also a placement .                           
+
+> The Exact-State Admissibility Condition.
+> Let a stateful generative model carry resident state of size 𝑆 , mutate it at dirty-rate 𝐷 (bytes/s rewritten by ongoing generation), and serve under a readout contract with horizon 𝐻 as defined above. Over a fabric of transfer bandwidth 𝐵 fabric , let 𝑇 migrate (𝑆 )be the wall-clock time to extract, transmit, verify, and commit 𝑆 . A migration is admissible only if
+> it completes within the contract horizon and the fabric sustains the resident state plus its dirtying,
+> 𝑇 migrate (𝑆 )<𝐻 and 𝐵 fabric ≥𝑆 𝐻 +𝐷, (1) with the contract’s divergence bound established separately by the continuation predicate 𝑅 (at the bit-exact tier T0, 𝑅 is byte equality).
+
+The flux clause is the deadline gate of (2) rearranged, and 𝐷 
+
+is charged in the live overlap mode, where generation keeps rewriting the cache while bytes are in flight. A block-boundary stop-and-copy is the 𝐷 →0 special case: a frozen source dirties nothing, and the whole 𝑇 migrate is paid as user-visible stall against the same horizon. The inequality is elementary. Its force is that for this object every term is adversarial. Classical migration keeps each one benign: a small writable set, a reducible payload, an approx-imate resume. Exact-state serving makes each one binding: 
+
+𝐷 rewrites most of the cache every step, so no incremental transfer beats a whole-state move (§3.3); 𝑆 cannot be reduced without breaking 𝑅 (§3); and 𝑇 migrate hides a verification place-ment that can destabilize the fabric (§6.5). It looks like Liu and Layland [ 8 ] and behaves like nothing classical schedulers admit. In either direction there is a hard deadline gate 
+
+𝐿 ∗ = 𝑆 𝐵 min 
+
+, 𝐵 min = 𝐵 fabric − 𝐷, (2) the minimum admissible horizon. Contracts with 𝐿 < 𝐿 ∗ are 
+
+inadmissible on that fabric, and a provisionable region sits above it. The clauses separate two failure modes, a timing 
+
+bound (deliver before the state goes stale) and a flux bound (outrun the bytes generation keeps dirtying, or never catch the moving target). A system can satisfy one and violate the other. Both clauses are necessary under the bit-exact contract. A commit after 𝐻 delivers a state already past the contract’s staleness bound (with ∼3/4 of the cache rewritten per step there is no clean prefix, so the resume is undefined rather than slow [ 9 ]), and the flux clause is iterative pre-copy con-vergence [ 36 ] met at its adversarial limit. With no sufficient statistic to ship instead, the move cannot be made incremental: even a convergent pre-copy moves essentially all of 𝑆 , and the deadline binds. Appendix B’s subject is the weaker T1/T2 tiers, where lossy compression or replay become legal again. Here we need only the criterion for when motion is forced. 
+
+The motion criterion. The admissibility condition and the escape table compose into one test that classifies any served object. State must move (reduction, replay, and restart all fail) exactly when three escapes close. First, no contract-preserving reduction lets the destination hold less information 
+
+than the whole state (the kill-family of lossy handles breaks 
+
+𝑅 , §3; a lossless codec shrinks the wire payload but still delivers the whole state, §6.4). Second, reconstruction exceeds the horizon (replay cost grows with session history while transfer cost is constant in it, §6.3). Finally, the trajectory itself carries the value, so a restart is semantic loss. When all three hold, the move’s admissibility is set by the deadline gate of (2) . The update rule is the classifier for membership (§3.3). Table 5 (§F) holds the per-workload audit against real objects. 
+
+Sufficiency. When (1) holds under WorldMove ’s stated T0 preconditions, Worldline is the constructive proof. World-Move meets the condition on real models with an atomic extract/transmit/verify/commit (Figure 1) that flattens the live cache, transfers it (same-node cudaMemcpy ; cross-node over a checked socket), CRC-verifies, and rehydrates. It commits only on a byte-identical fingerprint, so a torn state can never be installed. The constructive instance is a block-boundary stop-and-copy of the whole state, which the live pre-copy mode of §6.2 converges to as its frozen final round. The model enters only through the condition’s constants. WorldMove moves bytes that a fingerprint checks, with no knowledge of the model that produced them (two-family demonstration, §6.2). 
+
+Fleet schedulability. A fleet migrates many sessions over a shared channel, and a move in flight holds its channel share to commit or abort, because the deadline gate makes yielded time unrecoverable. Moves therefore block and interfere as non-preemptive real-time jobs do, and the condition lifts to a fleet test, the standard deadline-monotonic response-time test [ 70 ] specialized to atomic state motion (the specialization walk, with its blocking and interference terms, is Appendix C). For a homogeneous fleet this is (1) at fleet scale, a derivable rule (we do not claim the bound is tight): 
+
+𝑁 ≤ 𝐻 𝐵 𝐶 , 𝐶 = 𝑆 + 𝐷 𝐻 . (3) Read on the Matrix-Game-2 (MG2) cache of §3 ( 𝐶 =𝑆 +𝐷𝐻 ≈
+
+2.04 GB), 𝑁 max ≈2.45 1 at 100 Gbps, ≈9.8 at 400 . Below 
+
+𝐵 ≈𝐶 /𝐻 ≈41 Gbps even one migration overruns the deadline, the per-session gate recovered as the 𝑁 =1 corner (full bandwidth dependence, TR §E). Beyond the gate, prewarm provisioning sets attainable oversubscription, and added bandwidth no longer moves it (§6.3). The gate assumes raw byte motion. The lossless codec of §6.4 replaces 𝑆 
+
+with the compressed payload 𝑟𝑆 plus codec time, widening the admissible region by the compression ratio, so the             
+
+> 1The fluid bound 𝐻 𝐵 /𝐶 drops the fixed per-move setup cost, a measured
+> ∼57 ms intercept in the size-ladder fit, and so overcounts by one slot at small state (charged with the measured wall it gives 1.62 here, admitting 𝑁 =1); the contended response-time measurement of §6.3, 𝑇 (2)=415 ms >400 ,overrides the fluid estimate. Stateful Worlds, Stateless Elasticity
+
+25 Gbps fabric that raw motion cannot use ( 553 ms) becomes admissible ( ∼370 ms). Empirically, the serialized response-time structure holds at three operating points, including full payload at datacenter rate, where the linear response places the 𝐻 =400 ms admis-sion integer at the model’s own boundary (§6.5, §6.3). Under live churn the dirty term is measured per-move (§6.2) but not yet inside a serialized fleet schedule. This result comes with boundaries. Under a readout contract, the condition is stated and validated for resident-state generative models, with bit-exact transfer verified within an architecture (T0). The necessity argument is at systems rigor (argued necessity, a working construction for sufficiency, a measured instantia-tion) and is not a formal proof. Companion work develops the abstract machine for 𝑅 and the converse capacity bound. The condition fixes a hard, measurable admissibility boundary. A scheduler without the bandwidth and horizon budget of (1) cannot serve the object exactly. 
+
+## 5 Design and Implementation 
+
+Worldline’s control plane is thin (Figure 1). Admis-sion is contract-driven. A session declares its class (C1/C2a/C2b/C3/C4, plus a system maintenance class C5 whose refresh quanta are scheduled like any other work), a deadline or period where the class implies one, a quality floor (minimum denoise steps), a determinism tier (T0 bitwise, T1 schedule-stable, or T2 statistical), and a decode tier. §6 treats T0’s scope and the cross-architecture drop to bounded T1. The type system rejects incoherent combinations (e.g. C4 replay at T2). Scheduling is EDF over quanta with class structure. Hard-deadline classes own fixed-rate release grids, planner classes get soft-deadline EDF membership, and bulk fills residual quanta behind a guard band sized by headroom. Proactive degradation moves a session down its contracted quality ladder when its feasibility margin reaches zero (block-boundary yield). Admission checks a candidate’s steady-state quanta against the device’s residual at the session’s quality floor. Release grids are warm-anchored (the grid opens after the measured first-block transient) and held to queue-depth-1 frame-skip semantics, so lateness cannot cascade. State lives where the session lives. Working sets stay resident for contract lifetime, forks are in-place KV copies on the parent’s device (§6), and component-aware eviction-by-truncation (§3) is the pressure valve. 
+
+The session API.. One WorldlineSession object drives the whole lifecycle through the six verbs of Table 1. The 
+
+migrate verb stages into the shadow slot of Figure 1 and never touches the live handle, so a half-migrated state is unrepresentable. Registration returns a typed manifest (per-leaf path/dtype/shape/bytes, topology hash, determinism tier) that travels with the moving object as its byte-exactness check. A native Rust data plane (C-ABI, in-process) realizes the same critical path off the interpreter (Table 2, §6.2). 
+
+Table 1. The session API. Every verb returns a checkable result (a typed manifest, a verdict, or a boolean), and migrate 
+
+stages into a shadow slot, so commit or rollback is the only exit.               
+
+> verb returns contract behavior
+> register_state manifest binds the live tree to a typed manifest: per-leaf path/dtype/shape/bytes, topology hash, determinism tier
+> admit verdict runs the admission arithmetic of §4.1 against the deployment’s own profile rows
+> migrate manifest drives WorldMove into the shadow slot under the fail-closed fingerprint check; the live handle is untouched
+> verify bool re-fingerprints the staged copy against the register-time oracle
+> commit manifest re-verifies, then atomically swaps the staged copy live
+> rollback manifest atomic undo; the pre-migration tree stays authoritative and the staged copy is dropped
+
+Admission itself is arithmetic. A deadline-class candidate is admitted iff its measured per-SKU quantum, the resident state, and the guard band all fit the declared contract, computed from the deployment’s own profile rows in place of model-family constants (full arithmetic, TR §E). After admission, a session holds its contract by degrading when slack runs short. Each engine keeps a tier ladder, and the scheduler degrades to the highest tier whose quantum fits the remaining slack. The degradation is contractual and never silent. 
+
+Multi-GPU mechanisms. Five serving-layer mechanisms carry the fleet results. Topology-keyed placement, prewarm shadow lanes, and fail-closed migration commit are visible in Figure 1 (profile rows are per-placement); block-boundary yield points (sessions never preempt mid-quantum) and anti-thrash hysteresis (a move must save more than it costs) operate underneath. 
+
+Implementation. Worldline’s control and serving orches-tration is Python: a per-node controller, one CUDA-pinned engine-host process per GPU, Unix-domain sockets. Its migra-tion data plane realizes the canonical flatten/verify/commit path of §4.1 in-process, in two implementations reported side by side in Table 2: a Python reference path and the native Rust C-ABI mover introduced above. The full movable set is the suspend manifest’s 450 leaves, the 420 movable tensors of §3 plus scalar control flags. A fleet-scale Rust control daemon is future work. The serving layer adds 0.2 ms per quantum over the bare forward ( 21 ,878 quanta dual-timed), nearly three orders of magnitude below the unit of work, with no measurable cross-engine contention ( 162 .8 vs 163 .0 ms Jin Li and Jiawei (Alexon) Chen 1234 5                                        
+
+> C O N T R O L P L A N E D ATA P L A N E
+> move request
+> admission test
+> deadline H·state S·dirty rate D
+> constants: calibrated or in-band EWMA reject prewarm pool
+> warm engines absorbs rejected +deferred
+> placement
+> topology-keyed admit dst in-band EWMA
+> GPU A(source)
+> resident state ~3/4 rewritten per block
+> read
+> flatten
+> wire
+> RDMA /TCP
+> verify
+> pipelined CRC capacity
+> receipt
+> commit on match fail-closed, all-or-nothing
+> GPU B(destination)
+> shadow slot bit-identical on commit
+
+Figure 1. Worldline: a thin control plane over a state-motion data plane whose commits are receipt-checked. One admitted move: admission and placement (1), flatten (2), transfer (3), pipelined CRC on a lane with its own capacity (4), fail-closed commit on receipt match (5); rejected moves fall to the prewarm pool. p50). Telemetry is fail-closed. Every run fingerprints the host, asserts collector liveness within 15 s, and aborts instead of producing unattributable numbers. Both backends run unmodified except a 19 -line batch diff on MG2’s action module (it assumed batch size 1, walling off co-batching). Under the same contracts, the artifact ships a playable single-GPU demo at 27 .8 fps on a consumer RTX 5090. 
+
+## 6 Evaluation 
+
+The evaluation argues one chain. Migration is determinis-tic within an architecture and breaks across one (§6.1). At memory speed and against active generation, the primitive moves live state bit-exactly (§6.2). At session and population scale, the admissibility condition instantiates as a measured envelope (§6.3). At line rate the binding constraint moves from transport to verification placement (§6.4, §6.5). Finally, the contract is grantable and placement-sensitive on the serving substrate (§6.6). The scope is bounded. Same-node and live-chase moves carry real MG2 state. With no live engine attached, the four-node line-rate cell moves the real state’s bytes, and the two-node mover benchmark stays transport-level on synthetic payload. Over loopback, the serving loop closes end-to-end at commodity rate, and fleet placement beyond the executed 48-move loop is simulation. We have not run the live serving loop over the 100 Gb fabric. We evaluate on three node substrates: RTX 5090 worksta-tions (the local measurement-study box of §3 and a rented single-GPU instance for churn iteration), a rented A800-80G PCIe node, and a rented 8 ×A100-80G SXM4 NVLink node. Together with an A100-SXM4-40G calibration probe these are the four GPU SKUs of the fleet evaluation. With the H100 native-primitive node and the L40S cross-architecture probe the paper spans six GPU SKUs across three rental clouds (Vast.ai, AutoDL, Lambda) and an academic testbed (the CloudLab d6515 line-rate fabric). Where a comparison is claimed, the baselines are the two arms of our industry-default module run under the same engine: (a) per-session GPU pinning with FIFO queueing (pin-queue) and (b) deadline-blind round-robin interleaving. The class-blind policies of §3 are the single-device ablations. (Deadline-blind greedy co-batching is ruled out analytically by the measured coarsening curve of Appendix D and not run as a live arm.) Multi-GPU iteration results (§6.2) are single-trial and marked as such. The placement/determinism matrix (§6.1) is 3-trial per cell, with tabled quantiles under one definition (Hyndman-Fan q7). Every headline ratio is recomputed by script from raw per-quantum ledgers archived with the artifact. The workload suite is trace-calibrated . Its demand is parameterized from recorded traces and public statistics and replayed through the scheduler and the fleet economy . Arrivals fitted from Azure LLM Inference [ 51 ] and BurstGPT [ 52 ] drive admission, and per-class duty follows the same traces. Under that replay, the device-reclaim result and the reclaim economy both hold. No production world-model trace is public (§8). Demand follows a four-rung ladder: controlled stressors (causal isolation); recorded open-oasis human play (native human control, entropy 2.8–7.6 bits); a gaming-session rung fitting the in-teractive class from 776 desktop-gaming sessions (median 
+
+24 min; input duty median 0.86 with an AFK bottom decile, consumed directly by §6.3); and a physical-AI rung shaped from published episode statistics. 
+
+6.1 Determinism and the architecture boundary 
+
+This subsection locates the determinism tiers: bit-exact replay holds within an architecture at no enforcement cost and breaks across one (C4). Same-seed sessions on different physical GPUs of the same architecture produce bit-identical per-block latent streams ( 12 /12 blocks, two independent pairs; the surviving pair stayed bit-identical under co-resident bulk interference). Fixed kernels on a fixed ISA make reduction order repro-ducible, so T0 is a contract a scheduler can grant at native rate, Stateful Worlds, Stateless Elasticity 
+
+but only within an architecture, which is why migration beats re-derivation across one. Across the boundary native-rate T0 is formally invalid (software-only emulation reproduces the bits offline [ 47 ]; no native-rate path does). We measured where the decoded readout then lands (A100 ×H100 and A100 ×L40S; Appendix G). In every run the per-block cache CRC diverges at block 0, yet the post-transient readout holds at the bounded tier T1. T0 is a property of a controlled configu-ration . Even within one architecture it breaks silently (a faulty P2P fabric, measured in §6.2; a transitively-downgraded cuDNN; a co-batched pool that reorders reductions), while 
+
+9/9 within-architecture controls hold on a pinned stack. Each break is invisible to the output and caught only by the byte-identity check, a second reason the primitive verifies bytes at the endpoints instead of trusting the transport. 
+
+6.2 The primitive on live state 
+
+Exhibit 1: end-to-end migration, certified bitwise, zero added misses. We ran an end-to-end migration cell on 2×A800 in which a live session advances on GPU 0, migrates to GPU 1 at a clean block boundary, and continues there. With the destination engine pre-warmed (the realistic fleet target), the migration itself is a 101 ms cache install absorbed within one block’s slack, with zero added deadline misses at a 600 ms contract. Two independent checks certify bitwise continuity across the move, and a perturbed-cache negative control diverges on every subsequent block (certification detail in Appendix H). One rented host’s direct-P2P path silently corrupted bytes mid-transfer and the CRC check failed closed. No corrupt world was ever served. No link-level check (fabric ICRC, PCIe LCRC) can see corruption on the host DMA path, so byte identity is decidable only at the endpoints, the end-to-end argument [ 60 ] measured at state-motion scale. A consistency-tolerant transport (one that checks only that the bytes arrived, as production movers do [ 33 ]) installs such a corruption unflagged and serves a wrong continuation, shown in a runnable head-to-head (artifact examples/demo_migrate.py ). The fabric sets the cost of that certified move, and the code path barely changes it. The Python path takes 18 .8 ms end-to-end on 2 ×H100 (continuation bit-exact against a no-migration reference), a 16 .6 ms Rust-FFI critical path against a corrupted-snapshot control, and 83 .9 ms on PCIe. Across those fabrics the move varies ∼5× while the code path varies only ∼1.1× (Table 2), so the transport is commodity hardware and the endpoint byte-identity guarantee is the contribution. The same mover is model-blind. It moves a live Qwen2.5-0.5B [ 22 ] KV cache ( 24 layers, 48 leaves) in 4.03 ms round-trip, and greedy decoding from the rehydrated cache is token-for-token identical to a never-migrated reference ( 16 /16 
+
+tokens, two independent runs; artifact mig_llm ). The heavily-mutating regime that needs it is the world-model case (§7). Table 2 traces the same move across the fleet’s fabrics, with the cost keyed by the deployment’s own profile, whatever the link advertises. Block-boundary migration is effectively free on NVSwitch ( 20 .6 ms modeled from the measured d2d rate, under one serving quantum), while a virtualized host advertising peer_access=true reaches useful speed only when staged through pinned host memory. Cold reopen (no state transfer) measured 260–322 ms across hosts. An 8-engine churn run on the NVSwitch host reproduced the tuned scheduler behavior (admission estimate within 1.1% ). 
+
+Exhibit 2: migration against a generating session. The primitive’s hardest case is a live session, where the model rewrites its cache while the mover chases it. We ran exactly that on two H100s with the shipped iterative pre-copy API. Pre-copy cannot converge while the model generates (the per-round dirty set saturates at 0.777 of the cache) and converges the moment generation pauses at a block boundary, with 1.14 s fail-closed downtime (stepwise chase in Appen-dix H). The destination then continues the world . Its next three generated blocks are bitwise identical to the source’s counterfactual continuation. To our knowledge this is the first bit-exact live migration of an actively generating world-model session. Convergence is 𝜌 bw =𝐷 /𝐵 with 𝐷 scaling by step rate. On this wire at H100 rate 𝐷 >𝐵 and pre-copy saturates. On a 100 Gb fabric the dirty set follows a zero-parameter coupon law whose calibrated recursion predicted the convergence boundary before the run and held (Appendix H), so the safe-churn region is measurably wider than the classical 
+
+𝐷 =𝐵 line. The divergence threshold 𝐷 ∗ inherits its 𝐵 from the verified-rate composition (§6.5), so the boundary is placement- and engine-dependent. The dirty-flux term of the condition is measured on both sides here, saturation while generating and convergence at the block boundary. Across 15-minute churn runs the scheduler tuning ladder took C1 misses from 100% to 0.69% while bulk went from starved to 2,519 blocks (admission’s service estimate within 
+
+2.5% of measured). Planner bursts completed 52 /52 branches at steady makespan. 
+
+6.3 The operating envelope and the population cell Exhibit 3: the condition becomes an operating envelope. 
+
+On the multi-GPU nodes the admissibility condition instan-tiates as a two-axis region. A deadline gate (frozen 33 Gbps, live 41 Gbps, both at 400 ms) sets the feasibility floor; above it, prewarm lane count sets the feasible oversubscription. Fabrics at 10 and 25 Gbps stay inadmissible at any lane count for raw motion, while above the gate 𝜈 rises with prewarm lanes toward the Engset cap ( 2.95 at ≥100 Gbps; all per-fabric values are projections, TR §E). At fixed state the gate is aging out. At the 800 Gb/s per-GPU NICs now shipping [ 59 ], this cache’s wire time is ∼17 ms, the binding constraint moves from link bandwidth to per-destination serialization (the incast row of the fleet test), and placement becomes the scheduled resource. Against growing state the gate re-tunes instead of retiring. The minimum admissible bandwidth 𝐶 /𝐻 is linear in state, Jin Li and Jiawei (Alexon) Chen 
+
+Table 2. Migration-cost ledger, grouped by what varies: the code path (fabric fixed), the fabric (code path fixed), installation into a live serving cell, and the cold rebuild a move avoids.                                    
+
+> ms software path fabric payload includes
+> Code path varies, fabric fixed
+> 16.6 Rust-FFI flat-pack 2×H100 SXM NV18 1.67 GB/420t critical path (pack/wire/host/unpack stages overlapped); corrupt-control 18.8 Python path 2×H100 1.67 GB/450 leaves flatten+ cudaMemcpy +CRC+rehydrate (101 ×vs 1899
+> save/load)
+> Fabric varies
+> 83.9 Rust-FFI flat-pack 2×A800 PCIe 1.67 GB/420t same cell as the 16.6 row 71.1 / 96.4 raw P2P 8×A800 intra/cross-island 1.67 GB wire only
+> Into a live serving cell
+> 101.2 warm install, live cell 2×A800 1.67 GB serving-cell install, 0 added miss 74–124 fleet-executor warm 4×H100 SXM5 1.67 GB session snapshot+wire+install (§6.3)
+> The rebuild a move avoids
+> ∼11 ,200 first-touch cold 4×H100 SXM5 —lazy engine materialization (prewarm target)
+
+and at the measured dirty fraction the 1.67 GB cache needs 
+
+≈41 Gbps where a 32 GB cache needs ≈783 Gbps, almost ex-actly one of those 800 Gb ports (size-ladder fit in the artifact). The consolidation loop below executes inside the region, and the cross-node mover crosses its gate at line rate (§6.4). At a production 10 Hz step rate ( 𝐷 ≈13 .5 GB/s) the dirty-dependent boundaries rise to ≈141 and ∼108 Gbps. A four-node Cloud-Lab cell (4 ×d6515, one 100 Gb RoCE LAN, $0) measures that incast row directly. At ∼73 Gb/s, the solo 1→1 migration of the real 1,670 ,124 ,960 -byte state runs in 182 ms, bit-exact. The cell’s mover runs below the 92 –95 Gb/s tail-scheduled anchor of §6.4, both clear the gate, and the collapse below is measured against the cell’s own solo rate. Piling 𝐾 movers onto one 
+
+100 Gb receiver collapses per-move goodput and drops the receiver’s aggregate ingest below the solo rate (Table 3). The onset is at fan-in 𝐾 =2, and total ingest falls where fair sharing would have held it near 73 Gb/s, a super-linear wall of 1.8–
+
+3.2× the clean-sharing bound. The collapse is silent. Every completed move is bit-exact ( 49 /49 sent moves, CRC and byte count verified, zero transport failures), so what breaks is the SLA, the discrete second-scale freeze under incast the admis-sion model already predicts, here measured at population scale. Spread across receivers, the same movers stay clear of the col-lapse: two movers to two receivers hold 73 .0 Gb/s ( 0/6 miss) and disjoint pairs stay flat at 182 ms, while a single sender’s egress fan-out runs at line rate ( 101 /103 Gb/s aggregate at 
+
+𝐾 =2/3). The pathology is receiver-ingress incast specifically, so the cell reset the controller’s receiver model. Multi-source fan-in is a different regime from same-host dual-flow, so the controller now treats a multi-source receiver with one move in flight as at capacity. This transport-incast onset ( 𝐾 inv =2)is a separate mechanism from the verification-plane crossing 
+
+𝐾 ∗≈4.2 of §6.5. At this cell’s maximum fan-in of 3 the fair-shared wire stays below the CRC bound, so the crossing is out 
+
+Table 3. Single-ingress incast on the 4-node cell: 𝐾 full-cache movers piled onto one 100 Gb receiver. Per-move goodput collapses and the receiver’s aggregate ingest falls below the solo rate; every move stays bit-exact.               
+
+> fan-in 𝐾 per-move into receiver on-time (Gb/s) (Gb/s) 173.0 73 yes 220.4 43 no 37.8 25 no
+
+of reach by arithmetic and the cell validates the transport col-lapse and the receiver-spread fix. Reaching 𝐾 ∗ needs ≥5 nodes. 
+
+An incast-aware controller restores the zero-miss in-variant. A naive pair-calibrated controller (min-queue-depth picker on the optimistic max _fan _in =2) admits into the col-lapse. Of 72 offered moves it lands 10 on time, misses 57 , and rejects 5, with admitted goodput at a 4.4 Gb/s median ( 0.79 
+
+miss fraction). At the same load, the incast-aware controller (fan-in cap 1 and receiver-spread, with a capacity-aware pick over the measured per-path rate matrix) lands 35 , misses 5,and rejects 32 , and holds admitted goodput at a 72 .7 Gb/s median, matching the solo rate. This is a 0.07 miss fraction, 
+
+11 × fewer misses and 3.5× more on-time moves. Admitted misses stay at zero up to 1.4× offered load, and past that over-load exits as an explicit reject, the load-shed the admission invariant specifies. At 2× load a 5/72 residual miss remains, each one a genuine receiver-ingress collapse ( 11 –38 Gb/s), so placement narrows the shared-ingress capacity wall without hiding it under sustained overload. Because the harness generates each payload before sending, it paces admission decisions cleanly but the wires only approximately. That gap is the likely reason the cap holds to 1.4× and gives way at 2×;tying wire-start to decision time (a resident-state cell) would close it. Rate heterogeneity is sender-side (one slow egress Stateful Worlds, Stateless Elasticity 10 0 10 1 10 2 10 3
+
+> fabric bandwidth B (Gbps)
+> 10 −3
+> 10 −2
+> 10 −1
+> 10 0
+> 10 1
+> 10 2
+> dirty rate D (GB/s)
+> D = B
+> deadline gate  B = S/L + D  (L=400 ms)
+> HOT MOTION FORCED
+> pre-copy / motion admissible
+> inadmissible @ 400 ms
+> append-only strip (pre fi x overlap)
+> LLM KV (Llumnix): append-only
+> VM live migration
+> (busy guest)
+> MG2 @ 0.78 Hz
+> 2-node gate
+> MG2 @ 0.78 Hz, NVLink
+> MG2 @ 10 Hz
+> MG2 @ 10 Hz, NVLink
+> oasis o ff icial loop
+> (append-only)
+
+Figure 2. The serving-regime map: each object a point (dirty rate 𝐷 vs bandwidth 𝐵 ). Left of the gate migration misses the deadline; above the 𝐷 =𝐵 phase line pre-copy cannot converge. MG2 ( 𝜌 WWS ≈0.75 ) crosses regimes as step rate scales 0.78 → 10 Hz; append-only objects never leave. node at 54 Gb/s) with uniform receivers, so the naive 57 /72 
+
+miss was pure incast. This collapse and the scheduled contention law are the two ends of one receiver-serialization axis. 𝑇 (𝑁 ) =
+
+250 + 165 (𝑁 − 1) ms (measured 10 /10 bit-exact under contention, within 6% of the model with verification charged) is the same 100 Gb receiver serving 𝑁 movers one at a time (𝑇 (2)=415 ms), and the barrier-synchronized incast here is the unscheduled case where all 𝐾 land at once (per-move 
+
+∼655 ms at 𝐾 =2, ∼1.7 s at 𝐾 =3). The incast-aware controller converts the unscheduled collapse into that scheduled serialization, so the interactive fix for receiver-ingress incast is receiver-spread. Lossless compression is a separate handle, measured in §6.4 as a gate-widening option and a byte saving on the evacuation and bulk budgets. Specialized to the 1.67 GB MG2 cache, the condition places the measured systems on one map (Figure 2). The map’s left edge is the live deadline gate of §4.1; the flux clause becomes the dirty-rate phase line , 𝐷 =𝐵 at ∼7.5 Gbps for the measured 𝐷 ≈0.93 GB/s. Both dirty-dependent boundaries scale with step rate, so the map is the operator’s admission chart. Locate an object’s (𝐷, 𝐵 ) point, and the region names its legal primitive. The envelope so far sizes one object’s admission. At fleet scale the resource is a population of these objects, and the question turns to what consolidation can reclaim from it. Under the strict-divergence contract only two safe ways to free a GPU remain. Migrate the live state (warm install 
+
+96 .4–101 ms, constant in session age), or evacuate and replay 
+
+at 𝑂 (𝑇 ) forward passes to rebuild step 𝑇 . Any long-lived world is therefore dominated by constant-cost migration, the only history-independent primitive we can certify (pre-copy convergence: §3.3, §6.2). To price the fleet economy it buys, and where it buys nothing, we model 𝑁 sessions as on /off 
+
+processes, pin-per-user versus a migrate-on-idle pool (evacu-ate past a keep-warm threshold, migrate back on reactivation), reporting the minimum pool size holding a 1% reactivation SLO-miss bound. “Idle” means the session is suspended : the forward pass has stopped and the cache is frozen. A session idling at the keyboard is still live, because the model still rewrites its cache every step (§3.3; population examples, Ap-pendix I). The simulation is driven by the measured migration cost. Code and manifests ship in the artifact. 
+
+The consolidation loop executes on real hardware. 
+
+We close the loop in execute mode. Every migration the rebalancer schedules is performed as a real WorldMove (snapshot →transfer →verify →install) rather than charged from a cost model. On a 4 ×H100 node, three churn seeds reproduce the modeled scheduling trajectory exactly (the rebalancer is deterministic, so what execution adds is that every move is demonstrated feasible and timed on hardware), and the walls expose the hot/cold boundary in-band. Warm installs take 74 –124 ms and first-touch migrations 11 .0–11 .5 sof lazy initialization, observed inside a live loop. At 𝑁 =8 on two independent providers’ NVLink nodes the executed and modeled trajectories again match seed-for-seed ( 2.263 devices freed over 11 migrations, identical on both providers), and idle-reclaim (null at 4 devices) appears at 8, so the reclaim population depends on fleet size. One schedule was refused fail-closed by VRAM admission the capacity-blind simulator had approved. In total, 48 /48 executed migrations verified bit-exact across two fleet scales, three nodes, and two scheduling modes. The yield is a pooling economy that scales with fleet size and demand mix, and its shape follows from the mea-surements. First, it is prewarm-conditional , with break-even prewarm hit-rate 𝜆 ∗≈0.64 (25 –75% band [0.55 , 0.73 ], 64 seeds; hot copy 52 –152 ms vs 11 ,974 ms first-touch, 79 –229 ×). Be-cause measured idle windows are 4–24 × shorter than the 
+
+∼12 s re-init, the economy runs on residency , the world already warm on the destination before the pause begins. Second, it is a region : hot pools pass on every seed, cold pools on none. Finally, the interactive duty driving it is derived from traces. The sizing itself is classical finite-source loss (Engset; §7). Only the primitive being sized is new. Bit-exact deterministic state motion is the enabling con-dition for tail-SLO consolidation. With think time 𝑍 between a session’s generation bursts, sessions-per-device is that finite-source machine-repairman problem [ 54 ] (setup-cost farms, [ 53 ]), instantiated with measured cost constants (Fig. 5, Appendix I). The host-swap region exists only because restore is deterministic , and that is the non-classical part. With exponentially distributed restore at the same mean, the 400 ms/ 1% SLO is infeasible at any 𝐾 (the own-service tail alone is 7.4% ). On the measured cost constants an 11 GB/s Jin Li and Jiawei (Alexon) Chen 
+
+host tier lifts an 80 GB device from 40 resident sessions to 
+
+𝐾 ∗=46 /181 /902 at 𝑍 =30 /120 /600 s ( 1.15 –22 .6× residency, Fig. 5, Appendix I; a consumer PCIe-5 host comes in 4.4×
+
+under the model, and in the interference arms contention per-turbs timing but never bytes, Appendix H). The long-𝑍 cells cover the persistent-engine regime this consolidation targets. MG2 itself drifts to unusable within ∼10 s of continuous generation (§8), so the 𝑍 =600 s cell is a fleet-class projection. 
+
+Scope. Fleet numbers are simulation calibrated by mea-sured constants; the loop itself executes on real hardware above. Trace-calibrated validation (Azure LLM-inference [ 51 ]and BurstGPT [ 52 ] arrival processes replayed against the measured constants) reproduces the same hard-zero and reclaim-region structure end-to-end. The reproduced hard zero at duty →1 is itself a property of the assumed interactive duty, and measured duty moves it. Feeding the gaming rung’s per-session duty distribution (§6) into the finite-source sizing reclaims 13 .2% of the interac-tive fleet at a 5 s suspend threshold against 0.8% under the synthetic duty-0.95 assumption ( 6.1–19 .3% across thresh-olds; a majority-interactive fleet reclaims 22 .5% gross, Fig. 6, Appendix I). These are gross ceilings, and the warm-buffer break-even is in Appendix I. 
+
+6.4 Line rate Exhibit 4: the gate is crossed, and verification placement binds. On the 100 Gb fabric the Rust mover completes the CRC-verified 1.67 GB move cross-node in 141 –146 ms median (92 .1–94 .8 Gb/s against the mover’s 97 .95 Gb/s verify-off ceiling), inside one 400 ms interactive block and above the 
+
+41 Gbps live gate. What remains to schedule at that rate is where the verification runs. Below, the first-generation mover’s 251 ms median (bit-exact, nine trials, eight warm) is retained as the software-floor exhibit. Two real two-instance moves, a 25 Gb RoCE tier, and the 100 Gb fabric below are the measured anchors. A netem -controlled sweep maps how latency scales with bandwidth between them, and rates we could not rent remain labeled projections. Two of those anchors are moves over rented inter-node fabrics, both bit-exact: two physical H100 instances at their 
+
+∼9.4 Gbps NIC ceiling and an earlier A10 pair at ∼2 Gbps, giving two hardware 𝐵 -points for the fleet test of §4.1, both below the 41 Gbps gate (path detail: Appendix I). The 100 Gb anchor is two CloudLab d6515s. With verification off, the Rust mover measures 97 .95 Gb/s, the verbs ceiling itself (∼0.1% mover overhead); verified, it holds 92 .09 Gb/s at uniform 64 MB chunks and 94 .8 Gb/s with the tail schedule (Fig. 4, Appendix E). At both chunk sizes measured, the exposed verification tail equals exactly one final-chunk CRC ( 21 .7 ms at 256 MB, 8.2 ms at 64 MB), so the verified rate is wire × wall/(wall + one chunk CRC) and the tail is a scheduling choice. Sequential placement measures 80 .22 Gb/s. The Python transport that preceded it is the software-floor exhibit. Its CRC-verified end-to-end 251 ms median move ( 𝑛 =8
+
+warm trials, max 301 ms) carries 53 Gbps verified (registration and CRC-engine forensics: Appendix E). Over loopback, the serving loop itself is closed end-to-end: a live session generated 12 blocks, suspended at a block boundary, shipped its 1.67 GB state through this verified mover (manifest-bound pieces, receipts on both sides), restored fail-closed, and continued bit-exactly against a no-migration control. Across 
+
+3/3 seeds the match held on five equality gates, including the 
+
+420 -leaf tree and the four-block continuation trajectory, with the first block after restore within 10% of the control median. Below line rate too, the floor is removable layer by layer (the 25 Gb RoCE tier and the netem sweep: Appendix E). A floor sits under that measured rate. Under the exact-continuity contract a legal primitive must materialize the source state’s exact bytes at the destination. Against a desti-nation that holds no prior replica, raw byte motion on a path with achievable rate 𝐵 is bounded below by 𝑆 /𝐵 . On this fabric that floor is the 97 .95 Gb/s verbs ceiling above, ∼136 ms for the 1.67 GB cache. The raw floor is not the information floor: a contract-legal codec ships below it, measured next. Each evaluated alternative either fails the contract or sits above the floor: every lossy handle in the kill-family breaks 𝑅 
+
+(§3), cross-architecture recompute diverges at native rate at the first block (§6.1), replay from history grows with session age and outruns the horizon (the motion criterion, §4), and save/load, the only other deployed exact-class primitive we know of, measures 101 × slower (§6.2). The verified rate above therefore sits within 6% of this raw mover’s own verify-off ceiling. That codec is lossless compression, the remaining reduction handle against a cold destination. Whether it pays turns on where the codec runs. On the real warmed cache (99 .99% bf16, byte entropy 5.87 /8 bits) a bit-exact quotient removes up to ∼40% of the bytes whole-tree (CPU zstd-19), but the fastest CPU codec, lz4 at 19% removed, costs 489 ms to compress and decompress the 1.67 GB payload, past a full serving quantum ( 148 .5 ms). On the GPU the same quo-tient is admissible: nvCOMP’s ANS entropy coder removes 
+
+35 .6% whole-tree ( 44 .6% with a bf16 byte-plane split) at 
+
+230 /252 GB/s, a ∼7 ms compress step 20 × under the quantum, every round trip bit-exact. The reduction concentrates in the redundant parts: the readout-irreducible world-state KV compresses only to 0.80 , near entropy-saturated, while the action cache ( 0.40 ) and the bf16 exponent plane supply most of the blend. The receipts bind to the decoded tree, so the codec sits inside the verified envelope. We cost the option from the measured codec and wire and leave the integrated compressed move unbuilt. (In place, the same codec shrinks a suspended cache by the same fraction as a capacity discount, but it frees no device.) The codec’s value is a wider admis-sible region. At line rate it saves only ∼34 ms, but netting codec against wire widens the deadline gate of §4 by the compression ratio, carrying the 25 Gbps fabric from infeasible Stateful Worlds, Stateless Elasticity 
+
+for raw motion ( 553 ms) to feasible ( ∼370 ms). Below the gate, where the single-ingress incast of §6.3 collapses the per-move rate to 20 and 8 Gbps, the same reduction saves 
+
+∼220 and ∼600 ms, but on moves already past the interactive horizon, so that wall time is an evacuation and bulk-relocation budget that the live contract never claims. At this layer what stays contestable is legality and verification placement. For this object class, transport speed is no longer the contested resource. Commodity KV movers ride the same wire and none of those we examined check the contract end to end. The codec’s decode raises the same receive-path question as the CRC, and where that check runs is a placement problem. 
+
+6.5 The verification plane 
+
+The verification plane has three regimes. First, at these rates verification is a second scheduled resource, no longer a fixed overhead. Coupling host checksumming to receive processing goes back to the earliest TCP overhead analysis [ 61 ], ZFS-class end-to-end checksums are the storage-plane precedent, and the GridFTP lineage overlaps checksum with transfer to hide exactly this cost [ 62 , 63 ]. What is new at 100 Gb kernel-bypass state motion is the failure mode. The place-ment that hides the cost trips a protocol-timer-quantized stability failure, so verification enters admission control itself. Overlap alone cannot place it safely. The verified rate composes as harm (𝐵 wire , 𝐵 crc ) ≤ 𝐵 verified ≤ min (𝐵 wire , 𝐵 crc ),and both bounds are met in measurement (sequential: 53 .2 vs harmonic 53 .4 Gbps, 0.3% ; overlapped, the 21 .5 Gbps RDMA path of Appendix E: 93% of min ). A bit-exact mover’s ceiling is therefore whichever engine saturates first. Hiding the checksum inside the wire (per-chunk CRC overlapped with receive, GF(2)-combined) removes the CRC term from the critical path. Solo, verified e2e drops from 251 to 215 ms (sender frame) and the measured cost reduces to 𝑇 = wire + 𝑐 ,
+
+𝑐 ≈ 55 ms across warm trials ( 54 –65 ms under fan-in), the same wire-plus-final-verify shape the one-chunk-tail law gives on the Rust mover. But the two planes couple, and 2→1
+
+fan-in amplifies the coupling into a stability failure. In 2/3 of the barrier-synchronized incasts [ 67 ] the wire enters discrete second-scale freezes, and matched controls isolate the CRC work as the trigger (Fig. 3; Appendix A holds the episode anatomy, the controls, and the counter-level inference chain). The freeze’s constant component is the retransmit timeout, hardware-quantized at 4.096 𝜇 s × 2𝑛 (the verbs local-ACK-timeout quantum [ 68 ]). Quartering the configured timeout shifts the constant 2147 →536 ms ( 4.006 ×) yet prevents no episode, the NIC’s minimum timeout exponent clamps further tuning, and across 4.3 hours of concurrent probing the regime stayed invisible from above ( 14 ,973 ICMP samples, max RTT 
+
+0.441 ms, zero loss) while the bulk plane sat in multi-second freezes. As configured, a drop is repaired by go-back-N retransmission, not prevented by PFC or paced away by DCQCN. The loss literature (DCQCN [ 66 ], RDMA at cloud scale [ 65 ], IRN [ 64 ]) treats go-back-N loss as congestion to 0.0 0.5 1.0 1.5 2.0 
+
+> wall time (s)
+> 0
+> 1
+> 2
+> 3
+> 4
+> completed chunks  CRC burst
+> starts
+> freeze 1.84 s
+> recovers
+> in transfer
+> no-op control
+> fl ow A: amd017→9801
+> fl ow B: amd016→9802
+
+Figure 3. Two concurrent full-cache verified moves through one receiver (barrier-synchronized incast, 512 MB chunks): in collapsed repetitions both flows freeze synchronously for 
+
+1.7–1.8 s; the no-op-executor control is stable. engineer away, while the loss here is induced by receiver-side verification compute, a trigger that literature does not cover. Second, checksum capacity caps the fan-in. A receive path that checksums at 𝐵 crc sustains fan-in of 𝐾 wires of rate 
+
+𝐵 wire only while 𝐾 𝐵 wire ≤ 𝐵 crc , so receive-path verification stops scaling at 𝐾 =𝐵 crc /𝐵 wire : the measured 32 -thread engine (52 .6 GB/s of CPU-side zlib CRC, ∼2.4 GB/s per core) against 
+
+100 Gb wires ( 12 .5 GB/s) crosses at 𝐾 ≈ 4.2, equivalently a ∼420 Gbps single-wire crossover ( ∼120 Gbps for the per-flow CRC). The measured freeze occurs well below that bound (arithmetic: Appendix A): the failure is a transient, a CRC burst overlapping an active receive and tripping a retransmit timer whose floor on this NIC ( 536 ms) already exceeds the 400 ms block. At 100 Gb the constraint that binds verification placement is therefore timer-scale interference, with the capacity crossing as the outer bound no receive-path engine at these CPU-side CRC rates can beat. At 400 Gb/s the outer bound applies directly: 𝐵 wire =50 GB/s puts the crossing at 𝐾 ≈ 1 for this engine, so a 52 .6 GB/s CPU-side check cannot sustain even two-wire fan-in and verification must leave the receive path (a NIC/DPU offload or post-staged verification) on capacity grounds alone. The escape is a faster check. Hardware-accelerated CRC (a PCLMULQDQ/AVX-512 fold of the same polynomial) runs several times faster per core, raising 𝐵 crc and moving the crossing outward, so the prediction is scoped to the receive-host rate: a 400 Gb deployment whose CRC stays below ∼50 GB/s will fail under sustained fan-in even with the timer pathology engineered away. Contention in a kernel-bypass fabric is therefore still arbi-trated, by the lowest protocol timer that catches it and at that timer’s clock; scheduling chooses which clock, 250 ms colored rounds instead of a doubled retransmit timeout ( ∼2 s). The break-even is arithmetic: overlap saves at most the hidden Jin Li and Jiawei (Alexon) Chen 
+
+checksum time ( 36 ms here; ∝ 1/𝐵 only once the wire outruns the CRC engine) and risks 𝑝 · 𝐸 at protocol scale. It improves the median and worsens the mean (421 ms overlapped vs 264 
+
+sequential), and faster fabrics make in-path compute strictly worse. Verification placement is therefore a stability decision rather than a latency knob. On this stack, transport and verification must be admitted jointly . A NIC/DPU checksum offload would remove the host compute from the receive path, the natural escape hypothesis, untested here. A lossy-tolerant KV mover, which may simply skip verification, never faces any of this. Composed with the fleet test, these numbers settle admission. At 100 Gb and 𝐻 =400 ms, sequential verification misses 𝑁 =2 (405 –409 ms); overlap admits it in the fast mode (322 ms) and misses it in the stall tail (trip rate 2/3–12 /12 
+
+across hours), while the measured 32 -thread engine re-admits it cleanly. At datacenter rate the admission integer 𝑁 max 
+
+depends on verification placement and the checksum engine; bandwidth alone does not set it (raw records in the artifact). The stakes of placement are a measured band of state sizes. At 𝐻 =400 ms, 3.60 –4.46 GiB is servable only with off-path pipelined verification (frontier figure: TR §E). The 1.67 GB cache sits inside the feasible region, so for this object place-ment is an optimization; for caches in that band it is feasibility itself. No deployed mover we surveyed ships that capability: NIXL [ 43 ] and Mooncake [ 42 ] carry no end-to-end integrity check (source-verified 2026-07), and where verified transfer exists it is a file-transfer service that overlaps or post-stages its checksum off the GPU fabric [ 62 , 63 ]. Off-path pipelining itself stayed stable in every solo run on this mover ( 0/48 episodes), consistent with the freeze being a property of in-path designs. The third regime is non-fluid. Concurrent full-cache moves through one switch measure two fluid placements and one exception. The fluid pair matches the prediction: node-disjoint flows are free ( 248 ms = solo) and flows sharing a destination port fair-share ( 415 ms ≈ 2× the wire share plus one CRC). The exception: duplex placements (one node sending and re-ceiving full-cache moves simultaneously) are winner-take-all, one direction at line rate, the other at 1/5–1/10 of it. Five of six mesh rounds show a single rotating winner and one shows two. In 6/6 two-node duplex runs the winner is sticky by direction, independent of start order. Raw verbs duplexes run clean at 195 .5 Gb/s aggregate on the same pair, which scopes the facet to the two-process mover stack. One admission rule follows: budget flows per destination port, never co-schedule full-cache duplex pairs, and place the checksum where fan-in cannot couple to it (receive livelock [ 69 ] in kernel-bypass form: receiver compute starving the receive path). The rule is con-structive. As two colored rounds of node-disjoint matchings (the edge-coloring vocabulary of matching-based transfer scheduling), the same four all-duplex transfers that free-run to a 2.0–2.4 s worst flow complete in 539 –545 ms. Predicted before the run, the coloring bound (rounds ×𝑇 solo ) measured within 9% (3/3, 16 /16 bit-exact). The 800 Gb corollary below inherits these facets; link bandwidth alone does not set them. 
+
+The admission policies under load. On the same pair, with every admitted move physically executed and CRC-verified, two doctrines without admission (an overlap-everything mover in the FIVER style and an accept-all rate-limiter) collapse past capacity (miss fraction 0.94 at 1.4×), while the model-based controller matches a defer-and-reject operator heuristic with no hand tuning: zero deadline misses at every offered rate, overload absorbed as explicit rejections. Constants decide it. Fed idiom-stale constants, the same controller missed 0.56 of nominal load, so constants must come from the deployment’s own execution idiom. A Jacobson-style estimator over the controller’s own completed moves reaches the same served fraction with no calibration step. On a second fabric the comparison replicates, and a three-seed replication on a third, re-imaged pair holds the invariant in all 24 cells, zero deadline misses and zero errors, under synthetic arrivals to a single destination (transplant caveats: Appendix I). 
+
+Datacenter projection. Subtracting the removable floor, the line-rate wire cost is 134 /67 /33 ms at 100 /200 /400 Gbps; adding back the ∼19 ms native install floor as a fabric-independent constant, a 400 Gbps install lands near 52 ms. These are projections: the measured affine law plus the measured floor, extrapolated past the fabrics we could rent. 
+
+Snapshot and live pre-copy. Both modes are supported, and the 𝜌 bw law stated whole in §6.2 decides which converges. 
+
+A deployable decision. Where a deployment lands is a bandwidth (gate) × prewarm (magnitude) operating point, and the five decision rules (deadline gate, pre-copy convergence, fleet schedulability, migration economy, and verification placement under the measured capacity facets) compose to one decision per (fabric, SLO): migrate, prewarm, or reject. TR §B holds the full {fabric} ×{SLO} grid, composed by scripts/decide.py (𝐵 min =𝑆 /𝐻 +𝐷 from the measured constants): budget fabric is rejected in every cell, NVLink admits at every SLO, and PCIe-RDMA admits only at ≥400 ms. The live serving loop and the verified line-rate mover have not yet been composed on one 100 Gb fabric; that run is scheduled, and §8 states the boundary it closes. 
+
+6.6 Serving substrate 
+
+The primitive runs on a serving substrate whose placement, policy, and quality-knob behavior we characterize here. All numbers in this subsection are from 3-trial cells on an 8×A100-80G SXM node unless noted. Demand is controlled-stressor synthetic (for causal isolation) plus a recorded-player-trace replay arm (TR §E). 
+
+Quanta are placement-sensitive. An engine pinned to the wrong NUMA node runs every forward at ∼202 instead of 
+
+∼152 ms, a 33% penalty from PCIe/NUMA affinity alone, and that is enough to turn an otherwise-feasible 600 ms contract Stateful Worlds, Stateless Elasticity 
+
+Table 4. Placement-controlled policy comparison (1 interac-tive C1 + a finite bulk job per device; per-cell figures). The blind baseline runs C1 unprioritized at the full 3-step tier (residual confound: §8).             
+
+> policy C1 miss% bulk blk/cell C1 skips Worldline (EDF+guard+degr.) 0.44 960 213 pin-queue (isolate) 0.36 0212 blind-RR (naive) 6.27 960 898
+
+into a ∼90% miss rate. The failure is deterministic, and re-running on the wrong node reproduces the miss. Placement is fixed when the process spawns, and correct binding is necessary but not sufficient (§8). A profile must therefore key to the placement itself, because the same SKU spans both sides of the deadline. The penalty splits by class: the same slow placement that lets soft-deadline planner bursts finish 
+
+38 /40 makes hard-period interactive anchors miss 77 .8% .The policy’s own effect is next. With every arm NUMA-bound (8 ×A800-80G split 4+4, 10-min cells, 3 trials, fresh process per cell; Worldline and pin-queue honor the 2-step quality floor), the cross-arm comparison is causal. Worldline holds C1 miss at 0.44% while completing the bulk job on every device. Pin-queue isolation matches the miss rate ( 0.36% ,same quality floor, same frame-skips) but serves zero bulk. Blind round-robin completes the bulk but drives C1 to 6.27% 
+
+(14 ×). Isolation buys no QoS over Worldline, which matches a dedicated GPU within per-device noise. Admission does most of the deadline job. The contract scheduler’s marginal value concentrates in the warm transient, the degraded-latency frontier, and bulk goodput under guard. The quality knob is one such margin, and its payoff tracks the load. Against a faithful GenServe-like baseline [ 28 ] (iden-tical preemption and placement, no quality knob), the knob is decisive under contention. At the tight 600 ms rung the no-knob arm serves zero bulk while degrade-to-floor opens 
+
+0.79 blk/s/device, and the payoff decays 1.96 ×/ 1.46 ×/ 1.21 ×
+
+toward unity as slack appears. 
+
+## 7 Related Work 
+
+Multi-SLO LLM serving. Continuous batching and SLO-differentiated scheduling (vLLM [ 1 ], Orca [ 2 ], Sarathi-Serve [ 3 ], SGLang [ 4 ], the 2026 multi-SLO wave [ 25 ]) optimize token streams whose sessions are stateless beyond KV prefixes, and they treat the cache as cheaply reducible, evictable, quantizable, and prefix-shareable (H2O [ 5] evicts it, CacheGen [ 6 ] encodes it, KVQuant [ 7] quantizes it, and vLLM and SGLang share it by exact prefix [ 1, 4]), precisely the handles the kill-family (§3) shows this state denies. These serving stacks differ from Worldline: world-model serving inverts the premises (fixed-shape diffusion quanta, a multi-GB resident working set with fork semantics, quality as a contracted knob), so schedulers tuned on token economics inherit none of the placement, window-lifetime, or determinism structure here. 
+
+LLM KV-cache live migration. Most similar to Worldline is Llumnix [ 40 ], which achieves 20 –30 ms sequence-length-independent downtime as a property of the object , since an append-only KV cache copies its immutable prefix in parallel with decode; concurrent systems migrate LLM KV state for reconfiguration [ 30 ] and for spot-cluster continuity [ 31 ]under the same append-only assumption. A window-rewrite world has no immutable prefix (§3.3) and tolerates neither approximate copies nor destination recompute (§3), so World-Move is the primitive for the regime where both escapes fail. 
+
+Disaggregated LLM serving and commodity KV trans-port. Disaggregated serving splits a request across prefill and decode pools and ships the KV cache between them (Split-wise [ 45 ], DistServe [ 44 ]). Production stacks commoditize the byte transport itself: Mooncake [ 42 ] maintains a datacenter-wide KVCache pool with topology-aware RDMA transfer, and NIXL [ 43 ] offers pluggable point-to-point transfer. What they move is the same object: append-only and lossy-tolerant. This paper’s object forces the opposite, a deadline-bounded, all-or-nothing motion of a heavily-mutating state with no recompute escape. Worldline adds no transport novelty to this stack: these movers are candidate data planes beneath WorldMove, and the contribution is the admissibility and verification layer that decides whether a move is legal at all. 
+
+On-device execution-state capsules. Concurrent and independent work, Execution-State Capsules / FlashRT [ 46 ], snapshots and restores the complete live execution state of a graph-bound model byte-exactly for on-device serving. Its key-value-only ablation independently echoes our kill-family (§3), so we claim no novelty for byte-exact whole-state capture in itself. These primitives resemble Worldline up to the boundary of movement and fleet scheduling : byte-exact whole-state capture exists on-device (FlashRT), bit-exact cross-hardware re-execution exists offline via software emulation [ 47 ], and cross-GPU numerical reproducibility is an active target for LLM inference [ 32 ], but none of these moves live state between devices under an interactive deadline. That intersection, deadline-bounded motion of an irreducible resident state under the conditions it forces ( BW ≥ cache /𝐿 ,
+
+𝑁 ≤ 𝐻𝐵 /𝐶 ), is this paper’s subject. 
+
+Real-time scheduling. Our guard bands, degradation tiers, and (m,k)-style miss accounting [ 23 ] descend from mixed-criticality [ 9 ] and imprecise-computation theory [ 10 ]. We con-tribute the measured constants and regime boundaries, includ-ing a GPU-quantized instance of slack stealing [ 11 ] (a 94 ms 
+
+non-preemptible quantum turns 24 ms of nominal slack into zero usable bulk) and a critical section no priority-inheritance protocol [ 12 ] can shorten, so the one feasibility knob is the con-tractual quantum-length cap the guard band enforces. D3 [ 71 ]Jin Li and Jiawei (Alexon) Chen 
+
+and PDQ [ 72 ] schedule deadline-flows that are preemptible, divisible, and unverified. These deadline-flow schedulers differ from Worldline: atomic state motion removes all three relax-ations and imports the non-preemptive blocking term (§4.1). 
+
+Diffusion/video serving and game streaming. DiT serv-ing [ 35 ] and GENSERVE [ 28 ] schedule stateless requests, and StreamDiffusionV2 [ 34 ] makes one stream fast where we price many sessions’ co-residency. TurboServe [ 33 ] and Slack-Serve [ 29 ] (both concurrent work) establish that streaming video generation is a serving problem with playout deadlines, and TurboServe makes live migration of stateful text-to-video sessions routine fleet control ( 23 –30 ms RDMA/NIXL chunk-boundary moves). Its when-to-migrate is a greedy gain heuristic, and because its sessions are prompt-driven streams it never characterizes how much of the moved state is rewritten. TurboServe resembles Worldline at the mechanism level, but its protocol confirms only that the required buffers were installed and its migration trigger carries no deadline-gated admissibility. This paper supplies the identity contract, the admissibility condition, and the object characterization a fleet depending on moved state needs. The 2026 world-model acceleration line (WorldKV [ 24 ], X-Cache, WorldCache [ 27 ]) targets an orthogonal problem to Worldline: it operates inside 
+
+one session’s inference and leaves admission, placement, and cross-tenant deadlines open, the layer this paper supplies.X-Cache [ 26 ], built to approximate, still recomputes KV-update chunks to keep error out of the autoregressive cache, the same no-safe-approximation wall our kill-family measures from the outside (§3). 
+
+State movers: liveness vs. contractual identity. Treat-ing running state as movable is a deep tradition. Live VM migration [ 36 ] hands off approximately over a small writable working set, CRIU [ 39 ] checkpoints exactly but cold, Gan-diva [ 48 ] shares a GPU cluster and never moves, and the replay/redo/SMR line recomputes state from cheap causes and presupposes platform determinism. All optimize downtime un-der a liveness criterion their objects can afford. CRIUgpu [ 41 ], the nearest GPU instantiation, restores from disk in 38 .8–
+
+145 .1 s with no bit-exactness contract (vs. 18 .8 ms in-fabric motion under a bit-identity contract). The move itself is be-coming vendor infrastructure: NVIDIA’s cuda-checkpoint 
+
+ships GPU migration for cluster scheduling [ 56 ] and server-less platforms productize GPU snapshot/restore, yet none states an integrity, determinism, or bit-exactness guarantee, and the restore products pin restores to matching hardware, the architecture-class boundary this paper measures and schedules around. These movers differ from Worldline on the identity axis: exact-state elasticity admits a move only when a bit-identical resume is reachable before the deadline. A world model must manufacture its determinism, and, at native rate, only within an architecture (§6), so none of these composes the primitive here (full lineage: TR §E). 
+
+Packing and finite-source loss. Worldline’s pool sizing resembles the classical models (Engset [ 50 ], Erlang [ 49 ], setup costs [ 53 , 57 ]). The contract changes only which primitive the model must include: bit-exact migration. 
+
+## 8 Limitations and Open Problems 
+
+Scale. All multi-GPU results are single-node ( ≤8 GPUs). The fleet crossover 𝑁 max >1 is measured at full size on a 
+
+100 GbE fabric under serialized contention (§6.5); cross-node 
+
+placement is modeled only in simulation. 
+
+Migration mechanism. The atomicity unit is the block boundary. Sub-block yield points, delta encodings for the append-only strip, and GPUDirect staging are engineering headroom. 
+
+Demand realism. The demand ladder is parameterized from recorded production traces (Azure LLM Inference [ 51 ], BurstGPT [ 52 ]) and public interactive-session statistics (§6), so it captures the pre-deployment shape of the problem. What is not public is a replayable world-model production trace (the one production operator [ 33 ] publishes only per-minute aggregates), so a validated production mix does not yet exist. Table 5 (Appendix F) records which present workloads this applies to and why. 
+
+Backend breadth. The quantitative spine is one backend family (Matrix-Game-2) plus a calibration row on a second (open-oasis); abstraction boundaries are measured on 𝑁 ≤2
+
+backends and labeled accordingly. The compress-vs-fidelity cliff, though, tracks the model’s positive-Lyapunov regime and reproduces in two synthetic chaotic systems under the same codecs, which points to a mechanism beyond an MG2-only artifact. 
+
+Secondary placement effects. Residual core/IRQ con-tention ( 12 –35% spread on correctly NUMA-bound devices) remains uncontrolled. Per-engine core sets are future work. 
+
+Quality horizon. Both sustained tiers drift to unusable by ∼10 s of continuous generation on MG2 (self-measured; tier detail, TR §E), a model-layer constraint the fleet inherits, surfaced as the scheduled maintenance class (C5). Scheduling cannot fix it. 
+
+Cross-arm comparability. The causal comparison (Ta-ble 4) has a modest trial count, and its blind baseline is non-degrading by construction. A four-arm decomposition on a second platform (8 ×A100-80G, same operating point, three trials) separates the two factors: blind round-robin in place of the contract scheduler costs 3.4 pp of C1 miss with degradation enabled, while enabling degradation under blind scheduling recovers only 1.2 pp, an ordering that holds in every trial. The contrasts are policy bundles rather than a clean factorial: feasibility arithmetic pins both contract arms at the 2-step floor, the blind arm’s realized degrade dose is scheduler-dependent ( 4.5% of blocks), and blind-arm misses concentrate in the initial bulk-drain transient, so the magnitudes are specific to 10 -minute cells. In this regime Stateful Worlds, Stateless Elasticity 
+
+prioritization carries most of the advantage; the quality knob is secondary. 
+
+## References 
+
+[1] W. Kwon, Z. Li, S. Zhuang, et al. Efficient Memory Management for Large Language Model Serving with PagedAttention. SOSP, 2023. [2] G.-I. Yu, J. S. Jeong, G.-W. Kim, et al. Orca: A Distributed Serving System for Transformer-Based Generative Models. OSDI, 2022. [3] A. Agrawal, N. Kedia, A. Panwar, et al. Taming Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve. OSDI, 2024. [4] L. Zheng, L. Yin, Z. Xie, et al. SGLang: Efficient Execution of Structured Language Model Programs. NeurIPS, 2024. [5] Z. Zhang, Y. Sheng, T. Zhou, et al. H 2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models. NeurIPS, 2023. arXiv:2306.14048. [6] Y. Liu, H. Li, Y. Cheng, et al. CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving. ACM SIGCOMM, 2024. arXiv:2310.07240. [7] C. Hooper, S. Kim, H. Mohammadzadeh, et al. KVQuant: Towards 10 Million Context Length LLM Inference with KV Cache Quantization. NeurIPS, 2024. arXiv:2401.18079. [8] C. L. Liu and J. W. Layland. Scheduling Algorithms for Multipro-gramming in a Hard-Real-Time Environment. Journal of the ACM ,20(1):46–61, 1973. [9] S. Vestal. Preemptive Scheduling of Multi-Criticality Systems with Varying Degrees of Execution Time Assurance. RTSS, 2007, pp. 239–243. [10] J. W. S. Liu, K.-J. Lin, W.-K. Shih, et al. Algorithms for Scheduling Imprecise Computations. IEEE Computer, 24(5):58–68, 1991. [11] J. P. Lehoczky and S. Ramos-Thuel. An Optimal Algorithm for Schedul-ing Soft-Aperiodic Tasks in Fixed-Priority Preemptive Systems. RTSS, 1992, pp. 110–123. [12] L. Sha, R. Rajkumar, and J. P. Lehoczky. Priority Inheritance Protocols: An Approach to Real-Time Synchronization. IEEE Trans. Computers ,39(9):1175–1185, 1990. [13] World Labs. RTFM: A Real-Time Frame Model. 
+
+worldlabs.ai/blog/rtfm , 2025. [14] Decart. Oasis: Interactive AI Video Game Model. 
+
+decart.ai/publications , 2024. [15] World Labs. Marble: A Multimodal World Model. worldlabs.ai/blog ,2025. [16] S. Yang, W. Huang, R. Chu, et al. LongLive: Real-time Interactive Long Video Generation. arXiv:2509.22622, 2025. [17] Odyssey. Introducing Interactive Video. 
+
+odyssey.ml/introducing-interactive-video , 2025. [18] D. Riley. Decart raises $100M on $3.1B valuation to grow real-time AI video platform. SiliconANGLE, August 7, 2025. 
+
+siliconangle.com/2025/08/07/ .[19] Oasis (Minecraft clone). Wikipedia , en.wikipedia.org/wiki/ Oasis_(Minecraft_clone) (accessed 2026-07-07; five-minute session cap at launch). [20] A. Li. Google rolling out ‘Project Genie’ to generate playable worlds. 9to5Google, January 29, 2026. 9to5google.com/2026/01/29/ google-project-genie .[21] High Bandwidth Memory. Wikipedia ,
+
+en.wikipedia.org/wiki/High_Bandwidth_Memory (accessed 2026-07-02; per-stack capacities by generation; JEDEC HBM4 April 2025). [22] Qwen Team, Alibaba. Qwen2.5 Technical Report (Qwen2.5-0.5B-Instruct). arXiv:2412.15115, 2024. [23] M. Hamdaoui and P. Ramanathan. A Dynamic Priority Assignment Technique for Streams with (m,k)-Firm Deadlines. IEEE Transactions on Computers, 44(12):1443–1451, 1995. [24] J. Yi, M. Kim, P. H. Cho, et al. WorldKV: Efficient World Memory with World Retrieval and Compression. arXiv:2605.22718, 2026. [25] C. Hsieh, Z. Zong, X. Chen, et al. FlowPrefill: Decoupling Preemption from Prefill Scheduling Granularity to Mitigate Head-of-Line Blocking in LLM Serving. arXiv:2602.16603, 2026. [26] Y. Zeng, J. Zheng, C. Zheng, et al. X-Cache: Cross-Chunk Block Caching for Few-Step Autoregressive World Models Inference. arXiv:2604.20289, 2026. [27] U. Nawaz, A. Heakl, U. Khan, et al. WorldCache: Content-Aware Caching for Accelerated Video World Models. arXiv:2603.22286, 2026. [28] F. Ye, Z. Li, X. Zhong, et al. GENSERVE: Efficient Co-Serving of Heterogeneous Diffusion Model Workloads. arXiv:2604.04335, 2026. [29] Z. Sheng, et al. SlackServe: Adaptive Resource Management and Quality Control for Streaming Video Generation. arXiv:2606.15319, June 2026. [30] Y. Zhao, et al. ReMP: Low-Downtime Runtime Model-Parallelism Reconfiguration for LLM Serving. arXiv:2606.18741, June 2026. [31] H. Chen, et al. ShuntServe: Cost-Efficient LLM Serving on Heteroge-neous Spot GPU Clusters. arXiv:2606.18600, June 2026. [32] J. Yuan, et al. HEAL: Demystifying Numerical Instability in LLM Inference. arXiv:2606.21023, June 2026. [33] Y. Jiang, H. Wang, H. Bao, et al. TurboServe: Serving Streaming Video Generation Efficiently and Economically. arXiv:2606.19271 , 2026. [34] T. Feng, Z. Li, S. Yang, et al. StreamDiffusionV2: A Streaming Sys-tem for Dynamic and Interactive Video Generation. MLSys , 2026 (arXiv:2511.07399). [35] J. Fang, J. Pan, X. Sun, et al. xDiT: an Inference Engine for Diffusion Transformers (DiTs) with Massive Parallelism. arXiv:2411.01738, 2024. [36] C. Clark, K. Fraser, S. Hand, J. G. Hansen, E. Jul, C. Limpach, I. Pratt, and A. Warfield. Live Migration of Virtual Machines. In NSDI , 2005. [37] P. J. Denning. The Working Set Model for Program Behavior. Commu-nications of the ACM , 11(5):323–333, 1968. [38] T. Kilburn, D. B. G. Edwards, M. J. Lanigan, and F. H. Sumner. One-Level Storage System. IRE Transactions on Electronic Computers , EC-11(2):223– 235, 1962. [39] CRIU: Checkpoint/Restore In Userspace. https://criu.org (accessed 2026). [40] B. Sun, Z. Huang, H. Zhao, W. Xiao, X. Zhang, Y. Li, and W. Lin. Llumnix: Dynamic Scheduling for Large Language Model Serving. In 
+
+OSDI , 2024. [41] R. Stoyanov et al. CRIUgpu: Transparent Checkpointing of GPU-Accelerated Workloads. arXiv:2502.16631 , 2025. [42] R. Qin et al. Mooncake: Trading More Storage for Less Computation — A KVCache-centric Architecture for Serving LLM Chatbot. In USENIX FAST , 2025. [43] NVIDIA. NIXL: NVIDIA Inference Xfer Library. 
+
+github.com/ai-dynamo/nixl , 2025–2026. Point-to-point transfer abstraction for inference frameworks (e.g. Dynamo), with pluggable UCX/GPUDirect/storage backends. [44] Y. Zhong et al. DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving. In OSDI , 2024. [45] P. Patel et al. Splitwise: Efficient Generative LLM Inference Using Phase Splitting. In ISCA , 2024. [46] L. Su. Execution-State Capsules: Graph-Bound Execution-State Check-point and Restore for Low-Latency, Small-Batch, On-Device Physical-AI Serving. arXiv:2606.20537, 2026. [47] N. Cankaya. Bit-Exact AI Inference Verification Without Performance Tradeoffs. arXiv:2606.00279, 2026. ICML 2026 TAIGR workshop. [48] W. Xiao, R. Bhardwaj, R. Ramjee, et al. Gandiva: Introspective Cluster Scheduling for Deep Learning. In OSDI , 2018. [49] A. K. Erlang. Solution of Some Problems in the Theory of Probabilities of Significance in Automatic Telephone Exchanges. Post Office Electrical Engineers’ Journal , 10:189–197, 1917. [50] T. O. Engset. Die Wahrscheinlichkeitsrechnung zur Bestimmung der Wählerzahl in automatischen Fernsprechämtern. Elektrotechnische Jin Li and Jiawei (Alexon) Chen 
+
+Zeitschrift , 39, 1918. (Finite-source loss model; English translation in 
+
+Telektronikk , 1992.) [51] Microsoft Azure. Azure LLM Inference Trace (2023, 2024). Azure Public Dataset , github.com/Azure/AzurePublicDataset .[52] Y. Wang et al. BurstGPT: A Real-world Workload Dataset to Optimize LLM Serving Systems. KDD , 2025; dataset 
+
+github.com/HPMLL/BurstGPT .[53] A. Gandhi, M. Harchol-Balter, and I. Adan. Server Farms with Setup Costs. Performance Evaluation , 67(11):1123–1138, 2010. [54] A. L. Scherr. An Analysis of Time-Shared Computer Systems . MIT Press, 1967. (The finite-source machine-repairman model.) [55] NVIDIA. CUDA C++ Programming Guide , § Peer-to-Peer Memory Access (IOMMU note), 2026. docs.nvidia.com/cuda/ .[56] NVIDIA. cuda-checkpoint : Checkpoint and Restore Utility for CUDA Applications (driver-580 migration API and demos). 
+
+github.com/NVIDIA/cuda-checkpoint , accessed 2026-07-07. [57] T. Phung-Duc. Exact Solutions for M/M/c/Setup Queues. Telecommuni-cation Systems , 64(2):309–324, 2017. [58] S. Szymkowicz. Decart’s new world model can simulate hours of photorealistic driving. TechCrunch, June 10, 2026. 
+
+techcrunch.com/2026/06/10/ .[59] NVIDIA GB300 NVL72 / ConnectX-8: 800 Gb/s per-GPU scale-out networking, 2026. Vendor documentation. [60] J. H. Saltzer, D. P. Reed, and D. D. Clark. End-to-End Arguments in System Design. ACM Transactions on Computer Systems , 2(4):277–288, 1984. [61] D. D. Clark, V. Jacobson, J. Romkey, and H. Salwen. An Analysis of TCP Processing Overhead. IEEE Communications Magazine , 27(6):23–29, 1989. [62] E. Arslan and A. Alhussen. Fast Integrity Verification for High-Speed File Transfers. arXiv:1811.01161, 2018. [63] S. Liu, R. Kettimuthu, et al. Towards Optimizing Large-Scale Data Transfers with End-to-End Integrity Verification. IEICE Trans. Inf. & Syst. , 2019. [64] R. Mittal, A. Shpiner, A. Panda, et al. Revisiting Network Support for RDMA. In ACM SIGCOMM , 2018. [65] C. Guo, H. Wu, Z. Deng, et al. RDMA over Commodity Ethernet at Scale. In ACM SIGCOMM , 2016. [66] Y. Zhu, H. Eran, D. Firestone, et al. Congestion Control for Large-Scale RDMA Deployments. In ACM SIGCOMM , 2015. [67] V. Vasudevan, A. Phanishayee, H. Shah, et al. Safe and Effective Fine-grained TCP Retransmissions for Datacenter Communication. In ACM SIGCOMM , 2009. [68] InfiniBand Trade Association. InfiniBand Architecture Specification, Volume 1 , Release 1.3, 2015. §12.7.34, Local ACK Timeout ( 4.096 𝜇 s × 2𝑛 ). [69] J. C. Mogul and K. K. Ramakrishnan. Eliminating Receive Livelock in an Interrupt-Driven Kernel. ACM Transactions on Computer Systems ,15(3):217–252, 1997. [70] K. Jeffay, D. F. Stanat, and C. U. Martel. On Non-Preemptive Scheduling of Periodic and Sporadic Tasks. In IEEE RTSS , 1991. [71] C. Wilson, H. Ballani, T. Karagiannis, and A. Rowstron. Better Never than Late: Meeting Deadlines in Datacenter Networks. In ACM SIG-COMM , 2011. [72] C.-Y. Hong, M. Caesar, and P. B. Godfrey. Finishing Flows Quickly with Preemptive Scheduling. In ACM SIGCOMM , 2012. [73] H. D. Dixit, S. Pendharkar, M. Beadon, et al. Silent Data Corruptions at Scale. arXiv:2102.11245, 2021. [74] P. H. Hochschild, P. Turner, J. C. Mogul, et al. Cores That Don’t Count. In HotOS , 2021. Stateful Worlds, Stateless Elasticity 
+
+## Appendices A Verification-plane forensics 
+
+This appendix records the evidence behind the fan-in freeze regime of §6.5. The decision-grade constants and Figure 3 (raw per-chunk timestamps from the 2026-07-04 fabric) stay in the body. 
+
+The episode anatomy. Solo, concurrent CRC already slows the wire 12% and leaves a ∼1/8 stall tail, and 2 → 1
+
+fan-in amplifies the coupling into instability on this receive path. In 2/3 of the barrier-synchronized incasts the wire enters discrete second-scale freezes beginning exactly where the first CRC burst overlaps an active receive (per-chunk timestamps, both collapsed incasts; flows stall synchronously and recover in-transfer), and the two controls isolate the CRC work as the differing variable: a no-op executor arm with the identical dispatch shape is 3/3 stable at 267 ms wire, and sequential verification is 3/3 stable ( 405 –409 ms sender e2e). Capping the CRC engine to quarter width does not remove the episodes ( 2/4 repeats trip at 8 threads), ruling out aggregate memory bandwidth. Under fan-in the CRC load backpressures the NIC into receive-path loss. 
+
+The counter inference chain. Receive-queue discards fire on every episode, a rendezvous-read packet is dropped (inferred from the flanking counters), and the RC transport waits out its acknowledgment timer. The flows ran as config-ured on default CloudLab RoCE, on the default lossy priority: the discards land there, and zero ECN-marked RoCE packets were recorded. 
+
+The timeout-setting record. The freeze constant measures 
+
+2147 ms = 2 × ( 4.096 𝜇 s · 218 ) at the 1 s default, and quartering the configured timeout moves it to 536 ms = 2× ( 4.096 𝜇 s·216 ),a 4.006 × shift, with the requester’s local_ack_timeout_err 
+
+counter firing on 18 /18 stalled incasts. A second, continuous stall component ( 1.2–2.1 s, capped at the constant) rides with it. Episode probability is fabric-state-dependent ( 2/3 of incasts in one hour, 12 /12 in another), and the knob shrinks the constant 4.006 × (whole episodes ∼3.7×) but prevents none. Further quartering does not: the NIC (the d6515’s dual-port ConnectX-5) enforces a minimum timeout exponent ( 216 ), so on this fabric an episode always overruns the 400 ms block regardless of tuning. Configured settings from 60 down to 
+
+4 ms all clamp at the same 536 ms. The clamp is what isolates the NIC’s minimum timeout exponent. 
+
+Invisible from the IP layer. The state is invisible from above: across 4.3 hours of concurrent probing, the fabric’s latency plane stayed clean ( 14 ,973 ICMP samples, max RTT 
+
+0.441 ms, zero loss, episode and clean windows statistically indistinguishable) while the bulk plane sat in multi-second freezes. Only the bulk transfer with byte-identity checking exposes the regime. 
+
+The capacity arithmetic (§6.5). The crossing charges the receive host’s checksum capacity against aggregate in-gest: 𝐵 crc =52 .6 GB/s is the 32 -thread engine of Appendix E, 
+
+𝐵 wire =12 .5 GB/s is one 100 Gb wire, and the crossing sits at 
+
+𝐵 crc /𝐵 wire =4.2 wires ( 1.05 at 400 Gb/s). The episodes recorded here fire with aggregate ingest fair-shared to a single wire, 
+
+∼24% of that capacity, which is what places the measured fail-ure on the timer boundary rather than the capacity boundary. 
+
+## B Weaker contract tiers 
+
+Exact-state motion is forced only under the exact (T0) contract on a readout-irreducible backend. The weaker T1/T2 tiers (taxonomy: TR §E) are the regimes where the state the contract needs is smaller than |𝑆 | given what the destination holds, so lossy compression or replay become legal primitives. The tiers are measured where they surface in the body: the cross-architecture readout of §6.1 lands at a bounded T1, and weaker contracts restore a reducible subset (§6). 
+
+## C Fleet response-time test development 
+
+The specialization behind the fleet test of §4, in full. A fleet migrates many sessions over a shared channel. Each move runs to commit or abort within its horizon, because yielded time is unrecoverable under the deadline gate, so concurrent migrations block and interfere as non-preemptive real-time jobs do and the condition lifts to the standard deadline-monotonic response-time test [ 70 ] specialized to atomic state motion: session 𝑖 moves 𝐶 𝑖 = 𝑆 𝑖 + 𝐷 𝑖 𝐻 𝑖 bytes (state bulk plus horizon dirtying) and is schedulable when 𝑅 𝑖 =
+
+𝐶 𝑖 /𝐵 + blocking 𝑖 + interference 𝑖 ≤ 𝐻 𝑖 , with the usual one-longer-transfer blocking and shorter-deadline interference terms. 
+
+## D Serving-cell detail 
+
+The three serving-cell economies summarized in §3, in full. 
+
+(i) Quality is a priced ladder with bifurcated semantics: denoise steps price linearly (a 2-step block costs 3/4 of a 3-step one), and what degradation means splits by contract: self-coherence contracts absorb it (drift slope unchanged within the pre-registered 15% line, 0.0147 vs 0.0139 ), while reference-tracking contracts compound (tail-to-first-window LPIPS 
+
+2.78 ) and must cap consecutive degraded blocks, (𝑚, 𝑘 )-firm style. (ii) Decode is a second workload: full-VAE decode misses every 30 fps deadline in every arm (the budget is infeasible regardless of policy) and a distilled tiny decoder ( 1.1–4.3 vs 
+
+20 .8 ms/frame) is what opens 30 fps at all (tiering: TR §E). 
+
+(iii) State is structured, and the structure is policy-relevant. 
+
+Truncating the spatial KV’s temporal window to half is visually graceful where zeroing it is not, and action caches are negligible, so eviction can act at component granularity. But truncation discards old context; approximating the current 
+
+resident set has no safe direction at the compressor’s error scale: perturbations of the median codec-error norm along Jin Li and Jiawei (Alexon) Chen 0 20 40 60 80 100 
+
+> veri fi ed goodput (Gb/s)
+> Python mover (UCX-RDMA)
+> kernel-TCP pipelined (s=8)
+> RDMA sequential (B3)
+> RDMA pipelined, uniform 256 MB
+> RDMA pipelined, uniform 64 MB
+> RDMA pipelined, tail-schedule
+> wire ceiling (verify o ff )
+> 8.35
+> 74.31
+> 80.22
+> 84.40
+> 92.09
+> 94.80
+> 97.95
+
+Figure 4. Verified-transfer price list, measured on one fabric on one day (two CloudLab d6515s, 100 GbE, 2026-07-05): with off-path pipelined verification on by default, verified throughput reaches 92 .09 Gb/s at uniform 64 MB chunks ( 94% 
+
+of the 97 .95 Gb/s wire ceiling) and 94 .8 Gb/s with the tail schedule. unstable, stable, and readout-orthogonal directions alike collapse fidelity by ≥60 dB (means 73 –92 dB, all 12 profiled blocks, vs a 2 dB tolerance). The working set is quality-compressible yet not lossily reducible under the divergence contract. Co-batching, the LLM staple, is a weak knob here: B=4 buys 1.16 × throughput at 3.5 × the quantum. Finally, feasibility rows are operating points rather than GPUs (one 5090 clock-pinned 2.8 →1.2 GHz traverses 2.2× in quantum), and marginal cells (slack 1.0–1.15 ) do not survive contention. 
+
+## E Software-floor detail 
+
+The forensic decomposition behind the first-generation mover’s 251 ms / 53 Gbps datum of §6.5. 
+
+Registration and CRC-engine decomposition. With the session’s slabs registered once (a first transfer pays an amortizable ∼1.8 s registration charge) the Python transport holds 97% of verbs. Within the 251 ms move, verification costs 110 ms ( 44% ; a 32 -thread CRC engine sustains 52 .6 GB/s, floor ∼30 ms). 
+
+The RoCE tier and the shape below it. On a 25 Gb RoCE tier the same object rides RDMA at 21 .5 Gbps steady including 
+
+the byte-identity check and fail-closed ack, 93% of the fabric’s verbs ceiling ( 23 .15 Gbps), verification costing 7% of wire time. The two measured residuals are a one-time registration charge and a 3.4× no-peer-DMA staging penalty. (A six-point 
+
+netem sweep, 0.5–10 Gbps: every arrival bit-exact, affine with slope ≈1, so the whole object ships, no clean dirty set, §3.3; the 3.2 s intercept is our Python-socket serialization floor rather than the object’s, which is 18 .8 ms same-node, §6.2.) 
+
+## F Applicability boundary 
+
+The applicability audit of §8, in full. 
+
+Table 5. Applicability boundary (our own audit): the es-cape that lets each present workload avoid exact-state fleet elasticity, and the measured or structural force that closes it. The paper targets the emerging persistent-frame-model regime, where the escapes are already closing (full grid in the artifact).              
+
+> workload escape today what closes it deterministic sim replay cheap & exact neural sims inherit the (CARLA class) divergence we measure (§6) RL / rollout farms episodic resets, persistent worlds: replay externalize+replay cost grows 𝑂 (𝑇 )
+> offline data factories batch; re-run the job interactivity (deadlines) consumer interactive state decoheres within the coherence race (unbounded-(Oasis/Genie class) minutes; evict & restart persistence claims now shipping) streaming T2V serving state tolerates unverified exactness-bearing tenants: replay, (production [33]) moves; no contract layer forks, eval; window-rewrite worlds
+
+## G Cross-architecture readout detail 
+
+The measurement behind the bounded-T1 cross-architecture verdict of §6.1: two boundaries, A100 ×H100 and A100 ×L40S, the software stack held identical down to the cuDNN patch, three seeds per pair. Across the 174 post-transient blocks the readout holds a median PSNR of 61 dB (minimum 43 dB, never below a 30 dB serving floor, growth exponent 𝜆 ∈[− 0.001 , +0.023 ]). (Block 0 is a 6–14 dB initialization transient, the sole excluded block, reported not hidden.) Two pairs sharing one A100 reference are a small taxonomy; the claim does not extend to all accelerators. 
+
+## H Churn and consolidation detail 
+
+Live-churn convergence (§6.2), in detail. Two H100s run the shipped iterative pre-copy API against a generating session. Round 0 ships all 399 four-MB chunks, and every subsequent round’s dirty set saturates at 310 chunks ( 0.777 of the cache, which reproduces the independently measured 
+
+𝜌 WWS in real time), so pre-copy cannot converge while the model generates and converges the moment generation pauses at a block boundary ( 1.14 s downtime including the frozen residual, dual CRC, and fail-closed install). A second engine adopts the migrated cache and its next three generated blocks are bitwise identical to the source’s counterfactual continuation, block for block. 
+
+Certification detail (§6.2). On the 2 ×A800 cell the pre-warmed install lands with 0% added deadline misses vs. 0% 
+
+for the non-migrated control at the 600 ms contract. Two Stateful Worlds, Stateless Elasticity 
+
+oracles confirm continuity: the cache content hash is bit-identical across the move, and the migrated stream’s output matches a natively-run session block for block. A negative control (perturbing the cache before resume) diverges on every subsequent block. Silent corruption at fleet scale is documented hardware reality [ 73 , 74 ], and it occurred in these runs: one rented host’s direct-P2P path silently corrupted bytes mid-transfer (IOMMU/ACS misconfiguration, a failure mode NVIDIA documents for this configuration family: the IOMMU “must be disabled. . . to prevent silent device memory corruption” on PCIe P2P [ 55 ]). The CRC check rejected the transfer before any state was served (artifact: 
+
+mig_realstate ). 
+
+The coupon-law derivation (§6.2). On the 100 Gb fab-ric the dirty set follows the occupancy/coupon-collector expectation, distinct = 𝑁 (1 − 𝑒 −𝑤 /𝑁𝐶 ), within 4% over 30 +round observations. Its calibrated recursion pre-registered the boundary. The recursion predicted convergence in 11 /20 
+
+rounds at 3.0/3.5 GB/s and divergence above 𝐷 ∗=3.85 GB/s; the runs measured 12 /18 rounds and a cap-40 divergence at 
+
+4.2, 3/3.
+
+Swap-tier detail (§6.3). The 11 GB/s host tier is a conser-vative modeling band (measured anchors run 12 .5–56 GB/s). Swap adds nothing below 𝑍 ≈26 s, and a simulated NVMe tier beats residency only past 𝑍 ≈340 s at 7 GB/s. Parking density is priced on the movable set, which alone is sufficient for bit-exact resume on a warm engine (§6.2); the 5.32 GB active 
+
+footprint of §3 bounds concurrent generation rather than parking density. 
+
+PCIe-5 atoms and interference arms (§6.3). Restore total 
+
+34 .7 ms (medians; resume wire 29 .60 + rehydrate 2.79 + install 
+
+2.31 ) vs. the modeled 154 ms, with suspend at 29 .78 ms, on a 
+
+32 GB part with an 11 -session residency floor. The 𝐾 ∗ knee location is DES-confirmed within 0.2% , and the CTMC itself is DES cross-checked at 1.5–2.8% at three points. Background arrival-CRC inflates foreground generation +13 .0% when one PCIe link carries both planes (host-only CRC +0.67% ,below the run’s pre-registered 1% noise floor; concurrent suspend/resume +75 .5% , so the diagram’s copy-does-not-contend simplification fails on single-link hosts; separate links remove the shared substrate). Every interference arm ended with byte-identical latent CRCs. 
+
+## I Envelope detail 
+
+Reclaimable population and thresholds (§6.3). The reclaimable population is suspended sessions: parked forks, between-round evaluation, paused bulk. The empirical-duty sizing is an exact Poisson-binomial convolution ( 𝑁 =114 , 1% 
+
+reactivation SLO) over the gaming rung’s per-session duty distribution. The policy curve spans 6.1–19 .3% as the suspend threshold sweeps 30 s down to 2 s, the majority-interactive cell uses idle-prone duty 0.35 , and the reclaimable population 10 1 10 2    
+
+> mean think time Z(s)
+> 10 0
+> 10 1
+> 10 2
+> 10 3
+> K (sessions per GPU)
+> HBM residency bound (A100-80G)
+> NVMe ≤3 GB/s: restore alone > 400 ms
+> HBM-resident
+> host-swap feasible (≤400 ms)
+> infeasible
+> host 10 GB/s
+> host 11 GB/s
+> host 12 GB/s
+> NVMe 7 GB/s (simulated)
+> NVMe 5 GB/s (simulated)
+
+Figure 5. Consolidation phase diagram: sessions per device 
+
+𝐾 ∗ under the 400 ms/ 1% SLO versus think time 𝑍 (machine-repairman CTMC with measured cost constants; sessions park at 1.67 GB cores). 0.0 0.2 0.4 0.6 0.8 1.0                         
+
+> interactive fraction f(continuous-interactive →)
+> 0.1
+> 0.2
+> 0.3
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> idle-prone duty  d
+> 51 40 30 19 91
+> 35 28 19 13 71
+> 22 18 13 831
+> 984421
+> 10%
+> 30%
+> representative mix (24%)
+> 0
+> 10
+> 20
+> 30
+> 40
+> 50
+> % fleet reclaimed @ SLO  ≤ 1%
+
+Figure 6. Fleet reclaimed at a 1% reactivation SLO bound over interactive fraction 𝑓 and idle-prone duty 𝑑 (𝐶 𝑚 =96 .4 ms): up to 51% in the idle-prone corner, ∼0% at continuous-interactive load. is the AFK tail, the near-idle bottom decile the synthetic assumption erases. The warm buffer is an Erlang buffer of ∼2
+
+device equivalents at 120 sessions. Aggressive thresholds ( 5 s) generate a reactivation flow two orders of magnitude larger and are viable only where suspend returns a warm engine slot rather than releasing the device; that path is mechanically cheap: suspending the full cache to pinned host memory and resuming it costs 29 .5 ms each way on a PCIe-5 workstation, bit-exact through the cycle, ∼1.2% overhead against a 5 s gap. 
+
+Two-instance move paths (§6.4). Both moves ship the movable set from a live GPU cache (device →host →multi-stream) under a single global CRC. Raw records are in the artifact. 
+
+Admission-comparison detail (§6.4). The idiom-stale arm under-modeled because at 𝜌 ≈ 1 queueing compounds Jin Li and Jiawei (Alexon) Chen 
+
+service-time error. A 7% overestimate was harmless while a 
+
+30% underestimate collapsed the arm, placing the tolerance cliff somewhere between. The Jacobson-style estimator’s transplant is not free: TCP’s single-sample variance initializa-tion rejects everything under a 400 ms deadline, admission needs its own slow-start, and the estimator trades throughput for margin at overload. In the two-fabric replication, a second pair reproduces the controller row to the integer at every rate and the cold-idiom calibration ratios match within 1% ,so the placement inversion is a property of the deployment idiom rather than of one machine. 
+
+## J Artifact statement 
+
+The artifact ships claims files with falsifiability pointers, the exploration tree including dead ends, per-run provenance, and a numbers manifest mapping every figure to its reducer. It accompanies publication.
