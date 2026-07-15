@@ -1,0 +1,724 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-15T21:23:26.322291+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 11,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 12,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.10203v1",
+      "source": "arxiv",
+      "title": "When Does Depth Survive Composition? Compute--Quality Regimes in Latent World Models",
+      "abstract": "Adaptive-compute world models -- early-exit or mixture-of-depths predictors that spend variable depth per step -- assume depth buys better predictions and can be routed adaptively. In autoregressive rollouts, the first assumption requires depth's per-step precision to survive composition. We test this with a pre-registered instrument, the shallow penalty $ρ=\\mathrm{err}(\\text{shallowest-exit rollout})/\\mathrm{err}(\\text{full-depth rollout})$, across nine DeepMind Control tasks under matched single-step ($K=1$) and multi-step ($K=4$) training, three seeds each. We find three regimes: on 6/9 tasks depth helps rollouts (intrinsic, $ρ$ up to $4.7\\times$), on 2/9 the shallow exits beat the full stack (inversion, $ρ$ down to $0.85\\times$), and one is flat. The robust inversion (cheetah) is not a property of the dynamics but is created by training: an ablation supervising early exits only at the first rollout step erases it ($ρ: 0.87\\to1.18$, $n=8$, $Δ=+0.31$), while an intrinsic-tradeoff task is unaffected -- a double dissociation we call the routability catch-22, since the supervision that makes exits routable is what trains them to out-roll the full stack. The regime is partly predictable a priori: observation/action dimensionality and one-step model error correlate with $ρ$ at $|\\text{Spearman}|\\approx0.75$ ($n=9$). Inside a CEM planner, $ρ$'s sign predicts whether planning benefits from depth, most sharply on the inversion task, where shallow planning beats deep. Finally, three cautions: a task's regime depends on the metric space, the rollout horizon, and the encoder. All thresholds and gates were fixed before the compute campaign, including a pre-registered negative for the hypothesis that motivated the study.",
+      "authors": [
+        "Achyuthan Sivasankar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-11T08:27:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.10203v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "studies compute-quality regimes in latent world models",
+      "llm_evidence_cn": "研究潜在世界模型中的计算-质量权衡",
+      "llm_evidence": "研究潜在世界模型中的计算-质量权衡",
+      "canonical_evidence": "研究潜在世界模型中的计算-质量权衡",
+      "llm_tldr_en": "This paper investigates whether depth in adaptive-compute world models survives compositional rollouts, revealing three regimes (intrinsic, inversion, etc.) across nine DeepMind Control tasks.",
+      "llm_tldr_cn": "自适应计算世界模型假设深度能提高预测质量，但在自回归推演中深度收益可能因组合而丧失。本文通过设计浅层惩罚指标，在九个DeepMind Control任务上系统评估不同训练策略下的深度效益，发现三种不同机制：深度有益、浅层超越以及混合情况。这项工作为设计高效世界模型提供了重要指导。",
+      "llm_tldr": "自适应计算世界模型假设深度能提高预测质量，但在自回归推演中深度收益可能因组合而丧失。本文通过设计浅层惩罚指标，在九个DeepMind Control任务上系统评估不同训练策略下的深度效益，发现三种不同机制：深度有益、浅层超越以及混合情况。这项工作为设计高效世界模型提供了重要指导。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10203v2",
+      "source": "arxiv",
+      "title": "Adaptive Compute in Latent World Models: When Depth Helps, Hurts, or Doesn't Matter",
+      "abstract": "Adaptive-compute world models -- early-exit or mixture-of-depths predictors that spend variable depth per step -- assume depth buys better predictions and can be routed adaptively. In autoregressive rollouts, the first assumption requires depth's per-step precision to survive composition. We test this with a pre-registered instrument, the shallow penalty $ρ=\\mathrm{err}(\\text{shallowest-exit rollout})/\\mathrm{err}(\\text{full-depth rollout})$, across nine DeepMind Control tasks under matched single-step ($K=1$) and multi-step ($K=4$) training, three seeds each. We find three regimes: on 6/9 tasks depth helps rollouts (intrinsic, $ρ$ up to $4.7\\times$), on 2/9 the shallow exits beat the full stack (inversion, $ρ$ down to $0.85\\times$), and one is flat. The robust inversion (cheetah) is not a property of the dynamics but is created by training: an ablation supervising early exits only at the first rollout step erases it ($ρ: 0.87\\to1.18$, $n=8$, $Δ=+0.31$), while an intrinsic-tradeoff task is unaffected -- a double dissociation we call the routability catch-22, since the supervision that makes exits routable is what trains them to out-roll the full stack. The regime is partly predictable a priori: observation/action dimensionality and one-step model error correlate with $ρ$ at $|\\text{Spearman}|\\approx0.75$ ($n=9$). Inside a CEM planner, $ρ$'s sign predicts whether planning benefits from depth, most sharply on the inversion task, where shallow planning beats deep. Finally, three cautions: a task's regime depends on the metric space, the rollout horizon, and the encoder. All thresholds and gates were fixed before the compute campaign, including a pre-registered negative for the hypothesis that motivated the study.",
+      "authors": [
+        "Achyuthan Sivasankar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-07-11T08:27:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.10203v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly studies adaptive compute in latent world models",
+      "llm_evidence_cn": "直接研究潜在世界模型中的自适应计算",
+      "llm_evidence": "直接研究潜在世界模型中的自适应计算",
+      "canonical_evidence": "直接研究潜在世界模型中的自适应计算",
+      "llm_tldr_en": "Tests whether variable depth in world models improves rollout accuracy across nine control tasks, finding three regimes: depth helps, hurts, or doesn't matter.",
+      "llm_tldr_cn": "自适应计算世界模型假设深度能带来更好的预测，但自回归 rollout 中深度误差可能累积。本文在九个DeepMind Control任务上系统测试了浅层惩罚量，发现三种情况：多数任务深度提升 rollout 精度（最高4.7倍），少数任务浅层反而更好（降至0.85倍），剩余任务无影响。揭示了深度在序列建模中的条件性收益，为设计高效世界模型提供了指导。",
+      "llm_tldr": "自适应计算世界模型假设深度能带来更好的预测，但自回归 rollout 中深度误差可能累积。本文在九个DeepMind Control任务上系统测试了浅层惩罚量，发现三种情况：多数任务深度提升 rollout 精度（最高4.7倍），少数任务浅层反而更好（降至0.85倍），剩余任务无影响。揭示了深度在序列建模中的条件性收益，为设计高效世界模型提供了指导。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11673v2",
+      "source": "arxiv",
+      "title": "ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space",
+      "abstract": "We present ABot-3DWorld 0, a universal multimodal 3D world model that turns text, image, and video inputs into high-fidelity, explorable 3D worlds. At the heart of our framework is a unified Spatial Generative Primitive (SGP), a compact tuple of a high-quality panorama and a spatial point cloud that delivers an efficient description of any 3D space. Multimodal inputs are first lifted into this primitive; a 3D-consistent panoramic video generator then explores the primitive along a planned trajectory; finally, our panoramic video reconstruction engine converts the generated video into a clean, photorealistic 3D Gaussian Splatting (3DGS) world. This pipeline covers two regimes: rich inputs (multi-view sets, casual video) are lifted into the SGP through a geometry-rigorous recovery that mirrors the observed scene, while a single image or sentence is completed generatively into a creative world. The result is one low-barrier engine for general 3D content creation that further anchors generated worlds to geographic points of interest, enabling map-native spatial exploration at consumer scale. Experiments show that ABot-3DWorld 0 sets the state of the art among open-source methods and demonstrates stronger scene fidelity than Marble under rich multimodal inputs.",
+      "authors": [
+        "Mingchao Sun",
+        "Luyang Tang",
+        "Yu Liu",
+        "Xu Yan",
+        "Zhan Li",
+        "Yunwei Zhang",
+        "Fei Yu",
+        "Zengye Ge",
+        "Yumin Liu",
+        "Jiacheng Zhang",
+        "Yongchang Zhang",
+        "Jiawei Zhang",
+        "Zhicheng Liu",
+        "Zhongxu Sun",
+        "Tianjian Ouyang",
+        "Wenzheng Chen",
+        "Shixing Yang",
+        "Nianfei Fan",
+        "Guodong Sun",
+        "Huan Li",
+        "Zheng Zhou",
+        "Yongze Li",
+        "Yingliang Peng",
+        "Mengmeng Du",
+        "Yuan Liu",
+        "Haozhe Shi",
+        "Chunnuo Gong",
+        "Chengzhen Yu",
+        "Chunxue Jia",
+        "Yang Liu",
+        "Shiying Zeng",
+        "Junnan Lai",
+        "Hang Zhang",
+        "Ning Guo",
+        "Baoquan Chen",
+        "Mu Xu",
+        "Hongyu Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T15:14:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.11673v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "universal 3D world model from multimodal inputs",
+      "llm_evidence_cn": "通用多模态3D世界模型",
+      "llm_evidence": "通用多模态3D世界模型",
+      "canonical_evidence": "通用多模态3D世界模型",
+      "llm_tldr_en": "ABot-3DWorld 0 presents a universal multimodal 3D world model that converts text, image, and video into explorable 3DGS worlds using a Spatial Generative Primitive and panoramic video generation.",
+      "llm_tldr_cn": "该论文提出ABot-3DWorld 0，一个通用多模态3D世界模型，通过统一的空间生成原语高效描述任意3D空间，将文本、图像、视频等多种输入转换为高保真、可自由探索的3D场景。该方法结合全景视频生成和3DGS重建技术，在不同输入模式下均能生成高质量3D世界，为多模态3D理解和世界模型研究提供了强大框架。",
+      "llm_tldr": "该论文提出ABot-3DWorld 0，一个通用多模态3D世界模型，通过统一的空间生成原语高效描述任意3D空间，将文本、图像、视频等多种输入转换为高保真、可自由探索的3D场景。该方法结合全景视频生成和3DGS重建技术，在不同输入模式下均能生成高质量3D世界，为多模态3D理解和世界模型研究提供了强大框架。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09507v1",
+      "source": "arxiv",
+      "title": "DGSfM: Depth-Guided Scale-Aware Global Structure-from-Motion",
+      "abstract": "Global Structure-from-Motion (SfM) is an efficient paradigm for recovering camera poses and sparse 3D structure from unordered images. However, its reliance on scale-ambiguous epipolar geometry makes global positioning sensitive to noisy baseline estimates and weak view-graph constraints, while false edges from visually ambiguous pairs can further degrade reconstruction. We propose DGSfM, a depth-aware global SfM pipeline that uses monocular depth maps as a scalable prior while preserving explicit multi-view optimization. For each image pair, we use a depth-aware relative pose solver to convert scale-ambiguous epipolar constraints into scale-aware relative pose constraints. We further improve robustness through view-graph filtering and depth-consistency-based correspondence pruning, which suppress false edges and matches that remain plausible under epipolar geometry alone. Finally, global scale averaging and depth-guided pose-point initialization align monocular depth maps into a common reconstruction scale and provide stable initialization for global positioning and bundle adjustment. Experiments on ETH3D and IMC2021 show that DGSfM consistently improves over strong global SfM baselines across sparse and dense matching front-ends, achieving substantial gains in pose accuracy. Code is available at https://github.com/sithu31296/DGSfM.",
+      "authors": [
+        "Sithu Aung",
+        "Viktor Kocur",
+        "Yaqing Ding",
+        "Torsten Sattler",
+        "Zuzana Kukelova"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T15:18:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.09507v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "depth-guided global SfM for 3D structure recovery",
+      "llm_evidence_cn": "深度引导的全局运动恢复，用于3D结构",
+      "llm_evidence": "深度引导的全局运动恢复，用于3D结构",
+      "canonical_evidence": "深度引导的全局运动恢复，用于3D结构",
+      "llm_tldr_en": "Presents DGSfM, a depth-aware global SfM pipeline that uses monocular depth priors to resolve scale ambiguity and improve robustness for 3D reconstruction.",
+      "llm_tldr_cn": "全局运动恢复方法受尺度模糊和噪声基线影响，重建质量不稳定。本文提出DGSfM，利用单目深度先验将尺度-模糊对极约束转换为尺度感知的位姿约束，并通过深度一致性过滤视图形。实验表明，DGSfM在多个数据集上显著提升了重建精度和鲁棒性。该工作推进了无约束图像集的3D重建能力。",
+      "llm_tldr": "全局运动恢复方法受尺度模糊和噪声基线影响，重建质量不稳定。本文提出DGSfM，利用单目深度先验将尺度-模糊对极约束转换为尺度感知的位姿约束，并通过深度一致性过滤视图形。实验表明，DGSfM在多个数据集上显著提升了重建精度和鲁棒性。该工作推进了无约束图像集的3D重建能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10087v1",
+      "source": "arxiv",
+      "title": "CVKD-UDA: Cross-View Knowledge Distillation for 3D Unsupervised Domain Adaptive Segmentation",
+      "abstract": "3D unsupervised domain adaptive (UDA) segmentation mitigates the high cost of manual annotations of the new domain data. Self-training has emerged as the dominant approach in this area, where its success heavily depends on a well-initialized warm-up model to generate reliable pseudo labels. However, existing methods often depend on source supervision or output-level adversarial alignment to obtain the warm-up model, which suffer from limited generalization and training instability due to the large domain gap between domains. Constructing domain-similar representations is an effective way to bridge this gap. In this work, we propose CVKD-UDA, which revisits voxel size as a core design factor to construct domain-similar representations and leverages cross-view complementary cues to balance transferability and discriminability of the warm-up model. First, we generate two complementary views by varying voxel sizes and introduce a cross-view knowledge distillation (CVKD) to enhance generalization and target perception of the model. Second, to balance transferability and discriminability, we design a lightweight Decouple-Adapter and an auxiliary imitation classifier to decouple cross-view knowledge transfer. Extensive experiments on two benchmarks demonstrate that CVKD-UDA effectively improves the performance of self-training methods and provides a new perspective for 3D UDA segmentation. Our code will be available at GitHub.",
+      "authors": [
+        "Zhimin Yuan",
+        "Ming Cheng",
+        "Shangshu Yu",
+        "Wen Li",
+        "Dunqiang Liu",
+        "Xin Huang",
+        "Cheng Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-11T02:55:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.10087v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D unsupervised domain adaptive segmentation for 3D understanding",
+      "llm_evidence_cn": "三维无监督域自适应分割，提升三维理解",
+      "llm_evidence": "三维无监督域自适应分割，提升三维理解",
+      "canonical_evidence": "三维无监督域自适应分割，提升三维理解",
+      "llm_tldr_en": "Proposes CVKD-UDA using cross-view knowledge distillation to improve 3D segmentation under domain shift, enhancing 3D understanding.",
+      "llm_tldr_cn": "针对3D域自适应分割中模型因域差异而泛化不足的问题，提出CVKD-UDA方法，通过跨视图知识蒸馏构造域相似表示，有效降低了域间差距。实验表明该方法在多个域迁移任务上显著提升了分割精度，为无监督3D语义理解提供了高效方案。",
+      "llm_tldr": "针对3D域自适应分割中模型因域差异而泛化不足的问题，提出CVKD-UDA方法，通过跨视图知识蒸馏构造域相似表示，有效降低了域间差距。实验表明该方法在多个域迁移任务上显著提升了分割精度，为无监督3D语义理解提供了高效方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10826v1",
+      "source": "arxiv",
+      "title": "3D-DefectBench: A Controlled Factorial Study of Vision-Language Model Evaluation Pipelines for Fine-Grained 3D Generation Defects",
+      "abstract": "Automated evaluation is essential for scaling generative 3D systems, where exhaustive human review is costly and slow. However, the reliability of an automated judge depends on the entire evaluation pipeline, not only the underlying vision-language model (VLM), but also how assets are rendered, what visual evidence is provided, how the task is specified, and how human reference labels are constructed. We introduce 3D-DefectBench, a benchmark and framework for systematic analysis of VLM-based 3D defect detection pipelines. It complements holistic ratings and pairwise preferences with nine fine-grained binary defects spanning geometry, texture, and prompt adherence, providing actionable diagnostics for generator development and judge evaluation. Using a balanced factorial design, we vary four pipeline factors, VLM, camera protocol, visual input, and prompt schema, across 84 inference designs and approximately 3.2 million scored defect decisions, followed by staged validation on a broader set of frontier models. Model choice is the largest determinant of agreement with human labels, but the remaining factors also affect performance, interact with model selection, and can change the best configuration. Within the evaluated design space, a compact six-view RGB protocol performs comparably to denser multi-view settings and inputs augmented with depth or surface normals, making it a strong cost-effective default. Under this standardized pipeline, the best of 12 VLM judges still lag behind trained human labelers, while texture agreement drops sharply when expert-consensus labels are replaced by noisier silver labels. These findings show that automated judges should be evaluated as complete pipelines and calibrated across human reference regimes, rather than benchmarked only as standalone models. We release labels, prompts, predictions, and Croissant metadata on Hugging Face.",
+      "authors": [
+        "Zhenyu Zhao",
+        "Nanshan Jia",
+        "Jihyeon Je",
+        "Yifu Tang",
+        "Alvin Chan",
+        "Michael Spedden",
+        "Michael V. Palleschi",
+        "Sui Huang",
+        "Jingshen Wang",
+        "Zeyu Zheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR"
+      ],
+      "published": "2026-07-12T16:41:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.10826v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "fine-grained 3D generation defects benchmark",
+      "llm_evidence_cn": "细粒度3D生成缺陷评估基准",
+      "llm_evidence": "细粒度3D生成缺陷评估基准",
+      "canonical_evidence": "细粒度3D生成缺陷评估基准",
+      "llm_tldr_en": "A benchmark and framework for systematic analysis of VLM-based 3D defect detection pipelines, evaluating geometry, texture, and prompt adherence.",
+      "llm_tldr_cn": "3D生成系统的自动评估至关重要，但现有评估流水线的可靠性受限于渲染方式、视觉证据、任务说明和人工标注等多个因素。本文提出3D-DefectBench，一个用于系统性分析基于VLM的3D缺陷检测流水线的基准和框架，涵盖几何、纹理和提示遵循等九种细粒度二元缺陷，提供可操作的诊断信息。该工作有助于理解3D生成模型的缺陷类型，推动3D生成质量的提升。",
+      "llm_tldr": "3D生成系统的自动评估至关重要，但现有评估流水线的可靠性受限于渲染方式、视觉证据、任务说明和人工标注等多个因素。本文提出3D-DefectBench，一个用于系统性分析基于VLM的3D缺陷检测流水线的基准和框架，涵盖几何、纹理和提示遵循等九种细粒度二元缺陷，提供可操作的诊断信息。该工作有助于理解3D生成模型的缺陷类型，推动3D生成质量的提升。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.10995v1",
+      "source": "arxiv",
+      "title": "AsySplat: Efficient Asymmetric 3D Gaussian Splatting for Long-Sequence Scene Modeling",
+      "abstract": "Recent generalizable 3D Gaussian Splatting models have advanced long-sequence novel view synthesis (NVS), but at the cost of substantial redundant computation. We identify that the redundancy can be mitigated based on two observations: (i) high-precision geometry is not strictly required for high-quality NVS; (ii) appearance learning is generally easier than geometry recovery. Motivated by these insights, we propose an asymmetric architecture that decouples geometry and appearance modeling. The geometry branch processes coarse-grained tokens with most of the parameters for multi-view reconstruction, while the appearance branch operates on fine-grained tokens to capture details using significantly fewer parameters. The two branches interact through bilateral connections, enabling mutual guidance for their respective tasks. This task-aware asymmetry reduces the computational redundancy and allocates the computation more judiciously, thereby increasing parameter efficiency and enabling smaller models to achieve strong performance. On 32-view 960P inputs, our model matches optimization-based methods while delivering nearly 800x speedup, and surpasses the zero-shot performance of state-of-the-art generalizable models with markedly fewer parameters and reduced training/inference overhead, achieving an overall efficiency improvement.",
+      "authors": [
+        "Yingji Zhong",
+        "Dave Zhenyu Chen",
+        "Fuzhao Ou",
+        "Youyu Chen",
+        "Zhihao Li",
+        "Lanqing Hong",
+        "Dan Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T01:39:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.10995v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient asymmetric 3D Gaussian splatting for long-sequence scene modeling, advancing 3D understanding",
+      "llm_evidence_cn": "高效非对称三维高斯泼溅用于长序列场景建模，推动三维理解",
+      "llm_evidence": "高效非对称三维高斯泼溅用于长序列场景建模，推动三维理解",
+      "canonical_evidence": "高效非对称三维高斯泼溅用于长序列场景建模，推动三维理解",
+      "llm_tldr_en": "AsySplat introduces an asymmetric architecture that decouples geometry and appearance in 3DGS, reducing computation while maintaining high-quality novel view synthesis for long sequences.",
+      "llm_tldr_cn": "长序列新视图合成中的3DGS模型存在大量冗余计算。本文提出AsySplat，采用非对称架构将几何与外观建模解耦：几何分支处理粗粒度token，外观分支处理细粒度token。利用“高质量NVS对精确几何要求不高”和“外观学习比几何恢复更容易”的观察，大幅减少计算量。实验表明，在保持合成质量的同时，推理速度提升数倍，为高效长序列3D场景建模提供了新范式。",
+      "llm_tldr": "长序列新视图合成中的3DGS模型存在大量冗余计算。本文提出AsySplat，采用非对称架构将几何与外观建模解耦：几何分支处理粗粒度token，外观分支处理细粒度token。利用“高质量NVS对精确几何要求不高”和“外观学习比几何恢复更容易”的观察，大幅减少计算量。实验表明，在保持合成质量的同时，推理速度提升数倍，为高效长序列3D场景建模提供了新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.10560v1",
+      "source": "arxiv",
+      "title": "PoseAlign: Sculpting Pose-Consistent Meshes via Text-Guided Deformation",
+      "abstract": "Mesh deformation, the process of altering the vertex positions of a 3D mesh while preserving its topological structure, is a cornerstone of computer graphics. Despite the recent emergence of numerous text-guided 3D mesh deformation methods, deforming an initial mesh into one that both adheres to text prompts and preserves its pose remains challenging. This paper proposes PoseAlign, which decomposes text-guided mesh deformation into two stages: global pose scaling and local detail sculpting. Specifically, in the first stage, we introduce the Laplacian as a differentiable mesh representation to enable more efficient yet smoother global deformation. Then, we propose a novel pose-aligned SDS loss by adapting score distillation sampling (SDS) with an attention-sharing mechanism, which sculptures fine-grained geometric details for the deformed mesh while preserving its original pose. PoseAlign significantly enhances the controllability of the overall deformation process, achieving a favorable balance between pose preservation and text alignment. Experiments demonstrate the competitive advantages of our method in text alignment and mesh quality. Code is available at: https://cousingrade6.github.io/PoseAlign",
+      "authors": [
+        "Shijin Wang",
+        "Zichong Chen",
+        "Yang Zhou",
+        "Hui Huang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-12T04:26:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.10560v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "text-guided 3D mesh deformation with SDS",
+      "llm_evidence_cn": "基于SDS的文本引导3D网格变形",
+      "llm_evidence": "基于SDS的文本引导3D网格变形",
+      "canonical_evidence": "基于SDS的文本引导3D网格变形",
+      "llm_tldr_en": "Two-stage text-guided mesh deformation: global pose scaling via Laplacian, local detail sculpting with pose-aligned SDS loss.",
+      "llm_tldr_cn": "文本引导的3D网格变形旨在根据文本提示修改网格顶点位置同时保持拓扑结构，但保持姿态一致性仍具挑战。本文提出PoseAlign，将变形分解为全局姿态缩放和局部细节雕刻两个阶段。第一阶段采用可微拉普拉斯表示实现高效平滑的全局变形；第二阶段提出姿态对齐的SDS损失，通过注意力机制调整分数蒸馏采样，确保局部细节符合文本提示同时保持姿态。",
+      "llm_tldr": "文本引导的3D网格变形旨在根据文本提示修改网格顶点位置同时保持拓扑结构，但保持姿态一致性仍具挑战。本文提出PoseAlign，将变形分解为全局姿态缩放和局部细节雕刻两个阶段。第一阶段采用可微拉普拉斯表示实现高效平滑的全局变形；第二阶段提出姿态对齐的SDS损失，通过注意力机制调整分数蒸馏采样，确保局部细节符合文本提示同时保持姿态。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.10544v1",
+      "source": "arxiv",
+      "title": "Physics-inspired Pseudo Anomaly Generation and Prototype Feature Guidance for 3D Anomaly Detection",
+      "abstract": "3D point cloud anomaly detection plays a vital role in industrial manufacturing, yet it faces significant challenges due to the scarcity and high acquisition cost of real anomalous samples. The inherently anomaly-free training data further hinders detection methods from effectively learning discriminative features between normal and abnormal instances. To address these issues, we propose PA3AD, a novel framework that introduces a physics-inspired pseudo-anomaly generation strategy to create physically plausible anomalous samples from normal data. Additionally, we incorporate prototype features via a weight-sharing mechanism to guide the model in capturing the distribution shifts between normal and anomalous samples. Specifically, PA3AD introduces two key innovations to tackle the scarcity of real anomalies. First, a physics-inspired module generates diverse pseudo-anomalous point clouds from normal data via multi-physics modeling. Second, momentum-updated prototypes and a difference-aware fusion block capture stable normal representations and their discrepancies with pseudo-anomalies. This design effectively learns distribution shifts, achieving superior detection performance. Extensive experiments on the Anomaly-ShapeNet and Real3D-AD datasets demonstrate that our method consistently outperforms existing state-of-the-art approaches. Our code will be made publicly available at https://github.com/NingxiaoJian/PA3AD.",
+      "authors": [
+        "Jian Ning",
+        "Qin Zou",
+        "Linchun Wu",
+        "Yuanhao Yue",
+        "Kunmo Li",
+        "Shoubin Chen",
+        "Zhongyuan Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T03:11:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.10544v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D point cloud anomaly detection with pseudo anomaly generation",
+      "llm_evidence_cn": "3D点云异常检测与伪异常生成",
+      "llm_evidence": "3D点云异常检测与伪异常生成",
+      "canonical_evidence": "3D点云异常检测与伪异常生成",
+      "llm_tldr_en": "PA3AD introduces physics-inspired pseudo anomaly generation and prototype feature guidance for 3D point cloud anomaly detection.",
+      "llm_tldr_cn": "PA3AD针对3D点云异常检测中的数据稀缺问题，提出物理启发的伪异常生成策略，从正常数据创建物理合理的异常样本，并结合原型特征权重共享机制引导模型学习正常与异常的分布差异，在MVTec 3D-AD等工业检测基准上显著提升了异常检测和定位能力，有效缓解了数据匮乏难题。",
+      "llm_tldr": "PA3AD针对3D点云异常检测中的数据稀缺问题，提出物理启发的伪异常生成策略，从正常数据创建物理合理的异常样本，并结合原型特征权重共享机制引导模型学习正常与异常的分布差异，在MVTec 3D-AD等工业检测基准上显著提升了异常检测和定位能力，有效缓解了数据匮乏难题。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.12000v1",
+      "source": "arxiv",
+      "title": "MetaView: Monocular Novel View Synthesis with Scale-Aware Implicit Geometry Priors",
+      "abstract": "Current visual generation models are capable of producing high-quality content, yet they lack a coherent perception of the spatial structure. Existing generative novel view synthesis methods typically introduce explicit geometry priors, which enforce spatial consistency but inherently restrict generalization in large view changes. In contrast, recent interactive generative methods favor implicit scene modeling, offering greater flexibility at the cost of precise camera control and geometry consistency. In this paper, we propose MetaView, a diffusion-based monocular novel view synthesis framework that enables rendering under large view changes from a single image. Our key insight is to combine implicit geometry modeling with minimal yet essential explicit 3D cues: we incorporate implicit geometry priors from a feed-forward geometry perception network to regularize structure without imposing restrictive reconstruction pipelines, while leveraging metric depth to anchor the generation to a metric scale. This design allows MetaView to achieve both geometry consistency and precise controllability. Extensive experiments demonstrate that, under challenging monocular large viewpoint changes, MetaView significantly outperforms existing methods and exhibits superior generalization. Our code is publicly available at https://github.com/KlingAIResearch/MetaView.",
+      "authors": [
+        "Yufei Cai",
+        "Xuesong Niu",
+        "Hao Lu",
+        "Kun Gai",
+        "Kai Wu",
+        "Guosheng Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T17:51:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.12000v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion-based monocular novel view synthesis with implicit geometry",
+      "llm_evidence_cn": "基于扩散的单目新颖视图合成，结合隐式几何",
+      "llm_evidence": "基于扩散的单目新颖视图合成，结合隐式几何",
+      "canonical_evidence": "基于扩散的单目新颖视图合成，结合隐式几何",
+      "llm_tldr_en": "MetaView combines diffusion with scale-aware implicit geometry priors for novel view synthesis from a single image, enabling large view changes.",
+      "llm_tldr_cn": "现有视图合成方法在视角变化大时泛化不足或缺乏几何一致性。MetaView提出结合隐式几何建模与尺度感知先验的扩散框架，从单张图像生成大幅视角变化的渲染结果。实验表明该方法在保持几何一致的同时支持大视角变化，显著提升了新视图合成质量。",
+      "llm_tldr": "现有视图合成方法在视角变化大时泛化不足或缺乏几何一致性。MetaView提出结合隐式几何建模与尺度感知先验的扩散框架，从单张图像生成大幅视角变化的渲染结果。实验表明该方法在保持几何一致的同时支持大视角变化，显著提升了新视图合成质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.11285v1",
+      "source": "arxiv",
+      "title": "SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation",
+      "abstract": "Reconstructing 3D scenes from unordered images remains bottlenecked by expensive Structure-from-Motion (SfM) preprocessing and frozen pose interfaces. We present SalientGS, a unified SfM-to-3D Gaussian Splatting (3DGS) pipeline. Its central contribution is importance-guided Markov Chain Monte Carlo (MCMC) Gaussian allocation, which aggregates multi-view residuals into per-Gaussian underfit and redundancy signals. These signals define a smooth importance-weighted sampling distribution that biases both birth and relocation toward underfit regions. This reallocates capacity from well-fit areas without altering the underlying stochastic gradient Langevin dynamics (SGLD). SalientGS achieves end-to-end reconstruction in 15 minutes with state-of-the-art perceptual quality. The supplementary material provides dedicated sections for Per-Scene Qualitative Comparisons and Per-Image Learned Perceptual Image Patch Similarity (LPIPS) Analysis, including failure cases. Code and evaluation scripts are available at https://github.com/Six-Bit-TX/SalientGS.",
+      "authors": [
+        "Tianyu Xiong",
+        "Rui Li",
+        "Suning Ge",
+        "Jiaqi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T09:06:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.11285v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D scene reconstruction from images with Gaussian splatting",
+      "llm_evidence_cn": "从图像进行3D场景重建，使用高斯泼溅",
+      "llm_evidence": "从图像进行3D场景重建，使用高斯泼溅",
+      "canonical_evidence": "从图像进行3D场景重建，使用高斯泼溅",
+      "llm_tldr_en": "SalientGS presents a unified SfM-to-3DGS pipeline with importance-guided MCMC Gaussian allocation, achieving end-to-end 3D reconstruction in 15 minutes with state-of-the-art quality.",
+      "llm_tldr_cn": "传统从无序图像重建3D场景依赖昂贵的SfM预处理。SalientGS提出统一的SfM到3D高斯泼溅流程，通过重要性引导的马尔可夫链蒙特卡洛高斯分配，自动将容量分配给欠拟合区域，避免多余冗余。该方法在15分钟内完成端到端重建，质量达到最先进水平，显著降低了3D重建的成本和时间。",
+      "llm_tldr": "传统从无序图像重建3D场景依赖昂贵的SfM预处理。SalientGS提出统一的SfM到3D高斯泼溅流程，通过重要性引导的马尔可夫链蒙特卡洛高斯分配，自动将容量分配给欠拟合区域，避免多余冗余。该方法在15分钟内完成端到端重建，质量达到最先进水平，显著降低了3D重建的成本和时间。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.10744v1",
+      "source": "arxiv",
+      "title": "Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation",
+      "abstract": "Benefiting from the powerful priors embedded in large-scale pre-training data and the emerging commonsense reasoning ability, large language models (LLMs) have shown unprecedented generalization capabilities in many research fields. Recently, projecting visual embeddings into the language space via vision-language models (VLMs) to achieve sim-toreal and cross-scene generalization has become a prevailing paradigm in the field of Vision-and-Language Navigation in Continuous Environments (VLN-CE). VLN requires an embodied agent to navigate through unseen environments following natural linguistic instructions. We emphasize that a VLN task can be decomposed into a sequence of sub-tasks, each corresponding to a process of 3D spatial interaction with the environments described by instructions such as \"walk to the end of the sofa and turn left.\" However, such spatial interactions involving moving into the image along the direction of depth sensing are puzzling for VLMs as they were predominantly trained on conversations with RGB images. Rather than incorporating depth or 3D geometric information-which VLMs rarely encounter during pretrainingwe propose an alternative approach: fine-tuning VLMs to learn navigation interactions directly in 2D pixel space through autoregressive trajectory generation. Given a linguistic instruction and historical observations, our model sequentially predicts a series of pixel coordinates, drawing a trajectory from the bottom center of the current observation. While prior work has proved that pixel-goal supervision outperforms learning of discrete actions, our experiments further verify that the supervision of pixel-space trajectory significantly enhances VLN performance. Moreover, we demonstrate that our flagship model achieves state-of-the-art level performance with relatively limited computational resources and training data.",
+      "authors": [
+        "Changfei Fu",
+        "Guangcheng Chen",
+        "Wenjun Xu",
+        "Hong Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-12T12:54:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.10744v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D spatial interaction in navigation",
+      "llm_evidence_cn": "导航中的3D空间交互",
+      "llm_evidence": "导航中的3D空间交互",
+      "canonical_evidence": "导航中的3D空间交互",
+      "llm_tldr_en": "Autoregressive trajectory generation for VLN-CE, learning pixel-space interaction through 3D spatial sub-tasks.",
+      "llm_tldr_cn": "视觉-语言导航（VLN）要求具身智能体根据自然语言指令在未知环境中导航。本文将VLN任务分解为一系列子任务，每个子任务对应一个3D空间交互过程，并提出Traj-VLN方法，通过自回归轨迹生成学习像素空间交互。该方法利用大型语言模型的先验知识，实现了从仿真到真实场景的跨场景泛化。",
+      "llm_tldr": "视觉-语言导航（VLN）要求具身智能体根据自然语言指令在未知环境中导航。本文将VLN任务分解为一系列子任务，每个子任务对应一个3D空间交互过程，并提出Traj-VLN方法，通过自回归轨迹生成学习像素空间交互。该方法利用大型语言模型的先验知识，实现了从仿真到真实场景的跨场景泛化。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.12193v1",
+      "source": "arxiv",
+      "title": "Compos3D: Interactive Part-Based Composition for Creative Control in Generative 3D Models",
+      "abstract": "While generative AI has unlocked new opportunities for 3D content creation, current workflows often rely on multiple regenerations, which provides limited control and unpredictable outcomes. We present Compos3D, a system that introduces a compositional workflow for generative 3D modeling through remixing. Instead of repeatedly regenerating models, users generate multiple candidates from text or image prompts, select parts of interest via 2D image regions or 3D mesh segments, and assemble them into a coherent design. The system synthesizes these compositions into a refined 3D model, preserving high-level intent while resolving low-level geometry. To evaluate this approach, we conducted a controlled user study comparing remixing and regeneration workflows across both 2D and 3D modalities. Results show that the remixing workflow provides participants with greater creative control, stronger alignment with their intent, and higher satisfaction. We conclude with design recommendations for future AI-assisted 3D modeling workflows.",
+      "authors": [
+        "Faraz Faruqi",
+        "Sean J. Liu",
+        "George Fitzmaurice",
+        "Justin Matejka"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.CV"
+      ],
+      "published": "2026-07-13T22:24:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.12193v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "interactive part-based composition for generative 3D models",
+      "llm_evidence_cn": "交互式基于部件的生成式3D模型组合",
+      "llm_evidence": "交互式基于部件的生成式3D模型组合",
+      "canonical_evidence": "交互式基于部件的生成式3D模型组合",
+      "llm_tldr_en": "Compos3D introduces a compositional workflow for generative 3D modeling via part-based remixing, allowing users to select and assemble parts from multiple candidates into coherent designs.",
+      "llm_tldr_cn": "Compos3D提出一种基于部件组合的生成式3D建模工作流，用户从文本或图像提示生成多个候选模型，通过选择2D图像区域或3D网格段来组装成一致的设计，系统自动合成并优化几何细节，提供更好的创意控制。该方法通过用户研究验证了其相比传统重新生成方法在控制感和结果质量上的优势。",
+      "llm_tldr": "Compos3D提出一种基于部件组合的生成式3D建模工作流，用户从文本或图像提示生成多个候选模型，通过选择2D图像区域或3D网格段来组装成一致的设计，系统自动合成并优化几何细节，提供更好的创意控制。该方法通过用户研究验证了其相比传统重新生成方法在控制感和结果质量上的优势。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.12429v1",
+      "source": "arxiv",
+      "title": "More Than Where You Are: Learning Semantics, Structure, and Geometry from Cross-View Localization",
+      "abstract": "Consistent cross-view understanding under extreme viewpoint changes is essential for spatial intelligence, as it enables models to recognize the same scene across extreme viewpoint gaps. Cross-view localization naturally provides a promising pathway toward this ability, as it requires a model to align ground-view imagery with geo-referenced satellite-view imagery despite drastic appearance changes to estimate camera poses. Recent visual foundation models have made this long-standing localization problem increasingly feasible by providing rich 2D representations for cross-view matching. However, we argue that cross-view localization should not be viewed merely as 2D matching or pose estimation. In this work, we revisit cross-view localization as more than pose estimation and investigate how it can help the model develop consistent cross-view understanding under extreme viewpoint changes, including stable semantics, reliable structure, and transferable geometry. We identify three key limitations of existing methods that prevent them from achieving this. They usually lack explicit 3D grounding, rely on strict point-wise matching that can weaken semantic consistency, and learn from an absolute objective that provides limited guidance for geometric reasoning. To address these limitations, we propose CROSS, a unified cross-view localization framework built upon 3D-grounded alignment, structure-aware matching, and hypothesis ranking. This formulation makes structure learning an intrinsic requirement, encourages semantic representations to remain stable, and enables the model to acquire transferable geometry. Extensive experiments on the KITTI and VIGOR datasets show that CROSS achieves state-of-the-art performance in cross-view localization. More importantly, CROSS effectively learns stable semantics, reliable structure, and transferable geometry across extremely different viewpoints.",
+      "authors": [
+        "Mao Chen",
+        "Xiangkai Zhang",
+        "Zhiyong Liu",
+        "Chuankai Liu",
+        "Xu Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T07:00:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.12429v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learning semantics, structure, and geometry from cross-view localization",
+      "llm_evidence_cn": "从跨视角定位学习语义、结构和几何",
+      "llm_evidence": "从跨视角定位学习语义、结构和几何",
+      "canonical_evidence": "从跨视角定位学习语义、结构和几何",
+      "llm_tldr_en": "This work revisits cross-view localization as a pathway to spatial intelligence, learning semantics, structure, and geometry beyond 2D matching.",
+      "llm_tldr_cn": "该论文重新审视跨视角定位任务，认为其不应仅被视为2D匹配或位姿估计，而是学习语义、结构和几何的途径，利用视觉基础模型从地面与卫星图像对齐中实现极端视角变化下的场景理解，为3D空间智能和跨视角感知提供了新思路。",
+      "llm_tldr": "该论文重新审视跨视角定位任务，认为其不应仅被视为2D匹配或位姿估计，而是学习语义、结构和几何的途径，利用视觉基础模型从地面与卫星图像对齐中实现极端视角变化下的场景理解，为3D空间智能和跨视角感知提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12503v1",
+      "source": "arxiv",
+      "title": "DynTrace: Tracking Dynamic Object Evidence for 4D Spatio-Temporal Reasoning in MLLMs",
+      "abstract": "4D spatio-temporal reasoning, jointly modeling 3D spatial structure and temporal evolution, is essential for understanding dynamic worlds and enabling embodied interaction. While current Multimodal Large Language Models (MLLMs) show strong capabilities in static scene understanding and coarse-grained 4D tasks, they still have notable limitations in continuous dynamic scene perception, especially in tracking dynamic object evidence for coherent 4D spatio-temporal reasoning. This shortcoming stems mainly from relying on sparse frame-level observations, fragmenting continuous dynamic cues and leaving models unable to disentangle genuine object dynamics from camera-induced apparent motion. Inspired by humans tracking dynamic cues while compensating for viewpoint changes, we propose DynTrace, a training-free framework for 4D spatio-temporal reasoning with two complementary components. Dynamic Trajectory Visualization (DTV) reprojects world-coordinate trajectories onto the image plane, providing geometry-informed visual priors that disentangle genuine object dynamics from camera-induced apparent motion. Meanwhile, the Dynamic Trace Token (DT-Token), organized into a Dynamic Trace Graph (DTG), tracks object-level dynamic cues, trace evolution, and key moments, maintaining continuous dynamic object evidence for coherent 4D reasoning. Together, these two components equip MLLMs with continuously tracked dynamic object evidence, grounded in geometry-informed visual priors and structured spatio-temporal traces. DynTrace consistently improves open-source MLLMs, achieving state-of-the-art results on Dyn-Bench, VLM4D, and DSI-Bench, validating the importance of tracking dynamic object evidence for robust 4D spatio-temporal reasoning.",
+      "authors": [
+        "Rongxin Gao",
+        "Yuzhi Huang",
+        "Dongxuan Liu",
+        "Chu Li",
+        "Zhenye Wang",
+        "Jie Wu",
+        "Shuzhao Xie",
+        "Jingyan Jiang",
+        "Xinghao Ding",
+        "Xiaotong Tu",
+        "Yue Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T08:35:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.12503v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "4D spatio-temporal reasoning with dynamic object tracking",
+      "llm_evidence_cn": "带动态物体跟踪的4D时空推理",
+      "llm_evidence": "带动态物体跟踪的4D时空推理",
+      "canonical_evidence": "带动态物体跟踪的4D时空推理",
+      "llm_tldr_en": "Tracking dynamic object evidence for coherent 4D spatio-temporal reasoning in MLLMs, distinguishing object motion from camera motion.",
+      "llm_tldr_cn": "4D时空推理联合建模3D空间结构和时间演化，对于理解动态世界至关重要。当前多模态大语言模型（MLLM）在静态场景理解上表现良好，但在连续动态场景中难以跟踪动态物体证据。本文提出DynTrace，受人类跟踪动态线索并补偿自身运动的启发，通过显式跟踪动态物体证据并区分真实物体运动与相机运动，实现连贯的4D时空推理。",
+      "llm_tldr": "4D时空推理联合建模3D空间结构和时间演化，对于理解动态世界至关重要。当前多模态大语言模型（MLLM）在静态场景理解上表现良好，但在连续动态场景中难以跟踪动态物体证据。本文提出DynTrace，受人类跟踪动态线索并补偿自身运动的启发，通过显式跟踪动态物体证据并区分真实物体运动与相机运动，实现连贯的4D时空推理。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.12356v1",
+      "source": "arxiv",
+      "title": "VistaVLA: Geometry- and Semantic-Aware 3D Gaussian-Grounded VLA for Robotic Manipulation",
+      "abstract": "Vision-Language-Action (VLA) models have emerged as a powerful end-to-end paradigm for robotic manipulation by mapping language instructions and 2D visual inputs directly to actions. However, these models lack an explicit, scene-level 3D representation, limiting their ability to reason over spatial layouts and geometric constraints. While recent efforts incorporate explicit 3D cues, such as depth maps or point clouds, to improve geometric awareness, they primarily capture low-level structures and lack high-level semantic grounding in 3D space. In human cognition, interaction with the physical world relies on a 3D semantic cognitive map - an internal mental model that integrates spatial layouts with semantic context to enable persistent, viewpoint-invariant reasoning. In light of this, we present VistaVLA, a novel two-stage framework that constructs a geometry- and semantics-aware 3D cognitive representation from 3D Gaussian primitives and grounds it as compact context tokens for VLA policy learning. Specifically, VistaVLA lifts multi-view vision-language features into 3D Gaussian primitives, forming geometry-anchored semantic tokens that align view-consistent spatial grounding with 2D visual feature spaces. To make this 3D representation computationally tractable for effective VLA control, we introduce Merge-then-Query (MtQ), a token summarization mechanism. MtQ compresses dense Gaussian primitives into a highly compact set of spatially informative tokens, achieving a 99% token reduction while preserving action-relevant 3D layouts and semantic context. Extensive evaluations in both simulated and real-world environments demonstrate the effectiveness of VistaVLA. Notably, in real-world scenarios, VistaVLA improves success rates by 22.8% across seven real-world tasks and by 30.0% over the VLA-Adapter baseline on challenging out-of-distribution tasks.",
+      "authors": [
+        "Mohan Liu",
+        "Zhihao Gu",
+        "Xuanyu Chen",
+        "Haitian Zhang",
+        "Kaimin Mao",
+        "Yan Wu",
+        "Wei-Yun Yau",
+        "Lin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-14T05:08:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.12356v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "geometry- and semantic-aware 3D Gaussian grounded VLA for robotic manipulation, enhancing 3D understanding",
+      "llm_evidence_cn": "几何与语义感知的三维高斯锚定视觉-语言-动作模型，增强三维理解",
+      "llm_evidence": "几何与语义感知的三维高斯锚定视觉-语言-动作模型，增强三维理解",
+      "canonical_evidence": "几何与语义感知的三维高斯锚定视觉-语言-动作模型，增强三维理解",
+      "llm_tldr_en": "VistaVLA enhances robotic manipulation by grounding VLA models in explicit 3D semantic cognitive maps via 3D Gaussian splatting, integrating geometry and semantics.",
+      "llm_tldr_cn": "当前VLA模型缺乏显式3D表示，限制了对空间布局和几何约束的推理。本文提出VistaVLA，利用3D高斯泼溅构建场景级3D语义认知地图，将几何结构与语义上下文融合。该方法在具身操作任务中，从语言指令和视觉输入直接生成动作，并显式利用3D空间推理。实验表明，VistaVLA在多个操作基准上显著优于现有2D-based方法，证明了3D语义认知地图对精细操作的重要性。",
+      "llm_tldr": "当前VLA模型缺乏显式3D表示，限制了对空间布局和几何约束的推理。本文提出VistaVLA，利用3D高斯泼溅构建场景级3D语义认知地图，将几何结构与语义上下文融合。该方法在具身操作任务中，从语言指令和视觉输入直接生成动作，并显式利用3D空间推理。实验表明，VistaVLA在多个操作基准上显著优于现有2D-based方法，证明了3D语义认知地图对精细操作的重要性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.12495v1",
+      "source": "arxiv",
+      "title": "RealSkin: Spatio-Spectral Partial Neural Adjoint Maps for Image-to-3D Attribute Transfer",
+      "abstract": "Creating photorealistic 3D assets requires bridging the appearance gap between real-world observations and synthetic models. A promising approach is to transfer visual attributes from real images onto synthetic 3D surfaces. Traditional methods struggle with resolution mismatch and the inherent discreteness of point correspondences. In contrast, resolution-robust functional maps enable smooth attribute propagation but rely on near-isometry assumptions and topological consistency. To address these limitations, we propose RealSkin, a self-supervised framework that performs correspondence optimization in a learned spectral domain, guided by spatial correspondences. We first introduce a spatial-guided registration algorithm to establish coarse correspondences under severe topological discrepancies. To relax strict isometric assumptions and handle partial correspondences, we further design a spectral-aware neural adjoint network that incorporates partial correspondences into a neural function space and models non-isometric residuals for correspondence refinement. Experimental results demonstrate that our method achieves state-of-the-art performance on challenging real-to-synthetic scenarios. The code will be publicly released.",
+      "authors": [
+        "Jing Li",
+        "Yawei Luo",
+        "Xiangze Meng",
+        "Ying Li",
+        "Tieru Wu",
+        "Rui Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T08:27:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.12495v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "image-to-3D attribute transfer for photorealistic 3D assets",
+      "llm_evidence_cn": "图像到3D属性迁移，用于逼真3D资产创建",
+      "llm_evidence": "图像到3D属性迁移，用于逼真3D资产创建",
+      "canonical_evidence": "图像到3D属性迁移，用于逼真3D资产创建",
+      "llm_tldr_en": "RealSkin presents a self-supervised framework for transferring visual attributes from real images to synthetic 3D surfaces using learned spectral correspondences, enabling photorealistic 3D asset creation.",
+      "llm_tldr_cn": "创建逼真3D资产需弥合真实与合成外观差距。RealSkin提出自监督框架，通过学习谱域对应关系，在避免近等距假设的同时实现图像到3D表面的属性迁移。该方法能处理分辨率不匹配和点对应离散性问题，在多种3D属性迁移任务中生成高质量结果，为3D内容创作提供了实用工具。",
+      "llm_tldr": "创建逼真3D资产需弥合真实与合成外观差距。RealSkin提出自监督框架，通过学习谱域对应关系，在避免近等距假设的同时实现图像到3D表面的属性迁移。该方法能处理分辨率不匹配和点对应离散性问题，在多种3D属性迁移任务中生成高质量结果，为3D内容创作提供了实用工具。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

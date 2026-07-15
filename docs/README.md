@@ -6,82 +6,71 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-14
-- 运行时间：2026-07-14 21:20:21 UTC
+- 最新运行日期：2026-07-15
+- 运行时间：2026-07-15 21:35:14 UTC
 - 运行状态：成功
-- 本次总论文数：20
-- 精读区：9
+- 本次总论文数：17
+- 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日精选20篇论文，精读9篇，其中两篇高分聚焦跨房间3D场景理解与端到端自动驾驶。  
-最值得关注的是拓扑感知大模型CAIRN实现跨房间3D语义推理，以及双层级世界认知模型WCog-VLA驱动端到端驾驶。  
-下一步可深入研究多智能体博弈用于运动规划，或增量式3D高斯重建技术提升场景实时性。
-- 详情：[/202607/14/README](/202607/14/README)
+今日共推荐17篇论文，精读6篇，速读11篇，覆盖世界模型与3D生成两大热门方向。最高分9.0的两篇精读论文揭示Latent World Models中深度与计算的权衡关系，并给出“深度何时有效”的明确边界。建议普通读者优先精读这两篇世界模型论文，理解其计算-质量区间划分以指导实际模型设计。
+- 详情：[/202607/15/README](/202607/15/README)
 
 ### 精读区论文标签
-1. [CAIRN: Cross-Room 3D Scene Understanding with Topology-Aware Large Multimodal Models](/202607/14/2607.06534v2-cairn-cross-room-3d-scene-understanding-with-topology-aware-large-multimodal-models)  
+1. [When Does Depth Survive Composition? Compute--Quality Regimes in Latent World Models](/202607/15/2607.10203v1-when-does-depth-survive-composition-compute--quality-regimes-in-latent-world-models)  
    标签：评分：9.0/10、query:d
-   evidence：基于拓扑感知大语言模型的多房间3D场景理解
-2. [WCog-VLA: A Dual-Level World-Cognitive Vision-Language-Action Model for End-to-End Autonomous Driving](/202607/14/2607.08375v1-wcog-vla-a-dual-level-world-cognitive-vision-language-action-model-for-end-to-end-autonomous-driving)  
+   evidence：研究潜在世界模型中的计算-质量权衡
+2. [Adaptive Compute in Latent World Models: When Depth Helps, Hurts, or Doesn't Matter](/202607/15/2607.10203v2-adaptive-compute-in-latent-world-models-when-depth-helps-hurts-or-doesnt-matter)  
    标签：评分：9.0/10、query:d
-   evidence：具有3D感知和世界演化的世界认知视觉语言动作模型
-3. [SyncSpace: Layout-Conditioned 3D Gaussian Splatting for Space Reskinning in Mixed Reality](/202607/14/2607.10050v1-syncspace-layout-conditioned-3d-gaussian-splatting-for-space-reskinning-in-mixed-reality)  
+   evidence：直接研究潜在世界模型中的自适应计算
+3. [ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space](/202607/15/2607.11673v2-abot-3dworld-0-a-universal-world-model-to-explore-any-3d-space)  
    标签：评分：9.0/10、query:d
-   evidence：用于混合现实场景重生成的生成世界模型
-4. [Stateful Worlds, Stateless Elasticity: Exact-State Serving for Interactive World Models](/202607/14/2607.10389v1-stateful-worlds-stateless-elasticity-exact-state-serving-for-interactive-world-models)  
-   标签：评分：9.0/10、query:d
-   evidence：直接解决交互式世界模型的服务问题
-5. [LATO.2: Factorized 3D Mesh Generation with Vertex and Topology Flow](/202607/14/2607.10623v1-lato2-factorized-3d-mesh-generation-with-vertex-and-topology-flow)  
-   标签：评分：9.0/10、query:d
-   evidence：分解的3D网格生成，包含顶点和拓扑流
-6. [Is Energy Guidance All You Need? Training-Free Norm Injection for Driving World Models](/202607/14/2607.10781v1-is-energy-guidance-all-you-need-training-free-norm-injection-for-driving-world-models)  
-   标签：评分：9.0/10、query:d
-   evidence：驾驶世界模型与能量引导
-7. [MAC-Splat: Multi-Attribute Consistency for High-Fidelity Sparse-View Reconstruction](/202607/14/2607.10792v1-mac-splat-multi-attribute-consistency-for-high-fidelity-sparse-view-reconstruction)  
-   标签：评分：9.0/10、query:d
-   evidence：基于多属性一致性的稀疏视图3D重建
-8. [ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space](/202607/14/2607.11673v1-abot-3dworld-0-a-universal-world-model-to-explore-any-3d-space)  
-   标签：评分：9.0/10、query:d
-   evidence：用于3D空间探索的通用世界模型
-9. [From World Action Models to Embodied Brains: A Roadmap for Open-World Physical Intelligence](/202607/14/2607.11689v1-from-world-action-models-to-embodied-brains-a-roadmap-for-open-world-physical-intelligence)  
-   标签：评分：9.0/10、query:d
-   evidence：关于世界行动模型与世界模型的路线图综述
+   evidence：通用多模态3D世界模型
+4. [DGSfM: Depth-Guided Scale-Aware Global Structure-from-Motion](/202607/15/2607.09507v1-dgsfm-depth-guided-scale-aware-global-structure-from-motion)  
+   标签：评分：8.0/10、query:d
+   evidence：深度引导的全局运动恢复，用于3D结构
+5. [CVKD-UDA: Cross-View Knowledge Distillation for 3D Unsupervised Domain Adaptive Segmentation](/202607/15/2607.10087v1-cvkd-uda-cross-view-knowledge-distillation-for-3d-unsupervised-domain-adaptive-segmentation)  
+   标签：评分：8.0/10、query:d
+   evidence：三维无监督域自适应分割，提升三维理解
+6. [3D-DefectBench: A Controlled Factorial Study of Vision-Language Model Evaluation Pipelines for Fine-Grained 3D Generation Defects](/202607/15/2607.10826v1-3d-defectbench-a-controlled-factorial-study-of-vision-language-model-evaluation-pipelines-for-fine-grained-3d-generation-defects)  
+   标签：评分：8.0/10、query:d
+   evidence：细粒度3D生成缺陷评估基准
 
 ### 速读区论文标签
-1. [World Models as Adversaries: Multi-Agent Self-Play Fine-Tuning for Robust Motion Planning](/202607/14/2607.10630v1-world-models-as-adversaries-multi-agent-self-play-fine-tuning-for-robust-motion-planning)  
+1. [AsySplat: Efficient Asymmetric 3D Gaussian Splatting for Long-Sequence Scene Modeling](/202607/15/2607.10995v1-asysplat-efficient-asymmetric-3d-gaussian-splatting-for-long-sequence-scene-modeling)  
    标签：评分：8.0/10、query:d
-   evidence：对抗性世界建模用于鲁棒运动规划
-2. [Incremental Online Scene Reconstruction by 3D Gaussian Triangulation](/202607/14/2607.10690v1-incremental-online-scene-reconstruction-by-3d-gaussian-triangulation)  
+   evidence：高效非对称三维高斯泼溅用于长序列场景建模，推动三维理解
+2. [MetaView: Monocular Novel View Synthesis with Scale-Aware Implicit Geometry Priors](/202607/15/2607.12000v1-metaview-monocular-novel-view-synthesis-with-scale-aware-implicit-geometry-priors)  
    标签：评分：8.0/10、query:d
-   evidence：基于3D高斯的在线场景重建
-3. [3D Scene Graph Prediction: Generating Hierarchical Models from Partially Observed Environments](/202607/14/2607.10879v1-3d-scene-graph-prediction-generating-hierarchical-models-from-partially-observed-environments)  
+   evidence：基于扩散的单目新颖视图合成，结合隐式几何
+3. [Compos3D: Interactive Part-Based Composition for Creative Control in Generative 3D Models](/202607/15/2607.12193v1-compos3d-interactive-part-based-composition-for-creative-control-in-generative-3d-models)  
    标签：评分：8.0/10、query:d
-   evidence：从部分观测生成层次化3D场景图
-4. [Video Generation Models Are Inherent Lighting Estimators](/202607/14/2607.04674v1-video-generation-models-are-inherent-lighting-estimators)  
+   evidence：交互式基于部件的生成式3D模型组合
+4. [VistaVLA: Geometry- and Semantic-Aware 3D Gaussian-Grounded VLA for Robotic Manipulation](/202607/15/2607.12356v1-vistavla-geometry--and-semantic-aware-3d-gaussian-grounded-vla-for-robotic-manipulation)  
+   标签：评分：8.0/10、query:d
+   evidence：几何与语义感知的三维高斯锚定视觉-语言-动作模型，增强三维理解
+5. [PoseAlign: Sculpting Pose-Consistent Meshes via Text-Guided Deformation](/202607/15/2607.10560v1-posealign-sculpting-pose-consistent-meshes-via-text-guided-deformation)  
    标签：评分：7.0/10、query:d
-   evidence：视频生成模型用于光照估计，有助于3D理解
-5. [4DR360: State Reasoning for Joint 3D Detection and Occupancy Prediction in 4D Radar-Camera Full-Scene Perception](/202607/14/2607.09629v2-4dr360-state-reasoning-for-joint-3d-detection-and-occupancy-prediction-in-4d-radar-camera-full-scene-perception)  
+   evidence：基于SDS的文本引导3D网格变形
+6. [SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation](/202607/15/2607.11285v1-salientgs-unified-sfm-to-3dgs-with-importance-guided-mcmc-gaussian-allocation)  
    标签：评分：7.0/10、query:d
-   evidence：面向场景理解的3D检测与占据预测
-6. [CoSAG: Compact Semantic Anchor Gaussians via Training-Free Rate-Distortion Coding](/202607/14/2607.10237v1-cosag-compact-semantic-anchor-gaussians-via-training-free-rate-distortion-coding)  
+   evidence：从图像进行3D场景重建，使用高斯泼溅
+7. [More Than Where You Are: Learning Semantics, Structure, and Geometry from Cross-View Localization](/202607/15/2607.12429v1-more-than-where-you-are-learning-semantics-structure-and-geometry-from-cross-view-localization)  
    标签：评分：7.0/10、query:d
-   evidence：用于开放词汇3D场景理解的紧凑语义锚点高斯
-7. [GNOCHI: Generative Neural mOdel for Close Human-Human Interactions](/202607/14/2607.10408v1-gnochi-generative-neural-model-for-close-human-human-interactions)  
+   evidence：从跨视角定位学习语义、结构和几何
+8. [RealSkin: Spatio-Spectral Partial Neural Adjoint Maps for Image-to-3D Attribute Transfer](/202607/15/2607.12495v1-realskin-spatio-spectral-partial-neural-adjoint-maps-for-image-to-3d-attribute-transfer)  
    标签：评分：7.0/10、query:d
-   evidence：用于紧密3D人际交互的生成模型
-8. [Annotation-Free Furniture Codes: What They Encode, and How Far They Transfer](/202607/14/2607.10461v1-annotation-free-furniture-codes-what-they-encode-and-how-far-they-transfer)  
-   标签：评分：7.0/10、query:d
-   evidence：用于布局合成的自监督3D家具编码
-9. [Enhancing In-context Panoramic Generation via Geometric-aware Pretraining](/202607/14/2607.08765v1-enhancing-in-context-panoramic-generation-via-geometric-aware-pretraining)  
+   evidence：图像到3D属性迁移，用于逼真3D资产创建
+9. [Physics-inspired Pseudo Anomaly Generation and Prototype Feature Guidance for 3D Anomaly Detection](/202607/15/2607.10544v1-physics-inspired-pseudo-anomaly-generation-and-prototype-feature-guidance-for-3d-anomaly-detection)  
    标签：评分：6.0/10、query:d
-   evidence：几何感知预训练用于全景图生成
-10. [Enhancing In-context Panoramic Generation via Geometric-aware Pretraining](/202607/14/2607.08765v2-enhancing-in-context-panoramic-generation-via-geometric-aware-pretraining)  
+   evidence：3D点云异常检测与伪异常生成
+10. [Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation](/202607/15/2607.10744v1-traj-vln-learning-pixel-space-interaction-via-autoregressive-trajectory-generation)  
    标签：评分：6.0/10、query:d
-   evidence：几何感知预训练用于生成
-11. [FlashBEV: Fast and Memory-Efficient Exact BEV Transformation with IO-Awareness](/202607/14/2607.10071v1-flashbev-fast-and-memory-efficient-exact-bev-transformation-with-io-awareness)  
+   evidence：导航中的3D空间交互
+11. [DynTrace: Tracking Dynamic Object Evidence for 4D Spatio-Temporal Reasoning in MLLMs](/202607/15/2607.12503v1-dyntrace-tracking-dynamic-object-evidence-for-4d-spatio-temporal-reasoning-in-mllms)  
    标签：评分：6.0/10、query:d
-   evidence：用于自动驾驶3D理解的高效BEV变换
+   evidence：带动态物体跟踪的4D时空推理
 
 
 <div class="dpr-home-promo-card">
