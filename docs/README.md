@@ -6,73 +6,73 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-16
-- 运行时间：2026-07-16 21:29:06 UTC
+- 最新运行日期：2026-07-17
+- 运行时间：2026-07-17 21:30:39 UTC
 - 运行状态：成功
 - 本次总论文数：17
 - 精读区：6
 - 速读区：11
 
 ### 今日简报（AI）
-今日聚焦3D空间理解与生成，精读两篇高分论文（GeoAnchor、ThinkBLOX）分别从协同推理与渐进式推理突破。  
-最值得看的是GeoAnchor的潜在分解空间推理和ThinkBLOX的室内场景渐进生成，均获9.0分。  
-建议后续拓展关注树状结构建模（TreeSRNF）和稀疏高斯占用预测（GPOcc++）等速读方向。
-- 详情：[/202607/16/README](/202607/16/README)
+今天共推荐17篇论文，精选DriftWorld（9.0分）与VistaVLA（8.0分）两篇高分工作。
+最值得关注的方向：快速世界建模（DriftWorld）和基于3D高斯融合的机器人操作框架（VistaVLA）。
+建议普通读者优先精读DriftWorld的漂移建模思路，以及VistaVLA如何将几何与语义信息注入视觉-语言-动作模型。
+- 详情：[/202607/17/README](/202607/17/README)
 
 ### 精读区论文标签
-1. [GeoAnchor: Collaborative Reasoning via Latent Decomposition for 3D Spatial Understanding](/202607/16/2607.13454v1-geoanchor-collaborative-reasoning-via-latent-decomposition-for-3d-spatial-understanding)  
+1. [DriftWorld: Fast World Modeling through Drifting](/202607/17/2607.15065v1-driftworld-fast-world-modeling-through-drifting)  
    标签：评分：9.0/10、query:d
-   evidence：通过潜在分解实现3D空间理解
-2. [ThinkBLOX: 3D Indoor Scene Generation with Progressive Reasoning](/202607/16/2607.13539v1-thinkblox-3d-indoor-scene-generation-with-progressive-reasoning)  
-   标签：评分：9.0/10、query:d
-   evidence：渐进推理的3D室内场景生成
-3. [TCAM-Diff: Triplane-Aware Cross-Attention Medical Diffusion Model](/202607/16/2607.13812v1-tcam-diff-triplane-aware-cross-attention-medical-diffusion-model)  
-   标签：评分：9.0/10、query:d
-   evidence：用于医学图像生成的3D扩散模型
-4. [M$^\text{4}$World: A Multi-view Multimodal Driving World Model for Interactive Object Manipulation and Minute-long Streaming](/202607/16/2607.14005v1-mtext4world-a-multi-view-multimodal-driving-world-model-for-interactive-object-manipulation-and-minute-long-streaming)  
-   标签：评分：9.0/10、query:d
-   evidence：一个多视角多模态的生成式驾驶世界模型
-5. [SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation](/202607/16/2607.11285v2-salientgs-unified-sfm-to-3dgs-with-importance-guided-mcmc-gaussian-allocation)  
+   evidence：基于漂移生成模型的快速世界模型，用于机器人规划
+2. [VistaVLA: Geometry- and Semantic-Aware 3D Gaussian-Grounded VLA for Robotic Manipulation](/202607/17/2607.12356v2-vistavla-geometry--and-semantic-aware-3d-gaussian-grounded-vla-for-robotic-manipulation)  
    标签：评分：8.0/10、query:d
-   evidence：统一的SfM到3DGS管线
-6. [Hallo4D: Multi-Modal Hallucination Mitigation for Consistent Spatio-Temporal Generation](/202607/16/2607.12752v1-hallo4d-multi-modal-hallucination-mitigation-for-consistent-spatio-temporal-generation)  
+   evidence：具有3D语义认知地图的VLA作为世界模型
+3. [SeeSE3: Emergence of 3D Space in Vision Features](/202607/17/2607.14228v1-seese3-emergence-of-3d-space-in-vision-features)  
    标签：评分：8.0/10、query:d
-   evidence：一致3D/4D生成的幻觉缓解
+   evidence：探查视觉特征中的3D空间感知
+4. [Immediate 3D Gaussian Splat Reconstruction of Unordered Input with Global Consistency](/202607/17/2607.14481v1-immediate-3d-gaussian-splat-reconstruction-of-unordered-input-with-global-consistency)  
+   标签：评分：8.0/10、query:d
+   evidence：3D高斯溅射重建
+5. [SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation](/202607/17/2607.14586v1-softnav-injecting-3d-scene-tokens-into-vlms-for-embodied-navigation)  
+   标签：评分：8.0/10、query:d
+   evidence：用于具身导航的3D场景标记
+6. [Concept-Guided Spatial Regularization for World Models in Atari Pong](/202607/17/2607.15142v1-concept-guided-spatial-regularization-for-world-models-in-atari-pong)  
+   标签：评分：8.0/10、query:d
+   evidence：Atari Pong中世界模型的评估与正则化
 
 ### 速读区论文标签
-1. [TreeSRNF: Square-Root Normal Fields for Generative Modelling of the Geometric and Structural Variability in Tree-like 3D Objects](/202607/16/2607.13456v1-treesrnf-square-root-normal-fields-for-generative-modelling-of-the-geometric-and-structural-variability-in-tree-like-3d-objects)  
-   标签：评分：8.0/10、query:d
-   evidence：3D树木几何与结构的生成建模
-2. [GPOcc++: Unified Sparse Gaussian Occupancy Prediction with Visual Geometry Priors](/202607/16/2607.13481v1-gpocc-unified-sparse-gaussian-occupancy-prediction-with-visual-geometry-priors)  
-   标签：评分：8.0/10、query:d
-   evidence：利用视觉几何先验的3D占用预测
-3. [CASA-SDF: Curriculum-Aware Spatial Adaptation with Curvature-Guided Density for Neural Implicit Surface Reconstruction](/202607/16/2607.13492v1-casa-sdf-curriculum-aware-spatial-adaptation-with-curvature-guided-density-for-neural-implicit-surface-reconstruction)  
-   标签：评分：8.0/10、query:d
-   evidence：用于3D的神经隐式表面重建
-4. [Nexus: Native Mesh Generation with Diffusion](/202607/16/2607.13563v1-nexus-native-mesh-generation-with-diffusion)  
-   标签：评分：8.0/10、query:d
-   evidence：用于原生3D网格生成的扩散模型
-5. [DiffGI: Differentiable Geometry Images for High-Fidelity Thin-Shell 3D Generation](/202607/16/2607.13365v1-diffgi-differentiable-geometry-images-for-high-fidelity-thin-shell-3d-generation)  
+1. [Traj-VLN: Learning Pixel-Space Interaction via Autoregressive Trajectory Generation](/202607/17/2607.10744v2-traj-vln-learning-pixel-space-interaction-via-autoregressive-trajectory-generation)  
    标签：评分：7.0/10、query:d
-   evidence：使用可微几何图像进行高质量薄壳3D生成
-6. [HIVE-3D: Hierarchical Voxel Enhancement for High-Quality 3D Scene Generation](/202607/16/2607.13468v1-hive-3d-hierarchical-voxel-enhancement-for-high-quality-3d-scene-generation)  
+   evidence：连续3D环境中的视觉语言导航与轨迹生成
+2. [TOLiD: Bridging the Architecture Gap in Vision Foundation Model to LiDAR Pretraining via Token Lifting for Distillation](/202607/17/2607.10762v1-tolid-bridging-the-architecture-gap-in-vision-foundation-model-to-lidar-pretraining-via-token-lifting-for-distillation)  
    标签：评分：7.0/10、query:d
-   evidence：层次化体素增强用于高质量3D场景生成
-7. [T3HG-Editor: Text-driven 3D Human Garment Editing with Body Priors Embedded in SMPL-X](/202607/16/2607.13654v1-t3hg-editor-text-driven-3d-human-garment-editing-with-body-priors-embedded-in-smpl-x)  
+   evidence：利用视觉基础模型进行LiDAR预训练以实现3D场景理解
+3. [COLMAR: Cooperative View Policy Learning for Multi-Agent Active 3D Reconstruction](/202607/17/2607.13524v1-colmar-cooperative-view-policy-learning-for-multi-agent-active-3d-reconstruction)  
    标签：评分：7.0/10、query:d
-   evidence：基于身体先验的文本驱动3D服装编辑
-8. [Towards Spatial Supersensing in the Wild](/202607/16/2607.13681v1-towards-spatial-supersensing-in-the-wild)  
+   evidence：多智能体主动3D重建用于理解
+4. [G$^2$SR: Geometric Methods for Fast and Memory-Efficient Gaussian-based Surface Reconstruction](/202607/17/2607.14470v1-g2sr-geometric-methods-for-fast-and-memory-efficient-gaussian-based-surface-reconstruction)  
    标签：评分：7.0/10、query:d
-   evidence：空间超感知与世界建模基准
-9. [SeamGen: Artist-Aligned UV Seam Generation via Graph Flow Matching](/202607/16/2607.12379v1-seamgen-artist-aligned-uv-seam-generation-via-graph-flow-matching)  
+   evidence：基于高斯泼溅的少视图表面重建
+5. [TanGO: Training-Free 3D Editing via Tangent-Space Guidance and Optimization](/202607/17/2607.14927v1-tango-training-free-3d-editing-via-tangent-space-guidance-and-optimization)  
+   标签：评分：7.0/10、query:d
+   evidence：对流匹配生成模型的无训练3D编辑
+6. [Beyond Single Expert: Harmonizing Diverse Visual Priors in MLLMs for Spatial Understanding](/202607/17/2607.15054v1-beyond-single-expert-harmonizing-diverse-visual-priors-in-mllms-for-spatial-understanding)  
+   标签：评分：7.0/10、query:d
+   evidence：多模态大模型中的空间理解
+7. [MAGiSt3R: Multi-Agent Feed-forward 3D Reconstruction from Monocular RGB Videos](/202607/17/2607.15211v1-magist3r-multi-agent-feed-forward-3d-reconstruction-from-monocular-rgb-videos)  
+   标签：评分：7.0/10、query:d
+   evidence：从单目视频进行3D重建
+8. [Dynamic Inverse Rendering for Enhanced Material-Lighting Decomposition](/202607/17/2607.09329v1-dynamic-inverse-rendering-for-enhanced-material-lighting-decomposition)  
    标签：评分：6.0/10、query:d
-   evidence：3D内容创建中的UV接缝生成
-10. [Hallo4D: Multi-Modal Hallucination Mitigation for Consistent Spatio-Temporal Generation](/202607/16/2607.12752v2-hallo4d-multi-modal-hallucination-mitigation-for-consistent-spatio-temporal-generation)  
+   evidence：逆渲染分解材料光照用于3D理解
+9. [Action Map Policy: Learning 3D Closed-loop Manipulation via Pixel Classification](/202607/17/2607.10706v1-action-map-policy-learning-3d-closed-loop-manipulation-via-pixel-classification)  
    标签：评分：6.0/10、query:d
-   evidence：缓解3D/4D生成中的幻觉以确保时空一致性
-11. [WAVE-Stereo: Warp-Aligned Volume Encoding for Stereo Matching](/202607/16/2607.13674v1-wave-stereo-warp-aligned-volume-encoding-for-stereo-matching)  
+   evidence：3D闭环操作策略学习
+10. [Compression of 3D Gaussian Splatting Data Using GPU-friendly Graphics Texture Coding](/202607/17/2607.14513v1-compression-of-3d-gaussian-splatting-data-using-gpu-friendly-graphics-texture-coding)  
    标签：评分：6.0/10、query:d
-   evidence：立体匹配用于3D深度理解
+   evidence：面向3D场景表示的3DGS压缩方法
+11. [JADE-GS: Joint Alternating Deblurring Guided by Events in 3D Gaussian Splatting](/202607/17/2607.14990v1-jade-gs-joint-alternating-deblurring-guided-by-events-in-3d-gaussian-splatting)  
+   标签：评分：6.0/10、query:d
+   evidence：结合事件相机的3D高斯泼溅去模糊
 
 
 <div class="dpr-home-promo-card">
