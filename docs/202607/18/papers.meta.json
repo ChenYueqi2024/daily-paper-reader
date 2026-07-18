@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-18",
+  "date": "2026-07-18",
+  "generated_at": "2026-07-18T20:33:48",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/18/2607.15265v1-scenebind-binding-what-and-where-across-vision-audio-and-language",
+      "section": "deep",
+      "title_en": "SceneBind: Binding What and Where Across Vision, Audio and Language",
+      "authors": "Mingfei Chen, Zijun Cui, Ruoke Zhang, Hyeonggon Ryu, Eli Shlizerman",
+      "date": "2026-07-16",
+      "pdf": "https://arxiv.org/pdf/2607.15265v1",
+      "score": "9.0",
+      "evidence": "包含3D空间理解的跨模态表示",
+      "tldr": "现有全模态编码器缺乏对场景空间结构的显式建模。SceneBind将每个场景表示为语义-空间实体，融合全局语义嵌入与对象级语义-空间槽位，并设计语义-空间匹配机制实现跨模态检索与对象定位。通过构建真实世界双耳音视频数据集和对齐训练协议，仅添加少量额外令牌即可赋予模型空间感知能力。该方法在场景和空间检索上达到最优，并零样本迁移至音视频定位等下游任务。",
+      "tags": "query:d",
+      "abstract_en": "We present SceneBind, an omni-modal representation of realistic scenes with joint semantic and 3D spatial understanding across vision, audio and language. Existing omni-modal encoders excel at instance-level semantics (i.e., what is present), but often lack explicit spatial structure (i.e., where it is). SceneBind addresses this gap by representing each scene as a semantic-spatial entity, combining a global semantic embedding with object-centric semantic-spatial slots. This representation explicitly captures object-level semantics, spatial attributes, and uncertainty. We further propose SceneBind Matching, a semantic-spatial matching scheme that integrates global scene similarity with object alignment, supporting cross-modal scene retrieval and object grounding. To train and evaluate SceneBind, we curate a novel real-world binaural audio-visual dataset with structured semantic and spatial annotations, and propose a training protocol for aligning semantic and spatial signals across modalities. SceneBind is compatible with large-scale pretrained semantic encoders, adds lightweight spatial modeling with only a few additional tokens. It achieves state-of-the-art scene and spatial retrieval while enabling strong zero-shot transfer to downstream tasks such as audio-visual localization.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/18/2607.10560v2-posealign-sculpting-pose-consistent-meshes-via-text-guided-deformation",
+      "section": "quick",
+      "title_en": "PoseAlign: Sculpting Pose-Consistent Meshes via Text-Guided Deformation",
+      "authors": "Shijin Wang, Zichong Chen, Yang Zhou, Hui Huang",
+      "date": "2026-07-12",
+      "pdf": "https://arxiv.org/pdf/2607.10560v2",
+      "score": "7.0",
+      "evidence": "使用源自扩散模型的SDS进行文本引导3D网格变形",
+      "tldr": "现有文本引导网格变形方法难以同时满足文本描述和姿态保持。PoseAlign将变形分解为全局姿态缩放和局部细节雕刻两阶段，利用拉普拉斯可微表示实现平滑全局变形，并引入注意力共享机制的姿态对齐SDS损失以保持原始姿态并雕刻精细细节。该方法显著增强可控性，在姿态保持与文本对齐间取得良好平衡，实验证明在文本对齐和网格质量上具有优势。",
+      "tags": "query:d",
+      "abstract_en": "Mesh deformation, the process of altering the vertex positions of a 3D mesh while preserving its topological structure, is a cornerstone of computer graphics. Despite the recent emergence of numerous text-guided 3D mesh deformation methods, deforming an initial mesh into one that both adheres to text prompts and preserves its pose remains challenging. This paper proposes PoseAlign, which decomposes text-guided mesh deformation into two stages: global pose scaling and local detail sculpting. Specifically, in the first stage, we introduce the Laplacian as a differentiable mesh representation to enable more efficient yet smoother global deformation. Then, we propose a novel pose-aligned SDS loss by adapting score distillation sampling (SDS) with an attention-sharing mechanism, which sculptures fine-grained geometric details for the deformed mesh while preserving its original pose. PoseAlign significantly enhances the controllability of the overall deformation process, achieving a favorable balance between pose preservation and text alignment. Experiments demonstrate the competitive advantages of our method in text alignment and mesh quality. Code is available at: https://cousingrade6.github.io/PoseAlign",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/18/2607.13586v1-uniphysgen-unified-physical-grounding-for-simulation-ready-3d-assets",
+      "section": "quick",
+      "title_en": "UniPhysGen: Unified Physical Grounding for Simulation-Ready 3D Assets",
+      "authors": "Xian Li, Rong Wei, Lujie Yang, Haolin Huang, Junyuan Fang, Siliang Tang, Jun Xiao, Rui Tang, Juncheng Li",
+      "date": "2026-07-15",
+      "pdf": "https://arxiv.org/pdf/2607.13586v1",
+      "score": "7.0",
+      "evidence": "3D资产物理基础用于仿真，增强3D理解和交互",
+      "tldr": "现有3D资产缺少统一的关节语义和内在物理属性，难以直接用于物理仿真。本文提出UniPhys框架自动为原始资产赋予物理语义，并构建UniPhys-40K数据集和UniPhys-Bench基准。提出的UniPhysGen模型能够联合推理关节结构和物理属性，通过几何鲁棒性设计克服部件分解差异。实验在多项任务上达到SOTA，生成的资产可直接部署于机器人仿真环境。",
+      "tags": "query:d",
+      "abstract_en": "Physically grounded 3D assets are increasingly important for embodied AI and robotic simulation. However, most existing 3D assets lack unified physical semantics, including articulation semantics and intrinsic physical properties, required for realistic interaction. Current approaches either treat these semantics independently or rely on canonicalized object structures, limiting robustness across heterogeneous 3D assets. We present UniPhys, a scalable framework for automatically transforming raw 3D assets into simulation-ready assets with unified physical semantics. Based on UniPhys, we construct UniPhys-40K, a large-scale physically grounded dataset, together with UniPhys-Bench, a carefully verified benchmark for unified physical grounding evaluation. We further introduce UniPhysGen, a unified physical grounding model that jointly reasons over articulation semantics and intrinsic physical properties. UniPhysGen incorporates geometry-robust articulation grounding to mitigate geometric shortcut bias under heterogeneous part decompositions. Extensive experiments demonstrate state-of-the-art performance across articulation grounding and intrinsic physical property estimation tasks, while the resulting assets can be directly deployed in robotic simulation environments for realistic physical interaction. Our code and dataset will be available at https://github.com/breezexian/UniPhysGen.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/18/2607.14542v1-cityllm-a-framework-for-natural-language-querying-of-semantic-3d-city-models",
+      "section": "quick",
+      "title_en": "CityLLM: A framework for natural-language querying of semantic 3D city models",
+      "authors": "Rabindra Lamsal, Sisi Zlatanova, Johnson Xuesong Shen",
+      "date": "2026-07-16",
+      "pdf": "https://arxiv.org/pdf/2607.14542v1",
+      "score": "6.0",
+      "evidence": "3D语义城市模型查询",
+      "tldr": "语义3D城市模型结构复杂、数据格式专业，非专家难以访问和查询。为此提出CityLLM框架，将空间数据库和图数据库整合到基于LLM的工作流中，支持迭代查询优化与跨数据库链接。在鹿特丹城市数据集上评估，54个查询覆盖空间、图、跨数据库和对话场景，答案正确性达85.2%-100%，可视化正确性92.9%-100%，查询成功率100%，重试次数少于3。该框架为语义3D城市数据的对话式访问提供了轻量可扩展的方案。",
+      "tags": "query:d",
+      "abstract_en": "Semantic 3D city models provide rich geometric and semantic information, but remain challenging for non-experts and interdisciplinary researchers to access and query due to their complex structures and specialized data formats. To address this issue, we present CityLLM, a framework for natural-language querying of semantic 3D city models alongside complementary urban datasets. The framework combines spatial and graph databases within an LLM-based workflow that supports iterative query refinement and cross-database chaining. We evaluate CityLLM on a CityJSON dataset of Rotterdam (853 LoD2 buildings) using GPT-OSS, Gemini 3.1, and GPT-5.4, along with selected variants, across multiple metrics: answer correctness, visualization correctness, query success, and retry attempts. A total of 54 natural-language queries are curated across four scenarios: spatial, graph, cross-database, and conversational. Results show strong overall performance, with answer correctness ranging from 85.2% to 100%, visualization correctness from 92.9% to 100%, a 100% query success rate, and fewer than three retries across all 54 queries. Overall, the findings suggest that CityLLM provides a lightweight and extensible approach for conversational access to semantic 3D city data.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
