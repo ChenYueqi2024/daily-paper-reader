@@ -1,0 +1,342 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-19T20:51:13.598188+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.11588v2",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "monocular metric geometry estimation with pixel-wise fields",
+      "llm_evidence_cn": "单目度量几何估计，像素级场预测",
+      "llm_evidence": "单目度量几何估计，像素级场预测",
+      "canonical_evidence": "单目度量几何估计，像素级场预测",
+      "llm_tldr_en": "FoundationGeo learns affine-invariant geometry and pixel-wise calibration fields for metrically consistent 3D point maps from single images.",
+      "llm_tldr_cn": "提出FoundationGeo两阶段框架，先在大规模多域数据上学习高保真仿射不变几何模型，再引入轻量级像素级校准场（尺度场和射线方向校正场）进行度量估计。在多个基准上取得最先进的单目度量几何估计性能，具有强跨域泛化能力。",
+      "llm_tldr": "提出FoundationGeo两阶段框架，先在大规模多域数据上学习高保真仿射不变几何模型，再引入轻量级像素级校准场（尺度场和射线方向校正场）进行度量估计。在多个基准上取得最先进的单目度量几何估计性能，具有强跨域泛化能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11588v3",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v3",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "monocular metric geometry estimation with pixel-wise fields",
+      "llm_evidence_cn": "单目度量几何估计，像素级场预测",
+      "llm_evidence": "单目度量几何估计，像素级场预测",
+      "canonical_evidence": "单目度量几何估计，像素级场预测",
+      "llm_tldr_en": "FoundationGeo learns affine-invariant geometry and pixel-wise calibration fields for metrically consistent 3D point maps from single images.",
+      "llm_tldr_cn": "提出FoundationGeo两阶段框架，先在大规模多域数据上学习高保真仿射不变几何模型，再引入轻量级像素级校准场（尺度场和射线方向校正场）进行度量估计。在多个基准上取得最先进的单目度量几何估计性能，具有强跨域泛化能力。",
+      "llm_tldr": "提出FoundationGeo两阶段框架，先在大规模多域数据上学习高保真仿射不变几何模型，再引入轻量级像素级校准场（尺度场和射线方向校正场）进行度量估计。在多个基准上取得最先进的单目度量几何估计性能，具有强跨域泛化能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.14836v1",
+      "source": "arxiv",
+      "title": "Physics-Informed Diffusion for Biomechanically Plausible 3D Sign Language Generation",
+      "abstract": "Sign language production, which generates continuous 3D skeletal motion from spoken language input, must simultaneously satisfy two constraints: semantic fidelity, so that a deaf viewer can recognize the intended sequence of glosses, and biomechanical plausibility, so that the generated skeleton respects anatomical constraints. Existing approaches optimize semantic reconstruction through coordinate-based objectives that treat the skeleton as an unstructured vector, thus allowing for bone length drift, joint angle violations, and temporarily locked fingers. We introduce PIDiffSign, a physics-informed diffusion model for gloss-to-pose translation that incorporates anatomical constraints into both the architecture and training objective. The model uses a Transformer encoder-decoder, where the decoder is conditioned on the diffusion time step through adaptive zero-initialized layer normalization and cross-attends to gloss representations. A differentiable geometry module enforces bone length consistency and biologically valid joint angles throughout generation. Training combines anthropomorphic, kinematic, angular, and finger-joint constraints with a contrastive gloss-pose alignment loss and classifier-free guidance for semantically conditioned sampling. Experiments on the PHOENIX14T and CSL-Daily benchmarks show consistent improvements over a strong diffusion baseline in pose accuracy, joint-angle correctness, distributional realism, and back-translation quality. These results demonstrate that physics-informed diffusion improves both motion realism and semantic fidelity for sign language generation.",
+      "authors": [
+        "Emanuele Colonna",
+        "Moises Diaz",
+        "Gennaro Vessio",
+        "Miguel Angel Ferrer",
+        "Giovanna Castellano"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-16T11:01:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.14836v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "physics-informed diffusion model for 3D skeletal motion generation",
+      "llm_evidence_cn": "物理信息扩散模型用于3D骨骼运动生成",
+      "llm_evidence": "物理信息扩散模型用于3D骨骼运动生成",
+      "canonical_evidence": "物理信息扩散模型用于3D骨骼运动生成",
+      "llm_tldr_en": "PIDiffSign incorporates anatomical constraints into diffusion models for biomechanically plausible 3D sign language generation from glosses.",
+      "llm_tldr_cn": "针对手语生成中骨骼运动不自然的问题，本文提出PIDiffSign，将解剖学约束融入扩散模型架构与训练目标，用于从词汇序列生成连贯且符合生物力学的3D骨骼运动。实验证明该方法有效消除骨骼长度漂移和关节角度违规，生成的手语动作更加真实合理，推动了3D生成中物理先验的使用。",
+      "llm_tldr": "针对手语生成中骨骼运动不自然的问题，本文提出PIDiffSign，将解剖学约束融入扩散模型架构与训练目标，用于从词汇序列生成连贯且符合生物力学的3D骨骼运动。实验证明该方法有效消除骨骼长度漂移和关节角度违规，生成的手语动作更加真实合理，推动了3D生成中物理先验的使用。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.12503v2",
+      "source": "arxiv",
+      "title": "DynTrace: Tracking Dynamic Object Evidence for 4D Spatio-Temporal Reasoning in MLLMs",
+      "abstract": "4D spatio-temporal reasoning, jointly modeling 3D spatial structure and temporal evolution, is essential for understanding dynamic worlds and enabling embodied interaction. While current Multimodal Large Language Models (MLLMs) show strong capabilities in static scene understanding and coarse-grained 4D tasks, they still have notable limitations in continuous dynamic scene perception, especially in tracking dynamic object evidence for coherent 4D spatio-temporal reasoning. This shortcoming stems mainly from relying on sparse frame-level observations, fragmenting continuous dynamic cues and leaving models unable to disentangle genuine object dynamics from camera-induced apparent motion. Inspired by humans tracking dynamic cues while compensating for viewpoint changes, we propose DynTrace, a training-free framework for 4D spatio-temporal reasoning with two complementary components. Dynamic Trajectory Visualization (DTV) reprojects world-coordinate trajectories onto the image plane, providing geometry-informed visual priors that disentangle genuine object dynamics from camera-induced apparent motion. Meanwhile, the Dynamic Trace Token (DT-Token), organized into a Dynamic Trace Graph (DTG), tracks object-level dynamic cues, trace evolution, and key moments, maintaining continuous dynamic object evidence for coherent 4D reasoning. Together, these two components equip MLLMs with continuously tracked dynamic object evidence, grounded in geometry-informed visual priors and structured spatio-temporal traces. DynTrace consistently improves open-source MLLMs, achieving state-of-the-art results on Dyn-Bench, VLM4D, and DSI-Bench, validating the importance of tracking dynamic object evidence for robust 4D spatio-temporal reasoning.",
+      "authors": [
+        "Rongxin Gao",
+        "Yuzhi Huang",
+        "Dongxuan Liu",
+        "Chu Li",
+        "Zhenye Wang",
+        "Jie Wu",
+        "Shuzhao Xie",
+        "Jingyan Jiang",
+        "Xinghao Ding",
+        "Xiaotong Tu",
+        "Yue Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T08:35:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.12503v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "4D spatio-temporal reasoning for dynamic scene understanding",
+      "llm_evidence_cn": "用于动态场景理解的4D时空推理",
+      "llm_evidence": "用于动态场景理解的4D时空推理",
+      "canonical_evidence": "用于动态场景理解的4D时空推理",
+      "llm_tldr_en": "DynTrace addresses dynamic object tracking for 4D spatio-temporal reasoning in MLLMs, improving perception of continuous dynamic scenes.",
+      "llm_tldr_cn": "当前多模态大模型在动态场景中难以跟踪物体证据，导致4D推理碎片化。本文提出DynTrace，通过显式跟踪动态物体证据并结合运动补偿，增强4D时空推理。在基准上验证了该方法能有效分离物体运动与相机运动，提升3D理解能力。",
+      "llm_tldr": "当前多模态大模型在动态场景中难以跟踪物体证据，导致4D推理碎片化。本文提出DynTrace，通过显式跟踪动态物体证据并结合运动补偿，增强4D时空推理。在基准上验证了该方法能有效分离物体运动与相机运动，提升3D理解能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11588v1",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "learning spatial pixel-wise fields for monocular metric 3D geometry",
+      "llm_evidence_cn": "学习空间逐像素场以进行单目度量3D几何",
+      "llm_evidence": "学习空间逐像素场以进行单目度量3D几何",
+      "canonical_evidence": "学习空间逐像素场以进行单目度量3D几何",
+      "llm_tldr_en": "FoundationGeo learns affine-invariant geometry and pixel-wise calibration fields for monocular metric 3D estimation, producing consistent point maps.",
+      "llm_tldr_cn": "单目度量几何估计存在跨域泛化差、度量校准难的问题。本文提出FoundationGeo两阶段框架：第一阶段学习仿射不变几何模型，利用大规模多域数据和局部细节监督；第二阶段引入逐像素尺度场和射线方向校正场，实现空间变化的度量校准。生成的3D点图具有度量一致性，在多个基准上表现优异。",
+      "llm_tldr": "单目度量几何估计存在跨域泛化差、度量校准难的问题。本文提出FoundationGeo两阶段框架：第一阶段学习仿射不变几何模型，利用大规模多域数据和局部细节监督；第二阶段引入逐像素尺度场和射线方向校正场，实现空间变化的度量校准。生成的3D点图具有度量一致性，在多个基准上表现优异。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.09985v1",
+      "source": "arxiv",
+      "title": "UniPose9D: Universal Category-Agnostic Object Pose Estimation",
+      "abstract": "Object pose estimation is a fundamental problem in 3D vision. Although recent state-of-the-art approaches achieve strong performance, they often overfit to existing benchmarks and exhibit limited generalization to novel categories and unseen scenes. We propose UniPose9D, a category-agnostic foundation model for 9D object pose estimation: given an instance mask/ROI and either an RGB-D observation or an RGB image with predicted depth, the model estimates rotation, translation, and metric size without category labels, CAD models, mean-shape priors, or reference views. Specifically, UniPose9D samples point pairs from the observed object geometry and uses DINOv2 and PointNet features to predict NOCS coordinates for each pair. To improve accuracy, we introduce a point-pair-based RANSAC N-hop Kabsch--Umeyama algorithm with an adaptive threshold. We further employ flow matching to address symmetric ambiguities and construct a large-scale training set by curating and aligning pose annotations from existing public datasets. Experiments across six datasets show that a single unified model can match or surpass specialist methods while generalizing to unseen objects and in-the-wild scenarios. Our code and model are available on https://github.com/qq456cvb/UniPose9D.",
+      "authors": [
+        "Yang You",
+        "Yi Du",
+        "Cole Harrison",
+        "Leonidas Guibas"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T21:24:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.09985v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "category-agnostic 3D object pose estimation",
+      "llm_evidence_cn": "通用类别3D物体姿态估计",
+      "llm_evidence": "通用类别3D物体姿态估计",
+      "canonical_evidence": "通用类别3D物体姿态估计",
+      "llm_tldr_en": "UniPose9D is a category-agnostic foundation model for 9D object pose estimation from RGB-D using NOCS coordinates and point pair features.",
+      "llm_tldr_cn": "该论文提出UniPose9D，一个无需类别标签和CAD模型的通用9D物体姿态估计基础模型。通过采样点对并利用DINOv2和PointNet特征预测NOCS坐标，在未见类别和新场景上展现出强泛化能力。",
+      "llm_tldr": "该论文提出UniPose9D，一个无需类别标签和CAD模型的通用9D物体姿态估计基础模型。通过采样点对并利用DINOv2和PointNet特征预测NOCS坐标，在未见类别和新场景上展现出强泛化能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.11173v1",
+      "source": "arxiv",
+      "title": "When Depth Is Better Told Than Shown: Depth-Ordinal Prompting for Vision-Language Spatial Reasoning",
+      "abstract": "Vision-language models (VLMs) are expected to reason about physical space -- which object is closer, what lies behind what, and how objects are arranged in 3D -- yet they still struggle with such spatial judgments. A natural remedy is to show the model a depth map, but we find that this can make performance worse. We show that depth is not absent: it reaches the language model, but becomes difficult to access for downstream reasoning, while rendered pseudo-depth maps act as noisy auxiliary images that frozen VLMs cannot easily regulate. We propose Depth-Ordinal Prompting (DOP), a training-free method that converts monocular depth into a single question-targeted ordinal text cue at the queried objects, without adding a depth image, training a module, injecting features, or using labels. Our key finding is form dependence: the same depth signal can hurt when shown as an image but help when told as text.Across benchmarks, models, and depth estimators, DOP improves spatial reasoning when pseudo-depth provides reliable object-level ordering and remains largely neutral in strong original-image regimes. It is also competitive with the strongest training-free depth-prompting alternative while being simpler and more targeted.",
+      "authors": [
+        "Quynh Vo",
+        "Phuc Dao",
+        "Cong-Duy Nguyen",
+        "Thong Nguyen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T07:13:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11173v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Spatial reasoning for 3D understanding in VLMs",
+      "llm_evidence_cn": "视觉语言模型中的空间推理用于3D理解",
+      "llm_evidence": "视觉语言模型中的空间推理用于3D理解",
+      "canonical_evidence": "视觉语言模型中的空间推理用于3D理解",
+      "llm_tldr_en": "Depth-Ordinal Prompting improves VLM spatial reasoning by converting depth into ordinal text cues, addressing the failure of pseudo-depth maps.",
+      "llm_tldr_cn": "针对视觉语言模型在3D空间推理上的不足，本文发现直接输入深度图反而会降低性能，并提出无训练的深度序数提示方法，将单目深度转换为针对问题的序数文本线索，在不增加深度图的情况下使VLM能有效利用深度信息，显著提升了物体相对位置判断等3D理解任务的准确性。",
+      "llm_tldr": "针对视觉语言模型在3D空间推理上的不足，本文发现直接输入深度图反而会降低性能，并提出无训练的深度序数提示方法，将单目深度转换为针对问题的序数文本线索，在不增加深度图的情况下使VLM能有效利用深度信息，显著提升了物体相对位置判断等3D理解任务的准确性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14419v1",
+      "source": "arxiv",
+      "title": "HyperShadow: A Benchmark for Detecting 3D Projections of Higher-Dimensional Spatial Objects",
+      "abstract": "Machine-learning datasets labelled \"4D\" universally denote three spatial dimensions plus time. We introduce HyperShadow, the first public benchmark in which the fourth, fifth, and sixth dimensions are spatial: the task is to decide whether a 3D point cloud is a native three-dimensional shape or the projection, the \"shadow\", of a rigid object living in R^N (N = 4-6). We show this task is fundamentally distinct from intrinsic-dimension estimation: a shadow is still at-most-3-dimensional data, and standard estimators (TwoNN, Levina-Bickel MLE) reach only 71-73% accuracy. Detection instead requires projection signatures, density folds, filled volumes with characteristic radial profiles, and topology changes, which a 190k-parameter point network recovers at 96.6% accuracy across four corruption tiers, generalizing at 79-91% to object families never seen in training. On a temporal track of rigidly rotating objects we introduce a zero-parameter rigidity witness: the residual of the optimal rigid 3D alignment (Kabsch) between consecutive frames, which must vanish for any rigid 3D motion but cannot vanish for the shadow of a rigid rotation in R^N. This single interpretable statistic separates the classes at AUROC 0.982. All data are generated reproducibly from seeds; the dataset, models, and code are released publicly. HyperShadow makes no claim about physical reality; it is a controlled instrument for studying which observable statistics can certify incompatibility with a purely three-dimensional explanation.",
+      "authors": [
+        "Akshay Sasi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CG"
+      ],
+      "published": "2026-07-15T23:13:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.14419v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmark for detecting 3D projections of higher-dimensional objects, related to 3D understanding",
+      "llm_evidence_cn": "检测高维物体3D投影的基准，涉及3D形状理解",
+      "llm_evidence": "检测高维物体3D投影的基准，涉及3D形状理解",
+      "canonical_evidence": "检测高维物体3D投影的基准，涉及3D形状理解",
+      "llm_tldr_en": "HyperShadow is the first benchmark for detecting whether a 3D point cloud is a native 3D shape or a projection from higher dimensions, requiring novel cues beyond standard intrinsic-dimension estimation.",
+      "llm_tldr_cn": "HyperShadow是首个检测3D点云是否为高维空间物体投影的基准。该任务需要利用投影签名、密度褶皱等几何线索，而传统的内在维度估计方法仅达到71-73%的准确率。这项工作拓展了3D几何理解的边界。",
+      "llm_tldr": "HyperShadow是首个检测3D点云是否为高维空间物体投影的基准。该任务需要利用投影签名、密度褶皱等几何线索，而传统的内在维度估计方法仅达到71-73%的准确率。这项工作拓展了3D几何理解的边界。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
