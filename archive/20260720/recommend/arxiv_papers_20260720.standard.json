@@ -1,0 +1,402 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-20T21:25:46.536536+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2607.15898v1",
+      "source": "arxiv",
+      "title": "Orbis 2: A Hierarchical World Model for Driving",
+      "abstract": "Current world models operate at a single level of abstraction, with most prioritizing perceptual fidelity while lacking the spatial reasoning and semantic understanding required for real-world downstream tasks. We present a hierarchical driving world model that factorizes future prediction across two levels operating at distinct temporal and abstraction scales: a high-level predictor that forecasts coarse scene structure over extended temporal horizons, and a low-level generator that produces detailed predictions conditioned on the high-level output. This decomposition yields high perceptual fidelity while also capturing strong spatial and semantic representations. We further show that pretraining with a diffusion forcing objective yields substantially richer internal representations than the standard teacher forcing objective, while teacher forcing -- predicting only the next frame from clean context -- produces more stable autoregressive rollouts. We therefore introduce a generic two-stage training paradigm that pretrains the model with diffusion forcing and fine-tunes with teacher forcing, combining the representational benefits of the former with the rollout stability of the latter. Our approach achieves state-of-the-art results across the standard suite of driving world model evaluations on established benchmarks, including long-horizon generation fidelity, steering responsiveness evaluated on counterfactual scenarios, and internal representation quality. Project page with code, demo, checkpoints and qualitative results: https://lmb-freiburg.github.io/orbis2.github.io/",
+      "authors": [
+        "Sudhanshu Mittal",
+        "Arian Mousakhan",
+        "Silvio Galesso",
+        "Karim Farid",
+        "Jonannes Dienert",
+        "Rajat Sahay",
+        "Thomas Brox"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-07-17T12:12:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.15898v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "hierarchical world model for driving with diffusion forcing",
+      "llm_evidence_cn": "用于驾驶的分层世界模型，使用扩散训练目标",
+      "llm_evidence": "用于驾驶的分层世界模型，使用扩散训练目标",
+      "canonical_evidence": "用于驾驶的分层世界模型，使用扩散训练目标",
+      "llm_tldr_en": "Orbis 2 presents a hierarchical world model that factorizes prediction into high-level coarse and low-level detailed generation, using diffusion forcing pretraining.",
+      "llm_tldr_cn": "Orbis 2提出分层驾驶世界模型，将未来预测分解为高层粗粒度场景结构和低层细粒度生成。通过扩散强迫预训练获得丰富的内部表征。该方法在保持高感知保真度的同时，增强了空间推理和语义理解能力，为自动驾驶中的世界建模提供了新思路。",
+      "llm_tldr": "Orbis 2提出分层驾驶世界模型，将未来预测分解为高层粗粒度场景结构和低层细粒度生成。通过扩散强迫预训练获得丰富的内部表征。该方法在保持高感知保真度的同时，增强了空间推理和语义理解能力，为自动驾驶中的世界建模提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15600v1",
+      "source": "arxiv",
+      "title": "Geometric Distillation from Rectified Stereo: Leveraging Epipolar Cues for Monocular Depth",
+      "abstract": "Monocular depth foundation models have demonstrated remarkable generalization capabilities across diverse environments. However, they continue to struggle with metric depth estimation in diverse environments. This limitation stems from the inherent scale ambiguity of single-view inference, leading to misaligned scale predictions even when the relative geometry is accurate. Conversely, recent multi-view foundation models leverage cross-view cues to learn robust scene-level geometry and consistent scale. Yet, these benefits typically vanish during single-image inference, as the absence of explicit geometric constraints causes performance to degrade. To bridge this gap, we propose a novel framework that transfers the scale-aware geometric priors of multi-view models into monocular depth foundation models. Specifically, we introduce an Epipolar Distillation (EpiDistill), an approach utilizing Rectified Stereo Tokens, which enables the single-view prediction model to retain epipolar attention patterns and maintain geometric consistency without requiring multi-view inputs at inference. Experimental results demonstrate that our method significantly improves zero-shot metric depth estimation, particularly on challenging datasets like ETH3D and DIODE where scale alignment is critical. Furthermore, our approach is model-agnostic, consistently boosting the performance of state-of-the-art ViT-based models, including UniDepthV2 and DepthPro.",
+      "authors": [
+        "Jung-Hee Kim",
+        "Xiaoming Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-17T03:49:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.15600v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "geometric distillation for monocular depth estimation",
+      "llm_evidence_cn": "通过几何蒸馏提升单目深度估计",
+      "llm_evidence": "通过几何蒸馏提升单目深度估计",
+      "canonical_evidence": "通过几何蒸馏提升单目深度估计",
+      "llm_tldr_en": "Geometric Distillation from Rectified Stereo transfers scale-aware geometry from stereo to monocular depth networks, improving metric depth estimation without requiring multi-view at inference.",
+      "llm_tldr_cn": "单目深度网络在度量估计上存在尺度模糊。本文提出从校正立体视觉中蒸馏几何知识，将立体模型的尺度感知能力迁移到单目网络，在维持相对几何准确性的同时获得度量一致深度，在多个数据集上超越先前的单目深度模型，为3D理解提供了更精确的几何输入。",
+      "llm_tldr": "单目深度网络在度量估计上存在尺度模糊。本文提出从校正立体视觉中蒸馏几何知识，将立体模型的尺度感知能力迁移到单目网络，在维持相对几何准确性的同时获得度量一致深度，在多个数据集上超越先前的单目深度模型，为3D理解提供了更精确的几何输入。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16173v1",
+      "source": "arxiv",
+      "title": "Vision-Language-Motion Maps: An Open-Vocabulary, Uncertainty-Aware, Queryable Motion Attribute for 3D Scene Maps",
+      "abstract": "Open-vocabulary 3D maps let robots answer language queries about what and where, but they assume a static world and cannot answer queries about how scene elements behave. We introduce Vision-Language-Motion Maps (VLMM), an open-vocabulary, natural-language-queryable 3D map in which each element carries a fused motion attribute: a VLM/LLM semantic movability prior combined with geometrically observed cross-frame motion, together with a per-element uncertainty. Queries reduce to attribute filters that distinguish what has been seen to move, what could move but has not, and what stays still. On a controlled simulator benchmark with exact ground truth (AI2-THOR, three scene types) we show through ablation that the schema fields are non-substitutable: a semantic-only baseline fails motion queries even with strong features, and neither motion field substitutes for the other (the prior cannot answer \"what is moving,\" observed motion cannot answer \"what could move\"). On real dynamic RGB-D (TUM and Bonn, six sequences) we show the uncertainty channel-our key difference from prior fused-motion work-consistently improves moving-vs-static average precision and reduces false motion flags, and is robust to estimated (noisy) poses. The raw confidence is not calibrated, but post-hoc isotonic calibration reaches an expected calibration error of 0.10. VLMM is a representation contribution: the closest prior maps each lack at least one of the four properties-open-vocabulary, language-queryable, fused prior-and-observed motion, and per-element uncertainty-that our combination provides.",
+      "authors": [
+        "Dibyendu Ghosh",
+        "Ayushi Shakya"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T17:53:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.16173v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "open-vocabulary 3D scene maps with motion attributes",
+      "llm_evidence_cn": "开放词汇的3D场景地图，融合运动属性",
+      "llm_evidence": "开放词汇的3D场景地图，融合运动属性",
+      "canonical_evidence": "开放词汇的3D场景地图，融合运动属性",
+      "llm_tldr_en": "Introduces VLMM, an open-vocabulary 3D map that fuses VLM/LLM semantic movability priors with geometric motion observations, enabling queries about scene element behavior.",
+      "llm_tldr_cn": "现有开放词汇3D地图假设静态世界，无法回答关于场景元素行为的问题。本文提出VLMM，为每个地图元素融合基于VLM/LLM的可移动性先验和跨帧几何观测，并带不确定性估计。通过属性过滤回答哪些物体被观察到运动、哪些可能运动但未运动等问题。在AI2-THOR模拟器上的消融实验验证了方法的有效性。",
+      "llm_tldr": "现有开放词汇3D地图假设静态世界，无法回答关于场景元素行为的问题。本文提出VLMM，为每个地图元素融合基于VLM/LLM的可移动性先验和跨帧几何观测，并带不确定性估计。通过属性过滤回答哪些物体被观察到运动、哪些可能运动但未运动等问题。在AI2-THOR模拟器上的消融实验验证了方法的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.13808v1",
+      "source": "arxiv",
+      "title": "Bake It Till You Make It: Ultrafast Spatial Texture-Atlas Splatting",
+      "abstract": "Recent extensions of 3D Gaussian Splatting (3DGS) capture fine color details using hash-grid-based appearance parameterization but incur high computational cost during fragment rendering. We introduce a decoupled radiance representation that models low-frequency geometry and view dependent appearance features with 2D surfels while representing high-frequency textures via a view-independent spatial hash grid that is baked into a compact texture atlas. By including sparsity-enhancing optimizations that penalize semi-transparency and per-primitive falloff, our method aggressively prunes insignificant surfels and achieves significantly faster and sparser reconstructions than prior work. Exploiting geometric sparsity and efficient GPU texture mapping, our approach achieves up to a fivefold speedup over 3DGS while preserving state-of-the-art visual fidelity, enabling real-time 4K rendering at 60 FPS on consumer hardware.",
+      "authors": [
+        "Neel Kelkar",
+        "Simon Niedermayr",
+        "Kaloian Petkov",
+        "Klaus Engel",
+        "Rüdiger Westermann"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-15T13:12:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.13808v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "enhances 3D Gaussian Splatting for fast texture detail capture",
+      "llm_evidence_cn": "增强3D高斯泼溅以快速捕获纹理细节",
+      "llm_evidence": "增强3D高斯泼溅以快速捕获纹理细节",
+      "canonical_evidence": "增强3D高斯泼溅以快速捕获纹理细节",
+      "llm_tldr_en": "Bake It Till You Make It introduces a decoupled radiance representation with a baked texture atlas for ultrafast, sparse 3D reconstruction using 2D surfels and spatial hash grids.",
+      "llm_tldr_cn": "针对3D高斯泼溅中高分辨率纹理捕获计算成本高的问题，本文提出一种解耦辐射表示。该方法用2D面片建模低频几何和视角相关特征，并将高频纹理烘焙到紧凑纹理图集中。通过稀疏性增强优化，有效剪枝无关面片，实现更快更稀疏的重建。实验证明该方法在速度和质量上均优于现有方法，为高效3D场景重建提供了新思路。",
+      "llm_tldr": "针对3D高斯泼溅中高分辨率纹理捕获计算成本高的问题，本文提出一种解耦辐射表示。该方法用2D面片建模低频几何和视角相关特征，并将高频纹理烘焙到紧凑纹理图集中。通过稀疏性增强优化，有效剪枝无关面片，实现更快更稀疏的重建。实验证明该方法在速度和质量上均优于现有方法，为高效3D场景重建提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.10912v1",
+      "source": "arxiv",
+      "title": "DP-Splat: Bayesian Nonparametric Complexity Control for Gaussian Splatting",
+      "abstract": "3D Gaussian Splatting represents scenes as finite mixtures of anisotropic Gaussians whose number of components $K$ is set by heuristic density control or user caps. Variational Bayes Gaussian Splatting (VBGS) recast splat fitting as conjugate variational inference, but $K$ remains fixed. We replace the finite symmetric Dirichlet over mixture weights with a truncated stick-breaking Dirichlet-process prior -- and, as a theory-backed alternative, a sparse overfitted finite Dirichlet -- so that the number of occupied components adapts to the data while every update remains a closed-form coordinate-ascent step; a natural-gradient stochastic variant makes the per-step cost independent of the number of points. We give an exact monotonicity guarantee, a rigorous truncation-error bound correcting an anti-conservative large-$α$ approximation in common use, and an honest account of what the fitted number of components estimates. Empirically: (i) the effective complexity $\\hat{K}$ adapts to scene complexity and recovers the true $K$ within $\\pm 1$ on well-separated synthetic data with regime-appropriate concentration; (ii) a deconfounded comparison shows the DP prior's contribution is complexity selection, not per-component efficiency -- converged DP fits exceed single-pass fixed-$K$ VBGS by +2.7 dB at matched budgets yet tie an equally converged fixed-$K$ baseline, and on 3D scenes DP-Splat matches or exceeds VBGS's held-out color prediction with 5.9-7.6x fewer components; (iii) the posterior-predictive color variance is well calibrated on model-matched synthetic data; and (iv) the ordering suggested by exact-posterior asymptotics reverses under mean-field coordinate ascent: the DP prior resists over-splitting while the sparse finite mixture saturates its truncation, a gap between variational practice and posterior asymptotics documented across three orders of magnitude in $N$.",
+      "authors": [
+        "Aqi Dong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T20:31:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.10912v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Bayesian nonparametric control for 3D Gaussian Splatting, enhances 3D representation",
+      "llm_evidence_cn": "3D高斯泼溅的贝叶斯非参数复杂度控制，增强3D表示",
+      "llm_evidence": "3D高斯泼溅的贝叶斯非参数复杂度控制，增强3D表示",
+      "canonical_evidence": "3D高斯泼溅的贝叶斯非参数复杂度控制，增强3D表示",
+      "llm_tldr_en": "DP-Splat uses Dirichlet process priors to automatically determine the number of Gaussians in 3DGS, enabling adaptive complexity control.",
+      "llm_tldr_cn": "DP-Splat将截断的stick-breaking狄利克雷过程先验引入3D高斯泼溅，使高斯组件数量自适应数据。该方法在保持闭式坐标上升更新的同时，实现了复杂度自动调整，避免了启发式密度控制。实验证明在重建质量和紧凑性上优于固定K方法。",
+      "llm_tldr": "DP-Splat将截断的stick-breaking狄利克雷过程先验引入3D高斯泼溅，使高斯组件数量自适应数据。该方法在保持闭式坐标上升更新的同时，实现了复杂度自动调整，避免了启发式密度控制。实验证明在重建质量和紧凑性上优于固定K方法。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.15536v1",
+      "source": "arxiv",
+      "title": "E3DGS: Unified Geometric-Photometric Equivariance for 3D Gaussian Splatting via Color-as-Geometry Embedding",
+      "abstract": "3D Gaussian Splatting (3DGS) captures scenes by coupling explicit geometry (position, covariance) with view-dependent photometry (Spherical Harmonics). However, building $\\mathrm{SE}(3)$-equivariant architectures on these primitives presents a fundamental representation bottleneck. Color has been treated as a signal rather than a geometric entity, making it nontrivial to unify symmetry across geometry and appearance as the camera frame changes. While translations are handled by relative coordinates, rotations act heterogeneously across attributes: $μ\\mapsto Rμ$, $Σ\\mapsto RΣR^\\top$, and $f_\\ell\\mapsto D^\\ell(R)f_\\ell$. This mismatch complicates strict equivariance, leading existing methods to either discard or flatten SH coefficients, thereby breaking symmetry. We propose a unified solution rooted in representation theory: for SH degrees $\\ell\\le2$, photometry is algebraically isomorphic to a rank-2 geometric tensor. We prove that the Wigner-$D$ action on these SH coefficients can be exactly reformulated as the conjugation action on $3\\times3$ matrices. Leveraging this, we introduce the Unified Matrix Embedding, a lifting that maps all Gaussian attributes into a unified carrier space, $\\mathfrak{gl}(3)$. Building on the \"Color-as-Geometry\" formulation, we present E3DGS, a rigid-body ($\\mathrm{SE}(3)$) equivariant architecture that processes 3D Gaussians without Clebsch-Gordan tensor products. Evaluations on object vision and action-conditioned Gaussian world modeling demonstrate that our unified approach yields strong robustness under camera-frame changes and improved data efficiency.",
+      "authors": [
+        "Chankyo Kim",
+        "Maani Ghaffari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-17T01:12:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.15536v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D Gaussian Splatting with equivariance for unified geometric-photometric representation",
+      "llm_evidence_cn": "具有等变性的3D高斯泼溅，统一几何-光度表示",
+      "llm_evidence": "具有等变性的3D高斯泼溅，统一几何-光度表示",
+      "canonical_evidence": "具有等变性的3D高斯泼溅，统一几何-光度表示",
+      "llm_tldr_en": "E3DGS unifies geometric and photometric equivariance in 3D Gaussian Splatting via color-as-geometry embedding, enabling SE(3)-equivariant scene representation.",
+      "llm_tldr_cn": "E3DGS通过颜色即几何嵌入，在3D高斯泼溅中统一了几何和光度的等变性，解决了现有方法无法处理旋转异质性的问题。该方法使3D场景表示在SE(3)变换下保持一致性，提升了新视图合成和编辑的鲁棒性。",
+      "llm_tldr": "E3DGS通过颜色即几何嵌入，在3D高斯泼溅中统一了几何和光度的等变性，解决了现有方法无法处理旋转异质性的问题。该方法使3D场景表示在SE(3)变换下保持一致性，提升了新视图合成和编辑的鲁棒性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15667v1",
+      "source": "arxiv",
+      "title": "PE-Field 4D: Video Generation Models as Canvas",
+      "abstract": "Diffusion Transformers have recently achieved strong performance in video generation, yet controlling scene geometry under viewpoint changes and camera motion remains challenging. In this work, we revisit the role of positional encoding in video diffusion transformers and show that it provides a useful spatial bias for geometry-aware control. Specifically, if reference tokens are encoded according to their projected locations in the target view, the denoising model is encouraged to retrieve content from position aligned regions of the input video. Building on this observation, we introduce a geometry-aware cross-attention mechanism that enables target video latent tokens to attend to structured context tokens derived from reference images or frames. To establish correspondence between the reference content and the target camera trajectory, we equip the context tokens with a projected positional encoding scheme that combines target-view 2D reprojection with depth-aware disambiguation. At the same time, we preserve the original spatiotemporal positional encoding of the generated video latent, allowing geometric guidance to be injected while maintaining consistency with the video model's native latent structure. The resulting framework provides a simple and effective approach for controllable video generation. It improves spatial controllability in viewpoint-dependent editing tasks, including camera re-trajectory, novel-view video synthesis, and geometry-aware video editing, while preserving the generative prior of the underlying video diffusion model. The code is available at: https://github.com/MTLab/PE-Field.",
+      "authors": [
+        "Yunpeng Bai",
+        "Haoxiang Li",
+        "Qixing Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-17T06:22:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.15667v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Geometry-aware control in video diffusion for 3D consistency",
+      "llm_evidence_cn": "视频扩散中的几何感知控制以实现3D一致性",
+      "llm_evidence": "视频扩散中的几何感知控制以实现3D一致性",
+      "canonical_evidence": "视频扩散中的几何感知控制以实现3D一致性",
+      "llm_tldr_en": "PE-Field 4D uses positional encoding in video diffusion transformers to enable geometry-aware cross-attention for consistent 3D video generation.",
+      "llm_tldr_cn": "视频扩散模型在视角变化下难以保持几何一致性。本文重新审视位置编码的作用，提出几何感知交叉注意力机制，通过将参考标记编码到目标视图的投影位置，使去噪模型能够从位置对齐区域检索内容。该方法无需额外训练，即可在视频生成中实现可控的3D几何变换。",
+      "llm_tldr": "视频扩散模型在视角变化下难以保持几何一致性。本文重新审视位置编码的作用，提出几何感知交叉注意力机制，通过将参考标记编码到目标视图的投影位置，使去噪模型能够从位置对齐区域检索内容。该方法无需额外训练，即可在视频生成中实现可控的3D几何变换。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15727v1",
+      "source": "arxiv",
+      "title": "Event3R: Asynchronous-to-Global 3D Reconstruction from Event Camera via Spatial-Temporal Feature Aggregation",
+      "abstract": "Robust 3D reconstruction is essential for robotics and embodied perception. Recent feed-forward approaches such as DUSt3R have demonstrated impressive progress in dense 3D reconstruction from RGB images, achieving global geometric consistency and strong generalization. However, extending such dense 3D reconstruction to event cameras remains challenging due to their asynchronous, sparse, and highly dynamic nature, as well as the lack of large-scale, well-labeled datasets. In this work, we introduce Event3R, a feed-forward framework that directly maps asynchronous event streams to globally consistent 3D point clouds. Event3R represents incoming events as spatial-temporal voxels, enabling time-aware feature integration through a temporal attention module that enhances the module's temporal feature learning. To further strengthen temporal representation learning and reduce reliance on labeled data, we propose a Masked Bin Modeling (MBM) strategy for self-supervised pre-training, enabling robust temporal representation learning with minimal labeled data, and retain it as an auxiliary fine-tuning objective. In addition, contrastive alignment and consistency regularization losses are incorporated during fine-tuning to reinforce structural correspondence and temporal coherence across views. Extensive experiments on both synthetic and real-world benchmarks demonstrate that Event3R achieves robust, temporally consistent, and globally aligned 3D reconstructions, significantly outperforming existing event-based methods.",
+      "authors": [
+        "Jian Huang",
+        "Haotian Shen",
+        "Xinhao Lou",
+        "Chengrui Dong",
+        "Wenpu Li",
+        "Peidong Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-17T08:04:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.15727v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D reconstruction from event cameras",
+      "llm_evidence_cn": "从事件相机进行3D重建",
+      "llm_evidence": "从事件相机进行3D重建",
+      "canonical_evidence": "从事件相机进行3D重建",
+      "llm_tldr_en": "Event3R directly maps asynchronous event streams to globally consistent 3D point clouds using spatial-temporal feature aggregation.",
+      "llm_tldr_cn": "事件相机具有异步、稀疏的特点，难以直接应用于前馈式3D重建。本文提出Event3R，将事件流表示为时空体素，通过时间感知特征聚合和全局一致性优化，直接输出全局一致的3D点云。该方法在保持鲁棒性的同时，实现了与传统RGB重建相当的重建质量。",
+      "llm_tldr": "事件相机具有异步、稀疏的特点，难以直接应用于前馈式3D重建。本文提出Event3R，将事件流表示为时空体素，通过时间感知特征聚合和全局一致性优化，直接输出全局一致的3D点云。该方法在保持鲁棒性的同时，实现了与传统RGB重建相当的重建质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16012v1",
+      "source": "arxiv",
+      "title": "DPNeXt: A Lightweight Multi-Scale Feature Fusion Framework for Efficient ViT-Based Multi-Task Dense Prediction",
+      "abstract": "Multi-Task Learning (MTL) in robotics perception systems supports comprehensive 3D spatial scene understanding by integrating semantic segmentation and depth estimation. While Vision Foundation Models (VFMs) are increasingly adopted as robust feature encoders, existing decoding strategies present a critical bottleneck. To address this, we propose DPNeXt, a streamlined multi-scale feature fusion decoder and efficient alternative to the standard Dense Prediction Transformer (DPT). DPNeXt uses dual depthwise separable inverted bottlenecks to improve frozen VFM utilization through fusion-centric decoding and independent task modularization. To further mitigate negative inductive transfer between tasks, we introduce the Multi-Task Boundary Guidance (MTBG) strategy. Unlike prior boundary-aware methods that add fusion modules or gating, MTBG applies symmetric boundary-focused supervision to encourage geometric consistency without extra annotation or inference cost. Experiments on Cityscapes show that DPNeXt-S outperforms prior state-of-the-art (SOTA) MTL models, while DPNeXt-B further improves the overall performance and achieves the best results among the compared methods. On NYUv2, DPNeXt-B also achieves the best semantic segmentation and depth estimation results among the compared methods while requiring substantially fewer trainable parameters than prior large-scale MTL models. Compared with the standard DPT, DPNeXt-S reduces trainable parameters by 78.6% and achieves the fastest inference speed among the compared models on resource-constrained laptop hardware. The source code, model checkpoints, and a demo video will be made available at https://github.com/kangjehun/DPNeXt.",
+      "authors": [
+        "Jehun Kang",
+        "Jungha Wang",
+        "Youngjun Hwang",
+        "David Hyunchul Shim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-07-17T14:46:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.16012v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-task dense prediction for 3D spatial scene understanding",
+      "llm_evidence_cn": "用于3D空间场景理解的多任务密集预测",
+      "llm_evidence": "用于3D空间场景理解的多任务密集预测",
+      "canonical_evidence": "用于3D空间场景理解的多任务密集预测",
+      "llm_tldr_en": "DPNeXt proposes a lightweight multi-scale feature fusion decoder for efficient ViT-based multi-task dense prediction, integrating semantic segmentation and depth estimation for 3D scene understanding.",
+      "llm_tldr_cn": "针对机器人感知中多任务学习解码头成为瓶颈的问题，本文提出DPNeXt，一种轻量级多尺度特征融合解码器，通过双深度可分离倒置瓶颈改进冻结视觉基础模型的利用，实现语义分割与深度估计的联合密集预测，在提升效率的同时缓解负迁移，助力3D空间理解。",
+      "llm_tldr": "针对机器人感知中多任务学习解码头成为瓶颈的问题，本文提出DPNeXt，一种轻量级多尺度特征融合解码器，通过双深度可分离倒置瓶颈改进冻结视觉基础模型的利用，实现语义分割与深度估计的联合密集预测，在提升效率的同时缓解负迁移，助力3D空间理解。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16128v1",
+      "source": "arxiv",
+      "title": "Toward Semantic Communication for Real-time Mobile 3D Reconstruction",
+      "abstract": "Real-time mobile 3D reconstruction is fundamental to many emerging applications such as autonomous navigation and digital twin construction, where a moving platform continuously captures an image stream and transmit to a computing server for scene understanding. Unlike offline reconstruction, camera poses and scene geometry are estimated on-the-fly during acquisition, making multi-view consistency a real-time requirement and rendering geometric estimation highly sensitive to communication-induced distortions. Semantic communication (SemCom) transmits compact semantic information, offering a promising way to preserve task-critical data over unreliable links. However, existing designs are optimized at the image or single-view level and without providing explicit reliability information for geometric estimation, limiting their applicability to real-time mobile 3D reconstruction. In this context, we propose a SemCom framework for real-time mobile 3D reconstruction. The framework includes a semantic transceiver that outputs a reconstructed image alongside a pixel-wise confidence map, quantifying the reliability of each region. We further introduce a confidence-guided geometric estimation method, incorporating confidence into RANSAC-based pose initialization and bundle adjustment to reduce the influence of unreliable regions and enhance robustness under noisy channels. Simulations show that, compared to existing SemCom and traditional seperate source and channel coding, our framework maintains high image quality while significantly improving pose estimation accuracy and 3D structural consistency.",
+      "authors": [
+        "Fangzhou Zhao",
+        "Yao Sun",
+        "Xuesong Liu",
+        "Runze Cheng",
+        "Shang Kai",
+        "Yi Sun"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.MA",
+        "cs.MM"
+      ],
+      "published": "2026-07-17T17:07:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.16128v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "real-time mobile 3D reconstruction with semantic communication",
+      "llm_evidence_cn": "结合语义通信的实时移动3D重建",
+      "llm_evidence": "结合语义通信的实时移动3D重建",
+      "canonical_evidence": "结合语义通信的实时移动3D重建",
+      "llm_tldr_en": "This paper proposes semantic communication design for real-time mobile 3D reconstruction, preserving task-critical geometric information under unreliable links.",
+      "llm_tldr_cn": "针对实时移动3D重建中通信链路不可靠导致几何估计失真问题，本文探索语义通信在该场景的应用。通过设计紧凑的语义表示和传输策略，在保证多视图一致性的前提下，降低通信噪声对场景理解的负面影响。初步实验表明该方法能有效提升重建质量，为移动端实时3D重建提供了新的通信-计算协同方案。",
+      "llm_tldr": "针对实时移动3D重建中通信链路不可靠导致几何估计失真问题，本文探索语义通信在该场景的应用。通过设计紧凑的语义表示和传输策略，在保证多视图一致性的前提下，降低通信噪声对场景理解的负面影响。初步实验表明该方法能有效提升重建质量，为移动端实时3D重建提供了新的通信-计算协同方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

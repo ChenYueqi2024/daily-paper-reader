@@ -6,44 +6,50 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-19
-- 运行时间：2026-07-19 20:57:20 UTC
+- 最新运行日期：2026-07-20
+- 运行时间：2026-07-20 21:31:25 UTC
 - 运行状态：成功
-- 本次总论文数：8
-- 精读区：4
-- 速读区：4
+- 本次总论文数：10
+- 精读区：3
+- 速读区：7
 
 ### 今日简报（AI）
-今日推荐8篇论文，其中FoundationGeo以9.0分领跑精读与速读。最值得关注的是空间像素场学习实现单目度量几何的方法。建议进一步探索单目深度估计与视-语言空间推理的融合应用。
-- 详情：[/202607/19/README](/202607/19/README)
+今日精读两篇高分论文，涵盖分层驾驶世界模型与基于极线几何的单目深度估计。最值得关注的是Orbis 2的层次化世界模型以及E3DGS中几何-光度等变性的统一方法。建议优先精读高分论文，并结合纹理-地图splatting等速读内容拓展视野。
+- 详情：[/202607/20/README](/202607/20/README)
 
 ### 精读区论文标签
-1. [FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry](/202607/19/2607.11588v2-foundationgeo-learning-spatial-pixel-wise-fields-for-monocular-metric-geometry)  
+1. [Orbis 2: A Hierarchical World Model for Driving](/202607/20/2607.15898v1-orbis-2-a-hierarchical-world-model-for-driving)  
    标签：评分：9.0/10、query:d
-   evidence：单目度量几何估计，像素级场预测
-2. [FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry](/202607/19/2607.11588v3-foundationgeo-learning-spatial-pixel-wise-fields-for-monocular-metric-geometry)  
-   标签：评分：9.0/10、query:d
-   evidence：单目度量几何估计，像素级场预测
-3. [Physics-Informed Diffusion for Biomechanically Plausible 3D Sign Language Generation](/202607/19/2607.14836v1-physics-informed-diffusion-for-biomechanically-plausible-3d-sign-language-generation)  
-   标签：评分：9.0/10、query:d
-   evidence：物理信息扩散模型用于3D骨骼运动生成
-4. [DynTrace: Tracking Dynamic Object Evidence for 4D Spatio-Temporal Reasoning in MLLMs](/202607/19/2607.12503v2-dyntrace-tracking-dynamic-object-evidence-for-4d-spatio-temporal-reasoning-in-mllms)  
+   evidence：用于驾驶的分层世界模型，使用扩散训练目标
+2. [Geometric Distillation from Rectified Stereo: Leveraging Epipolar Cues for Monocular Depth](/202607/20/2607.15600v1-geometric-distillation-from-rectified-stereo-leveraging-epipolar-cues-for-monocular-depth)  
    标签：评分：8.0/10、query:d
-   evidence：用于动态场景理解的4D时空推理
+   evidence：通过几何蒸馏提升单目深度估计
+3. [Vision-Language-Motion Maps: An Open-Vocabulary, Uncertainty-Aware, Queryable Motion Attribute for 3D Scene Maps](/202607/20/2607.16173v1-vision-language-motion-maps-an-open-vocabulary-uncertainty-aware-queryable-motion-attribute-for-3d-scene-maps)  
+   标签：评分：8.0/10、query:d
+   evidence：开放词汇的3D场景地图，融合运动属性
 
 ### 速读区论文标签
-1. [FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry](/202607/19/2607.11588v1-foundationgeo-learning-spatial-pixel-wise-fields-for-monocular-metric-geometry)  
+1. [Bake It Till You Make It: Ultrafast Spatial Texture-Atlas Splatting](/202607/20/2607.13808v1-bake-it-till-you-make-it-ultrafast-spatial-texture-atlas-splatting)  
    标签：评分：7.0/10、query:d
-   evidence：学习空间逐像素场以进行单目度量3D几何
-2. [UniPose9D: Universal Category-Agnostic Object Pose Estimation](/202607/19/2607.09985v1-unipose9d-universal-category-agnostic-object-pose-estimation)  
+   evidence：增强3D高斯泼溅以快速捕获纹理细节
+2. [E3DGS: Unified Geometric-Photometric Equivariance for 3D Gaussian Splatting via Color-as-Geometry Embedding](/202607/20/2607.15536v1-e3dgs-unified-geometric-photometric-equivariance-for-3d-gaussian-splatting-via-color-as-geometry-embedding)  
+   标签：评分：7.0/10、query:d
+   evidence：具有等变性的3D高斯泼溅，统一几何-光度表示
+3. [PE-Field 4D: Video Generation Models as Canvas](/202607/20/2607.15667v1-pe-field-4d-video-generation-models-as-canvas)  
+   标签：评分：7.0/10、query:d
+   evidence：视频扩散中的几何感知控制以实现3D一致性
+4. [Event3R: Asynchronous-to-Global 3D Reconstruction from Event Camera via Spatial-Temporal Feature Aggregation](/202607/20/2607.15727v1-event3r-asynchronous-to-global-3d-reconstruction-from-event-camera-via-spatial-temporal-feature-aggregation)  
+   标签：评分：7.0/10、query:d
+   evidence：从事件相机进行3D重建
+5. [DPNeXt: A Lightweight Multi-Scale Feature Fusion Framework for Efficient ViT-Based Multi-Task Dense Prediction](/202607/20/2607.16012v1-dpnext-a-lightweight-multi-scale-feature-fusion-framework-for-efficient-vit-based-multi-task-dense-prediction)  
+   标签：评分：7.0/10、query:d
+   evidence：用于3D空间场景理解的多任务密集预测
+6. [Toward Semantic Communication for Real-time Mobile 3D Reconstruction](/202607/20/2607.16128v1-toward-semantic-communication-for-real-time-mobile-3d-reconstruction)  
+   标签：评分：7.0/10、query:d
+   evidence：结合语义通信的实时移动3D重建
+7. [DP-Splat: Bayesian Nonparametric Complexity Control for Gaussian Splatting](/202607/20/2607.10912v1-dp-splat-bayesian-nonparametric-complexity-control-for-gaussian-splatting)  
    标签：评分：6.0/10、query:d
-   evidence：通用类别3D物体姿态估计
-3. [When Depth Is Better Told Than Shown: Depth-Ordinal Prompting for Vision-Language Spatial Reasoning](/202607/19/2607.11173v1-when-depth-is-better-told-than-shown-depth-ordinal-prompting-for-vision-language-spatial-reasoning)  
-   标签：评分：6.0/10、query:d
-   evidence：视觉语言模型中的空间推理用于3D理解
-4. [HyperShadow: A Benchmark for Detecting 3D Projections of Higher-Dimensional Spatial Objects](/202607/19/2607.14419v1-hypershadow-a-benchmark-for-detecting-3d-projections-of-higher-dimensional-spatial-objects)  
-   标签：评分：6.0/10、query:d
-   evidence：检测高维物体3D投影的基准，涉及3D形状理解
+   evidence：3D高斯泼溅的贝叶斯非参数复杂度控制，增强3D表示
 
 
 <div class="dpr-home-promo-card">
