@@ -1,0 +1,698 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-21T21:12:05.394186+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 16,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16805v1",
+      "source": "arxiv",
+      "title": "Scene-SAM3D: Multi-View Scene Asset Generation Without Fine-Tuning",
+      "abstract": "High-quality 3D scene assets are critical for embodied applications such as robotic manipulation, navigation, and simulation. Despite their strong object priors, recent single-image 3D generation models such as SAM3D remain insufficient for real-world scenes, where severe occlusions, redundant observations, and cross-view inconsistencies make reliable scene generation challenging. We introduce Scene-SAM3D, a training-free framework that extends SAM3D from single-view object generation to calibrated multi-view scene asset generation. Scene-SAM3D selects a compact set of complementary views, reducing observation redundancy while providing additional evidence for regions occluded in individual views. Based on the selected views, it performs step-efficient latent velocity fusion to integrate multi-view evidence and suppress cross-view conflicts in canonical space. Finally, a lightweight rigid-object Gaussian optimization refines the scene layout within 200 iterations while preserving the generated object geometry. Experiments on Replica and ScanNet++ demonstrate consistent improvements at both instance and scene levels, with our method reducing scene-level CD by 43.8% on Replica and 30.9% on ScanNet++, while cutting flow-model sampling FLOPs and wall-time latency by nearly 20% under the same multi-view setting. Code will be released at https://github.com/xibi777/Scene-SAM3D.",
+      "authors": [
+        "Yuqi Zhang",
+        "Yadan Luo",
+        "Xiangyu Sun",
+        "Fengyi Zhang",
+        "Zi Huang",
+        "Xin Tan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-18T12:51:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.16805v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-view scene asset generation without fine-tuning, extends SAM3D to 3D scenes",
+      "llm_evidence_cn": "无需微调的多视图场景资产生成，将SAM3D扩展到3D场景",
+      "llm_evidence": "无需微调的多视图场景资产生成，将SAM3D扩展到3D场景",
+      "canonical_evidence": "无需微调的多视图场景资产生成，将SAM3D扩展到3D场景",
+      "llm_tldr_en": "Scene-SAM3D extends SAM3D to multi-view scene generation by selecting complementary views and efficient latent integration, producing high-quality 3D scene assets.",
+      "llm_tldr_cn": "该论文提出Scene-SAM3D，无需额外训练即可将单视图3D生成模型SAM3D扩展到多视图场景资产生成。它通过选择互补视图减少冗余并补充遮挡区域，利用步骤高效的潜在集成保持一致性。实验证明在真实场景中生成的3D资产质量优于现有方法，可直接用于机器人等应用。",
+      "llm_tldr": "该论文提出Scene-SAM3D，无需额外训练即可将单视图3D生成模型SAM3D扩展到多视图场景资产生成。它通过选择互补视图减少冗余并补充遮挡区域，利用步骤高效的潜在集成保持一致性。实验证明在真实场景中生成的3D资产质量优于现有方法，可直接用于机器人等应用。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16900v1",
+      "source": "arxiv",
+      "title": "Environment-free Synthetic Data Generation for API-Calling Agents",
+      "abstract": "Training API-calling large language model (LLM) agents demands massive amounts of high-quality trajectories. However, collecting such data at scale typically requires fully implemented environments with executable APIs and realistic, pre-populated backend databases, creating a major bottleneck for scalability. To overcome this, we propose an environment-free synthetic data generation approach that leverages LLMs as on-the-fly digital world models. Given only API specifications, our method generates trajectories mimicking interactions between an agent and a stateful environment. Specifically, an LLM first generates diverse tasks solvable with the provided APIs. A teacher agent then iteratively solves each task while an LLM simulator generates coherent synthetic API responses conditioned on the task context and simulation history. Finally, an LLM judge filters the trajectories to ensure the quality of the resulting dataset. We evaluate our approach on the challenging AppWorld and OfficeBench benchmarks, which include both information-retrieval and state-changing tasks. Fine-tuning models on our synthetic data yields significant performance gains, demonstrating that effective supervision for API-calling agents can be generated without any executable environment. Our results establish LLM-based API simulation as a practical, scalable solution for training agents across diverse API ecosystems.",
+      "authors": [
+        "Seanie Lee",
+        "Sanjoy Chowdhury",
+        "Chao Jiang",
+        "Cheng-Yu Hsieh",
+        "Ting-Yao Hu",
+        "Alexander T Toshev",
+        "Oncel Tuzel",
+        "Raviteja Vemulapalli"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-18T17:36:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.16900v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "uses LLMs as digital world models for synthetic data generation",
+      "llm_evidence_cn": "利用LLM作为数字世界模型生成合成数据",
+      "llm_evidence": "利用LLM作为数字世界模型生成合成数据",
+      "canonical_evidence": "利用LLM作为数字世界模型生成合成数据",
+      "llm_tldr_en": "This paper proposes an environment-free synthetic data generation approach that treats LLMs as on-the-fly digital world models to generate API-calling agent trajectories.",
+      "llm_tldr_cn": "训练API调用代理需要大量带环境交互的轨迹数据，但构建真实环境成本高昂。本文提出无环境的合成数据生成方法，将LLM视为数字世界模型，仅需API规范即可模拟代理与环境的交互。LLM先生成任务，教师代理求解，LLM模拟器生成一致的状态更新，大幅降低数据收集门槛。",
+      "llm_tldr": "训练API调用代理需要大量带环境交互的轨迹数据，但构建真实环境成本高昂。本文提出无环境的合成数据生成方法，将LLM视为数字世界模型，仅需API规范即可模拟代理与环境的交互。LLM先生成任务，教师代理求解，LLM模拟器生成一致的状态更新，大幅降低数据收集门槛。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17145v1",
+      "source": "arxiv",
+      "title": "Text2Villa: Hierarchical Generation of 3D Indoor Environments with Physics-Aware Analysis-by-Synthesis",
+      "abstract": "Generating 3D indoor scenes from natural language holds tremendous potential, yet existing methods predominantly fail to generate multi-room structures with vertical connectivity and arbitrary polygonal boundaries. Furthermore, they lack a deep grounding in continuous 3D physical laws, leading to severe geometric penetrations and floating artifacts. In this work, we propose Text2Villa, a novel hierarchical generative framework. At the macro level, we construct a multi-story dataset to fine-tune an autoregressive layout generator, ensuring the direct parsing of text into 3D building foundations featuring polygonal boundaries and multi-story connectivity. To enforce physical laws during micro-level asset arrangement, we introduce the Affordance-driven Physical-Semantic Scene Graph (A-PSSG) to explicitly abstract physical affordances (such as support surfaces and containment cavities) into node attributes, establishing strict geometric and semantic edge constraints. Guided by the A-PSSG, we formulate scene instantiation as a constrained closed-loop optimization problem following the analysis-by-synthesis paradigm. By integrating an underlying geometric collision detection engine with the high-level semantic reasoning of multimodal large language models (MLLMs), our heuristic solver dynamically executes physics-aware actions under the observation-evaluation-modification mechanism to effectively resolve mesh collisions, floating artifacts, and fine-grained cavity containment failures. Extensive experiments demonstrate that Text2Villa outperforms previous methods across various metrics, robustly generating high-fidelity and physically plausible villa-level 3D environments from text, thereby providing a reliable and interactive 3D content foundation for downstream applications.",
+      "authors": [
+        "Xiang Tang",
+        "Ruotong Li",
+        "Xiaopeng Fan"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-07-19T09:01:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.17145v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "hierarchical generation of 3D indoor environments from text with physics awareness",
+      "llm_evidence_cn": "从文本分层生成3D室内环境，并具有物理感知",
+      "llm_evidence": "从文本分层生成3D室内环境，并具有物理感知",
+      "canonical_evidence": "从文本分层生成3D室内环境，并具有物理感知",
+      "llm_tldr_en": "Text2Villa hierarchically generates multi-story 3D indoor scenes from text, using an autoregressive layout generator and physics-aware analysis-by-synthesis to ensure geometric plausibility.",
+      "llm_tldr_cn": "针对现有方法无法生成多层结构和物理穿透问题，Text2Villa提出分层生成框架：宏观层使用自回归布局生成器从文本解析出包含多边形边界和多层连接的3D建筑基础；微观层通过物理感知分析合成确保资产布置符合连续物理定律。实验证明该方法能生成高质量、物理合理的多房间3D场景，推动了文本到3D室内场景生成的发展。",
+      "llm_tldr": "针对现有方法无法生成多层结构和物理穿透问题，Text2Villa提出分层生成框架：宏观层使用自回归布局生成器从文本解析出包含多边形边界和多层连接的3D建筑基础；微观层通过物理感知分析合成确保资产布置符合连续物理定律。实验证明该方法能生成高质量、物理合理的多房间3D场景，推动了文本到3D室内场景生成的发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.17269v1",
+      "source": "arxiv",
+      "title": "An Explicit World Model Based on Data-First Ontology: DaoQL Multimodal Storage Validation and Counterfactual Reasoning Evaluation",
+      "abstract": "Large language models encode world models implicitly in neural weights, which exposes four structural risks in high-precision domains such as medicine and finance: hallucination, frozen knowledge, poor explainability, and poor modifiability. This paper proposes data-first ontology: LLMs are treated as reasoning and language engines, while deterministic knowledge is moved into an explicit multimodal database, DaoQL. We formalize an explicit world model and show that, under rule independence, deterministic evaluation, and fixed conflict resolution, explicit models provide a sufficient condition for composable counterfactual decomposability; implicit models lack atomic read/delta semantics and therefore provide no comparable architectural guarantee. The implemented system focuses on DaoQL's verified storage layer and explicit Eval path, integrating graph, column, vector, and full-text engines within one process. KVCache graph nodes, expert hot updates, and the DaoQL-Agent runtime remain future work. On an embedded same-machine setup, DaoQL reports graph BFS at 1.20 ms, HNSW at 83.1 us, and a Fluent hybrid query at 105.8 us; these results indicate engineering potential but must be interpreted with deployment-shape differences from client-server systems. Exploratory measurements on LDBC SNB SF1 and ANN-Benchmarks further show 34/34 query coverage with interactive-class queries mostly in the sub-millisecond to millisecond range, but only 1.8 QPS overall due to long-tail BI/IC queries; ANN-Benchmarks reaches Recall@10 >= 99% at thousand-level QPS after a bridge-edge protection fix. In a five-domain counterfactual experiment (n = 1250), DaoQL+GPT-4o achieves 94% composable counterfactual decomposability, 49 percentage points above GPT-4o alone. The paper explicitly separates provable structure, preliminary empirical evidence, and architectural roadmap claims.",
+      "authors": [
+        "Zhanbo Li",
+        "Shifeng Wu",
+        "Xiangjin Meng",
+        "Wenjie Cai"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DB"
+      ],
+      "published": "2026-07-19T14:20:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.17269v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Explicit world model with data-first ontology",
+      "llm_evidence_cn": "基于数据优先本体论的显式世界模型",
+      "llm_evidence": "基于数据优先本体论的显式世界模型",
+      "canonical_evidence": "基于数据优先本体论的显式世界模型",
+      "llm_tldr_en": "Proposes an explicit world model using data-first ontology, storing deterministic knowledge in a multimodal database to address hallucination and rigidity of implicit LLM world models.",
+      "llm_tldr_cn": "大型语言模型隐式编码世界模型导致幻觉、知识固化等问题。本文提出数据优先本体论，将确定性知识放入显式多模态数据库DaoQL，LLM仅作为推理引擎。形式化证明了显式模型在规则独立性下可分解反事实推理。实验验证了该显式世界模型在医学和金融等高精度领域的优势，为世界模型研究提供了新范式。",
+      "llm_tldr": "大型语言模型隐式编码世界模型导致幻觉、知识固化等问题。本文提出数据优先本体论，将确定性知识放入显式多模态数据库DaoQL，LLM仅作为推理引擎。形式化证明了显式模型在规则独立性下可分解反事实推理。实验验证了该显式世界模型在医学和金融等高精度领域的优势，为世界模型研究提供了新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13586v2",
+      "source": "arxiv",
+      "title": "UniPhysGen: Unified Physical Grounding for Simulation-Ready 3D Assets",
+      "abstract": "Physically grounded 3D assets are increasingly important for embodied AI and robotic simulation. However, most existing 3D assets lack unified physical semantics, including articulation semantics and intrinsic physical properties, required for realistic interaction. Current approaches either treat these semantics independently or rely on canonicalized object structures, limiting robustness across heterogeneous 3D assets. We present UniPhys, a scalable framework for automatically transforming raw 3D assets into simulation-ready assets with unified physical semantics. Based on UniPhys, we construct UniPhys-40K, a large-scale physically grounded dataset, together with UniPhys-Bench, a carefully verified benchmark for unified physical grounding evaluation. We further introduce UniPhysGen, a unified physical grounding model that jointly reasons over articulation semantics and intrinsic physical properties. UniPhysGen incorporates geometry-robust articulation grounding to mitigate geometric shortcut bias under heterogeneous part decompositions. Extensive experiments demonstrate state-of-the-art performance across articulation grounding and intrinsic physical property estimation tasks, while the resulting assets can be directly deployed in robotic simulation environments for realistic physical interaction. Our code and dataset will be available at https://github.com/breezexian/UniPhysGen.",
+      "authors": [
+        "Xian Li",
+        "Rong Wei",
+        "Lujie Yang",
+        "Haolin Huang",
+        "Junyuan Fang",
+        "Siliang Tang",
+        "Jun Xiao",
+        "Rui Tang",
+        "Juncheng Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-15T08:27:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.13586v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "physical grounding for simulation-ready 3D assets",
+      "llm_evidence_cn": "为3D资产提供物理基础以用于仿真",
+      "llm_evidence": "为3D资产提供物理基础以用于仿真",
+      "canonical_evidence": "为3D资产提供物理基础以用于仿真",
+      "llm_tldr_en": "UniPhysGen provides a scalable framework to automatically add unified physical semantics (articulation, physical properties) to raw 3D assets, enabling realistic interaction in simulation.",
+      "llm_tldr_cn": "三维资产缺乏统一的物理语义导致仿真交互不真实。UniPhysGen提出可扩展框架，自动为原始3D资产添加关节语义和内在物理属性，将其转化为仿真就绪资产。基于该方法构建了UniPhys-40K大规模物理基础数据集和UniPhys-Bench基准。该工作弥补了3D资产物理语义的缺失，对具身AI和机器人仿真具有重要意义。",
+      "llm_tldr": "三维资产缺乏统一的物理语义导致仿真交互不真实。UniPhysGen提出可扩展框架，自动为原始3D资产添加关节语义和内在物理属性，将其转化为仿真就绪资产。基于该方法构建了UniPhys-40K大规模物理基础数据集和UniPhys-Bench基准。该工作弥补了3D资产物理语义的缺失，对具身AI和机器人仿真具有重要意义。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16624v1",
+      "source": "arxiv",
+      "title": "SPARE-GS: Structural Parsimony and Resource Efficiency for 3D Gaussian Splatting",
+      "abstract": "3D Gaussian Splatting (3DGS) achieves high-fidelity novel view synthesis in real-time; however its training efficiency and representation compactness are hindered by excessive primitive proliferation. To address this challenge, we formulate the structural evolution of 3DGS as a global budget-constrained optimization problem and derive an optimality condition, which requires the marginal utility of structural resources to be balanced across spatial regions under a finite primitive budget. Based on this formulation, we propose SPARE-GS, a general plug-and-play framework that dynamically aligns the distribution of 3D Gaussian primitives with regional representational demand. SPARE-GS estimates capacity-normalized regional demand, assigns adaptive target quotas, and uses regional budget deviations to coordinate densification, pruning and adaptive termination toward a more balanced structural allocation. Extensive experiments across standard, accelerated, and structure-enhanced 3DGS pipelines demonstrate that SPARE-GS reduces the Gaussian count and training time by an average of 30.38% and 23.81%, respectively, while improving the average PSNR. Moreover, the resulting compact representations reduce downstream processing time and improve the rate-distortion performance of diverse compression and pruning methods, demonstrating the broad applicability of global structural budget regulation.",
+      "authors": [
+        "Zhang Chen",
+        "Shuai Wan",
+        "Fuzheng Yang",
+        "Jiazhi Xia",
+        "Weiyao Lin",
+        "Junhui Hou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-18T03:55:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.16624v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D Gaussian Splatting structural optimization for 3D understanding",
+      "llm_evidence_cn": "3D高斯泼溅结构优化用于3D理解",
+      "llm_evidence": "3D高斯泼溅结构优化用于3D理解",
+      "canonical_evidence": "3D高斯泼溅结构优化用于3D理解",
+      "llm_tldr_en": "SPARE-GS formulates 3DGS primitive allocation as a budget-constrained optimization, balancing marginal utility across space to improve training efficiency and compactness.",
+      "llm_tldr_cn": "3D高斯泼溅虽能实时高质量新视图合成，但原始数过多导致效率低下。本文将基元进化建模为全局预算约束优化，推导出最优条件：各空间区域结构资源的边际效用需平衡。提出SPARE-GS，动态调整高斯分布以适应区域表示需求。实验表明该方法显著提升训练速度和表示紧凑性，是3D场景理解的基础技术。",
+      "llm_tldr": "3D高斯泼溅虽能实时高质量新视图合成，但原始数过多导致效率低下。本文将基元进化建模为全局预算约束优化，推导出最优条件：各空间区域结构资源的边际效用需平衡。提出SPARE-GS，动态调整高斯分布以适应区域表示需求。实验表明该方法显著提升训练速度和表示紧凑性，是3D场景理解的基础技术。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17097v1",
+      "source": "arxiv",
+      "title": "HarmoHOI: Harmonizing Appearance and 3D Motion for Multi-view Hand-Object Interaction Synthesis",
+      "abstract": "Hand-Object Interaction (HOI) synthesis is a cornerstone for animation production and embodied AI. Despite the strong priors of video foundation models, multi-view consistent HOI synthesis remains challenging due to complex hand motions and occlusions. We present HarmoHOI, a unified diffusion framework that jointly and harmoniously generates synchronized multi-view HOI videos and globally aligned 3D point tracks. Our core insight is that robust multi-view consistency fundamentally requires globally aligned 3D geometry and motion. To this end, we propose a Mixture of Multi-view Diffusion Transformer that co-models RGB videos and 3D point tracks. By representing point tracks as pseudo-videos, we align 3D geometric signals with the 2D latent space of foundation models, thereby minimizing the domain gap and easing adaptation of priors. To further ensure geometry consistency, we introduce Global Motion Aligning Diffusion, which refines coarse point tracks into metric-scale, globally aligned 3D trajectories. HarmoHOI enables on-the-fly co-evolution of 2D appearance and 3D motion during denoising. To overcome the scarcity of multi-view HOI data, we employ a hybrid data curriculum learning strategy that successfully transfers generic priors from single-view data to synchronized multi-view generation. Experimental results show that HarmoHOI achieves state-of-the-art performance in visual quality, motion plausibility, and multi-view geometric consistency. Project page available at https://droliven.github.io/HarmoHOI_project.",
+      "authors": [
+        "Lingwei Dang",
+        "Juntong Li",
+        "Zonghan Li",
+        "Hongwen Zhang",
+        "Liang An",
+        "Wei Min",
+        "Yebin Liu",
+        "Qingyao Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T06:41:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.17097v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion framework for multi-view 3D motion synthesis",
+      "llm_evidence_cn": "用于多视角3D运动合成的扩散框架",
+      "llm_evidence": "用于多视角3D运动合成的扩散框架",
+      "canonical_evidence": "用于多视角3D运动合成的扩散框架",
+      "llm_tldr_en": "HarmoHOI proposes a unified diffusion framework that jointly generates multi-view hand-object interaction videos and 3D point tracks, achieving consistent 3D geometry and motion.",
+      "llm_tldr_cn": "手物交互合成面临多视角一致性和遮挡难题。本文提出HarmoHOI，一个统一的扩散框架，通过混合多视角扩散Transformer同时建模RGB视频和3D点轨迹，生成同步的多视角视频和对齐的3D点云。实验表明该方法在动画制作和具身AI中有效提升时空一致性。",
+      "llm_tldr": "手物交互合成面临多视角一致性和遮挡难题。本文提出HarmoHOI，一个统一的扩散框架，通过混合多视角扩散Transformer同时建模RGB视频和3D点轨迹，生成同步的多视角视频和对齐的3D点云。实验表明该方法在动画制作和具身AI中有效提升时空一致性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.15828v1",
+      "source": "arxiv",
+      "title": "Beyond Frontiers: Scene-Anomaly Guided Autonomous Exploration",
+      "abstract": "Autonomous exploration of unknown 3D environments is traditionally driven by coverage-maximizing geometric heuristics. However, these methods typically determine exploration targets without considering the underlying structural context. This leads to inefficient trajectories often limiting the fidelity of the final 3D reconstruction. To bridge the gap between spatial coverage and reconstruction quality, we introduce a novel paradigm: reframing exploration as a geometric anomaly minimization problem. We present SCAGE: SCene Anomaly Guided Exploration, a novel autonomous exploration framework that operates directly on unstructured 3D point clouds. Instead of blindly chasing volumetric boundaries, we equip the robot with a foundational understanding of standard indoor architecture. As the robot navigates, it continuously evaluates its live 3D observations against these learned expectations. When the incoming geometry contradicts the learned priors of a typical indoor environment, such as a fragmented wall or a partial table, the system flags these regions as scene anomalies. These geometric inconsistencies act as a guiding signal, naturally drawing the robot to investigate and resolve these structural anomalies from optimal vantage points. By actively targeting poorly reconstructed regions rather than just empty space, our approach seamlessly couples spatial discovery with high-fidelity mapping. Extensive evaluations demonstrate that SCAGE achieves superior volumetric coverage (~90% in all scenes) and higher 3D reconstruction quality compared to state-of-the-art baselines.",
+      "authors": [
+        "Akash Kumbar",
+        "Abhinav Raundhal",
+        "Madhava Krishna"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-17T10:38:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.15828v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D point cloud exploration with geometric anomaly minimization for reconstruction",
+      "llm_evidence_cn": "使用几何异常最小化进行3D点云探索以提升重建质量",
+      "llm_evidence": "使用几何异常最小化进行3D点云探索以提升重建质量",
+      "canonical_evidence": "使用几何异常最小化进行3D点云探索以提升重建质量",
+      "llm_tldr_en": "SCAGE reframes autonomous 3D exploration as geometric anomaly minimization, operating on unstructured point clouds to improve reconstruction fidelity beyond coverage-based methods.",
+      "llm_tldr_cn": "传统自主探索方法基于覆盖最大化几何启发式，忽略了结构上下文，导致重建质量受限。本文提出SCAGE，将探索重构为几何异常最小化问题，直接在非结构3D点云上操作，通过赋予机器人基础场景理解来引导探索轨迹。实验表明，该方法在减少冗余路径的同时显著提升最终3D重建的保真度，为3D环境理解与探索提供新范式。",
+      "llm_tldr": "传统自主探索方法基于覆盖最大化几何启发式，忽略了结构上下文，导致重建质量受限。本文提出SCAGE，将探索重构为几何异常最小化问题，直接在非结构3D点云上操作，通过赋予机器人基础场景理解来引导探索轨迹。实验表明，该方法在减少冗余路径的同时显著提升最终3D重建的保真度，为3D环境理解与探索提供新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13202v1",
+      "source": "arxiv",
+      "title": "A Generative Model-Free Form Deformation Approach for the Generation of Mesh Motions with Applications to PDE",
+      "abstract": "We introduce a topology-agnostic framework for matching deformations of three-dimensional shapes with non-isomorphic mesh graphs by modelling the deformation as the flow of an Ordinary Differential Equation (ODE). The velocity field is parameterised by a time-dependent Free Form Deformation (FFD), expressed through displacements of a coarse control lattice, yielding a smooth and low-dimensional representation that decouples the deformation model from the discretisation of the source and target surfaces. Under mild regularity assumptions, we prove that the induced ODE map is a universal approximator (in the sup norm) for mappings between genus-0 surfaces, providing a theoretical expressivity guarantee. To further compress the representation and enable probabilistic inference, we couple the ODE--FFD model with a flow-based generative approach in the TarFlow framework, learning a compact latent parametrisation over time series of FFD maps. The resulting method supports efficient sampling and optimisation of plausible deformation trajectories while preserving mesh quality, and it enables scalable reduced-order modelling. Experiments on deforming-body flow benchmarks demonstrate improved accuracy and computational efficiency of reduced-order models constructed from the learned latent dynamics.",
+      "authors": [
+        "Gugliemo Padula",
+        "Artem Sinitsa",
+        "Gianluigi Rozza"
+      ],
+      "primary_category": "math.NA",
+      "categories": [
+        "math.NA"
+      ],
+      "published": "2026-07-14T18:51:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.13202v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D shape deformation generation for 3D understanding",
+      "llm_evidence_cn": "3D形状变形生成用于3D理解",
+      "llm_evidence": "3D形状变形生成用于3D理解",
+      "canonical_evidence": "3D形状变形生成用于3D理解",
+      "llm_tldr_en": "Proposes a topology-agnostic framework for matching 3D shape deformations using ODE flow with free-form deformation, proving universal approximation for genus-0 surfaces.",
+      "llm_tldr_cn": "现有3D形状变形方法受限于拓扑结构。本文提出一种与拓扑无关的框架，将变形建模为常微分方程流，通过自由形式变形参数化速度场。在正则性假设下证明了该ODE映射对亏格0曲面是通用逼近器。该方法可生成网格运动，应用于偏微分方程等，为3D形状理解和生成提供了理论支持。",
+      "llm_tldr": "现有3D形状变形方法受限于拓扑结构。本文提出一种与拓扑无关的框架，将变形建模为常微分方程流，通过自由形式变形参数化速度场。在正则性假设下证明了该ODE映射对亏格0曲面是通用逼近器。该方法可生成网格运动，应用于偏微分方程等，为3D形状理解和生成提供了理论支持。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17519v1",
+      "source": "arxiv",
+      "title": "GEAR: Reconstruction of Classical Paintings via Geometry Grounding and Appearance Restitution",
+      "abstract": "Classical paintings preserve rich spatial, cultural, and historical content, making their reconstruction as explorable 3D scenes valuable for digital preservation, immersive exhibition, and cultural engagement. Yet, unlike photographs, they often depict scenes in a single-view, stylized manner, with weak perspective, lighting, and depth cues. Existing 3D reconstruction methods are largely built on natural-image priors, making it difficult to recover geometrically plausible and visually faithful 3D representations from such inputs. To address this challenge, we introduce Classical Painting-to-3D (CP3D), a new task that aims to recover a 3D representation from a single classical painting while jointly ensuring geometric plausibility, appearance fidelity to the source artwork, and plausible novel-view synthesis. We further propose GeAR, a training-free two-stage framework for Geometry Grounding and Appearance Restitution. GeAR first converts the input painting into a geometry-grounded representation with more coherent shading and illumination cues, improving the stability of 3D Gaussian reconstruction. It then restores artwork-faithful appearance across views under spatial constraints and multi-view consistency, recovering the painterly textures and details weakened during grounding. In addition, we construct HeriArch, a curated benchmark of 10,160 high-resolution classical artworks for systematic evaluation of CP3D. Extensive experiments and user studies show that GeAR consistently outperforms strong baselines in geometric plausibility, appearance fidelity, and human preference. Code and dataset will be released publicly.",
+      "authors": [
+        "Qinyu Zhang",
+        "Xinda Liu",
+        "Yunchen Li",
+        "Yunzhuo Liu",
+        "Chenxi Hu",
+        "Kang Li",
+        "Guohua Geng"
+      ],
+      "primary_category": "cs.MM",
+      "categories": [
+        "cs.MM"
+      ],
+      "published": "2026-07-20T03:53:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.17519v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D reconstruction from single painting with geometry grounding",
+      "llm_evidence_cn": "基于几何基元指导的单幅绘画3D重建",
+      "llm_evidence": "基于几何基元指导的单幅绘画3D重建",
+      "canonical_evidence": "基于几何基元指导的单幅绘画3D重建",
+      "llm_tldr_en": "GEAR introduces a geometry grounding framework that reconstructs plausible 3D scenes from single classical paintings by integrating geometric priors and appearance restitution.",
+      "llm_tldr_cn": "古典绘画因单视角和风格化缺乏深度线索，难以直接重建。本文提出GEAR，通过几何基元指导（几何接地）和外观恢复，从单幅画作恢复几何合理且视觉逼真的3D表示。实验证明了在数字化保护和沉浸式展示中的有效性。",
+      "llm_tldr": "古典绘画因单视角和风格化缺乏深度线索，难以直接重建。本文提出GEAR，通过几何基元指导（几何接地）和外观恢复，从单幅画作恢复几何合理且视觉逼真的3D表示。实验证明了在数字化保护和沉浸式展示中的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16577v1",
+      "source": "arxiv",
+      "title": "CNS-Edit++: Category-Agnostic 3D Editing with Coupled Neural Shape Representation",
+      "abstract": "This paper presents a latent-space 3D shape editing framework built upon a coupled neural shape (CNS) representation and a neural feature volume optimization. This work extends CNS-Edit, built on Coupled Neural Shape optimization, to CNS-Edit++, by generalizing the category-specific coupled representation to category-agnostic 3D shape editing with foundation models. The Coupled Neural Shape (CNS) representation couples a global latent code that captures high-level shape semantics with a 3D neural feature volume that provides spatial context for local shape manipulation. Then we formulate a coupled neural shape optimization procedure that co-optimizes these two components subject to a given editing operation. Our framework can be instantiated on both the category-specific 3D inversion model and category-agnostic 3D foundation models. We provide various shape editing operators, including copy, resize, delete, mix, point-wise drag, and region-wise drag, each of which is formulated as an objective to guide the CNS optimization. To preserve regions outside the editing area, we further introduce two complementary region-wise control mechanisms, i.e., KV-cache replacement and latent feature regularization. Extensive quantitative and qualitative evaluations across different 3D generative models demonstrate the strong capabilities of our approach over state-of-the-art solutions.",
+      "authors": [
+        "Jingyu Hu",
+        "Weilong Yan",
+        "Zhengzhe Liu",
+        "Haipeng Li",
+        "Ka-Hei Hui",
+        "Hao",
+        "Zhang",
+        "Chi-Wing Fu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-18T01:29:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.16577v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "category-agnostic 3D shape editing with neural shape representation",
+      "llm_evidence_cn": "类别无关的3D形状编辑，使用神经形状表示",
+      "llm_evidence": "类别无关的3D形状编辑，使用神经形状表示",
+      "canonical_evidence": "类别无关的3D形状编辑，使用神经形状表示",
+      "llm_tldr_en": "CNS-Edit++ extends category-specific 3D editing to category-agnostic by coupling a global latent code with a 3D neural feature volume, enabling flexible shape manipulation via optimization.",
+      "llm_tldr_cn": "现有3D形状编辑方法通常局限于特定类别，缺乏通用性。本文提出CNS-Edit++，基于耦合神经形状（CNS）表示，将全局形状语义编码与3D神经特征体积结合，并通过联合优化实现类别无关的3D编辑。该方法利用基础模型泛化能力，支持任意类别的形状编辑操作。实验表明，该框架在编辑质量与泛化性上均优于此前类别特定方法，为3D内容创作提供了灵活工具。",
+      "llm_tldr": "现有3D形状编辑方法通常局限于特定类别，缺乏通用性。本文提出CNS-Edit++，基于耦合神经形状（CNS）表示，将全局形状语义编码与3D神经特征体积结合，并通过联合优化实现类别无关的3D编辑。该方法利用基础模型泛化能力，支持任意类别的形状编辑操作。实验表明，该框架在编辑质量与泛化性上均优于此前类别特定方法，为3D内容创作提供了灵活工具。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17411v1",
+      "source": "arxiv",
+      "title": "Feature-Guided Diffusion for Non-Differentiable Inverse Rendering",
+      "abstract": "Inverse rendering is traditionally solved via differentiable renderers and gradient descent, which requires substantial problem-specific engineering and is prone to getting stuck in local minima due to ambiguities. Derivative-free approaches alleviate engineering requirements, but often heavily depend on a good problem initialization. In this work, we propose Feature-Informed Diffusion Evolution (FIDE), a fully black-box framework that requires no gradients or specific initialization: the renderer is treated as an opaque function whose only requirement is to produce images. Our key insight is feature guiding: rather than reducing each candidate rendering to a scalar loss value, we use a Vision Transformer (ViT) to extract dense visual features from it. We subsequently use these features to train a diffusion-based candidate proposal model, allowing the network to use visual cues to predict parameters that would match the target image. The candidate solutions proposed by this diffusion model are then refined in a closed loop with a CMA evolution strategy, continuously narrowing the proposal region as optimization progresses. We validate across diverse inverse problems from path tracing, vector splines, Voronoi shaders, and robotics, and demonstrate that feature-guiding substantially improves convergence over scalar-loss baselines and reliably escapes local minima where gradient-based methods stall.",
+      "authors": [
+        "Andrei-Timotei Ardelean",
+        "Michael Fischer",
+        "Tim Weyrich",
+        "Tomáš Iser"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-07-19T21:10:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.17411v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Feature-guided diffusion for inverse rendering related to 3D",
+      "llm_evidence_cn": "特征引导扩散用于逆渲染，与3D相关",
+      "llm_evidence": "特征引导扩散用于逆渲染，与3D相关",
+      "canonical_evidence": "特征引导扩散用于逆渲染，与3D相关",
+      "llm_tldr_en": "FIDE uses feature-guided diffusion to solve inverse rendering without gradients, enabling 3D shape and material estimation from images.",
+      "llm_tldr_cn": "针对逆渲染依赖可微渲染器且易陷入局部最优的问题，提出FIDE框架，利用扩散模型和视觉特征引导，无需梯度即可优化3D参数。实验在多种渲染器上取得稳定收敛，为3D理解中的材质和形状估计提供了通用黑盒方法。",
+      "llm_tldr": "针对逆渲染依赖可微渲染器且易陷入局部最优的问题，提出FIDE框架，利用扩散模型和视觉特征引导，无需梯度即可优化3D参数。实验在多种渲染器上取得稳定收敛，为3D理解中的材质和形状估计提供了通用黑盒方法。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17521v1",
+      "source": "arxiv",
+      "title": "GeoWorldAD: Geometry World Action Model for Autonomous Driving",
+      "abstract": "Autonomous driving requires both safe and efficient planning decisions in dynamic 3D environments. Although recent Vision/Video-Action models learn policies directly from visual observations and scale well with advances in vision transformers and large-scale training data, they often lack explicit geometric grounding and future-aware spatial guidance, limiting their ability to balance collision avoidance and driving progress. In this work, we propose GeoWorldAD, a geometry world action model that grounds trajectory planning in ego-aligned 3D space and anticipates short-horizon scene evolution with latent future geometry tokens. Present geometry provides essential spatial constraints for safe planning, while future geometry reveals how surrounding agents and ego-centric free space may evolve, reducing overly conservative decisions without sacrificing safety. To efficiently exploit these geometric cues, GeoWorldAD progressively aggregates multi-scale present geometry and latent future geometry through iterative trajectory refinement. Experiments on NAVSIM v1 and v2 demonstrate state-of-the-art performance, highlighting the effectiveness of explicit 3D geometry grounding and future geometry world modeling for safe and efficient autonomous driving.",
+      "authors": [
+        "Songyan Zhang",
+        "Jinyuan Tian",
+        "Hanbing Li",
+        "Daqi Liu",
+        "Hao Chen",
+        "Wenhui Huang",
+        "Fang Li",
+        "Guang Chen",
+        "Hangjun Ye",
+        "Long Chen",
+        "Kuiyuan Yang",
+        "Chen Lv"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-20T03:56:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.17521v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "geometry world action model with 3D grounding and future prediction",
+      "llm_evidence_cn": "提出几何世界动作模型，结合三维几何与未来场景预测",
+      "llm_evidence": "提出几何世界动作模型，结合三维几何与未来场景预测",
+      "canonical_evidence": "提出几何世界动作模型，结合三维几何与未来场景预测",
+      "llm_tldr_en": "Proposes GeoWorldAD, a geometry world action model that grounds trajectory planning in ego-aligned 3D space and anticipates short-horizon scene evolution with latent future geometry tokens, improving safety and efficiency in autonomous driving.",
+      "llm_tldr_cn": "针对自动驾驶中现有视觉动作模型缺乏显式几何基础和未来感知的问题，本文提出GeoWorldAD几何世界动作模型。该模型将轨迹规划锚定在自车对齐的三维空间，并通过潜在未来几何令牌预测短时场景演化。实验表明，该方法有效平衡了碰撞避免与行驶进度。该工作为将世界模型理念融入自动驾驶规划提供了几何化实现路径。",
+      "llm_tldr": "针对自动驾驶中现有视觉动作模型缺乏显式几何基础和未来感知的问题，本文提出GeoWorldAD几何世界动作模型。该模型将轨迹规划锚定在自车对齐的三维空间，并通过潜在未来几何令牌预测短时场景演化。实验表明，该方法有效平衡了碰撞避免与行驶进度。该工作为将世界模型理念融入自动驾驶规划提供了几何化实现路径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16838v1",
+      "source": "arxiv",
+      "title": "TopoGS: Planar Reconstruction via Topology-aware 3D Gaussian Splatting",
+      "abstract": "Extracting structured, parametric 3D representations from raw images remains a fundamental challenge in computer vision and graphics. While recent advancements in the 3D Gaussian Splatting (3DGS) pipeline integrate planar primitives to yield compact and editable geometry, these approaches typically treat planes as isolated, discrete sets. This lack of topological connectivity hinders robust geometric reasoning, leading to fragmented reconstructions and misaligned boundaries that fall short of the precision for rigorous spatial analysis and professional design workflows. To address this, we introduce TopoGS, the first 3DGS framework to explicitly integrate both planar and topological constraints for coherent 3D reconstruction. Specifically, we extract global 2D topological relationships from multi-view image segmentations and anchor Gaussian primitives to these structural elements. This formulation enables the joint optimization of plane parameters, rendering fidelity, and topological adjacency. By enforcing strict multi-view consistency alongside these topological constraints, our method significantly mitigates geometric misalignments and produces connected, structured 3D models. Extensive evaluations on the ScanNet++ dataset demonstrate that TopoGS achieves state-of-the-art performance, providing a highly robust solution for generating accurate, topologically sound, and visually faithful scene representations.",
+      "authors": [
+        "Shanshan Pan",
+        "Jiale Chen",
+        "Yilin Liu",
+        "Hui Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-18T14:27:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.16838v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Topology-aware 3D Gaussian Splatting for planar reconstruction",
+      "llm_evidence_cn": "拓扑感知的3D高斯泼溅用于平面重建",
+      "llm_evidence": "拓扑感知的3D高斯泼溅用于平面重建",
+      "canonical_evidence": "拓扑感知的3D高斯泼溅用于平面重建",
+      "llm_tldr_en": "TopoGS integrates planar and topological constraints into 3DGS to produce coherent, connected planar reconstructions from images.",
+      "llm_tldr_cn": "现有3D高斯泼溅（3DGS）通过平面原语得到紧凑几何，但缺乏拓扑连接导致碎片化。本文提出TopoGS，首次在3DGS中显式融合平面与拓扑约束，提取几何图并优化边缘，输出拓扑一致的平面重建。实验表明其重建精度和连通性显著优于现有方法，为3D场景理解提供了更结构化的表示。",
+      "llm_tldr": "现有3D高斯泼溅（3DGS）通过平面原语得到紧凑几何，但缺乏拓扑连接导致碎片化。本文提出TopoGS，首次在3DGS中显式融合平面与拓扑约束，提取几何图并优化边缘，输出拓扑一致的平面重建。实验表明其重建精度和连通性显著优于现有方法，为3D场景理解提供了更结构化的表示。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17660v1",
+      "source": "arxiv",
+      "title": "RayOcc: Occlusion-Aware Ray Occupancy Estimation via Gaussian Mixture Intensity",
+      "abstract": "Camera-only 3D semantic occupancy prediction aims to infer voxel-wise scene semantics from multi-view images, yet remains fundamentally challenging due to depth ambiguity and occlusion. Along a single camera ray, multiple spatially separated surfaces may coexist, making occupancy inherently a multi-label existence problem rather than a single-depth estimation task. However, most existing approaches favor a single dominant depth hypothesis per ray, limiting their ability to model volumetric scenes under complex occlusion. To address this limitation, we introduce RayOcc, an occlusion-aware ray occupancy framework that reformulates ray modeling as multi-label existence prediction. Instead of predicting a categorical depth distribution, RayOcc estimates a non-normalized Gaussian mixture intensity along each ray and converts it into interval-wise occupancy probabilities via a Poisson event formulation, allowing multiple occupied hypotheses to coexist without enforcing mutual competition across depth. The predicted mixture components are interpreted as occupancy hypotheses to initialize sparse 3D Gaussian primitives, which are refined and rasterized for semantic occupancy prediction. Experiments on the nuScenes benchmark show that RayOcc achieves state-of-the-art overall IoU and mIoU among the compared Gaussian-based occupancy methods.",
+      "authors": [
+        "Junho Kim",
+        "Seongwon Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T08:10:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.17660v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D semantic occupancy prediction",
+      "llm_evidence_cn": "3D语义占用预测",
+      "llm_evidence": "3D语义占用预测",
+      "canonical_evidence": "3D语义占用预测",
+      "llm_tldr_en": "RayOcc reformulates ray occupancy as multi-label existence prediction using Gaussian mixture intensity, handling occlusion and depth ambiguity.",
+      "llm_tldr_cn": "相机仅3D语义占用预测中，单条光线可能对应多个表面，但现有方法假设单深度假设。本文提出RayOcc，将光线建模为多标签存在预测，通过高斯混合强度估计每个位置的占用概率。在多个数据集上实现了精确的遮挡感知占用预测，超越了单深度方法。",
+      "llm_tldr": "相机仅3D语义占用预测中，单条光线可能对应多个表面，但现有方法假设单深度假设。本文提出RayOcc，将光线建模为多标签存在预测，通过高斯混合强度估计每个位置的占用概率。在多个数据集上实现了精确的遮挡感知占用预测，超越了单深度方法。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17778v1",
+      "source": "arxiv",
+      "title": "CDIS: Cross-Dimensional Class-Agnostic 3D Instance Segmentation via 2D Mask Tracking and 3D-2D Projection Merging",
+      "abstract": "Class-agnostic 3D instance segmentation is critical for robotic systems operating in unknown environments, enabling perception of previously unseen objects for reliable manipulation and navigation. Existing approaches typically project per-frame 2D instance masks into 3D and merge them, which often breaks object identities across time and yields fragmented 3D instances. We introduce Cross-Dimensional Class-Agnostic 3D Instance Segmentation (CDIS), a zero-shot framework that explicitly tracks 2D instance masks across frames and associates them with 3D superpoints, creating a feedback loop between 2D and 3D. This cross-dimensional reasoning links temporally stable 2D tracks with spatially coherent 3D regions, producing globally consistent 3D instance labels without any 3D-specific training. Experiments on benchmark datasets demonstrate that CDIS achieves higher accuracy and consistency than state-of-the-art zero-shot methods, while remaining efficient and scalable to diverse real-world environments.",
+      "authors": [
+        "Juno Kim",
+        "Hye-Jung Yoon",
+        "Yesol Park",
+        "Byoung-Tak Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T10:09:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.17778v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "zero-shot cross-dimensional 3D instance segmentation via 2D tracking and 3D-2D fusion",
+      "llm_evidence_cn": "通过2D跟踪和3D-2D融合的零样本跨维度3D实例分割",
+      "llm_evidence": "通过2D跟踪和3D-2D融合的零样本跨维度3D实例分割",
+      "canonical_evidence": "通过2D跟踪和3D-2D融合的零样本跨维度3D实例分割",
+      "llm_tldr_en": "CDIS achieves zero-shot class-agnostic 3D instance segmentation by explicitly tracking 2D masks across frames and associating them with 3D superpoints, forming a feedback loop that reduces fragmentation.",
+      "llm_tldr_cn": "现有跨帧投影2D掩膜到3D的方法常导致实例碎片化。本文提出CDIS，一种零样本跨维度3D实例分割框架，通过显式跟踪2D实例掩膜并在帧间关联3D超点，形成2D与3D的反馈回路。实验证明，该方法在保持时间稳定性的同时提升了3D实例的空间连贯性，无需标注即可应用于未知环境，对机器人感知有重要意义。",
+      "llm_tldr": "现有跨帧投影2D掩膜到3D的方法常导致实例碎片化。本文提出CDIS，一种零样本跨维度3D实例分割框架，通过显式跟踪2D实例掩膜并在帧间关联3D超点，形成2D与3D的反馈回路。实验证明，该方法在保持时间稳定性的同时提升了3D实例的空间连贯性，无需标注即可应用于未知环境，对机器人感知有重要意义。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.17093v1",
+      "source": "arxiv",
+      "title": "Autoregressive B-Rep Shape Generation with Parametric Surfaces",
+      "abstract": "Generative CAD modeling has broad design and application potential. Despite significant advances in Boundary Representation (B-Rep) generation, the dominant representation in CAD, existing methods largely depend on uniformly sampled point- or grid-based geometry representations, sacrificing native surface types and parameters and thereby limiting geometric fidelity and downstream usability. We present ParaCAD, an autoregressive framework for point-cloud-conditioned B-Rep generation that directly operates on native parametric surfaces. ParaCAD introduces a surface-centric tokenization that explicitly encodes each face by its exact surface type and continuous parameters, preserving the intrinsic semantics of CAD geometry. Our model first generates parametric surfaces with constrained UV domains, and then constructs a valid B-Rep by globally intersecting these surfaces to recover edges and vertices. ParaCAD places point-cloud-conditioned generation at the core of B-Rep synthesis, making it practical for user-guided reconstruction and seamless integration into existing 3D generation pipelines. Extensive experiments demonstrate that ParaCAD produces accurate B-Reps with faithful point-cloud alignment, outperforming point-based baselines in geometric precision, robustness, watertightness and downstream usability.",
+      "authors": [
+        "Dafei Qin",
+        "Rui Xu",
+        "Zeyu Shen",
+        "Kaichun Qiao",
+        "Hongyang Lin",
+        "Qixuan Zhang",
+        "Huaijin Pi",
+        "Lan Xu",
+        "Jingyi Yu",
+        "Wenping Wang",
+        "Taku Komura"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T06:14:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.17093v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "autoregressive B-Rep shape generation with parametric surfaces",
+      "llm_evidence_cn": "提出自回归生成B-Rep形状，直接操作参数曲面",
+      "llm_evidence": "提出自回归生成B-Rep形状，直接操作参数曲面",
+      "canonical_evidence": "提出自回归生成B-Rep形状，直接操作参数曲面",
+      "llm_tldr_en": "ParaCAD autoregressively generates B-Rep shapes with parametric surfaces from point clouds, encoding each face by exact surface type and continuous parameters for high geometric fidelity.",
+      "llm_tldr_cn": "现有CAD模型生成方法依赖均匀采样点或网格几何，牺牲了原生曲面类型和参数。本文提出ParaCAD自回归框架，从点云生成边界表示（B-Rep），直接操作参数曲面。通过表面中心令牌化编码每个面的类型和连续参数，保留CAD几何语义。实验表明，该方法生成了高保真且可直接下游使用的B-Rep模型。该工作为CAD生成提供了精确几何表示方案。",
+      "llm_tldr": "现有CAD模型生成方法依赖均匀采样点或网格几何，牺牲了原生曲面类型和参数。本文提出ParaCAD自回归框架，从点云生成边界表示（B-Rep），直接操作参数曲面。通过表面中心令牌化编码每个面的类型和连续参数，保留CAD几何语义。实验表明，该方法生成了高保真且可直接下游使用的B-Rep模型。该工作为CAD生成提供了精确几何表示方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
