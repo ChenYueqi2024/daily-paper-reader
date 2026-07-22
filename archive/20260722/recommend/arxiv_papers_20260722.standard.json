@@ -1,0 +1,571 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-22T20:24:24.196212+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 8,
+    "quick_skim_target": 11,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2607.19120v1",
+      "source": "arxiv",
+      "title": "Latent Riemannian Flow Matching for Geometry-Grounded 3D Foundation Models",
+      "abstract": "Geometric foundation models, such as the Visual Geometry Grounded Transformer (VGGT), provide strong 3D priors from unposed images. However, such models operate purely in a feed-forward, deterministic regime, \\ie~they cannot generate plausible geometry beyond what the input views directly support. Generative models for 3D scenes, on the other hand, must rely on strong geometric priors to produce coherent outputs from sparse inputs. We bridge these two paradigms by performing flow matching directly in VGGT's latent space, leveraging its learned 3D priors without committing to any explicit downstream representation such as Gaussians, meshes, or video-VAE latents. This requires respecting the latent geometry: VGGT tokens occupy a product of high-dimensional hyperspheres on which standard Euclidean flow matching fails. We address this with a Riemannian Flow Matching framework defined on a product manifold of four hyperspheres, aligned with VGGT's multi-scale encoder, which keeps generated tokens on the valid data manifold required by the frozen decoding heads. On RealEstate10K, ScanNet++ and ETH3D, our method achieves strong performance against recent scene generation baselines in both per-view appearance and aggregated 3D geometry, establishing latent-space flow matching on geometric foundation models as a viable paradigm for 3D generation. The project page can be found $\\href{https://lisaweijler.github.io/geometry-grounded-rfm/}{\\text{here}}$.",
+      "authors": [
+        "Lisa Weijler",
+        "Irene Ballester",
+        "Guofeng Mei",
+        "Tolga Birdal",
+        "Pedro Hermosilla"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T14:06:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.19120v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "flow matching in VGGT latent space for 3D generation",
+      "llm_evidence_cn": "在VGGT隐空间中进行流匹配实现3D生成",
+      "llm_evidence": "在VGGT隐空间中进行流匹配实现3D生成",
+      "canonical_evidence": "在VGGT隐空间中进行流匹配实现3D生成",
+      "llm_tldr_en": "This paper performs flow matching directly in VGGT's latent space to enable generative 3D geometry from sparse views, bridging deterministic and generative paradigms.",
+      "llm_tldr_cn": "该工作直接在Visual Geometry Grounded Transformer(VGGT)的隐空间中执行黎曼流匹配，赋予纯前馈确定性模型生成能力，支持从稀疏视角生成合理的3D几何，弥合了确定性预测与生成建模之间的鸿沟。",
+      "llm_tldr": "该工作直接在Visual Geometry Grounded Transformer(VGGT)的隐空间中执行黎曼流匹配，赋予纯前馈确定性模型生成能力，支持从稀疏视角生成合理的3D几何，弥合了确定性预测与生成建模之间的鸿沟。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "Visual Geometry Grounded Transformer",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18703v1",
+      "source": "arxiv",
+      "title": "Generative World Renderer at the Speed of Play",
+      "abstract": "Generative world renderer AlayaRenderer receives structured world states exported from physics engines and synthesizes RGB frames. Unlike models that generate frames from text/control-hints prompts, AlayaRenderer preserves scene structure without altering the underlying world dynamics. This demonstrates an alternative path toward interactive world modeling and user-controllable play. However, the original AlayaRenderer is too computationally expensive for real-time deployment. This technical report introduces AlayaRenderer-Flash, a real-time-oriented generative forward world renderer that pushes AlayaRenderer from 0.56 FPS to 31.54 FPS, reaching the speed of play. AlayaRenderer-Flash reformulates the original renderer as a few-step autoregressive streaming model and introduces lightweight distilled codecs for efficient latent encoding and frame reconstruction. It retains the teacher model's G-buffer and text-prompt interfaces while enabling continuous rendering over input streams of unbounded length. We evaluate AlayaRenderer-Flash on G-buffer streams across content preservation, temporal consistency, cross-window stability, prompt controllability, and runtime efficiency. Our results show that AlayaRenderer-Flash substantially reduces inference cost while preserving the core rendering capabilities of the teacher model. By integrating AlayaRenderer-Flash with a physics engine, we build a fully playable generative world running at 30 FPS.",
+      "authors": [
+        "Guixu Lin",
+        "Zheng-Hui Huang",
+        "Siqi Yang",
+        "Ming-Hsuan Yang",
+        "Kaipeng Zhang",
+        "Zhixiang Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T04:54:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.18703v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generative world renderer for interactive world modeling",
+      "llm_evidence_cn": "生成式世界渲染器，用于交互式世界建模",
+      "llm_evidence": "生成式世界渲染器，用于交互式世界建模",
+      "canonical_evidence": "生成式世界渲染器，用于交互式世界建模",
+      "llm_tldr_en": "AlayaRenderer-Flash is a real-time generative world renderer that synthesizes RGB frames from physics engine states, achieving 31.54 FPS for interactive world modeling.",
+      "llm_tldr_cn": "生成式世界渲染器通常因计算成本高而无法实时运行。本文提出AlayaRenderer-Flash，将原有渲染器重构为少步自回归流模型，速度从0.56 FPS提升至31.54 FPS，达到可玩速度。该工作展示了实时交互式世界建模的另一条路径，为游戏和模拟应用提供了高效解决方案。",
+      "llm_tldr": "生成式世界渲染器通常因计算成本高而无法实时运行。本文提出AlayaRenderer-Flash，将原有渲染器重构为少步自回归流模型，速度从0.56 FPS提升至31.54 FPS，达到可玩速度。该工作展示了实时交互式世界建模的另一条路径，为游戏和模拟应用提供了高效解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18715v1",
+      "source": "arxiv",
+      "title": "DWM: Separating World Effects from Actions in Latent World Models",
+      "abstract": "Latent world models underpin much of modern model-based control, yet current action-conditioned formulations supervise   the next-latent transition with a single, undifferentiated target, forcing a monolithic learning signal to absorb every   source of state change. In real world, however, transitions arise from two heterogeneous sources: an action-driven   component induced by the agent, and an action-invariant world effect -- the change that would still occur under a null   action, dictated by the environment's intrinsic dynamics (e.g., gravity-driven sliding, inertia, contact rebound, and   persistent drift). Fusing them into a single target entangles the two inside the latent transition, prevents the model   from attributing observed changes to their underlying causes, and undermines the transferability of the learned   dynamics. We introduce DWM (Decomposed World Model), a supervision-level framework that operationalizes this   decomposition. DWM augments the predictor of a latent world model with an auxiliary world head, regularized by a   normalized world-contrastive objective to be action-invariant, while the original pred head is coupled to it via an   orthogonality constraint; together, the two signals induce an explicit additive decomposition of the predicted   transition into an action-invariant and a complementary action-driven component, without altering the underlying   architecture or inference pipeline. To evaluate DWM under persistent world effects, we construct W-variants of three   standard control benchmarks -- PushT-W, Reacher-W, and TwoRoom-W -- each instantiating a distinct action-invariant   dynamic. DWM matches strong baselines on the flat counterparts and delivers a mean absolute improvement of 13.1% in CEM   planning success across the W-variants.",
+      "authors": [
+        "Yi-Ge Zhang",
+        "Tianqi Du",
+        "Qi Zhang",
+        "Yisen Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-21T05:13:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.18715v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Separating world effects from actions in latent world models",
+      "llm_evidence_cn": "在潜在世界模型中分离世界效应与动作",
+      "llm_evidence": "在潜在世界模型中分离世界效应与动作",
+      "canonical_evidence": "在潜在世界模型中分离世界效应与动作",
+      "llm_tldr_en": "DWM introduces a decomposed latent dynamics model that separates action-driven changes from environment-intrinsic dynamics, improving model-based control.",
+      "llm_tldr_cn": "现有潜在世界模型将动作驱动和环境内源变化混合建模，导致归因困难。DWM提出解耦的潜在转移模型，分别建模两类变化：由动作引起的可控分量和由环境固有动力学（如重力、惯性）引起的世界效应。在多个控制任务上，分离式建模提升了状态预测和规划性能，为构建更具解释性的世界模型奠定了基础。",
+      "llm_tldr": "现有潜在世界模型将动作驱动和环境内源变化混合建模，导致归因困难。DWM提出解耦的潜在转移模型，分别建模两类变化：由动作引起的可控分量和由环境固有动力学（如重力、惯性）引起的世界效应。在多个控制任务上，分离式建模提升了状态预测和规划性能，为构建更具解释性的世界模型奠定了基础。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18801v1",
+      "source": "arxiv",
+      "title": "ZeroSplat: Generalized Referring Segmentation in 3D Gaussian Splatting",
+      "abstract": "Recent advancements in 3D Gaussian Splatting (3DGS) have enabled language-guided scene understanding. However, existing Referring 3D Gaussian Splatting (R3DGS) methods are fundamentally restricted to single-target queries. To reflect the ambiguity of real-world instructions, we introduce the Generalized Referring 3D Gaussian Splatting Segmentation (GR3DGS) task, which requires dynamically segmenting an arbitrary number of targets (0, 1, or $N$). To facilitate comprehensive evaluation of this new task, we construct two new benchmarks: GR-LERF and GR-ScanNet. Crucially, existing R3DGS paradigms exhibit fundamental technical bottlenecks that severely limit their performance on the GR3DGS task: they lack intrinsic 3D point-level understanding by operating merely on 2D rendered pixels, and they incur prohibitive computational overhead by requiring per-scene optimization to embed heavy semantic features. To dismantle these bottlenecks, we propose ZeroSplat, a novel training-free and zero-feature framework. ZeroSplat lifts 2D Vision-Language Model (VLM) priors into 3D space through robust multi-view geometric constraints. This strategy enables intrinsic point-level understanding without incurring any additional feature storage. Extensive experiments demonstrate that ZeroSplat significantly outperforms state-of-the-art methods across generalized and single-target scenarios while maintaining exceptional efficiency. Project Page: https://inkmind-ai.github.io/ZeroSplat",
+      "authors": [
+        "Jiayu Ding",
+        "Meilu Song",
+        "Xiaoyi Zhang",
+        "Hongbo Jin",
+        "Yichen Jin",
+        "Xiangtian Si"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T07:27:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.18801v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "language-guided 3D scene segmentation using Gaussian Splatting",
+      "llm_evidence_cn": "基于高斯泼溅的语言引导3D场景分割",
+      "llm_evidence": "基于高斯泼溅的语言引导3D场景分割",
+      "canonical_evidence": "基于高斯泼溅的语言引导3D场景分割",
+      "llm_tldr_en": "Generalized referring segmentation in 3D Gaussian Splatting for dynamic multi-target segmentation with new benchmarks.",
+      "llm_tldr_cn": "该论文针对现有3D高斯泼溅指代分割只能处理单个目标的问题，提出了广义指代分割任务GR3DGS，要求动态分割任意数量的目标。通过引入新的基准GR-LERF和GR-ScanNet，揭示了现有方法在3D点级理解上的瓶颈。该方法有望提升真实场景中的语言引导3D理解能力。",
+      "llm_tldr": "该论文针对现有3D高斯泼溅指代分割只能处理单个目标的问题，提出了广义指代分割任务GR3DGS，要求动态分割任意数量的目标。通过引入新的基准GR-LERF和GR-ScanNet，揭示了现有方法在3D点级理解上的瓶颈。该方法有望提升真实场景中的语言引导3D理解能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19228v1",
+      "source": "arxiv",
+      "title": "IGGT4D: Streaming 4D Instance-Grounded Geometry Transformer",
+      "abstract": "Real-world spatial intelligence requires agents to understand scenes from continuous video streams, where objects move, persist, disappear, and reappear over time. While recent spatial foundation models have enabled generalizable feed-forward 3D reconstruction, most streaming methods remain geometry-centric and lack temporally consistent object-level understanding. Meanwhile, existing semantic reconstruction and 3D-aware vision-language methods largely rely on externally extracted 2D semantic cues or loosely coupled geometry inputs, limiting unified geometry-instance learning in long dynamic scenes. In this paper, we propose IGGT4D, a streaming instance-grounded geometry Transformer for online 4D scene understanding. IGGT4D processes video frames sequentially, reuses historical context through causal spatial-temporal modeling, and incrementally updates a unified representation of camera motion, geometry, and object identity. This enables long-sequence feed-forward reconstruction with geometry-instance consistency in dynamic environments. To address the lack of high-quality 4D supervision, we further construct InsScene4D-147K, a large-scale dataset spanning real/synthetic and static/dynamic scenes, with RGB images, depth, poses, and temporally consistent instance masks generated by an automated geometry-guided annotation pipeline. Experiments on 3D reconstruction, pose estimation, instance spatial tracking, and open-vocabulary segmentation demonstrate that IGGT4D outperforms existing streaming baselines while maintaining scalable online inference for long dynamic sequences.",
+      "authors": [
+        "Zhengyu Zou",
+        "Hao Li",
+        "Kuixuan Jiao",
+        "Liu Liu",
+        "Tingyang Xiao",
+        "Xiaolin Zhou",
+        "Fangzhou Hong",
+        "Zhizhong Su",
+        "Dingwen Zhang",
+        "Ziwei Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T16:00:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.19228v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Streaming 4D geometry Transformer for online 4D scene understanding",
+      "llm_evidence_cn": "流式4D几何Transformer实现在线4D场景理解",
+      "llm_evidence": "流式4D几何Transformer实现在线4D场景理解",
+      "canonical_evidence": "流式4D几何Transformer实现在线4D场景理解",
+      "llm_tldr_en": "IGGT4D proposes a streaming instance-grounded geometry Transformer for online 4D scene understanding, processing video frames sequentially to achieve temporally consistent object-level understanding in dynamic scenes.",
+      "llm_tldr_cn": "针对现有流式3D重建方法缺少时间一致的目标级理解的问题，本文提出IGGT4D，一种流式实例接地几何Transformer，能够在线处理视频帧实现4D场景理解。该方法通过逐帧处理保持时空一致性，在动态场景中实现了统一几何与实例的学习。实验表明其在多目标跟踪和4D重建上表现优越，推动了空间智能发展。",
+      "llm_tldr": "针对现有流式3D重建方法缺少时间一致的目标级理解的问题，本文提出IGGT4D，一种流式实例接地几何Transformer，能够在线处理视频帧实现4D场景理解。该方法通过逐帧处理保持时空一致性，在动态场景中实现了统一几何与实例的学习。实验表明其在多目标跟踪和4D重建上表现优越，推动了空间智能发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "Visual Geometry Grounded Transformer",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18630v1",
+      "source": "arxiv",
+      "title": "Seeing Before Generating: Object Perception Enhances Single-View 3D Reconstruction",
+      "abstract": "The relationship between object perception and reconstruction is well established in human vision, yet remains underexplored in computer vision. In this paper, we demonstrate that learnt object perception can significantly enhance 3D reconstruction. Focusing on the challenging task of single-view 3D object reconstruction, we propose a method that leverages perceptual signals extracted from pretrained perception models capturing semantic and geometric information to drive the reconstruction of an object from its single image. Our approach is model-agnostic and can be integrated into various reconstruction methods in a plug-and-play manner. Experiments with two state-of-the-art single-view 3D reconstruction pipelines in a benchmark dataset show consistent and substantial improvements achieved by our method, validating the effectiveness of incorporating perception into generation. We provide in-depth analysis of various aspects of our method and its application. Our project page is at https://ynhuhuynh.github.io/perception-3d/.",
+      "authors": [
+        "Y Huynh",
+        "Duc Thanh Nguyen",
+        "Mohamed Abdelrazek"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T01:55:24+00:00",
+      "link": "https://arxiv.org/pdf/2607.18630v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "enhances single-view 3D reconstruction via object perception",
+      "llm_evidence_cn": "通过物体感知增强单视图3D重建",
+      "llm_evidence": "通过物体感知增强单视图3D重建",
+      "canonical_evidence": "通过物体感知增强单视图3D重建",
+      "llm_tldr_en": "Leveraging perceptual signals from pretrained models improves single-view 3D object reconstruction in a model-agnostic plug-and-play manner.",
+      "llm_tldr_cn": "单视图3D重建是一个极具挑战的任务。本文提出利用预训练感知模型提取语义和几何信号，以即插即用方式驱动重建。实验表明，该方法可显著提升两种先进重建管线的性能，验证了感知与重建之间的内在联系。",
+      "llm_tldr": "单视图3D重建是一个极具挑战的任务。本文提出利用预训练感知模型提取语义和几何信号，以即插即用方式驱动重建。实验表明，该方法可显著提升两种先进重建管线的性能，验证了感知与重建之间的内在联系。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.19115v1",
+      "source": "arxiv",
+      "title": "CR-Refiner: An Object-Centric Optimal Transport Reranker for Edit-Conditioned 3D Scene Retrieval",
+      "abstract": "Edit-conditioned 3D scene retrieval pairs a reference 3D room with a natural-language modification and retrieves rooms from a corpus that satisfy the edit. Three lines of prior work each fall short on this task. 2D composed image retrieval reasons over pixel-level edits and has no primitive for 3D object sets. 3D foundation encoders embed individual objects but cannot compose at the scene level. 3D scene-grounding methods localize references inside a static scene rather than rank modified rooms across a corpus. We present CR-Refiner, a training-free reranker that wraps any base retriever's top-K candidates with three components. A frozen LLM parses the edit into a structured query entity, and each candidate is scored by an unbalanced optimal-transport problem over a 1xG cost matrix coupling category, style, material, and geometry. The unbalanced solver lets the single-entity query drop mass on irrelevant objects, modelling the asymmetry directly. An axis-conditional structural prior adds size-keyword cues for geometric edits and subject-anchor direction cues for spatial edits. An LLM verifier refines the top three candidates with continuous confidence. Because no benchmark evaluates compositional matching over 3D object sets, we additionally release 3D-CER, 4,963 edit-conditioned queries over a 23,381-room indoor corpus across five edit axes, with multi-positive ground truth, CIRR-style hard subsets, and zero-target adversarials. Across three qualitatively distinct base retrievers, CR-Refiner consistently improves hard-subset R@1 and mAP@10 on every edit axis.",
+      "authors": [
+        "Hao Wu",
+        "Jinjing Zhu",
+        "Nanyu Wu",
+        "Qianyi Cai",
+        "Heyi Lin",
+        "Hao Wang",
+        "Hui Xiong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T13:59:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.19115v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D scene retrieval with language edits, involves 3D understanding",
+      "llm_evidence_cn": "3D场景检索与语言编辑，涉及3D理解",
+      "llm_evidence": "3D场景检索与语言编辑，涉及3D理解",
+      "canonical_evidence": "3D场景检索与语言编辑，涉及3D理解",
+      "llm_tldr_en": "Edit-conditioned 3D scene retrieval using an object-centric reranker with LLM parsing and optimal transport scoring.",
+      "llm_tldr_cn": "该论文针对编辑条件的三维场景检索任务，提出了一个无需训练的重新排序器CR-Refiner。它利用冻结的大语言模型解析编辑文本为结构化查询，并通过最优传输对候选场景进行评分。方法在多个指标上优于基线，展示了在大规模3D场景库中有效检索的能力。",
+      "llm_tldr": "该论文针对编辑条件的三维场景检索任务，提出了一个无需训练的重新排序器CR-Refiner。它利用冻结的大语言模型解析编辑文本为结构化查询，并通过最优传输对候选场景进行评分。方法在多个指标上优于基线，展示了在大规模3D场景库中有效检索的能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16577v2",
+      "source": "arxiv",
+      "title": "CNS-Edit++: Category-Agnostic 3D Editing with Coupled Neural Shape Representation",
+      "abstract": "This paper presents a latent-space 3D shape editing framework built upon a coupled neural shape (CNS) representation and a neural feature volume optimization. This work extends CNS-Edit, built on Coupled Neural Shape optimization, to CNS-Edit++, by generalizing the category-specific coupled representation to category-agnostic 3D shape editing with foundation models. The Coupled Neural Shape (CNS) representation couples a global latent code that captures high-level shape semantics with a 3D neural feature volume that provides spatial context for local shape manipulation. Then we formulate a coupled neural shape optimization procedure that co-optimizes these two components subject to a given editing operation. Our framework can be instantiated on both the category-specific 3D inversion model and category-agnostic 3D foundation models. We provide various shape editing operators, including copy, resize, delete, mix, point-wise drag, and region-wise drag, each of which is formulated as an objective to guide the CNS optimization. To preserve regions outside the editing area, we further introduce two complementary region-wise control mechanisms, i.e., KV-cache replacement and latent feature regularization. Extensive quantitative and qualitative evaluations across different 3D generative models demonstrate the strong capabilities of our approach over state-of-the-art solutions.",
+      "authors": [
+        "Jingyu Hu",
+        "Weilong Yan",
+        "Zhengzhe Liu",
+        "Haipeng Li",
+        "Ka-Hei Hui",
+        "Hao Zhang",
+        "Chi-Wing Fu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-18T01:29:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.16577v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "category-agnostic 3D shape editing",
+      "llm_evidence_cn": "类别无关的3D形状编辑",
+      "llm_evidence": "类别无关的3D形状编辑",
+      "canonical_evidence": "类别无关的3D形状编辑",
+      "llm_tldr_en": "CNS-Edit++ enables category-agnostic 3D shape editing by coupling global latent code with 3D neural feature volume and co-optimizing them.",
+      "llm_tldr_cn": "CNS-Edit++通过耦合全局语义编码和3D神经特征体积，并联合优化，实现了类别无关的3D形状编辑，支持语义可控的局部操作。",
+      "llm_tldr": "CNS-Edit++通过耦合全局语义编码和3D神经特征体积，并联合优化，实现了类别无关的3D形状编辑，支持语义可控的局部操作。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13318v1",
+      "source": "arxiv",
+      "title": "Reflecting Process Expertise in Procedural Material Generation",
+      "abstract": "Procedural material creation underpins applications in digital content creation, visual effects, and 3D asset design. Achieving high-quality results requires more than reproducing node graphs -- it demands understanding the process by which experts construct materials. We formulate procedural material generation as retrieval-time process reasoning over expert demonstrations, elevating process to a first-class representation beyond graph-only synthesis. Concretely, we represent expert workflows as process traces: textual records of construction steps, parameters, and design intent. To instantiate this idea, we use a pretrained LLM-based ProcessSynthesizer to synthesize a process trace aligned with a user's intent and a pretrained LLM-based Compiler to ground the process trace into an executable Blender material graph. Because procedural expertise is most naturally conveyed through demonstrations, we leverage tutorial videos as a source of process knowledge and extract textual, LLM-compatible traces using automated video analysis tools. In an expert study with five Blender artists (avg. 7.5 years of experience), materials generated by reflecting expert demonstrations were found to produce workflows requiring fewer edits, and more closely match professional design strategies than methods operating solely on static artifacts. A user study with 150 participants further shows that our approach achieves superior generation and editing performance compared to prior procedural systems. All code, models, and data will be available at https://materialapprentice.github.io",
+      "authors": [
+        "Kunal Gupta",
+        "Gaurav Joshi",
+        "Yen-Ru Chen",
+        "Seemandhar Jain",
+        "Ishit Mehta",
+        "Manmohan Chandraker"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T22:59:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.13318v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "procedural material generation for 3D assets, involves 3D generation understanding",
+      "llm_evidence_cn": "过程性材质生成用于3D资产设计，涉及3D生成与理解",
+      "llm_evidence": "过程性材质生成用于3D资产设计，涉及3D生成与理解",
+      "canonical_evidence": "过程性材质生成用于3D资产设计，涉及3D生成与理解",
+      "llm_tldr_en": "Formulates procedural material generation as retrieval-time process reasoning, using LLMs to generate process traces and compile into node graphs.",
+      "llm_tldr_cn": "高质量过程性材质生成不仅依赖节点图，还需理解专家构建过程。本文提出将材质生成作为检索时的过程推理，利用预训练LLM生成过程轨迹并编译为节点图，提升了生成材质的过程保真度和用户意图对齐。",
+      "llm_tldr": "高质量过程性材质生成不仅依赖节点图，还需理解专家构建过程。本文提出将材质生成作为检索时的过程推理，利用预训练LLM生成过程轨迹并编译为节点图，提升了生成材质的过程保真度和用户意图对齐。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19171v1",
+      "source": "arxiv",
+      "title": "Point Ladder Tuning: Parameter-Efficient Hierarchical Adaptation for 3D Point Cloud Understanding",
+      "abstract": "Fine-tuning pre-trained point-cloud backbones typically updates all parameters, resulting in substantial computation and memory overhead. More importantly, modern point backbones rely on aggressive tokenization and downsampling, which yields compact global tokens but irreversibly discards fine-grained local geometry, an inherent bottleneck for parameter-efficient adaptation. Consequently, existing PEFT methods that operate only on these coarsened tokens can modulate global semantics but struggle to recover the missing multi-scale locality. We present Point Ladder Tuning (PLT), a locality-aware PEFT framework that performs hierarchical, instance-conditioned adaptation while keeping the backbone frozen. PLT forms a lightweight closed loop: (i) a Hierarchical Ladder Network (HLN) constructs a multi-resolution local feature pyramid directly from raw points; (ii) a Local-Global Fusion (LGF) aligns and fuses local pyramids with intermediate backbone semantics; and (iii) a Dynamic Prompt Generator produces instance-aware multi-scale prompts to modulate the frozen backbone effectively. For dense prediction, we further introduce a lightweight segmentation head that progressively upsamples fused features and leverages backbone priors to refine fine structures. Extensive experiments on classification and dense prediction show that PLT consistently surpasses prior PEFT baselines with minimal tunable parameters. PLT achieves state-of-the-art performance using only 2.71% trainable parameters for classification and 7.69% for dense prediction, and scales favorably to larger backbones, requiring merely 0.36% parameters on PointGPT-L. The code is released at https://github.com/JunLinChang/ECCV2026-PLT.",
+      "authors": [
+        "Junlin Chang",
+        "Longhao Zou",
+        "Rui Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T15:06:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.19171v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "parameter-efficient hierarchical adaptation for 3D point cloud understanding",
+      "llm_evidence_cn": "用于3D点云理解的参数高效分层适应方法",
+      "llm_evidence": "用于3D点云理解的参数高效分层适应方法",
+      "canonical_evidence": "用于3D点云理解的参数高效分层适应方法",
+      "llm_tldr_en": "Point Ladder Tuning proposes a locality-aware PEFT framework for 3D point cloud understanding that performs hierarchical instance-conditioned adaptation while keeping the backbone frozen.",
+      "llm_tldr_cn": "针对现有3D点云骨干网络在参数高效微调中丢失细粒度局部几何信息的问题，Point Ladder Tuning提出了一种层级式、实例条件的适应框架，在冻结骨干网络的同时，通过轻量级插件恢复多尺度局部细节。实验表明，该方法在保持参数高效的同时显著提升了3D点云理解性能。",
+      "llm_tldr": "针对现有3D点云骨干网络在参数高效微调中丢失细粒度局部几何信息的问题，Point Ladder Tuning提出了一种层级式、实例条件的适应框架，在冻结骨干网络的同时，通过轻量级插件恢复多尺度局部细节。实验表明，该方法在保持参数高效的同时显著提升了3D点云理解性能。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.17250v1",
+      "source": "arxiv",
+      "title": "EvolvingWorld: An Open-Schema Framework for Co-Evolving Role-Play Agents and World Model in Interactive Literary World",
+      "abstract": "This paper introduces EvolvingWorld, a framework and benchmark for character and world co-evolution in interactive literary worlds. Existing systems either treat interactive literary simulation as static persona imitation or isolated scene generation, failing to capture how characters and worlds evolve together over time. To address this, EvolvingWorld models literary simulation as a long-horizon process where characters interact, scenes progress, and character and world states are persistently updated. Unlike prior systems relying on fixed schemas, EvolvingWorld adopts an open-schema framework to support simulation across diverse literary worlds. The framework consists of two coupled modules: a Character Agent for multi-character role-play and persistent profile evolution, and an LLM-based World Model for global and location/entity-level state maintenance and scene progression. Based on this architecture, we formulate 7 trainable tasks for scene initialization, interaction generation, and state update. We construct a dataset from 57 books, producing 138,596 supervised training samples and 222 snapshots for testing. Furthermore, we introduce a trajectory-level LLM-as-Judge evaluation protocol spanning 10 dimensions and 20 metrics. Experiments show that EvolvingWorld can improve long-horizon simulation by effectively maintaining persistent, coherent character and world development.",
+      "authors": [
+        "Qing Zong",
+        "Yue Guo",
+        "Mengxin Yang",
+        "Yiwen Guo",
+        "Yangqiu Song"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-07-19T13:40:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.17250v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "framework for co-evolving characters and world model in interactive literary worlds",
+      "llm_evidence_cn": "交互式文学世界中角色与世界模型共同演化的框架",
+      "llm_evidence": "交互式文学世界中角色与世界模型共同演化的框架",
+      "canonical_evidence": "交互式文学世界中角色与世界模型共同演化的框架",
+      "llm_tldr_en": "EvolvingWorld models literary simulation as long-horizon co-evolution of characters and world, using an open-schema framework.",
+      "llm_tldr_cn": "现有文学模拟限于静态角色模仿或孤立场景生成，缺乏长期演化。本文提出EvolvingWorld框架，通过耦合的角色模块和世界模块实现开放式世界观下的角色与世界共同演化，提供基准和实验验证其有效模拟复杂叙事演变。",
+      "llm_tldr": "现有文学模拟限于静态角色模仿或孤立场景生成，缺乏长期演化。本文提出EvolvingWorld框架，通过耦合的角色模块和世界模块实现开放式世界观下的角色与世界共同演化，提供基准和实验验证其有效模拟复杂叙事演变。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17342v1",
+      "source": "arxiv",
+      "title": "STAR: Skeletal Token Alignment and Rearrangement for Interaction Recognition",
+      "abstract": "Understanding physical human-robot and human-human interactions is a challenging yet emerging topic in 3D vision. While most existing methods rely on skeleton sequences--effective in low-light and privacy-sensitive environment--they face two major challenges: 1) learning and effectively exploiting interaction cues from skeletal data, and 2) compensating for the lack of visual information absent in skeletons alone. To address these challenges, we propose skeletal token alignment and rearrangement (STAR) for human-robot and human-human interaction recognition. It learns interaction-specific skeleton features and enriches them using visual cues by aligning skeleton and RGB video representations in a shared latent space. Specifically, STAR consists of three key components. First, we design a skeleton encoder that captures fine-grained interdependencies using Entity Rearrangement (ER) and Interactive Spatiotemporal Tokens (ISTs). Second, we present Visual Interaction Encoding that introduces a Focus on Interactions (FoI) strategy to attend to spatiotemporal regions relevant to interactions in RGB videos. Finally, these representations are aligned via a contrastive learning objective, with a refinement head further refines predictions. During training, STAR leverages both skeleton and RGB video data to learn robust, discriminative interaction representations. At inference time, it operates on skeletons alone, retaining visual-informed benefits while preserving skeleton-only efficiency. Extensive experiments on Chico, HARPER, NTU Mutual 11 and 26 datasets consistently validate our approach by demonstrating superior performance over state-of-the-art methods. Our code is publicly available at https://github.com/Necolizer/STAR.",
+      "authors": [
+        "Yuhang Wen",
+        "Mengyuan Liu",
+        "Zixuan Tang",
+        "Junsong Yuan",
+        "Sirui Li",
+        "Beichen Ding"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-19T17:05:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.17342v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Skeletal token alignment for human-robot interaction recognition in 3D vision",
+      "llm_evidence_cn": "骨骼令牌对齐实现3D视觉中的人机交互识别",
+      "llm_evidence": "骨骼令牌对齐实现3D视觉中的人机交互识别",
+      "canonical_evidence": "骨骼令牌对齐实现3D视觉中的人机交互识别",
+      "llm_tldr_en": "STAR aligns skeleton and RGB representations for robust human-robot/human-human interaction recognition in 3D, compensating for missing visual cues from skeletons alone.",
+      "llm_tldr_cn": "基于骨骼的人机交互识别缺乏视觉信息。本文提出STAR，通过令牌对齐将骨骼序列与RGB视频特征对齐到共享潜在空间，从而丰富交互特定骨架特征。在多个数据集上，STAR优于纯骨架方法，证明了跨模态融合的有效性。",
+      "llm_tldr": "基于骨骼的人机交互识别缺乏视觉信息。本文提出STAR，通过令牌对齐将骨骼序列与RGB视频特征对齐到共享潜在空间，从而丰富交互特定骨架特征。在多个数据集上，STAR优于纯骨架方法，证明了跨模态融合的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.17938v1",
+      "source": "arxiv",
+      "title": "MuViSeg: Multi-View Segment Correspondences from Dense Geometry Priors",
+      "abstract": "Classical image correspondence is solved at the level of sparse keypoints or dense pixels, but the systems that consume these matches - object-level mapping, topological navigation, scene-graph maintenance - reason about whole objects. Recent work narrows this gap by matchng directly at the level of instance segments: a class-agnostic segmenter partitions each image, and per-segment descriptors are obtained by pooling features from large 3D foundation models over the masks. We build on this segment-level matching paradigm and propose three learned matching heads: a LightGlue-style attention head with DoubleSoftmax scoring on frozen MASt3R descriptors; a DPT-style multi-scale fusion module that exposes layered spatial detail from the VGGT foundation model before pooling; and - as our main contribution - a multi-view extension that performs joint self-attention over segments drawn from several views at once, recovering transitive correspondences that strictly pairwise matchers cannot reach. Under a stratified zero-shot protocol on Replica and Virtual KITTI 2 with controlled viewpoint baselines from 0 deg to 180 deg, the LightGlue-style head improves over a parameter-free Sinkhorn matcher on the same MASt3R backbone by +4.85 AUPRC on Replica and +25.9 AUPRC on Virtual KITTI 2. Dropped into the RoboHop topological navigation pipeline on the Habitat-Matterport 3D (HM3D) Instance Image Navigation benchmark without retraining, our multi-view variant raises success rate from 50% to 70%, and our LightGlue-style head raises SPL from 45.7 to 59.1.",
+      "authors": [
+        "Denis Fatykhoph",
+        "Timur Akhtyamov",
+        "Konstantin Pakulev",
+        "German Devchich",
+        "Gonzalo Ferrer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T13:35:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.17938v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "segment matching from dense geometry priors using VGGT",
+      "llm_evidence_cn": "利用VGGT的稠密几何先验进行片段匹配",
+      "llm_evidence": "利用VGGT的稠密几何先验进行片段匹配",
+      "canonical_evidence": "利用VGGT的稠密几何先验进行片段匹配",
+      "llm_tldr_en": "MuViSeg proposes learned matching heads for multi-view segment correspondences using dense geometry priors from the VGGT foundation model.",
+      "llm_tldr_cn": "现有图像对应方法在物体级别存在差距。本文提出MuViSeg，利用来自VGGT基础模型的稠密几何先验，设计三种学习匹配头（注意力头、多尺度融合头等）实现多视图实例片段匹配。该方法在多个场景理解任务中提升了对应精度。",
+      "llm_tldr": "现有图像对应方法在物体级别存在差距。本文提出MuViSeg，利用来自VGGT基础模型的稠密几何先验，设计三种学习匹配头（注意力头、多尺度融合头等）实现多视图实例片段匹配。该方法在多个场景理解任务中提升了对应精度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.19100v1",
+      "source": "arxiv",
+      "title": "FlexiAvatar: Unified 3D Gaussian Human Avatars Under Arbitrary Body Visibility",
+      "abstract": "Reconstructing animatable 3D human avatars from monocular video is a fundamental problem in computer vision with broad applications in AR/VR and digital content creation. Existing approaches typically couple parametric body models with neural rendering or 3D Gaussian splatting and optimize all body regions jointly from short videos, which often degrades fidelity in the visible areas. To overcome this limitation, we introduce FlexiAvatar, a unified framework that explicitly optimizes only the visible body regions, effectively eliminating artifacts arising from unobserved limbs. Our method integrates occlusion-robust SMPL-X tracking with part-specific residual refinement to capture high-frequency geometric and appearance details. To complete entirely unseen regions (e.g., back views), we leverage a diffusion-based approach to generate texture consistent with the observed appearance. Experiments on full-body (NeuMan, ZJU-MoCap, WildAvatar), upper/half-body (talk-show clips), and head-only (INSTA) inputs show that FlexiAvatar delivers consistently higher reconstruction quality, outperforming state-of-the-art methods by an average PSNR improvement of approximately 3% across datasets. Finally, by restricting optimization to observed regions, our method reduces the effective number of Gaussians that must be optimized and rendered, leading to reduced runtime and memory overhead in partial-visibility scenarios.",
+      "authors": [
+        "Yihalem Yimolal Tiruneh",
+        "Muhammad Salman Ali",
+        "Uyoung Jeong",
+        "Muneeb A. Khan",
+        "MD Khalequzzaman Chowdhury Sayem",
+        "Allanur Bayramgeldiyev",
+        "Binod Bhattarai",
+        "Seungryul Baek"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T13:43:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.19100v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D human avatar reconstruction using Gaussians, optimizing visible regions only",
+      "llm_evidence_cn": "使用高斯表示的人体化身重建，仅优化可见区域",
+      "llm_evidence": "使用高斯表示的人体化身重建，仅优化可见区域",
+      "canonical_evidence": "使用高斯表示的人体化身重建，仅优化可见区域",
+      "llm_tldr_en": "FlexiAvatar reconstructs animatable 3D human avatars by explicitly optimizing only visible body regions, eliminating artifacts from unobserved limbs.",
+      "llm_tldr_cn": "从单目视频重建可动画3D人体化身时，现有方法联合优化所有身体区域导致可见区域保真度下降。本文提出FlexiAvatar，显式只优化可见身体区域，结合遮挡鲁棒的SMPL-X跟踪和部件残差细化，捕捉高频几何和外观细节。实验表明在可见区域质量上显著优于现有方法。",
+      "llm_tldr": "从单目视频重建可动画3D人体化身时，现有方法联合优化所有身体区域导致可见区域保真度下降。本文提出FlexiAvatar，显式只优化可见身体区域，结合遮挡鲁棒的SMPL-X跟踪和部件残差细化，捕捉高频几何和外观细节。实验表明在可见区域质量上显著优于现有方法。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
