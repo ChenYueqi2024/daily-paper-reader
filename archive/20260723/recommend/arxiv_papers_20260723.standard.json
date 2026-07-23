@@ -1,0 +1,457 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-23T21:25:21.111927+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2607.18539v1",
+      "source": "arxiv",
+      "title": "AniGS: Bridging Rendering and Diffusion Prior for 3D Scene Animation",
+      "abstract": "Novel view rendering of large and complex reconstructed scenes is becoming increasingly photorealistic. However, most reconstructions remain static and lack the ambient motion that makes environments immersive. We present AniGS, a method for scene-level animation of 3D Gaussian Splatting (3DGS) reconstructions that adds subtle, distributed dynamics, e.g., vegetation motion, while preserving rigid structures. Unlike existing 3D animation techniques which are limited to object-centric subjects or small regions, AniGS is designed for large, cluttered, navigable scenes. AniGS represents the scene with a canonical 3DGS and models motion using a time-conditioned deformation field. To animate the entire scene, we leverage a pretrained video diffusion model and introduce an iterative dataset--model update strategy that progressively expands viewpoint coverage and repeatedly updates camera-fixed training videos using a render-and-refine scheme. To prevent artifacts from unintended motion in static areas, we further introduce a composed video-to-video refinement scheme that restricts motion to desired regions. Experiments on five real-world, large-scale outdoor scenes demonstrate that AniGS produces natural ambient dynamics and high-quality novel view videos, enabling more immersive viewing experiences of reconstructed environments.",
+      "authors": [
+        "Yen-Chi Cheng",
+        "Chen Gao",
+        "Chuhan Chen",
+        "Tuotuo Li",
+        "Rajvi Shah",
+        "Ayush Saraf",
+        "Changil Kim",
+        "Liangyan Gui",
+        "Alexander Schwing",
+        "Johannes Kopf",
+        "Hung-Yu Tseng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T22:14:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.18539v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uses pretrained video diffusion model for 3D scene animation",
+      "llm_evidence_cn": "使用预训练视频扩散模型进行3D场景动画",
+      "llm_evidence": "使用预训练视频扩散模型进行3D场景动画",
+      "canonical_evidence": "使用预训练视频扩散模型进行3D场景动画",
+      "llm_tldr_en": "AniGS animates 3DGS reconstructions by leveraging a video diffusion prior to add distributed dynamics, enabling immersive scene animation beyond object-centric methods.",
+      "llm_tldr_cn": "针对现有3D重建静态化缺乏环境运动的问题，提出AniGS方法，利用预训练视频扩散模型作为先验，为3D高斯泼溅场景添加分布式的细微动态（如植被摆动），同时保持刚体结构不变。采用时间条件形变场对规范3DGS进行形变建模。实验表明该方法能在大型杂乱可导航场景中生成逼真动画，显著提升沉浸感。",
+      "llm_tldr": "针对现有3D重建静态化缺乏环境运动的问题，提出AniGS方法，利用预训练视频扩散模型作为先验，为3D高斯泼溅场景添加分布式的细微动态（如植被摆动），同时保持刚体结构不变。采用时间条件形变场对规范3DGS进行形变建模。实验表明该方法能在大型杂乱可导航场景中生成逼真动画，显著提升沉浸感。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19111v1",
+      "source": "arxiv",
+      "title": "GATE-3D: Geometry-Aware Test-time Adaptive Reranking for Open-Set 3D Shape Retrieval",
+      "abstract": "Large pretrained vision models have substantially improved appearance-based 3D shape retrieval, but they still confuse shapes that look similar while differing in geometry. Although geometry-aware features can reduce these errors, naive fusion of geometry and appearance may hurt retrieval when the two modalities are already well aligned. We propose GATE-3D, a lightweight query-adaptive reranking method that incorporates geometry without retraining the retrieval backbone. For each query, GATE-3D predicts how much a geometry-aware score should adjust the appearance-based ranking using features that capture disagreement between the two modalities. This selective design lets geometry contribute where it helps and stay silent where it would hurt. Experiments on three open-set 3D retrieval benchmarks show that GATE-3D improves over appearance-only retrieval and is more robust than always-on fusion. On the primary benchmark, it improves mAP@10 by 2.00 points over appearance-only retrieval (p=0.041); it also improves leave-one-category-out generalization and reduces geometric false positives by 10.8%. GATE-3D achieves competitive zero-shot results against DAC-based baselines. We further find that simple linear routing is more effective than a small MLP in the low-data regime, suggesting that cross-modal disagreement features matter more than model capacity for adaptive routing.",
+      "authors": [
+        "Hao Wu",
+        "Heyi Lin",
+        "Zilin Wang",
+        "Huizai Yao",
+        "Hao Wang",
+        "Hui Xiong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T13:56:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.19111v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "geometry-aware 3D shape retrieval",
+      "llm_evidence_cn": "几何感知的3D形状检索",
+      "llm_evidence": "几何感知的3D形状检索",
+      "canonical_evidence": "几何感知的3D形状检索",
+      "llm_tldr_en": "Proposes GATE-3D a lightweight query-adaptive reranking method that selectively incorporates geometry to improve 3D shape retrieval without retraining.",
+      "llm_tldr_cn": "该论文针对外观相似的3D形状检索混淆问题，提出GATE-3D轻量级重排序方法，在测试时根据查询自适应融合几何特征。该方法无需重新训练检索骨干，通过预测几何调整权重，仅在必要时引入几何信息，显著提升了开放集3D形状检索的准确性。",
+      "llm_tldr": "该论文针对外观相似的3D形状检索混淆问题，提出GATE-3D轻量级重排序方法，在测试时根据查询自适应融合几何特征。该方法无需重新训练检索骨干，通过预测几何调整权重，仅在必要时引入几何信息，显著提升了开放集3D形状检索的准确性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19765v1",
+      "source": "arxiv",
+      "title": "Extending a Large View Synthesis Model for Multi-view Panoptic Segmentation",
+      "abstract": "Large view synthesis models synthesize novel views through cross-view attention without explicit 3D representations, and recent studies have shown that they learn accurate spatial correspondence from RGB supervision alone. We observe that this correspondence generalizes beyond appearance. When non-photorealistic signals such as binary encoded panoptic labels are passed through the model, they are propagated to novel views with consistent spatial structure. These results indicate that the correspondence learned for RGB view synthesis can also propagate view-independent per-pixel labels. From this observation, we present the first work to extend large view synthesis models beyond appearance rendering to 3D scene understanding. We propose a panoptic segmentation pipeline that reuses a frozen view synthesis model to propagate panoptic labels from input views to novel views, without 3D reconstruction or any segmentation-specific training of the view synthesis model. Given panoptic labels on the input views, we encode them into binary channel representations and pass them through the same model to render target-view segmentation. On ScanNet, our method achieves segmentation quality on par with Gaussian based approaches requiring explicit 3D reconstruction, while outperforming them in novel view synthesis by more than 7 dB. The label propagation also transfers across datasets, surpassing these approaches on Replica without any fine-tuning.",
+      "authors": [
+        "Kwonyoung Ryu",
+        "In-Jae Lee",
+        "Jonghyun Jin",
+        "Hyunjee Lee",
+        "Jongmin Lee",
+        "Jaesik Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T05:16:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.19765v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "extends view synthesis to panoptic segmentation for 3D scene understanding",
+      "llm_evidence_cn": "将视图合成模型扩展到全景分割，用于3D场景理解",
+      "llm_evidence": "将视图合成模型扩展到全景分割，用于3D场景理解",
+      "canonical_evidence": "将视图合成模型扩展到全景分割，用于3D场景理解",
+      "llm_tldr_en": "First work to extend large view synthesis models to 3D scene understanding by propagating panoptic labels through cross-view attention, without explicit 3D representation.",
+      "llm_tldr_cn": "大型视图合成模型已学会从RGB监督中隐式学习空间对应关系。本文首次将该能力扩展到3D场景理解：将非光度信号（如二进制编码全景标签）输入模型，通过跨视图注意力传播到新视角，实现全景分割。无需显式3D表示或额外标注，展示了视图合成模型对3D理解任务的有效性。",
+      "llm_tldr": "大型视图合成模型已学会从RGB监督中隐式学习空间对应关系。本文首次将该能力扩展到3D场景理解：将非光度信号（如二进制编码全景标签）输入模型，通过跨视图注意力传播到新视角，实现全景分割。无需显式3D表示或额外标注，展示了视图合成模型对3D理解任务的有效性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19893v1",
+      "source": "arxiv",
+      "title": "Odin: Primitive-Level Synchronization for Distributed Point-Based Neural Rendering",
+      "abstract": "Point-based neural rendering (PBNR) represents 3D scenes as explicit, trainable primitives and underpins high-quality reconstruction and emerging embodied AI and world-model pipelines. Unlike layer-structured neural networks, PBNR has primitive-indexed dependencies: each view reads and updates only a sparse, view-dependent subset of mutable scene state. As large scenes require distributed training and optimized renderers reduce per-view computation, global task- or iteration-level barriers increasingly place synchronization, rather than rendering, on the critical path. We present Odin, a distributed PBNR training system that replaces global barriers with primitive-level synchronization. Its ahead-of-time scheduler uses stable locality and phase order to identify low-conflict overlap windows, while the runtime validates primitive publication before later work observes mutable state. Odin provides a quality-first path that preserves synchronized-training visibility and a throughput-first path that uses overlap and gradient evidence to admit only small, low-impact delayed reads; structural changes and high-impact cases remain synchronized. Across four existing PBNR pipelines and 13 non-city scenes on 8 GPUs, Odin improves throughput by 1.22 times on average and hides 82% of critical-path wait while preserving reconstruction quality. In a MatrixCity mixed-parallel case study scaling to 64 GPUs, Odin improves throughput over Grendel by up to 1.89 times without changing renderer kernels, optimizers, training budgets, or model capacity.",
+      "authors": [
+        "Zhenxiang Ma",
+        "Zeyu He",
+        "Yuanzhen Zhou",
+        "Zhenyu Yang",
+        "Yuchang Zhang",
+        "Miao Tao",
+        "Rong Fu",
+        "Jidong Zhai",
+        "Hengjie Li"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC"
+      ],
+      "published": "2026-07-22T08:27:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.19893v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distributed training system for point-based neural rendering, supports world model pipelines",
+      "llm_evidence_cn": "为基于点的神经渲染提供分布式训练系统，支持世界模型管线",
+      "llm_evidence": "为基于点的神经渲染提供分布式训练系统，支持世界模型管线",
+      "canonical_evidence": "为基于点的神经渲染提供分布式训练系统，支持世界模型管线",
+      "llm_tldr_en": "Odin replaces global synchronization barriers with primitive-level scheduling for distributed point-based neural rendering, enabling scalable training for world models.",
+      "llm_tldr_cn": "基于点的神经渲染（PBNR）已用于世界模型，但分布式训练中同步开销成为瓶颈。Odin提出原语级同步机制，通过提前调度器利用空间局部性替换全局障碍，仅同步每个视图实际访问的稀疏原语。实验表明在大型场景训练中大幅减少同步时间，使得PBNR可扩展至更大规模，为具身AI与世界模型提供高效训练基础设施。",
+      "llm_tldr": "基于点的神经渲染（PBNR）已用于世界模型，但分布式训练中同步开销成为瓶颈。Odin提出原语级同步机制，通过提前调度器利用空间局部性替换全局障碍，仅同步每个视图实际访问的稀疏原语。实验表明在大型场景训练中大幅减少同步时间，使得PBNR可扩展至更大规模，为具身AI与世界模型提供高效训练基础设施。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20071v1",
+      "source": "arxiv",
+      "title": "GaussianSeed: Hierarchical Gaussian Seeding for High-Resolution 3D Occupancy Prediction",
+      "abstract": "Vision-centric 3D occupancy prediction provides dense scene representations essential for autonomous driving and robotic navigation, yet existing methods struggle to scale to high voxel resolutions due to prohibitive computational costs. To address this, we introduce GaussianSeed, a progressive multi-scale Gaussian occupancy prediction framework that organizes primitives into a coarse-to-fine hierarchy. Benefiting from this hierarchical design, GaussianSeed effectively circumvents the memory bottlenecks inherent in dense representations, successfully scaling to a $0.1\\text{m}$ spatial resolution while maintaining real-time inference capabilities. To comprehensively evaluate high-resolution geometric perception, we further construct TJScenes, a panoramic six-camera occupancy dataset with highly detailed $0.1\\text{m}$ annotations. Extensive experiments on Occ3D-nuScenes and TJScenes demonstrate that GaussianSeed delivers the lowest latency among all evaluated methods while maintaining highly competitive accuracy, advancing the efficiency-quality frontier of high-resolution 3D occupancy prediction.",
+      "authors": [
+        "Xinzhuo Li",
+        "Xianghui Pan",
+        "Jiayuan Du",
+        "Wei Wei",
+        "Liuyi Wang",
+        "Chengju Liu",
+        "Qijun Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T12:18:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.20071v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D occupancy prediction for scene understanding",
+      "llm_evidence_cn": "3D占据预测用于场景理解",
+      "llm_evidence": "3D占据预测用于场景理解",
+      "canonical_evidence": "3D占据预测用于场景理解",
+      "llm_tldr_en": "Proposes GaussianSeed, a hierarchical Gaussian occupancy prediction framework that scales to 0.1m resolution with real-time inference, addressing memory bottlenecks in dense 3D representations.",
+      "llm_tldr_cn": "针对高分辨率3D占据预测中计算成本过高的问题，提出GaussianSeed，一种渐进式多尺度高斯占据预测框架。该方法通过粗到细的层级组织基元，有效规避了密集表示的内存瓶颈，成功实现0.1米空间分辨率下的实时推理。实验表明该方法在保持实时性的同时大幅提升了感知精度，为自动驾驶和机器人导航提供了高效的场景理解方案。",
+      "llm_tldr": "针对高分辨率3D占据预测中计算成本过高的问题，提出GaussianSeed，一种渐进式多尺度高斯占据预测框架。该方法通过粗到细的层级组织基元，有效规避了密集表示的内存瓶颈，成功实现0.1米空间分辨率下的实时推理。实验表明该方法在保持实时性的同时大幅提升了感知精度，为自动驾驶和机器人导航提供了高效的场景理解方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20417v1",
+      "source": "arxiv",
+      "title": "ATSplat: Compact Feed-forward 3D Gaussian Splatting with Adaptive Token Expansion",
+      "abstract": "3D Gaussian Splatting (3DGS) achieves high-quality novel-view synthesis by optimizing freely placed primitives in 3D and adaptively densifying them in under-reconstructed regions. However, this scene-adaptive capacity allocation is largely lost in existing feed-forward 3DGS methods, which commonly regress Gaussians at input pixels and lift them along camera rays. Such pixel-aligned formulations make the number and placement of primitives depend on image resolution and input viewpoints rather than scene complexity, resulting in dense and often redundant Gaussian sets. We present ATSplat, a feed-forward 3DGS framework that restores the adaptive allocation capability of 3DGS optimization through Adaptive 3D Tokens. ATSplat first lifts coarse patch-level depth and camera cues into sparse 3D anchor tokens, forming a compact scaffold of the scene. Each token is then regressed into local Gaussians with learnable 3D offsets, decoupling primitive placement from input image grids. An Adaptive Token Expansion module predicts a token-level uncertainty score, supervised by rendering error maps, and selectively expands high-uncertainty tokens through learnable expansion layers. This sparse-to-adaptive formulation enables ATSplat to concentrate primitives in challenging regions while maintaining a compact representation. Experiments on two representative datasets, RealEstate10K and DL3DV, show that ATSplat achieves state-of-the-art rendering quality while reducing the number of Gaussians by more than $5.7\\times$ compared with dense feed-forward 3DGS methods. From 12 input images at $512 \\times 960$ resolution, ATSplat completes reconstruction in less than a second using a single commercial GPU, and renders high-quality novel views at 1136 FPS ($512 \\times 960$) with only 311K Gaussians.",
+      "authors": [
+        "Cho In",
+        "Jeonghwan Cho",
+        "Mijin Yoo",
+        "Gim Hee Lee",
+        "Seon Joo Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T17:54:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.20417v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "feed-forward 3D Gaussian splatting for novel-view synthesis",
+      "llm_evidence_cn": "前馈3D高斯散射用于新视角合成",
+      "llm_evidence": "前馈3D高斯散射用于新视角合成",
+      "canonical_evidence": "前馈3D高斯散射用于新视角合成",
+      "llm_tldr_en": "ATSplat introduces adaptive 3D tokens to restore adaptive capacity in feed-forward 3D Gaussian splatting, achieving compact and efficient novel-view synthesis.",
+      "llm_tldr_cn": "现有前馈3D高斯散射方法失去了优化中的自适应分配能力，导致高斯原语冗余。ATSplat通过自适应3D令牌恢复这一能力，实现紧凑的高斯集生成。实验在多个数据集上展示了高质量的新视角合成，同时减少了冗余。该方法为前馈3D场景表示提供了更高效的解决方案。",
+      "llm_tldr": "现有前馈3D高斯散射方法失去了优化中的自适应分配能力，导致高斯原语冗余。ATSplat通过自适应3D令牌恢复这一能力，实现紧凑的高斯集生成。实验在多个数据集上展示了高质量的新视角合成，同时减少了冗余。该方法为前馈3D场景表示提供了更高效的解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17842v1",
+      "source": "arxiv",
+      "title": "CaT-GS: Efficient 3DGS Rendering for Large Scale Scenes via Inter-frame Caching and Tile Scheduling",
+      "abstract": "Recent breakthroughs in 3D Gaussian Splatting (3DGS) have advanced neural rendering with high fidelity and speed. However, its performance degrades significantly in large-scale scenes due to the computational burden of tile-based rasterization. Existing optimization efforts either require costly scene re-training or focus on narrow aspects of the pipeline, overlooking critical inefficiencies in real-world deployments. Through a comprehensive analysis, we identify three primary sources of redundancy and low GPU utilization: redundant inter-frame pre-processing, viewpoint-based occlusion redundancy, and severe tile-level load imbalance. To address these issues, we propose CaT-GS, a novel and efficient 3DGS rendering pipeline. CaT-GS introduces a speculative multi-frame preprocessing method to eliminate redundant computations across consecutive frames, and an inter-frame caching mechanism to eliminate viewpoint redundant rendering stages. Furthermore, it refactors rasterization tasks with a dedicated kernel to mitigate tile load imbalance, significantly boosting GPU utilization. Extensive experiments demonstrate that CaT-GS achieves a speedup of up to 10 times over the original 3DGS and up to 70% over previous state-of-the-art methods, establishing a new benchmark for high-fidelity, real-time rendering of large-scale scenes.",
+      "authors": [
+        "Tingjia Zhang",
+        "Bo Chen",
+        "Shengzhong Liu",
+        "Fan Wu",
+        "Guihai Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T11:33:51+00:00",
+      "link": "https://arxiv.org/pdf/2607.17842v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient 3DGS rendering for large scenes, enabling 3D generation and understanding",
+      "llm_evidence_cn": "高效3DGS渲染，支持大规模场景的3D生成与理解",
+      "llm_evidence": "高效3DGS渲染，支持大规模场景的3D生成与理解",
+      "canonical_evidence": "高效3DGS渲染，支持大规模场景的3D生成与理解",
+      "llm_tldr_en": "CaT-GS identifies and eliminates three inefficiencies in 3DGS rendering for large scenes, achieving significant speedup without re-training.",
+      "llm_tldr_cn": "针对大规模场景中3D高斯泼溅渲染性能严重下降的问题，CaT-GS通过分析识别出帧间预处理冗余、视点遮挡冗余和瓦片负载不平衡三大效率瓶颈，提出帧间缓存与瓦片调度策略，在不重新训练的情况下显著提升渲染速度与GPU利用率，为大规模3D生成与理解提供高效基础设施。",
+      "llm_tldr": "针对大规模场景中3D高斯泼溅渲染性能严重下降的问题，CaT-GS通过分析识别出帧间预处理冗余、视点遮挡冗余和瓦片负载不平衡三大效率瓶颈，提出帧间缓存与瓦片调度策略，在不重新训练的情况下显著提升渲染速度与GPU利用率，为大规模3D生成与理解提供高效基础设施。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.18150v1",
+      "source": "arxiv",
+      "title": "Lossless-INR: Lossless Volumetric Implicit Neural Representations",
+      "abstract": "Implicit neural representation (INR) methods provide continuous coordinate-to-value mappings and integrate naturally with direct volume rendering, making them attractive for representing volumetric data. However, existing INR-based approaches for volumetric data are inherently lossy, and even small reconstruction errors can propagate through rendering and downstream analysis. In this work, we explore Lossless-INR, a lossless INR framework for 3D scientific volumetric data based on bit-plane decomposition. By decomposing each voxel value into binary bit-planes, we reformulate reconstruction as per-bit binary classification, so that exact recovery reduces to predicting every bit correctly. To make this optimization tractable while keeping the representation compact, we combine an octree block-partitioning strategy that adaptively subdivides complex regions with a ternary feature-grid network whose grid entries are parameterized by a ternary set of values. Experiments on diverse volumetric datasets show that this design can achieve zero bit-error rate and bit-exact reconstruction, enabling faithful rendering and downstream analysis with a compact representation. The code is available at https://github.com/TouKaienn/Lossless-INR.",
+      "authors": [
+        "Kaiyuan Tang",
+        "Daniel Burke",
+        "Chaoli Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-20T16:50:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.18150v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "lossless volumetric INR for 3D data representation",
+      "llm_evidence_cn": "用于3D科学数据无损表示的隐式神经网络",
+      "llm_evidence": "用于3D科学数据无损表示的隐式神经网络",
+      "canonical_evidence": "用于3D科学数据无损表示的隐式神经网络",
+      "llm_tldr_en": "Proposes Lossless-INR for lossless volumetric implicit neural representation via bit-plane decomposition, enabling exact recovery of 3D scientific data.",
+      "llm_tldr_cn": "现有基于INR的体数据表示方法存在有损重构问题，即使微小误差也会在渲染和分析中传播。本文提出Lossless-INR，通过位平面分解将每个体素值分解为二进制位平面，将重构转化为逐位二分类问题，从而实现精确恢复。实验表明该方法在保持高压缩率的同时实现了无损重构，可广泛应用于科学可视化与3D数据分析。该方法为3D理解任务提供了精确的底层表示工具。",
+      "llm_tldr": "现有基于INR的体数据表示方法存在有损重构问题，即使微小误差也会在渲染和分析中传播。本文提出Lossless-INR，通过位平面分解将每个体素值分解为二进制位平面，将重构转化为逐位二分类问题，从而实现精确恢复。实验表明该方法在保持高压缩率的同时实现了无损重构，可广泛应用于科学可视化与3D数据分析。该方法为3D理解任务提供了精确的底层表示工具。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.19777v1",
+      "source": "arxiv",
+      "title": "Look Before You Edit: Attention-Guided Camera Placement and Multi-View Alignment for 3D Gaussian Splatting Editing",
+      "abstract": "Text-driven 3D scene editing with 3D Gaussian Splatting (3DGS) typically applies a 2D diffusion editor to views rendered from fixed training cameras, limiting both the spatial coverage of edits and the user's freedom to target specific objects in complex scenes. We present LB-Edit, a framework that addresses two coupled problems: where to place editing cameras for localized edits, and how to make per-view edits agree with one another so that the 3D scene remains consistent after fine-tuning. First, Attention-Guided Editing Camera Placement (ACP) probes the diffusion model's self- and cross-attention at multiple candidate camera distances to find where attention is well-contained in the region of interest, then places a compact, geometrically diverse editing camera set at that attention-optimal distance. Second, Multi-view Attention Alignment (MAA) steers the editor toward the same edit across views along two axes: it aligns appearance by sharing self-attention features via token-level correspondence, and aligns spatial location by lifting cross-attention maps onto the 3D Gaussians as a shared 3D attention field, suppressing both appearance and spatial drift. Experiments on multi-object and single-object scenes show that our method achieves the highest user preference in instruction fidelity, multi-view consistency, and editing locality, using as few as 5 editing views and reducing latency by up to 7x over existing methods.",
+      "authors": [
+        "Jaeyeon Park",
+        "Taeho Kang",
+        "Youngki Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T05:51:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.19777v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "attention-guided camera placement for 3D scene editing",
+      "llm_evidence_cn": "注意力引导相机放置用于3D场景编辑",
+      "llm_evidence": "注意力引导相机放置用于3D场景编辑",
+      "canonical_evidence": "注意力引导相机放置用于3D场景编辑",
+      "llm_tldr_en": "Text-driven 3D scene editing with 3D Gaussian Splatting is improved by attention-guided camera placement and multi-view alignment, enabling localized edits and consistency.",
+      "llm_tldr_cn": "针对文本驱动的3D高斯泼溅编辑中固定相机限制编辑覆盖面的问题，本文提出LB-Edit框架，通过注意力引导的编辑相机放置（ACP）和多视图对齐，在局部区域内实现精准编辑并保持场景一致性，显著提升了编辑自由度和质量。",
+      "llm_tldr": "针对文本驱动的3D高斯泼溅编辑中固定相机限制编辑覆盖面的问题，本文提出LB-Edit框架，通过注意力引导的编辑相机放置（ACP）和多视图对齐，在局部区域内实现精准编辑并保持场景一致性，显著提升了编辑自由度和质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.19986v1",
+      "source": "arxiv",
+      "title": "STEREOFLOW: Progressive Stereo Matching with StereoDiT and Transition Flow Matching",
+      "abstract": "Stereo matching is a fundamental task in 3D reconstruction. Despite remarkable advances, the prevailing paradigms formulate stereo matching as a deterministic regression problem, collapsing the multimodal distribution modeling into a single-point estimation. This formulation suffers from a regression-to-mean bias, frequently struggling with ambiguous regions. In contrast, we introduce a prior-guided generative framework that integrates deterministic matching regression and generative distribution modeling within a complementary formulation. Built upon this formulation, we introduce StereoFlow through three key components: (i) a two-stage progressive cascade matching network that progressively produces multi-resolution stereo conditions with complementary matching cues; (ii) a pixel diffusion transformer (termed StereoDiT) with a frequency-decoupled architecture for modeling correspondence ambiguity; (iii) a few-step flow matching objective (termed Transition Flow Matching) for efficient optimization. In summary, \\textsc{\\textbf{StereoFlow}} achieves strong geometric consistency and rich fine-grained details in ill-posed, discontinuous regions and under zero-shot generalization. Extensive experiments demonstrate that the proposed StereoFlow establishes multiple state-of-the-art results across benchmarks, including Scene Flow, KITTI, ETH3D, and Middlebury.",
+      "authors": [
+        "Hao Wang",
+        "Haoran Geng",
+        "Xiaotong Yang",
+        "Jing Tang",
+        "Songlin Wei",
+        "Linlong Lang",
+        "Yeying Jin",
+        "Zheng Zhu",
+        "Zhaoxin Fan",
+        "Biao Leng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T10:19:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.19986v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generative framework for stereo matching in 3D reconstruction",
+      "llm_evidence_cn": "立体匹配中的生成式框架用于3D重建",
+      "llm_evidence": "立体匹配中的生成式框架用于3D重建",
+      "canonical_evidence": "立体匹配中的生成式框架用于3D重建",
+      "llm_tldr_en": "STEREOFLOW integrates deterministic regression and generative distribution modeling for stereo matching, using a two-stage cascade network and transition flow matching to handle ambiguity.",
+      "llm_tldr_cn": "针对传统立体匹配回归到均值偏差难以处理模糊区域的问题，本文提出STEREOFLOW，结合确定性回归与生成式分布建模，通过两阶段渐进级联匹配网络和过渡流匹配，在多个立体匹配基准上取得了最先进结果。",
+      "llm_tldr": "针对传统立体匹配回归到均值偏差难以处理模糊区域的问题，本文提出STEREOFLOW，结合确定性回归与生成式分布建模，通过两阶段渐进级联匹配网络和过渡流匹配，在多个立体匹配基准上取得了最先进结果。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20325v1",
+      "source": "arxiv",
+      "title": "MR-Compare: A Mixed-Reality Framework for Spatially Grounded Visual Comparison of 3D Gaussian Splatting and Mesh Reconstructions with the Physical Environment",
+      "abstract": "We introduce MR-Compare, a mixed reality framework for spatially grounded visual comparison between 3D Gaussian splatting and mesh reconstructions with live video see-through (VST). Implemented on a PC-tethered Meta Quest~3, it combines a two-stage registration pipeline with a 3D Slider for cross-media comparison. We evaluated five representative desktop and mobile reconstruction workflows through a real-world benchmark with an exploratory user study ($n=30$) in two static indoor rooms. MR-Compare achieved centimetre-level translation error across all workflows. The two desktop 3DGS workflows showed the strongest overall pattern, with 3DGS-MCMC yielding the lowest registration error and strongest VST-referenced visual consistency. Room-session measures indicated high perceived usability and low workload. We further propose an anisotropy filter, a zero-shot module that leverages Gaussian anisotropies to improve 3DGS registration in MR-Compare. A controlled Replica threshold sweep shows that moderate pruning can improve robustness and reduce residual errors. These results establish system-level feasibility in the tested setting rather than task-level effectiveness or standalone deployment. The project is available at https://github.com/changruizhu96/MR-Compare.",
+      "authors": [
+        "Changrui Zhu",
+        "Ernst Kruijff",
+        "Pengju Zhang",
+        "Simon Julier"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-07-22T16:11:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.20325v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "mixed reality comparison of 3DGS and mesh reconstructions",
+      "llm_evidence_cn": "混合现实中比较3DGS与网格重建",
+      "llm_evidence": "混合现实中比较3DGS与网格重建",
+      "canonical_evidence": "混合现实中比较3DGS与网格重建",
+      "llm_tldr_en": "MR-Compare provides a mixed-reality framework for spatially grounded visual comparison between 3DGS and mesh reconstructions, enabling quantitative evaluation.",
+      "llm_tldr_cn": "MR-Compare开发了一个混合现实框架，通过两阶段配准和3D滑块，在物理环境中直接对比3D高斯散射与网格重建的精度。实验显示桌面3DGS工作流误差最小，为用户提供了跨媒体重建质量的直观评估工具，有助于3D重建方法的选择与改进。",
+      "llm_tldr": "MR-Compare开发了一个混合现实框架，通过两阶段配准和3D滑块，在物理环境中直接对比3D高斯散射与网格重建的精度。实验显示桌面3DGS工作流误差最小，为用户提供了跨媒体重建质量的直观评估工具，有助于3D重建方法的选择与改进。",
+      "llm_tags": [
+        "query:d:composite"
+      ],
+      "matched_query_tag": "query:d:composite",
+      "matched_query_text": "Papers central to 查找有关3D生成与理解、世界模型的论文, especially work that connects or combines: g; 3; Visual Geometry Grounded Transformer; 3D understanding; world models; diffusion models for 3D; understanding; 3D generation and understanding; papers on 3D generation and understanding; world model research papers.",
+      "matched_requirement_id": "req-composite-d",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
