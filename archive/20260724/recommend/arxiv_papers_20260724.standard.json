@@ -1,0 +1,694 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-24T20:28:31.461945+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 8,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 13,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.16900v2",
+      "source": "arxiv",
+      "title": "Environment-free Synthetic Data Generation for API-Calling Agents",
+      "abstract": "Training API-calling large language model (LLM) agents demands massive amounts of high-quality trajectories. However, collecting such data at scale typically requires fully implemented environments with executable APIs and realistic, pre-populated backend databases, creating a major bottleneck for scalability. To overcome this, we propose an environment-free synthetic data generation approach that leverages LLMs as on-the-fly digital world models. Given only API specifications, our method generates trajectories mimicking interactions between an agent and a stateful environment. Specifically, an LLM first generates diverse tasks solvable with the provided APIs. A teacher agent then iteratively solves each task while an LLM simulator generates coherent synthetic API responses conditioned on the task context and simulation history. Finally, an LLM judge filters the trajectories to ensure the quality of the resulting dataset. We evaluate our approach on the challenging AppWorld and OfficeBench benchmarks, which include both information-retrieval and state-changing tasks. Fine-tuning models on our synthetic data yields significant performance gains, demonstrating that effective supervision for API-calling agents can be generated without any executable environment. Our results establish LLM-based API simulation as a practical, scalable solution for training agents across diverse API ecosystems.",
+      "authors": [
+        "Seanie Lee",
+        "Sanjoy Chowdhury",
+        "Chao Jiang",
+        "Cheng-Yu Hsieh",
+        "Ting-Yao Hu",
+        "Alexander T Toshev",
+        "Oncel Tuzel",
+        "Raviteja Vemulapalli"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-18T17:36:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.16900v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "leverages LLMs as on-the-fly world models for synthetic data",
+      "llm_evidence_cn": "利用LLM作为即时世界模型生成合成数据",
+      "llm_evidence": "利用LLM作为即时世界模型生成合成数据",
+      "canonical_evidence": "利用LLM作为即时世界模型生成合成数据",
+      "llm_tldr_en": "Environment-free synthetic data generation for API-calling agents uses LLMs as digital world models to produce trajectories without real environments, enabling scalable agent training.",
+      "llm_tldr_cn": "训练API调用智能体需要大量高质量轨迹数据，但依赖真实环境成为瓶颈。本文提出环境无关合成数据生成方法，将LLM作为即时数字世界模型，仅凭API规范生成任务和轨迹。实验表明该方法可有效替代真实环境，大幅提升数据生成规模和效率，为智能体训练提供新范式。",
+      "llm_tldr": "训练API调用智能体需要大量高质量轨迹数据，但依赖真实环境成为瓶颈。本文提出环境无关合成数据生成方法，将LLM作为即时数字世界模型，仅凭API规范生成任务和轨迹。实验表明该方法可有效替代真实环境，大幅提升数据生成规模和效率，为智能体训练提供新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20889v1",
+      "source": "arxiv",
+      "title": "Engine-Native Editable 3D World Reconstruction with Objects and Lighting",
+      "abstract": "Editable 3D scene creation requires object instances and lights that can be inspected, moved, and imported into standard engines, yet existing single-image methods largely stop at room-scale geometry, baked/global illumination, or text-driven generation. We introduce Lumera (Light-aware Unified Engine-native Reconstruction and Assembly), a benchmark and reference pipeline for engine-native, light-aware 3D scene parsing from a single image. Lumera-2K is built from 2,513 UE5 projects and provides 3.73M components, 63M object instances, 102.6K engine-native parametric lights, and 95.1K camera views. On this data, Lumera-Box and Lumera-Light adapt VLM to parse object boxes and parametric light tuples (x,y,z,r,g,b,I), which are assembled with per-object mesh reconstruction, HDR environment estimation, and a bounded agentic refinement loop. In a sanitized box benchmark against DetAny3D, SpatialLM, N3D-VLM, and WildDet3D, Lumera-Box obtains the strongest overall detection, geometry, semantic, and layout scores (merged mAP 0.1141, IoU-B 0.2472, F-score 0.2762), while WildDet3D remains stronger on anchor recall. For lights, Lumera-Light recovers almost all non-empty scenes (recall 0.998) but remains limited at individual-light localization (F1 0.209 at 0.5 m); matched lights have median position error 0.261 m, median ΔE2000 4.59, and intensity Pearson r=0.628. These results establish parametric lights as a measurable editable-scene target and expose remaining bottlenecks in relation structure, light recall/intensity, and cross-engine generalization.",
+      "authors": [
+        "Junhao Chen",
+        "Xinghao Chen",
+        "Henghaofan Zhang",
+        "Zihao Qiao",
+        "Saining Zhang",
+        "Yongzhi Li",
+        "Ruqi Huang",
+        "Sisi Li",
+        "Yimin Sheng",
+        "Jianyi Zhu",
+        "Hao Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T03:26:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.20889v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Editable 3D world reconstruction from single image",
+      "llm_evidence_cn": "单图像可编辑3D世界重建",
+      "llm_evidence": "单图像可编辑3D世界重建",
+      "canonical_evidence": "单图像可编辑3D世界重建",
+      "llm_tldr_en": "Proposes Lumera, a benchmark and pipeline for engine-native 3D scene parsing from a single image, recovering objects and parametric lights for editable scenes.",
+      "llm_tldr_cn": "针对单图像3D场景重建缺乏可编辑性问题，提出Lumera基准和管线。利用UE5合成数据训练VLM提取物体包围盒和参数化光照，输出可导入引擎的3D世界，实现了从单图到可编辑场景的端到端重建，大幅提升3D内容创作效率。",
+      "llm_tldr": "针对单图像3D场景重建缺乏可编辑性问题，提出Lumera基准和管线。利用UE5合成数据训练VLM提取物体包围盒和参数化光照，输出可导入引擎的3D世界，实现了从单图到可编辑场景的端到端重建，大幅提升3D内容创作效率。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21594v1",
+      "source": "arxiv",
+      "title": "Streaming Multi-Agent Autoregressive Diffusion Model with World State Registers",
+      "abstract": "Multi-agent interactive world models should not only generate consistent observations, but also maintain world states that persist across agents and evolve across views. Existing autoregressive video diffusion pipelines carry forward observation history as conditioning context, which makes shared state difficult to maintain in multi-agent and multi-view settings. We present WorldWeaver (W^2), a streaming multi-agent video diffusion model that augments rollout with cross-agent world state registers: learnable tokens that store shared world information, track individual agent status, and are dynamically updated after each generated chunk. We ground these registers with supervision signals spanning individual agent status, global state views including bird's-eye views, and scene text. We further improve the architecture with a Mixture-of-Transformers design that uses separate weights for world state modeling and visual frame modeling. Extensive experiments in two-agent Minecraft video generation show that explicit world-state modeling improves logical consistency and generation quality.",
+      "authors": [
+        "Sicheng Mo",
+        "Yuheng Li",
+        "Ziyang Leng",
+        "Krishna Kumar Singh",
+        "Bolei Zhou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.21594v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "streaming multi-agent world model with world state registers",
+      "llm_evidence_cn": "带世界状态寄存器的流式多智能体世界模型",
+      "llm_evidence": "带世界状态寄存器的流式多智能体世界模型",
+      "canonical_evidence": "带世界状态寄存器的流式多智能体世界模型",
+      "llm_tldr_en": "WorldWeaver introduces cross-agent world state registers into autoregressive video diffusion, enabling consistent multi-agent world model rollouts.",
+      "llm_tldr_cn": "多智能体交互世界模型需要维护跨智能体持久世界状态，现有自回归视频扩散仅传递观察历史。本文提出WorldWeaver，在扩散模型中引入跨智能体世界状态寄存器，存储并动态更新共享信息。通过多任务监督信号训练寄存器，在多个多智能体场景中实现更一致的世界演化，为世界模型研究提供新方向。",
+      "llm_tldr": "多智能体交互世界模型需要维护跨智能体持久世界状态，现有自回归视频扩散仅传递观察历史。本文提出WorldWeaver，在扩散模型中引入跨智能体世界状态寄存器，存储并动态更新共享信息。通过多任务监督信号训练寄存器，在多个多智能体场景中实现更一致的世界演化，为世界模型研究提供新方向。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21595v1",
+      "source": "arxiv",
+      "title": "3D-Aware VLMs with Implicit and Explicit Geometries",
+      "abstract": "Despite rapid progress, most existing vision-language models (VLMs) built from 2D visual inputs often struggle when handling various 3D tasks that require fine-grained spatial understanding and reasoning. To bridge this gap, we present VLM-IE3D, a unified framework that enhances the 3D spatial awareness of VLMs by equipping them with both implicit and explicit 3D geometries learned from RGB videos. Our VLM-IE3D introduces Implicit Geometry Tokens (IGTs) that capture high-level geometric priors from input videos, as well as complementary Explicit Geometry Tokens (EGTs) that encode detailed geometric structures from reconstructed 3D attributes. On top of that, VLM-IE3D comes with a 3D-aware adapter that effectively fuses the two types of geometric representations with 2D visual cues. This RGB-only design injects strong 3D inductive biases for fine-grained spatial understanding and reasoning without requiring any additional 3D inputs. Extensive experiments show that VLM-IE3D achieves superior performance consistently across various 3D tasks including 3D video detection, 3D visual grounding, 3D dense captioning, and spatial reasoning. Code and models are available at https://github.com/Vegetebird/VLM-IE3D.",
+      "authors": [
+        "Wenhao Li",
+        "Xueying Jiang",
+        "Quanhao Qian",
+        "Deli Zhao",
+        "Ran Xu",
+        "Shijian Lu",
+        "Gongjie Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-23T17:59:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.21595v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "enhances VLM 3D spatial awareness using implicit and explicit geometry from RGB videos",
+      "llm_evidence_cn": "利用来自RGB视频的隐式和显式几何增强VLM的3D空间感知",
+      "llm_evidence": "利用来自RGB视频的隐式和显式几何增强VLM的3D空间感知",
+      "canonical_evidence": "利用来自RGB视频的隐式和显式几何增强VLM的3D空间感知",
+      "llm_tldr_en": "VLM-IE3D equips VLMs with implicit and explicit 3D geometry from videos, significantly improving performance on 3D understanding tasks.",
+      "llm_tldr_cn": "该论文提出VLM-IE3D，一个统一框架，通过从RGB视频中学习隐式和显式3D几何来增强视觉语言模型的3D空间感知。隐式几何令牌捕获高层先验，显式几何令牌编码细节结构，并通过3D感知适配器与2D视觉特征融合。在多个3D理解基准上，该方法显著优于现有2D VLM，展示了几何信息对3D任务的重要性。",
+      "llm_tldr": "该论文提出VLM-IE3D，一个统一框架，通过从RGB视频中学习隐式和显式3D几何来增强视觉语言模型的3D空间感知。隐式几何令牌捕获高层先验，显式几何令牌编码细节结构，并通过3D感知适配器与2D视觉特征融合。在多个3D理解基准上，该方法显著优于现有2D VLM，展示了几何信息对3D任务的重要性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20660v1",
+      "source": "arxiv",
+      "title": "Axolotl3D: a Unified Framework for Faithful 3D Shape Completion",
+      "abstract": "Recent 3D generative models produce high-quality geometry from a single image using large-scale priors and diffusion architectures. However, they assume complete visibility and single-view inputs, limiting applicability in multi-view, occluded, or editing scenarios. Although prior works address these challenges individually, they lack a unified framework for controllable 3D completion under diverse conditioning signals. We present Axolotl3D, a multi-modal and occlusion-aware 3D generation model that jointly conditions on images, visibility masks, camera parameters, and a partial point cloud. The point cloud serves as a geometric anchor promoting faithful shape completion, while camera parameters ensure consistent multi-view alignment in a shared 3D coordinate system. A unified training strategy synthesizes diverse conditioning regimes from large-scale 3D data, enabling robust cross-modal reasoning. Experiments on Toys4K and OmniObject3D demonstrate state-of-the-art performance under both clean and occluded settings, as well as strong results in real-world reconstruction and geometry-consistent editing.",
+      "authors": [
+        "Anita Hu",
+        "Maria Shugrina"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T18:38:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.20660v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion architectures for 3D shape completion",
+      "llm_evidence_cn": "扩散架构用于3D形状补全",
+      "llm_evidence": "扩散架构用于3D形状补全",
+      "canonical_evidence": "扩散架构用于3D形状补全",
+      "llm_tldr_en": "Axolotl3D is a multi-modal occlusion-aware 3D generation model using diffusion priors and point cloud anchors for faithful shape completion.",
+      "llm_tldr_cn": "现有3D生成模型假设完全可见性和单视图输入，限制了多视图和遮挡场景的应用。本文提出Axolotl3D，一个多模态且感知遮挡的3D生成模型，联合条件于图像、可见性掩码、相机参数和部分点云。点云作为几何锚点促进忠实形状补全，相机参数确保多视图对齐。实验表明该方法在多种条件信号下实现可控的3D补全。该工作为3D生成提供了统一框架，拓展了扩散模型在3D任务中的应用。",
+      "llm_tldr": "现有3D生成模型假设完全可见性和单视图输入，限制了多视图和遮挡场景的应用。本文提出Axolotl3D，一个多模态且感知遮挡的3D生成模型，联合条件于图像、可见性掩码、相机参数和部分点云。点云作为几何锚点促进忠实形状补全，相机参数确保多视图对齐。实验表明该方法在多种条件信号下实现可控的3D补全。该工作为3D生成提供了统一框架，拓展了扩散模型在3D任务中的应用。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20922v1",
+      "source": "arxiv",
+      "title": "FA-LAM: Focus-Aware Large Avatar Model for One-Shot 4D Animatable Gaussian Head",
+      "abstract": "We propose FA-LAM, a Focus-Aware Large Avatar Model for one-shot animatable Gaussian head creation, while simultaneously enabling static 3D and dynamic 4D full-head recovery. The core of our method lies in a thorough analysis of the attention mechanisms and the entangled reconstruction and animation training pipeline adopted by prior state-of-the-art approaches. Our analysis identifies two main factors that compromise the quality of 3D full-head generation: (1) incorrect and noisy attention activations, and (2) conflicts between the tasks of reconstruction and animation. To address the first issue, we introduce a symmetric and semantic attention regularization strategy that leverages the inherent semantics and structural symmetry of human heads. To disentangle the objectives of reconstruction and animation, we develop a novel dual-phase training pipeline that separates the model's capabilities for large-view hallucination and animation into distinct modules. Moreover, we enhance our model to support multi-view and streaming 4D reconstruction in an efficient and memory-friendly manner through a core autoregressive modification with tailored visibility-aware token fusion. Collectively, these innovations enable FA-LAM to reconstruct animatable Gaussian full heads with superior quality, particularly in fine facial regions and large viewing angles.",
+      "authors": [
+        "Yingdong Hu",
+        "Yisheng He",
+        "Yiming Jiang",
+        "Zehong Lin",
+        "Steven Hoi",
+        "Jun Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T04:57:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.20922v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "One-shot 4D animatable Gaussian head creation",
+      "llm_evidence_cn": "一次4D可动画高斯头部创建",
+      "llm_evidence": "一次4D可动画高斯头部创建",
+      "canonical_evidence": "一次4D可动画高斯头部创建",
+      "llm_tldr_en": "FA-LAM enables one-shot creation of animatable 4D Gaussian heads, addressing attention misalignment and task conflict via symmetric semantic regularization.",
+      "llm_tldr_cn": "针对单张图像重建可动画4D高斯头部中的注意力混乱和重建-动画冲突问题，提出FA-LAM。通过对称语义正则化修正注意力，并解耦训练任务，同时实现静态3D和动态4D高质量重建，为虚拟人创建提供了高效方案。",
+      "llm_tldr": "针对单张图像重建可动画4D高斯头部中的注意力混乱和重建-动画冲突问题，提出FA-LAM。通过对称语义正则化修正注意力，并解耦训练任务，同时实现静态3D和动态4D高质量重建，为虚拟人创建提供了高效方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.21085v1",
+      "source": "arxiv",
+      "title": "Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models",
+      "abstract": "Despite remarkable progress in visual understanding, Multimodal Large Language Models (MLLMs) remain prone to hallucinations when reasoning about spatial relationships, often producing judgments that contradict the true 3D structure of the scene. Though several existing works have proposed to mitigate hallucinations, our analysis indicates that they show limited effectiveness in spatial reasoning, as they fail to bridge the fundamental gap between 2D visual representations and 3D spatial reality. Based on this finding, we define hallucinations arising from insufficient spatial structure modeling as spatial reasoning hallucination, a subcategory of relation hallucination that existing mitigation methods fail to address. We further identify three typical scenarios where such hallucinations frequently occur: perspective effects, object orientation, and viewpoint changes. To this end, we propose Geo3R, a training-free, plug-and-play framework that incorporates geometric evidence and structured 3D reasoning to mitigate spatial reasoning hallucination. Experiments on three benchmarks, covering 18 tasks across all three scenarios, show that Geo3R substantially reduces spatial reasoning hallucination across diverse MLLMs without additional training, outperforming existing models and methods.",
+      "authors": [
+        "Mingyu Wang",
+        "Weilin Jin",
+        "Wenbo Li",
+        "Haoyang Huang",
+        "Tong Jia",
+        "Ying Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T09:15:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.21085v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "addresses 3D spatial reasoning hallucination, improves 3D understanding",
+      "llm_evidence_cn": "针对3D空间推理幻觉，提升3D理解能力",
+      "llm_evidence": "针对3D空间推理幻觉，提升3D理解能力",
+      "canonical_evidence": "针对3D空间推理幻觉，提升3D理解能力",
+      "llm_tldr_en": "Geo3R mitigates spatial reasoning hallucination in MLLMs by bridging 2D visual representations and 3D spatial reality, improving 3D understanding.",
+      "llm_tldr_cn": "多模态大语言模型在空间推理中常产生与真实3D场景结构矛盾的幻觉。本文定义并针对这类空间推理幻觉，提出Geo3R方法，通过弥合2D视觉表示与3D空间现实之间的差距来缓解幻觉。实验表明该方法有效提升了3D空间理解的准确性。",
+      "llm_tldr": "多模态大语言模型在空间推理中常产生与真实3D场景结构矛盾的幻觉。本文定义并针对这类空间推理幻觉，提出Geo3R方法，通过弥合2D视觉表示与3D空间现实之间的差距来缓解幻觉。实验表明该方法有效提升了3D空间理解的准确性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16352v1",
+      "source": "arxiv",
+      "title": "Clarify Before Executing: A Self-Evolving Agent for Resolving Intent Asymmetry in 3D Tool Orchestration",
+      "abstract": "A fundamental intent asymmetry plagues modern 3D asset creation: while state-of-the-art 3D toolchains demand precise, executable parameters, ordinary users typically provide vague, underspecified instructions. Current 3D agents treat this ambiguity as noise, defaulting to blind execution under a single-turn assumption. To address this limitation, we introduce CLARE, a clarification-aware and evolutionary 3D agent that treats intent asymmetry not as an execution error, but as an opportunity for strategic dialogue. By decoupling the generation pipeline into four specialized cognitive roles, CLARE intercepts and resolves underspecified instructions before invoking computationally expensive 3D tools to seamlessly execute tasks across five diverse domains: text-to-3D generation, single-view reconstruction, multi-view reconstruction, point cloud editing, and post-processing. Crucially, rather than relying on rigid manual rules, CLARE self-evolves its clarification policy via simulated multi-turn interactions. By optimizing a Multi-turn Reward, the agent internalizes the delicate balance between interaction efficiency and task completion. To rigorously test this, we construct 3D-Clarify, a comprehensive benchmark comprising 620 interaction scenarios with systematically injected ambiguity, missing information, and mistaken details. CLARE achieves state-of-the-art performance, with 60.40% and 43.34% success rates on single-step and multi-step tasks, respectively, more than doubling existing baselines. Both quantitative and qualitative results demonstrate that proactive clarification is the missing key to robust 3D execution. Code is available at https://github.com/xyzhu1225/CLARE.",
+      "authors": [
+        "Xiaoye Zhu",
+        "Weixin Li",
+        "Junan Huo",
+        "Bozhong Wang",
+        "Jia Zeng",
+        "Yi Yang",
+        "Cen Chen",
+        "Qi Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL",
+        "cs.GR",
+        "cs.MA"
+      ],
+      "published": "2026-07-17T07:10:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.16352v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D agent that generates assets by resolving vague user instructions",
+      "llm_evidence_cn": "通过解决模糊用户指令来生成3D资产的智能体",
+      "llm_evidence": "通过解决模糊用户指令来生成3D资产的智能体",
+      "canonical_evidence": "通过解决模糊用户指令来生成3D资产的智能体",
+      "llm_tldr_en": "CLARE is a clarification-aware 3D agent that decouples generation into four roles to resolve intent asymmetry before executing 3D tools.",
+      "llm_tldr_cn": "该论文提出CLARE，一个澄清感知的3D工具编排智能体，解决用户意图与精确参数之间的不对称问题。它将3D生成流水线解耦为四个专业认知角色，通过策略性对话澄清模糊指令，然后高效调用底层3D工具。实验表明，该方法显著减少了错误执行并提高了用户满意度，推动了3D内容生成工具的易用性。",
+      "llm_tldr": "该论文提出CLARE，一个澄清感知的3D工具编排智能体，解决用户意图与精确参数之间的不对称问题。它将3D生成流水线解耦为四个专业认知角色，通过策略性对话澄清模糊指令，然后高效调用底层3D工具。实验表明，该方法显著减少了错误执行并提高了用户满意度，推动了3D内容生成工具的易用性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16015v1",
+      "source": "arxiv",
+      "title": "PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects",
+      "abstract": "6D pose estimation remains a key challenge in robotics and computer vision, particularly in industrial environments. The deployment of currently available data-driven methods is often limited by resource-intensive data pipelines, reliance on textured 3D models, and sensitivity to geometric deviations caused by damages or assembly defects. We present PIXIE, a zero-shot framework that estimates the 6D pose of an object from an RGB image using only an untextured 3D model. Synthetic depth and normal maps are rendered from sampled reference viewpoints and matched to the query image via a pretrained cross-modality feature matcher. Matched keypoints are back-projected to obtain 2D--3D correspondences for PnP-based pose estimation. Relying exclusively on geometry makes the method inherently robust to lighting and texture variation, while correspondence filtering handles geometric deviations between the model and physical object. We evaluate on widely-used public benchmarks, reporting state-of-the-art results on texture-less objects without object-specific training, and introduce a novel dataset with assembly defects, texture variations, and occlusion to demonstrate real-world applicability.",
+      "authors": [
+        "Leon Jungemeyer",
+        "Alejandro Magaña",
+        "Gautham Mohan",
+        "Matthias Karl",
+        "Daniel Werdehausen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-17T14:48:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.16015v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "zero-shot 6D pose estimation for 3D understanding",
+      "llm_evidence_cn": "零样本6D姿态估计用于3D理解",
+      "llm_evidence": "零样本6D姿态估计用于3D理解",
+      "canonical_evidence": "零样本6D姿态估计用于3D理解",
+      "llm_tldr_en": "PIXIE estimates 6D pose from RGB using only untextured 3D model, leveraging cross-modality feature matching and synthetic depth/normal maps for zero-shot performance.",
+      "llm_tldr_cn": "工业环境下6D姿态估计受限于纹理依赖和几何偏差。本文提出PIXIE零样本框架，仅用无纹理3D模型，通过渲染合成深度法线图并与查询图像进行跨模态特征匹配，获得2D-3D对应进行PnP求解。实验证明对未见过物体和有缺陷零件均鲁棒，降低了数据收集成本。",
+      "llm_tldr": "工业环境下6D姿态估计受限于纹理依赖和几何偏差。本文提出PIXIE零样本框架，仅用无纹理3D模型，通过渲染合成深度法线图并与查询图像进行跨模态特征匹配，获得2D-3D对应进行PnP求解。实验证明对未见过物体和有缺陷零件均鲁棒，降低了数据收集成本。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21522v1",
+      "source": "arxiv",
+      "title": "GS-Agent: Creating 4D Physical Worlds With Generative Simulation",
+      "abstract": "Creating dynamic and physically realistic 4D worlds from natural language descriptions is both fascinating and challenging. Traditional computer graphics methods rely on manual creation, requiring extensive human effort to fine-tune materials, motions, and visual fidelity. Recent advances in generative foundation models have sparked interest in learning to generate such 4D worlds from large-scale data; however, existing methods still struggle to ensure physical plausibility and controllability. In this work, we take a different path by leveraging foundation models to construct an agentic system that emulates how humans traditionally create 4D worlds, yet automates the entire process. We present GS-Agent, an end-to-end multi-agent framework that integrates physics engines in the loop to generate realistic, dynamic, and controllable 4D physical worlds from natural language. Inspired by how humans build 4D worlds, GS-Agent decomposes the task into entity management, covering 3D asset curation, material tuning, placement, and motion control, and rendering configuration, including camera and lighting manipulation. Multiple agents with distinct expertise interact with the physics engine via code, seek multimodal feedback, and collaborate to iteratively construct 4D worlds that align with the given descriptions. Experimental results show that GS-Agent effectively converts natural language into diverse and physically plausible 4D worlds exhibiting rich interactions among liquids, deformable objects, and rigid bodies, while achieving cinematic camera and lighting control. We envision GS-Agent as a foundation for a new paradigm in 4D world generation, empowering creative content creation and physical AI. Project page at https://umass-embodied-agi.github.io/gs-agent/",
+      "authors": [
+        "Hongxin Zhang",
+        "Chunru Lin",
+        "Junyan Li",
+        "Zhou Xian",
+        "Tsun-Hsuan Wang",
+        "Chuang Gan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-07-23T17:04:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.21522v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "creating 4D physical worlds with generative simulation",
+      "llm_evidence_cn": "通过生成模拟创建4D物理世界",
+      "llm_evidence": "通过生成模拟创建4D物理世界",
+      "canonical_evidence": "通过生成模拟创建4D物理世界",
+      "llm_tldr_en": "GS-Agent uses multi-agent framework integrating physics engines and foundation models to automate creation of physically realistic 4D worlds from text.",
+      "llm_tldr_cn": "从自然语言创建动态且物理合理的4D世界极具挑战性。本文提出GS-Agent，一个端到端多智能体框架，集成基础模型与物理引擎，模拟人类创建流程但全自动。智能体协同完成场景生成、材质指定、运动规划与渲染。实验生成多样且可控的4D场景，展示优于现有方法的物理真实感与用户可控性。为世界模型和3D生成提供了全新路径。",
+      "llm_tldr": "从自然语言创建动态且物理合理的4D世界极具挑战性。本文提出GS-Agent，一个端到端多智能体框架，集成基础模型与物理引擎，模拟人类创建流程但全自动。智能体协同完成场景生成、材质指定、运动规划与渲染。实验生成多样且可控的4D场景，展示优于现有方法的物理真实感与用户可控性。为世界模型和3D生成提供了全新路径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.20325v1",
+      "source": "arxiv",
+      "title": "MR-Compare: A Mixed-Reality Framework for Spatially Grounded Visual Comparison of 3D Gaussian Splatting and Mesh Reconstructions with the Physical Environment",
+      "abstract": "We introduce MR-Compare, a mixed reality framework for spatially grounded visual comparison between 3D Gaussian splatting and mesh reconstructions with live video see-through (VST). Implemented on a PC-tethered Meta Quest~3, it combines a two-stage registration pipeline with a 3D Slider for cross-media comparison. We evaluated five representative desktop and mobile reconstruction workflows through a real-world benchmark with an exploratory user study ($n=30$) in two static indoor rooms. MR-Compare achieved centimetre-level translation error across all workflows. The two desktop 3DGS workflows showed the strongest overall pattern, with 3DGS-MCMC yielding the lowest registration error and strongest VST-referenced visual consistency. Room-session measures indicated high perceived usability and low workload. We further propose an anisotropy filter, a zero-shot module that leverages Gaussian anisotropies to improve 3DGS registration in MR-Compare. A controlled Replica threshold sweep shows that moderate pruning can improve robustness and reduce residual errors. These results establish system-level feasibility in the tested setting rather than task-level effectiveness or standalone deployment. The project is available at https://github.com/changruizhu96/MR-Compare.",
+      "authors": [
+        "Changrui Zhu",
+        "Ernst Kruijff",
+        "Pengju Zhang",
+        "Simon Julier"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-07-22T16:11:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.20325v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "compares 3D Gaussian splatting and mesh reconstructions, relevant to 3D generation and understanding",
+      "llm_evidence_cn": "比较3D高斯泼溅与网格重建，涉及3D生成与理解",
+      "llm_evidence": "比较3D高斯泼溅与网格重建，涉及3D生成与理解",
+      "canonical_evidence": "比较3D高斯泼溅与网格重建，涉及3D生成与理解",
+      "llm_tldr_en": "MR-Compare is a mixed reality framework for spatially grounded visual comparison of 3D Gaussian splatting and mesh reconstructions, achieving centimetre-level alignment accuracy.",
+      "llm_tldr_cn": "3D重建技术的评估缺乏空间对齐的交互式比较工具。本文提出MR-Compare混合现实框架，支持3D高斯泼溅与网格重建在真实环境中的可视化对比。通过两阶段配准和3D滑块实现厘米级对齐。用户研究表明桌面3DGS流程表现最佳。",
+      "llm_tldr": "3D重建技术的评估缺乏空间对齐的交互式比较工具。本文提出MR-Compare混合现实框架，支持3D高斯泼溅与网格重建在真实环境中的可视化对比。通过两阶段配准和3D滑块实现厘米级对齐。用户研究表明桌面3DGS流程表现最佳。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16015v2",
+      "source": "arxiv",
+      "title": "PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects",
+      "abstract": "6D pose estimation remains a key challenge in robotics and computer vision, particularly in industrial environments. The deployment of currently available data-driven methods is often limited by resource-intensive data pipelines, reliance on textured 3D models, and sensitivity to geometric deviations caused by damages or assembly defects. We present PIXIE, a zero-shot framework that estimates the 6D pose of an object from an RGB image using only an untextured 3D model. Synthetic depth and normal maps are rendered from sampled reference viewpoints and matched to the query image via a pretrained cross-modality feature matcher. Matched keypoints are back-projected to obtain 2D--3D correspondences for PnP-based pose estimation. Relying exclusively on geometry makes the method inherently robust to lighting and texture variation, while correspondence filtering handles geometric deviations between the model and physical object. We evaluate on widely-used public benchmarks, reporting state-of-the-art results on texture-less objects without object-specific training, and introduce a novel dataset with assembly defects, texture variations, and occlusion to demonstrate real-world applicability.",
+      "authors": [
+        "Leon Jungemeyer",
+        "Alejandro Magaña",
+        "Gautham Mohan",
+        "Matthias Karl",
+        "Daniel Werdehausen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-17T14:48:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.16015v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "zero-shot 6D pose estimation for 3D object understanding",
+      "llm_evidence_cn": "零样本6D姿态估计用于3D物体理解",
+      "llm_evidence": "零样本6D姿态估计用于3D物体理解",
+      "canonical_evidence": "零样本6D姿态估计用于3D物体理解",
+      "llm_tldr_en": "PIXIE estimates 6D pose from RGB using untextured 3D model, matching synthetic depth/normal maps via cross-modality feature matcher.",
+      "llm_tldr_cn": "工业环境中6D姿态估计依赖纹理模型且对缺陷敏感。PIXIE利用无纹理3D模型，通过跨模态特征匹配将合成深度法线图与查询图像对应，实现零样本姿态估计。实验表明该方法对装配缺陷鲁棒，且无需训练数据。该工作推动了3D物体理解的实用化。",
+      "llm_tldr": "工业环境中6D姿态估计依赖纹理模型且对缺陷敏感。PIXIE利用无纹理3D模型，通过跨模态特征匹配将合成深度法线图与查询图像对应，实现零样本姿态估计。实验表明该方法对装配缺陷鲁棒，且无需训练数据。该工作推动了3D物体理解的实用化。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20670v1",
+      "source": "arxiv",
+      "title": "ODeform: Learning Continuous 4D Motion for Shape Deformation with Neural ODEs",
+      "abstract": "Modeling continuous object deformation is important for many computer vision and robotics tasks, such as manipulation and simulation. Existing approaches rely on learning-based methods or physics simulators to model shape deformations. However, these approaches either use discrete time steps or are too computationally intensive for real-time applications. We present ODeform, a novel extension of Neural Ordinary Differential Equations to continuous 4D dynamics of deformable objects in 3D space. Our method transforms 3D point clouds and physical conditions (like material properties) into a unified latent space. By solving the resulting ordinary differential equations over time, we model deformations as continuous flows within this learned embedding, eliminating the need for discrete time steps while maintaining computational efficiency. We evaluate our approach on unseen physical parameter configurations, showing improved motion prediction accuracy over baseline methods. Our experiments further demonstrate a successful transfer to real 3D captured objects with novel shapes, along with effective interpolation and extrapolation of the learned dynamics. Our code and data will be made publicly available.",
+      "authors": [
+        "Yordanka Velikova",
+        "Mahdi Saleh",
+        "Liming Kuang",
+        "Benjamin Busam"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T19:08:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.20670v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Continuous 4D motion for deformable objects in 3D",
+      "llm_evidence_cn": "3D可变形物体的连续4D运动建模",
+      "llm_evidence": "3D可变形物体的连续4D运动建模",
+      "canonical_evidence": "3D可变形物体的连续4D运动建模",
+      "llm_tldr_en": "Presents ODeform, using Neural ODEs to model continuous 4D deformation dynamics of 3D objects from point clouds and physical conditions.",
+      "llm_tldr_cn": "针对3D物体变形建模中离散时间步长或计算量大问题，提出ODeform，将神经ODE扩展到4D连续变形。将点云和物理条件映射到潜空间，通过求解ODE获得连续变形流，实现实时、高保真的变形模拟，适用于机器人操作和仿真。",
+      "llm_tldr": "针对3D物体变形建模中离散时间步长或计算量大问题，提出ODeform，将神经ODE扩展到4D连续变形。将点云和物理条件映射到潜空间，通过求解ODE获得连续变形流，实现实时、高保真的变形模拟，适用于机器人操作和仿真。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16946v1",
+      "source": "arxiv",
+      "title": "Points as Tori: Fast Pointwise Signed Distance for Point Clouds",
+      "abstract": "We describe a method for computing signed distance to point clouds that allows fast pointwise evaluation at arbitrary spatial resolution. As input, our method takes a point cloud with normals; as output, it provides an analytical parameterization that allows queries of signed distance to the approximate underlying surface at arbitrary points - simultaneously providing reconstruction and distance. Our key idea is to reconstruct shapes by locally fitting point clouds with tori, which have closed-form signed distance functions. Tori are fitted in a feed-forward manner, using a pre-trained network to output per-point curvature and shift parameters. Importantly, our method does not require costly global optimization or spatial discretization, and is easily parallelizable. Underlying our method is a new theory that unifies signed distance with the classic reconstruction methods of winding numbers and Poisson surface reconstruction. We use our method to compute signed distance to point clouds arising from photogrammetry, meshes, 3D Gaussians, and neural implicits. Our method allows point clouds to be used directly in applications, without explicit surface reconstruction: as examples, we take offsets of point clouds, apply morphological and Boolean operations, and directly visualize offset surfaces using sphere tracing.",
+      "authors": [
+        "Nicole Feng",
+        "Ioannis Gkioulekas",
+        "Keenan Crane"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-18T20:01:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.16946v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "point cloud signed distance computation for 3D reconstruction",
+      "llm_evidence_cn": "点云有符号距离计算用于3D重建",
+      "llm_evidence": "点云有符号距离计算用于3D重建",
+      "canonical_evidence": "点云有符号距离计算用于3D重建",
+      "llm_tldr_en": "Points as Tori fits tori locally to point clouds for closed-form signed distance, enabling fast arbitrary-resolution queries without global optimization.",
+      "llm_tldr_cn": "点云的有符号距离计算通常需要全局优化。该方法通过局部圆环拟合，利用预训练网络预测曲率和平移参数，实现前馈式重建和距离查询。无需全局优化或离散化，可并行计算。实验表明该方法在重建精度和效率上均优于传统方法。这为3D理解提供了高效的几何表示工具。",
+      "llm_tldr": "点云的有符号距离计算通常需要全局优化。该方法通过局部圆环拟合，利用预训练网络预测曲率和平移参数，实现前馈式重建和距离查询。无需全局优化或离散化，可并行计算。实验表明该方法在重建精度和效率上均优于传统方法。这为3D理解提供了高效的几何表示工具。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20789v1",
+      "source": "arxiv",
+      "title": "3D-GIMP: When 3D Gaussian Inpainting Meets PatchMatch",
+      "abstract": "Recent advances in 3D scene editing have leveraged iterative diffusion models to update input views. However, this process is computationally expensive and struggles to produce sharp details. Meanwhile, ``hallucination drift'' frequently introduces multi-view inconsistencies, leading to structural artifacts when rendering novel viewpoints. To address this problem, we present 3D-GIMP (3D Gaussian Inpainting Meets Patch Matching), a novel hybrid paradigm designed for high-fidelity object removal in 3D Gaussian Splatting. Instead of diffusing every view, 3D-GIMP performs a single generative inpainting on a key reference view, which serves as an appearance prior. We then introduce a 3D-aware PatchMatch algorithm to propagate these reference textures across all remaining views via correspondence matching, effectively bypassing the stochastic nature of frame-by-frame diffusion. By prioritizing reconstructive consistency over iterative generation, 3D-GIMP maintains high-frequency details across arbitrary resolutions while ensuring a mathematically consistent 3D reconstruction. Our experiments demonstrate that 3D-GIMP not only achieves competitive inpainting quality as previous methods using diffusion in multiple views, but also outperforms these methods in rendering speed and view consistency.",
+      "authors": [
+        "Xuening Tian",
+        "Dieter Schmalstieg",
+        "Shohei Mori"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-22T23:27:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.20789v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D object removal using Gaussian inpainting and PatchMatch",
+      "llm_evidence_cn": "使用高斯修补和PatchMatch进行3D物体移除",
+      "llm_evidence": "使用高斯修补和PatchMatch进行3D物体移除",
+      "canonical_evidence": "使用高斯修补和PatchMatch进行3D物体移除",
+      "llm_tldr_en": "3D-GIMP combines single generative inpainting with 3D-aware PatchMatch for high-fidelity object removal in 3DGS, avoiding multi-view inconsistency.",
+      "llm_tldr_cn": "基于扩散的3D场景编辑计算昂贵且易出现多视图不一致。本文提出3D-GIMP，一种混合范式：先在关键参考视图上执行单次生成式修补作为外观先验，再通过3D感知的PatchMatch算法将纹理传播到所有视图。实验证明该方法在保持细节和一致性方面优于逐视图扩散方案。为3D高斯泼溅场景编辑提供了高效且高质量的选择。",
+      "llm_tldr": "基于扩散的3D场景编辑计算昂贵且易出现多视图不一致。本文提出3D-GIMP，一种混合范式：先在关键参考视图上执行单次生成式修补作为外观先验，再通过3D感知的PatchMatch算法将纹理传播到所有视图。实验证明该方法在保持细节和一致性方面优于逐视图扩散方案。为3D高斯泼溅场景编辑提供了高效且高质量的选择。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.20813v1",
+      "source": "arxiv",
+      "title": "SubSplat: High-Resolution Pixel-aligned 3DGS via Sub-pixel Gaussian Reparameterization",
+      "abstract": "Pixel-aligned Gaussian splatting enables efficient and generalizable novel-view synthesis. However, high-resolution rendering faces a critical trade-off where increasing input resolution improves detail at the expense of quadratically rising network computational cost. Conversely, maintaining low-resolution inputs stabilizes this cost but results in insufficient Gaussian density and artifacts. To address this, we propose SubSplat, which introduces Sub-pixel Gaussian Reparameterizer(SPGR) to subdivide primary Gaussians into fine-grained primitives, restoring structural density directly from low-resolution features. We further enhance the reparameterization quality through feature aggregation, which effectively captures high-frequency details across multiple views. Experiments on RealEstate10K and ACID demonstrate that SubSplat achieves high-fidelity rendering with superior efficiency. Our results validate that the proposed framework successfully resolves the trade-off between reparameterization fidelity and network computational cost inherent in pixel-aligned Gaussian Splatting.",
+      "authors": [
+        "Jiun Lee",
+        "Jaekwang Kim",
+        "Sangmin Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T00:56:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.20813v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "pixel-aligned 3DGS for high-resolution novel view synthesis",
+      "llm_evidence_cn": "像素对齐3DGS用于高分辨率新视角合成",
+      "llm_evidence": "像素对齐3DGS用于高分辨率新视角合成",
+      "canonical_evidence": "像素对齐3DGS用于高分辨率新视角合成",
+      "llm_tldr_en": "SubSplat introduces sub-pixel Gaussian reparameterization to generate fine-grained Gaussians from low-resolution features, enabling high-res rendering without quadratic cost.",
+      "llm_tldr_cn": "像素对齐高斯泼溅在新视角合成中面临高分辨率输入导致计算量激增的问题。本文提出SubSplat，通过子像素高斯重参数化器从低分辨率特征中细分出精细高斯原语，恢复结构密度。结合特征聚合增强重参数化质量。实验表明在保持低计算开销的同时实现高分辨率、高质量的渲染。为高效3D表示学习提供了新思路。",
+      "llm_tldr": "像素对齐高斯泼溅在新视角合成中面临高分辨率输入导致计算量激增的问题。本文提出SubSplat，通过子像素高斯重参数化器从低分辨率特征中细分出精细高斯原语，恢复结构密度。结合特征聚合增强重参数化质量。实验表明在保持低计算开销的同时实现高分辨率、高质量的渲染。为高效3D表示学习提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21592v1",
+      "source": "arxiv",
+      "title": "Unified Video Dense Prediction from Disjoint Data",
+      "abstract": "Scene understanding requires simultaneous prediction about geometry, appearance, and semantics. However, existing task-specific annotations are fragmented across incompatible, domain-specific datasets. Current unified systems circumvent this by restricting training to fully co-annotated data, or by incurring the large computational cost of pseudo-labeling. To mitigate this, we introduce UniD, a unified video model that jointly predicts eight dense scene properties-depth, surface normals, semantic segmentation, boundaries, human parts, albedo, shading, and materials-all learned from disjoint, domain-specific datasets. We propose a simple yet effective distillation step in which per-task experts supervise a unified backbone through lightweight task projectors, eliminating the need for annotation overlap or pseudo-labeling. Our key insight is that the strong visual priors of a pretrained diffusion model are sufficient to bridge the domain gaps introduced by disjoint training sources, enabling robust generalization to scene-task combinations never seen during training. UniD achieves competitive performance against per-task specialists and multi-task baselines, with strong generalization to out-of-distribution scenarios and enhanced temporal and cross-task consistency. Code and video results are available at https://unid-video.github.io/.",
+      "authors": [
+        "Yihong Sun",
+        "Seoung Wug Oh",
+        "Jiahui Huang",
+        "Bharath Hariharan",
+        "Joon-Young Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T17:59:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.21592v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "predicts depth, normals, semantics - 3D scene understanding",
+      "llm_evidence_cn": "预测深度、法线、语义，属于3D场景理解",
+      "llm_evidence": "预测深度、法线、语义，属于3D场景理解",
+      "canonical_evidence": "预测深度、法线、语义，属于3D场景理解",
+      "llm_tldr_en": "UniD unifies video dense prediction for eight scene properties from disjoint datasets using distillation, enabling joint 3D understanding without full co-annotation.",
+      "llm_tldr_cn": "现有视频场景理解任务受限于碎片化、域不兼容的数据集，难以统一训练。本文提出UniD模型，通过轻量级任务投影器将多个专家知识蒸馏到统一骨干网络中，在无完全共同标注的情况下联合预测深度、法线、语义等八种密集场景属性。实验表明该方法有效融合互补信息，提升多任务预测一致性。为视频级3D理解提供了实用的统一框架。",
+      "llm_tldr": "现有视频场景理解任务受限于碎片化、域不兼容的数据集，难以统一训练。本文提出UniD模型，通过轻量级任务投影器将多个专家知识蒸馏到统一骨干网络中，在无完全共同标注的情况下联合预测深度、法线、语义等八种密集场景属性。实验表明该方法有效融合互补信息，提升多任务预测一致性。为视频级3D理解提供了实用的统一框架。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

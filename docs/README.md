@@ -6,53 +6,71 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-23
-- 运行时间：2026-07-23 21:32:10 UTC
+- 最新运行日期：2026-07-24
+- 运行时间：2026-07-24 20:39:31 UTC
 - 运行状态：成功
-- 本次总论文数：11
+- 本次总论文数：17
 - 精读区：6
-- 速读区：5
+- 速读区：11
 
 ### 今日简报（AI）
-今日共推荐11篇论文，精读6篇、速读5篇。最值得关注的是精读中的《AniGS: Bridging Rendering and Diffusion Prior for 3D Scene Animation》和《GATE-3D: Geometry-Aware Test-time Adaptive Reranking for Open-Set 3D Shape Retrieval》，均获8.0高分。建议优先阅读这两篇，深入了解3D场景动画与开放集形状检索的前沿方法。
-- 详情：[/202607/23/README](/202607/23/README)
+今日焦点：API代理无环境合成数据生成与引擎原生可编辑3D世界重建获精读高分。最值得关注两篇9.0论文，分别攻克代理训练数据瓶颈和交互式3D重建难题。建议普通读者优先深入理解空间推理幻觉缓解及4D物理仿真进展。
+- 详情：[/202607/24/README](/202607/24/README)
 
 ### 精读区论文标签
-1. [AniGS: Bridging Rendering and Diffusion Prior for 3D Scene Animation](/202607/23/2607.18539v1-anigs-bridging-rendering-and-diffusion-prior-for-3d-scene-animation)  
+1. [Environment-free Synthetic Data Generation for API-Calling Agents](/202607/24/2607.16900v2-environment-free-synthetic-data-generation-for-api-calling-agents)  
+   标签：评分：9.0/10、query:d
+   evidence：利用LLM作为即时世界模型生成合成数据
+2. [Engine-Native Editable 3D World Reconstruction with Objects and Lighting](/202607/24/2607.20889v1-engine-native-editable-3d-world-reconstruction-with-objects-and-lighting)  
+   标签：评分：9.0/10、query:d
+   evidence：单图像可编辑3D世界重建
+3. [Streaming Multi-Agent Autoregressive Diffusion Model with World State Registers](/202607/24/2607.21594v1-streaming-multi-agent-autoregressive-diffusion-model-with-world-state-registers)  
+   标签：评分：9.0/10、query:d
+   evidence：带世界状态寄存器的流式多智能体世界模型
+4. [3D-Aware VLMs with Implicit and Explicit Geometries](/202607/24/2607.21595v1-3d-aware-vlms-with-implicit-and-explicit-geometries)  
+   标签：评分：9.0/10、query:d
+   evidence：利用来自RGB视频的隐式和显式几何增强VLM的3D空间感知
+5. [Axolotl3D: a Unified Framework for Faithful 3D Shape Completion](/202607/24/2607.20660v1-axolotl3d-a-unified-framework-for-faithful-3d-shape-completion)  
    标签：评分：8.0/10、query:d
-   evidence：使用预训练视频扩散模型进行3D场景动画
-2. [GATE-3D: Geometry-Aware Test-time Adaptive Reranking for Open-Set 3D Shape Retrieval](/202607/23/2607.19111v1-gate-3d-geometry-aware-test-time-adaptive-reranking-for-open-set-3d-shape-retrieval)  
+   evidence：扩散架构用于3D形状补全
+6. [FA-LAM: Focus-Aware Large Avatar Model for One-Shot 4D Animatable Gaussian Head](/202607/24/2607.20922v1-fa-lam-focus-aware-large-avatar-model-for-one-shot-4d-animatable-gaussian-head)  
    标签：评分：8.0/10、query:d
-   evidence：几何感知的3D形状检索
-3. [Extending a Large View Synthesis Model for Multi-view Panoptic Segmentation](/202607/23/2607.19765v1-extending-a-large-view-synthesis-model-for-multi-view-panoptic-segmentation)  
-   标签：评分：8.0/10、query:d
-   evidence：将视图合成模型扩展到全景分割，用于3D场景理解
-4. [Odin: Primitive-Level Synchronization for Distributed Point-Based Neural Rendering](/202607/23/2607.19893v1-odin-primitive-level-synchronization-for-distributed-point-based-neural-rendering)  
-   标签：评分：8.0/10、query:d
-   evidence：为基于点的神经渲染提供分布式训练系统，支持世界模型管线
-5. [GaussianSeed: Hierarchical Gaussian Seeding for High-Resolution 3D Occupancy Prediction](/202607/23/2607.20071v1-gaussianseed-hierarchical-gaussian-seeding-for-high-resolution-3d-occupancy-prediction)  
-   标签：评分：8.0/10、query:d
-   evidence：3D占据预测用于场景理解
-6. [ATSplat: Compact Feed-forward 3D Gaussian Splatting with Adaptive Token Expansion](/202607/23/2607.20417v1-atsplat-compact-feed-forward-3d-gaussian-splatting-with-adaptive-token-expansion)  
-   标签：评分：8.0/10、query:d
-   evidence：前馈3D高斯散射用于新视角合成
+   evidence：一次4D可动画高斯头部创建
 
 ### 速读区论文标签
-1. [CaT-GS: Efficient 3DGS Rendering for Large Scale Scenes via Inter-frame Caching and Tile Scheduling](/202607/23/2607.17842v1-cat-gs-efficient-3dgs-rendering-for-large-scale-scenes-via-inter-frame-caching-and-tile-scheduling)  
+1. [Geo3R: Mitigating Spatial Reasoning Hallucination in Multimodal Large Language Models](/202607/24/2607.21085v1-geo3r-mitigating-spatial-reasoning-hallucination-in-multimodal-large-language-models)  
+   标签：评分：8.0/10、query:d
+   evidence：针对3D空间推理幻觉，提升3D理解能力
+2. [GS-Agent: Creating 4D Physical Worlds With Generative Simulation](/202607/24/2607.21522v1-gs-agent-creating-4d-physical-worlds-with-generative-simulation)  
+   标签：评分：8.0/10、query:d
+   evidence：通过生成模拟创建4D物理世界
+3. [Clarify Before Executing: A Self-Evolving Agent for Resolving Intent Asymmetry in 3D Tool Orchestration](/202607/24/2607.16352v1-clarify-before-executing-a-self-evolving-agent-for-resolving-intent-asymmetry-in-3d-tool-orchestration)  
    标签：评分：7.0/10、query:d
-   evidence：高效3DGS渲染，支持大规模场景的3D生成与理解
-2. [Look Before You Edit: Attention-Guided Camera Placement and Multi-View Alignment for 3D Gaussian Splatting Editing](/202607/23/2607.19777v1-look-before-you-edit-attention-guided-camera-placement-and-multi-view-alignment-for-3d-gaussian-splatting-editing)  
+   evidence：通过解决模糊用户指令来生成3D资产的智能体
+4. [MR-Compare: A Mixed-Reality Framework for Spatially Grounded Visual Comparison of 3D Gaussian Splatting and Mesh Reconstructions with the Physical Environment](/202607/24/2607.20325v1-mr-compare-a-mixed-reality-framework-for-spatially-grounded-visual-comparison-of-3d-gaussian-splatting-and-mesh-reconstructions-with-the-physical-environment)  
    标签：评分：7.0/10、query:d
-   evidence：注意力引导相机放置用于3D场景编辑
-3. [Lossless-INR: Lossless Volumetric Implicit Neural Representations](/202607/23/2607.18150v1-lossless-inr-lossless-volumetric-implicit-neural-representations)  
+   evidence：比较3D高斯泼溅与网格重建，涉及3D生成与理解
+5. [ODeform: Learning Continuous 4D Motion for Shape Deformation with Neural ODEs](/202607/24/2607.20670v1-odeform-learning-continuous-4d-motion-for-shape-deformation-with-neural-odes)  
+   标签：评分：7.0/10、query:d
+   evidence：3D可变形物体的连续4D运动建模
+6. [3D-GIMP: When 3D Gaussian Inpainting Meets PatchMatch](/202607/24/2607.20789v1-3d-gimp-when-3d-gaussian-inpainting-meets-patchmatch)  
+   标签：评分：7.0/10、query:d
+   evidence：使用高斯修补和PatchMatch进行3D物体移除
+7. [Unified Video Dense Prediction from Disjoint Data](/202607/24/2607.21592v1-unified-video-dense-prediction-from-disjoint-data)  
+   标签：评分：7.0/10、query:d
+   evidence：预测深度、法线、语义，属于3D场景理解
+8. [PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects](/202607/24/2607.16015v1-pixie-a-zero-shot-texture-invariant-6d-pose-estimation-framework-for-unseen-objects-with-assembly-defects)  
    标签：评分：6.0/10、query:d
-   evidence：用于3D科学数据无损表示的隐式神经网络
-4. [STEREOFLOW: Progressive Stereo Matching with StereoDiT and Transition Flow Matching](/202607/23/2607.19986v1-stereoflow-progressive-stereo-matching-with-stereodit-and-transition-flow-matching)  
+   evidence：零样本6D姿态估计用于3D理解
+9. [PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects](/202607/24/2607.16015v2-pixie-a-zero-shot-texture-invariant-6d-pose-estimation-framework-for-unseen-objects-with-assembly-defects)  
    标签：评分：6.0/10、query:d
-   evidence：立体匹配中的生成式框架用于3D重建
-5. [MR-Compare: A Mixed-Reality Framework for Spatially Grounded Visual Comparison of 3D Gaussian Splatting and Mesh Reconstructions with the Physical Environment](/202607/23/2607.20325v1-mr-compare-a-mixed-reality-framework-for-spatially-grounded-visual-comparison-of-3d-gaussian-splatting-and-mesh-reconstructions-with-the-physical-environment)  
+   evidence：零样本6D姿态估计用于3D物体理解
+10. [Points as Tori: Fast Pointwise Signed Distance for Point Clouds](/202607/24/2607.16946v1-points-as-tori-fast-pointwise-signed-distance-for-point-clouds)  
    标签：评分：6.0/10、query:d
-   evidence：混合现实中比较3DGS与网格重建
+   evidence：点云有符号距离计算用于3D重建
+11. [SubSplat: High-Resolution Pixel-aligned 3DGS via Sub-pixel Gaussian Reparameterization](/202607/24/2607.20813v1-subsplat-high-resolution-pixel-aligned-3dgs-via-sub-pixel-gaussian-reparameterization)  
+   标签：评分：6.0/10、query:d
+   evidence：像素对齐3DGS用于高分辨率新视角合成
 
 
 <div class="dpr-home-promo-card">

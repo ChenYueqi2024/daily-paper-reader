@@ -1,0 +1,295 @@
+Title: PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects
+
+URL Source: https://arxiv.org/pdf/2607.16015v1
+
+Published Time: Mon, 20 Jul 2026 01:17:02 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# PIXIE: A Zero-Shot texture-invariant 6D pose estimation framework for unseen objects with assembly defects 
+
+Leon Jungemeyer 1, Alejandro Maga˜ na 2, Gautham Mohan 1, Matthias Karl 1, and Daniel Werdehausen 1
+
+Abstract — 6D pose estimation remains a key challenge in robotics and computer vision, particularly in industrial envi-ronments. The deployment of currently available data-driven methods is often limited by resource-intensive data pipelines, reliance on textured 3D models, and sensitivity to geometric deviations caused by damages or assembly defects. We present PIXIE, a zero-shot framework that estimates the 6D pose of an object from an RGB image using only an untextured 3D model. Synthetic depth and normal maps are rendered from sampled reference viewpoints and matched to the query image via a pretrained cross-modality feature matcher. Matched keypoints are back-projected to obtain 2D–3D correspondences for PnP-based pose estimation. Relying exclusively on geometry makes the method inherently robust to lighting and texture variation, while correspondence filtering handles geometric deviations between the model and physical object. We evaluate on widely-used public benchmarks, reporting state-of-the-art results on texture-less objects without object-specific training, and intro-duce a novel dataset with assembly defects, texture variations, and occlusion to demonstrate real-world applicability. 
+
+I. I NTRODUCTION 
+
+The detection of 3D objects and estimation of their 6D poses are fundamental tasks for automating various computer vision applications, ranging from robotic manipulation to industrial inspection. Traditional and state-of-the-art methods typically rely on learning discriminative features from tex-tured object appearances. These approaches require either ex-tensive training data with annotations or textured 3D models that accurately represent the target objects. However, in many practical scenarios, particularly in industrial environments where parts change frequently or exhibit high variety, tex-tured 3D models are rarely available. Instead, only technical drawings or untextured 3D models are available, which cap-ture geometric information but lack material and appearance details. Additionally, these 3D models often deviate geomet-rically from the actual object instances due to manufacturing tolerances, assembly defects, or wear and tear. These devi-ations further change the appearance of the objects, obscur-ing the already limited texture information. This problem, combined with the need for solutions that avoid resource-intensive and time-consuming data pipelines—including data acquisition, annotation, training, and validation—presents a fundamental challenge to achieving accurate and efficient 6D pose estimation in dynamic industrial environments.         
+
+> 1Leon Jungemeyer, Gautham Mohan, Matthias Karl, and Daniel Werde-hausen are with Carl Zeiss AG, Oberkochen, Germany.
+> 2Alejandro Maga˜ na is with Carl Zeiss Digital Innovation, Munich, Germany. Corresponding authors: Leon Jungemeyer (leon.jungemeyer@zeiss.com) and Alejandro Magana (alejandro.magana@zeiss.com).
+
+To address these challenges, we propose a zero-shot framework specifically designed for industrial texture-less settings, where objects surface appearance may vary, untex-tured 3D models are available, and the models may deviate geometrically from the physical object. Our key insight is to leverage geometric features exclusively, bypassing the texture domain entirely. This is realized through a pipeline (detailed in Section III) built around three design choices: rendering only geometry-derived depth and normal maps rather than photorealistic images, encoding these continu-ous geometric maps via colormaps for compatibility with pretrained vision backbones, and iteratively selecting pre-computed reference viewpoints to refine the pose estimate. Together, these choices yield a system that is inherently invariant to changes in object texture, color, or surface finish, and remains functional even when assembly defects introduce geometric deviations between the 3D model and the physical object. To the best of our knowledge, no existing method combines training-free, geometry-only zero-shot 6D pose estimation from a single RGB image with robustness to both texture variation and geometric deviations from the 3D model. We demonstrate the effectiveness of our method through comprehensive evaluation on the BOP benchmark, where it outperforms state-of-the-art methods on textureless objects. To demonstrate the practical applicability of our method in industrial inspection settings, we introduce anovel dataset designed to capture the complexities of real-world scenarios, including geometric and texture deviations, varying lighting conditions, and occlusions. Our paper presents the following main contributions: (1) A training-free, geometry-only 6D pose estimation framework for zero-shot pose estimation under the joint presence of arbitrary texture changes and typical levels of assembly-related geometric deviations from the 3D model, as com-monly encountered in real industrial environments. (2) A geometric rendering and cross-modality matching pipeline that establishes robust correspondences between synthetic geometric representations and real RGB images, resilient to geometric deviations and occlusions. (3) A novel 6D pose estimation dataset, designed to evaluate robustness to real-world challenges in industrial inspection settings, including model deviations, texture variations, lighting changes, and occlusions. II. S TATE OF THE ART 
+
+6D pose estimation from RGB images is a funda-mental problem in computer vision, with applications in robotics, augmented reality, and industrial inspection. Tradi-arXiv:2607.16015v1 [cs.CV] 17 Jul 2026 tional approaches fall into two broad groups: feature-based pipelines [1], [2] that detect and match local descriptors to establish 2D–3D correspondences, and learning-based methods [3]–[7] that use deep neural networks to directly regress object pose or predict intermediate representations. These families typically require substantial annotated data and struggle on texture-less or weakly textured industrial parts lacking distinctive appearance cues. Render-and-compare and generalizable frameworks reduce object-specific supervision by synthesizing viewpoints or leveraging few-shot priors. Representative examples include OnePose / OnePose++ [8], [9], Gen6D [10], MegaPose [11], GigaPose [12], GenFlow [13], and refinement pipelines like Pos3R [14]. While these improve generalization to novel instances, they still depend on learned appearance priors, keypoint abstractions, or large render banks. Benchmark efforts such as BOP [15] highlight persistent failure modes on low-texture and specular objects. Zero-shot 6D pose estimation pushes further: estimating pose of unseen objects without object-specific training. Foun-dation and universal correspondence systems (ZS6D [16], FoundPose [17], Pos3R [14]) leverage broadly pre-trained vi-sual representations or matching transformers. They increase robustness to shape variation and partial occlusion, but re-main appearance dependent and thus sensitive to texture and color changes, lighting variation, and material reflectance. Detector-free architectures (SuperGlue [18], LoFTR [19]) illustrate the power of learned correspondence priors. To mitigate appearance dependence, cross-modality matching has emerged [20]–[22]. In particular, Ren et al. [20] train a modality-invariant matcher to align real RGB images with synthetic representations of the scene, including depth and normal maps. They use a synthetic data engine that generates training pairs from public sources (e.g., MegaDepth [23]) and show transfer to diverse downstream tasks. However, these methods focus only on generating 2D–2D correspondences and do not address the specific challenges of 6D pose esti-mation, such as handling geometric deviations between the 3D model and the physical object, or achieving robustness to occlusion and texture variation in industrial settings. Current literature lacks a training-free , geometry-only zero-shot pipeline that (i) operates on 2D images and untex-tured 3D models, (ii) uses only 3D renderings without model-specific training, (iii) is inherently invariant to texture and lighting, and (iv) tolerates moderate geometric deviations. III. 6D O BJECT POSE ESTIMATION USING 
+
+CROSS -M ODALITY FEATURE MATCHING 
+
+Our method provides a training-free framework for zero-shot 6D pose estimation of 3D objects with unknown textures as well as geometric deviations—a common setting in indus-trial scenarios. It relies exclusively on geometric renderings (depth and surface normal maps) of the 3D model and cross-modality feature matching, eliminating appearance-based domain gaps and the need for domain randomization, photorealistic rendering, or any instance-specific training. We detail reference generation (§III-C), cross-modality matching (§III-D), pose estimation (§III-E), and an iterative refinement (§III-F). We refer to our method as PIXIE : Pose Identification eXcluding appearance with Imperfect g Eometry. 
+
+A. Task Definition and Constraints 
+
+Given a query image Iq containing an object and its corresponding 3D model M , our goal is to estimate the 6D object pose T O ∈ SE (3) —comprising rotation R ∈ SO (3) 
+
+and translation t ∈ R3—relative to the camera frame. Let 
+
+K denote the intrinsic matrix of a pinhole camera model, containing focal lengths and principal point. 
+
+Key capabilities and design constraints: Our framework is designed to satisfy the following properties: 1) Zero-shot operation: No training is required on object 
+
+M or any of its instances. The cross-modality feature matcher is pre-trained on large-scale generic datasets but has not seen the specific object during training. 2) Texture invariance: We rely exclusively on geometry-derived representations (depth and normal maps) from the 3D model. Changes in object appearance, such as different surface finishes, paint colors, lighting con-ditions, wear and tear, or geometric deviations, do not require additional reference generation or model updates. 3) Robustness to geometric variations: Small deviations between the 3D model and the physical object (e.g., manufacturing tolerances, minor wear, or assembly imperfections) are handled through robust filtering. 
+
+B. Zero-Shot Pose Estimation Pipeline 
+
+The approach operates in two stages: an offline reference generation phase and an online inference phase. During inference, the pipeline processes the query image through several steps to establish correspondences, estimate the pose, and iteratively refine the result. Concretely: (1) geometric reference views (depth and normal maps) are rendered offline from canonical viewpoints around M ; (2) optionally, a detector crops Iq to the object region; (3) a cross-modality matcher establishes 2D–2D cor-respondences between Iq and each reference view; (4) corre-spondences are lifted to 2D–3D and a PnP+RANSAC solver yields an initial pose; and (5) nearby precomputed views are iteratively selected and re-matched to refine the estimate. Figure 1 illustrates the inference pipeline from query image to final pose estimate. 
+
+C. Geometric Reference Image Generation 
+
+To enable cross-modality matching between RGB query images and the 3D model, we generate a set of geometric reference views offline. These references encode only the object’s shape and surface properties, avoiding any depen-dence on texture or material appearance. For each view, they include depth and surface normal maps, providing complementary geometric information: depth captures the object segmentation (optional) query image Iq pose alignment     
+
+> TC
+> 1
+> TC
+> 2
+> TC
+> 3
+> coarse pose estimation iterative pose refinement
+> estimated object pose
+> closest reference pose
+
+Fig. 1: Inference pipeline overview. Optional object localization extracts the region of interest from the query image. Pre-generated geometric reference views (depth and normal maps) are matched against the query using a cross-modality feature matcher. Matched keypoints are lifted to 3D using known rendering geometry, enabling PnP-based pose estimation with RANSAC. Iterative view selection further improves accuracy by re-matching against precomputed locally sampled views. overall 3D structure, while normals encode fine-scale surface details. 
+
+Rendering geometric maps: For each reference view-point i, let T Ci = [Ri|ti] denote the object-to-camera transformation and Kstart denote the camera intrinsic matrix used for rendering. Note that Kstart does not need to match the actual query camera intrinsics K; choosing Kstart 
+
+reasonably close to K improves matching, but exact equality is not required. The depth map Di and normal map Ni are rendered from the selected viewpoints i = 1 , . . . , N , projecting the model 
+
+M at pose Ti onto the image plane. 
+
+Encoding for cross-modality matching: A pre-trained cross-modality feature matcher such as MINIMA or MatchAnything [20], [22] is used to match geometric ref-erences to RGB images. These matchers typically expect image inputs in 8-bit RGB format. Thus, depth and normal values are normalized to an 8-bit range and a fixed colormap is applied. This preserves the relative geometric structure while enabling the use of generic vision backbones trained on natural images. Figure 2 shows examples of the rendered depth and normal maps. 
+
+Back-projection and 3D correspondence lookup: Since the rendering process is fully controlled, each valid pixel in the depth map can be back-projected to obtain its 3D coordinates. For a pixel at (u, v ) with depth Di(u, v ), the camera-space 3D point is first computed as: 
+
+Pcam  
+
+> i
+
+(u, v ) = B u, v, D i(u, v ), K start 
+
+, (1) where B applies the inverse camera projection using intrin-sics Kstart . This is then transformed to object coordinates: 
+
+PO 
+
+> i
+
+(u, v ) = ( T Ci )−1Pcam  
+
+> i
+
+(u, v ) (2) This back-projection enables lookup of the 3D object-space point corresponding to any matched keypoint in the reference view. 
+
+Reference view data structure: For each reference view-point i, the following data is stored: 
+
+Ri = Di, N i, PO 
+
+> i
+
+, T Ci , K start , (3) where Di is the rendered depth map, Ni is the normal map, 
+
+PO 
+
+> i
+
+contains the back-projected 3D points for all pixels, T Ci
+
+is the rendering pose, and Kstart are the rendering intrinsics.            
+
+> CAD model
+> Reference images encoding shape information
+> depth 1 depth 2 depth 3
+> PO
+> 1 (u, v )PO
+> 2 (u, v )PO
+> 3 (u, v )
+> object coordinates 3
+> normal 1 normal 2 normal 3
+> object coordinates 2 object coordinates 1
+> viewpoint 1 viewpoint 2 viewpoint 3
+
+Fig. 2: Examples of geometric reference views generated from the 3D model. In the top row, depth maps capture overall 3D structure; in the bottom row, normal maps encode surface orientations. Both representations are normalized and colormapped for compatibility with cross-modality feature matchers. 
+
+Viewpoint sampling strategy: Reference views are gen-erated from multiple viewpoints around the object to ensure sufficient coverage. Six coarse views are rendered from canonical orientations aligned with the object’s bounding box, providing broad initial coverage. Additional fine-grained viewpoints are uniformly sampled on a sphere surrounding the object using a Fibonacci lattice [24]. 
+
+D. Cross-Modality Feature Matching 
+
+Given the geometric reference views, correspondences are established between the query image and the synthetic geometric renderings. This matching problem is addressed using recent cross-modality neural feature matchers trained on diverse image modalities [20], [22]. These models are trained on a wide variety of image types, including RGB images, depth maps, normal maps, and infrared images, enabling them to find correspondences across modalities with little visual similarity. Our framework is agnostic to the specific cross-modality matcher. 
+
+Matching process: For each reference view Ri, the matcher processes the query image Iq together with the encoded depth map Di and normal map Ni. The matcher outputs a set of keypoint correspondences {(ujq , v jq ) ↔(uji , v ji )}Mi 
+
+> j=1
+
+between the query image and reference view 
+
+i, along with confidence scores for each match. 
+
+Handling in-plane rotation: Cross-modality feature matchers can be sensitive to large in-plane rotations between the query and reference images. To address this, each ref-erence view is rotated around the viewing axis in discrete increments, and matching is performed for each rotated version. This ensures that correspondences can be found even when the object appears rotated in the query image relative to the reference viewpoint. 
+
+E. Pose Estimation 
+
+Given the 2D–2D keypoint correspondences from cross-modality matching, the object pose is estimated by lift-ing these to 2D–3D correspondences and applying a PnP (Perspective-n-Point) solver. This approach builds upon es-tablished PnP and RANSAC-based methods [1], [2] and recent advances in robust pose estimation [14]. 
+
+Lifting 2D–2D to 2D–3D correspondences: For each matched keypoint pair (ujq , v jq ) ↔ (uji , v ji ) between the query image and reference view i, the reference keypoint is back-projected to 3D object coordinates using the stored data PO
+
+> i
+
+from Ri:
+
+Xj = PO 
+
+> i
+
+(uji , v ji ), (4) yielding a 2D-3D correspondence (ujq , v jq ) ←→ Xj in object coordinates. This process converts each 2D match into a correspondence between a query image pixel and a known 3D point on the object model. Figure 3 illustrates this lifting process. 
+
+F. Iterative View Selection with Precomputed Poses 
+
+While the PnP solver from the previous subsection pro-duces an initial pose estimate T O 
+
+> 0
+
+using the first set of six coarse reference viewpoints, this estimate may be insuffi-ciently accurate. When generating T O 
+
+> 0
+
+, correspondences from all viewpoints can be concatenated into a single PnP problem, or separate pose estimates can be computed per viewpoint with the best-matching one selected based on inlier count. The latter approach often performs better for objects with symmetries or ambiguous geometries. To improve the initial estimate, an iterative view selection strategy is employed, selecting from precomputed candidate poses. After obtaining T O 
+
+> 0
+
+, the reference view T Ci whose 
+
+> depth:
+> estimate pose by optimizing reprojection error uplift to 2D-3D correspondences
+> rendered image
+> CAD model
+> normal:
+> cross-modality feature matching
+
+Fig. 3: Cross-modality feature matching establishes corre-spondences between the query RGB image and geometric reference depth maps. These correspondences are uplifted to 2D-3D matches to enable 6D pose estimation via the PnP algorithm. camera optical axis best aligns with the optical axis of the estimated pose is selected. Closeness is defined by the angular distance between the camera viewing directions of the two poses, i.e., the view with minimum angular deviation from T O 
+
+> 0
+
+.From the new reference view, the matching and pose estimation steps are repeated to refine the pose estimate. This process generates a new pose T O 
+
+> 1
+
+, which can be used as the basis for the next iteration. Each selection iteration produces an updated pose T O
+
+> (k+1)
+
+by re-running feature matching and pose estimation with the selected reference views. The process terminates when either (i) the selected best-matching view converges across iterations, or (ii) a maximum number of iterations is reached. All viewpoints are precomputed offline, so no additional rendering or generation occurs during inference. IV. E VALUATION 
+
+In this section, we present the evaluation of the pro-posed zero-shot, geometry-only pose estimation framework through two complementary experimental investigations. In subsection IV-B, we present quantitative results on selected datasets from the BOP benchmark [15], comparing perfor-mance against state-of-the-art RGB-based 6D pose estima-tion methods, with particular focus on textureless objects where appearance-based approaches struggle. In subsec-tion IV-C, we demonstrate practical applicability through a custom dataset designed to capture real-world challenges in industrial inspection settings, including geometric devi-ations, texture variations, lighting changes, and occlusions. This dataset significantly extends existing public datasets by systematically varying both texture and geometry. 
+
+A. Experimental Setup 
+
+Public benchmark configuration: Our experimental setup for public datasets follows standard protocols from related work on RGB-based 6D pose estimation, using iden-tical datasets [15] and evaluation metrics to ensure objective comparison. For each object model, we generate a single set of geometric reference views using the first camera calibration entry in each dataset. Since camera calibrations vary across query images in these datasets, the reference and query images typically have slightly different intrinsics. As demonstrated in Subsection IV-B, our method can handle this mismatch robustly. We used the CNOS [25] detector to obtain segmentation masks for all reference and query images, which are used to filter keypoints during feature matching and pose estimation. 
+
+Custom dataset configuration: Our custom dataset is specifically designed to stress test the method under con-ditions that mimic industrial inspection scenarios. In these scenarios, objects may exhibit varying textures, assembly defects, and other geometric deviations. We used bounding-boxes provided with the dataset to crop the reference and query images. These bounding-boxes are not perfectly tight and may include background clutter, which further tests the method’s robustness to real-world conditions. Reference view generation: For all experiments, we generated 6 coarse reference views from canonical orien-tations (front, back, left, right, top, bottom) aligned with the object’s bounding box. Additionally, we sampled 115 fine reference views uniformly on a sphere surrounding the object using Fibonacci lattice sampling [24]. The sphere radius was determined based on the object’s bounding box to ensure proper framing in rendered views. All reference images were generated offline from the 3D model prior to evaluation, requiring no rendering at inference time. To handle in-plane rotations, each reference view was augmented with 8 rotated versions at 45-degree increments, as described in Subsection III-D. 
+
+Feature matching and pose estimation: For cross-modality feature matching, we employed MINIMA [20] with the LightGlue backbone [26], a pre-trained matcher supporting diverse image modalities. For pose estimation, we followed the RANSAC-based PnP solver detailed in Section III, configured with a maximum of 1000 iterations, a reprojection error threshold of 5 pixels, and a minimum inlier ratio of 0.5. 
+
+View selection: In all our experiments, we used only a single iteration of view selection, which already provided significant improvement over the initial estimate. All view-points were precomputed offline, so no additional rendering or generation occurs during inference. 
+
+B. Results on Public Datasets 
+
+Methods requiring RGB-D input or non-zero-shot super-vision are outside our scope because they use additional information unavailable to our setting. 
+
+Performance on textureless objects: Our method demonstrated particularly strong performance on texture-less datasets where geometric cues dominate. On T-LESS, our geometry-only approach achieved 43.7% Average Re-call, outperforming all training-free methods and surpassing several appearance-based approaches that require object-specific training. Similarly, on ITODD, our method achieved 26.7% AR, exceeding all compared methods including those with training requirements. On TUD-L, our method reached 35.1% AR, demonstrating competitive results on texture-limited industrial objects. Both modalities (rows 8–9) con-tribute: depth captures global 3D structure, while normals add complementary local surface detail. 
+
+Performance factors on textured datasets: Performance on LineMOD Occluded (19.4% AR) was lower compared to appearance-based methods, which is expected given that this dataset contains objects with distinctive textures that provide strong discriminative cues. It is important to note that these methods leverage texture information, which is absent in our geometry-only approach, leading to a fundamental perfor-mance gap on this dataset. Additionally, LM-O images have relatively low resolution (640 ×480), which in combination with heavy occlusion and small objects limits the number and quality of geometric correspondences that can be established. 
+
+Comparison without refinement: Many methods use a refinement step, often RGB-D or texture-based. For fair zero-shot geometry-only comparison, we did not apply refinement in any of these evaluations (including our method). Figure 4 presents qualitative results of our method on the T-LESS dataset, illustrating successful pose estimation under occlusion and clutter, as well as failure cases where limited correspondences prevent accurate estimation. 
+
+Fig. 4: Qualitative results of our method on the T-LESS dataset from the BOP benchmark. Bounding boxes indicate ground truth poses ( green ) and estimated poses ( blue ). The geometry-only approach successfully estimates poses under significant occlusion and cluttered backgrounds (left three examples). In highly cluttered scenes with severe occlusion, insufficient reliable correspondences can limit pose accuracy (bottom right). 
+
+C. Results on Custom Datasets 
+
+Since public datasets do not capture the specific variations in texture and geometry required for our evaluation, we created a custom dataset of 695 images across 48 scenes cap-turing 4 target objects each with 3 distinct colored instances and up to 7 defective assemblies (Table II). The dataset is publicly available at ju-leon.github.io/PIXIE-dataset. A target object is defined as an assembly of correctly mounted components with a corresponding 3D target model , while the corresponding 3D models of defective assemblies are referred to as defective models .We used LEGO bricks as a controlled proxy: repetitive structures make geometric matching challenging, while en-abling systematic texture and assembly-variation generation. One scene describes a specific assembly configuration of a given object, and multiple images are captured from different viewpoints (Figure 5). Ground truth poses are obtained via marker-based cali-bration (1.6 pixel average reprojection error). Calibrated in-trinsics and ground truth defective models are also provided, leading to a total of 48 different object models. For each scene, our method is provided with only the untextured 
+
+target model and must estimate the pose of the object in the query image. The object instance in the query image may correspond to the target model (plus texture and color Dataset (# test images)                                                                                                 
+
+> #Method Training Free Geometry Only LM-O T-LESS TUD-L ITODD Custom Dataset time (s)
+> 1145 6423 600 3041 695 1GigaPose [12] ✗✗29.9 27.3 30.2 18.8 11.0 20.9 2GenFlow [13] ✗✗25.0 21.5 30.0 15.4 -3.8 3MegaPose [11] ✗✗22.9 17.7 25.8 10.8 -15.5 4ZS6D [16] ✓✗29.8 21.0 ----5FoundPose [17] ✓✗39.6 33.8 46.7 20.5 53.2 21.7 6Pos3R [27] ✓✗30.5 23.6 43.2 25.1 -1.4
+> 7PIXIE (ours) ✓✓19.4 43.7 35.1 26.7 78.4 3.6 1
+> 8PIXIE - depth only (ours) ✓✓12.5 38.2 28.5 25.3 71.8 2.1 1
+> 9PIXIE - normal only (ours) ✓✓17.6 39.9 28.6 22.4 71.1 2.2 1
+> 1Measured on an NVIDIA RTX 4090 GPU with an AMD Ryzen 9 7950X CPU and 64 GB of RAM.
+> 2Using the official implementation with default settings.
+
+TABLE I: 6D pose estimation comparison on BOP datasets (Average Recall, AR % [28]), benchmark numbers and runtimes obtained from Pos3R [14] and custom dataset results from our experiments. Segmentation masks from CNOS [25] were used for all BOP methods (including our method), bounding boxes for the custom dataset. To ensure a fair comparison, no refinement step was applied for any method, as refinement is typically heavily reliant on object textures. Rows 8–9 are single-modality ablations (depth-only, normal-only). variations) or one of the defective models (geometric devi-ations and texture variations). This setup tests a method’s ability to perform pose estimation under both ideal condi-tions and conditions with geometric deviations, without any model-specific training or prior knowledge of the textures or types of defects present. All methods compared in this section use the provided bounding boxes to crop reference and query images, ensuring a fair comparison. To quantify assembly defects and geometric deviations, we propose two complementary metrics: 
+
+IoU3D: Volumetric overlap between the target model and 
+
+defective models , computed by voxelizing both and taking the intersection-over-union ratio [29]. 
+
+Average Perspective Similarity (APS): Measures the 
+
+visual impact of geometric deviations from a given camera pose P . It extends the Visible Surface Discrepancy (VSD) metric by jointly accounting for both the pixel-wise over-lap and the per-pixel depth differences between rendered views. Specifically, depth maps are first compared pixel-wise over the mutually visible region V, and the mean per-pixel similarity is then scaled by the silhouette IoU to penalise non-overlapping regions. This two-factor design is particularly relevant when the silhouettes of the target model 
+
+and defective model differ, as pure per-pixel averaging over the intersection would ignore the extent of non-overlapping regions. Let V = {(u, v ) | Di(u, v ) > 0 ∧ Dd(u, v ) > 0} be the set of pixels visible in both renders, and let ⟨·⟩ V denote the mean over V. Depth maps of the target model and defective model are rendered and compared pixel-wise: 
+
+Di = depth render( Mtarget , P ),Dd = depth render( Mdefective , P gt ),δ(u, v ) = min 
+
+ |Di(u,v )−Dd(u,v )| 
+
+> Dd(u,v )
+
+, 1
+
+
+
+,
+
+APS( P ) = IoU( Di, D d) · 1 − δ V (5) Per-pixel depth differences are clipped at 100%, pixels 
+
+#M #Sc. #Img. #T. #D. APS (dev) IoU3D (dev) 1 12 148 3 6 0.98 (0.96) 0.94 (0.84) 2 12 169 3 7 0.92 (0.85) 0.87 (0.77) 3 12 187 3 6 0.97 (0.94) 0.94 (0.89) 4 12 191 3 6 0.96 (0.92) 0.95 (0.89) 
+
+Σ 48 695 12 25 0.96 (0.91) 0.93 (0.85) 
+
+TABLE II: Custom Dataset Summary. Values in parentheses indicate the metric considering only models with geometric deviations. Left to right: #M = model index, #Sc. = number of scenes, #Img. = number of images, #T. = number of tex-tured instances, #D. = number of assemblies with geometric deviations (defects). visible in only one render contribute to the IoU denominator but not to the mean in V. Setting P =Pgt isolates geometric deviation independently of pose accuracy and is used to char-acterize the dataset (Table II). Setting P =Ppred additionally penalizes pose errors and serves as a pose evaluation metric. PIXIE achieved median Average Distance of Model Points (ADD) [30] of 0.36 cm when using the target model (row 1), improving to 0.27 cm (row 6) when using the defective models . This confirmed that geometric deviations measurably impacted accuracy, but the geometry-only approach remained robust even without knowledge of defects. Compared to GigaPose [12] and FoundPose [17], our method significantly outperformed both in terms of ADD and APS, as well as Average Recall as proposed by the BOP benchmark [15], demonstrating the strength of geometry-only pose estimation in this challenging setting with significant texture varia-tions and geometric deviations (Table III). These results are achieved with significantly fewer reference views (121 vs. 161 for GigaPose and 798 for FoundPose), which is a direct consequence of our method’s ability to leverage geometric cues effectively. # Method 3D model # ref. views avg ADD (cm) med ADD (cm) ADD 0.5cm ADD 1cm ADD 5cm APS 1 PIXIE (ours) target 121 1.1172 0.3578 61.01% 73.53% 92.95% 0.8674                                                                 
+
+> 2PIXIE - depth only target 121 1.2429 0.3879 52.66% 66.33% 85.18% 0.8528 3PIXIE - normal only target 121 1.1021 0.3628 55.68% 67.77% 86.47% 0.8596 4GigaPose 2[12] target 161 15.0572 5.6063 0.29% 3.45% 31.37% 0.4622 5FoundPose 2[17] target 798 3.3884 1.6857 12.09% 31.08% 81.87% 0.7149
+> 6PIXIE (ours) defective 121 1.0590 0.2674 66.86% 82.70% 95.93% 0.8659
+> 7GigaPose 2[12] defective 161 15.1194 5.7738 0.43% 3.02% 32.52% 0.4551 8FoundPose 2[17] defective 798 3.5282 1.5558 14.39% 35.11% 83.45% 0.7391
+> 2Using the official implementation with default settings.
+
+TABLE III: Comparison on our custom dataset. Rows 1–5 use the target model (potentially deviating from the physical object due to assembly defects) to evaluate pose estimation performance under ideal conditions. Rows 6–8 use defective models (the models corresponding to the actual physical objects with assembly defects) to isolate the impact of geometric deviations on pose estimation performance. All methods generate their own reference views offline. 
+
+D. Failure Cases and Limitations 
+
+While our method demonstrates strong performance across various scenarios, several fundamental limitations exist due to the reliance on geometric distinctiveness. 
+
+Geometric ambiguity: Simple or highly symmetric shapes (e.g., spheres, cylinders) yield few distinctive geo-metric features, producing ambiguous or unstable correspon-dences and multiple equally valid poses that geometry alone cannot distinguish (cf. two cylinders, top right of Fig. 4). In our tests, we observed that in particular objects with little geometric features (e.g. the ape, screwdriver objects from the LineMOD Occluded dataset) are more difficult to align, and the method can fail due to a lack of reli-able correspondences. The combination of low-resolution images, textureless objects, and heavy occlusion results in the LM-O dataset provide insufficient geometric detail for reliable matching, leading to lower performance compared to appearance-based methods that can leverage texture cues. 
+
+Model-to-real geometric deviations: Assembly defects, manufacturing tolerances, wear, and damage may introduce geometric discrepancies, violating the correspondence as-sumptions of the method. While we have shown that our method is robust to a certain degree of geometric deviations, especially for feature-poor objects, large deviations may prevent reliable correspondences and lead to inaccurate pose estimates. 
+
+Computational cost: The current pipeline requires ap-proximately 3.6 s per image on an NVIDIA RTX 4090 GPU with an AMD Ryzen 9 7950X CPU and 64 GB of RAM, primarily due to cross-modality matching across multiple viewpoints and in-plane rotations. In our target industrial workflow, accuracy and robustness are prioritized over la-tency. Exploiting coarse pose priors can substantially reduce runtime. V. C ONCLUSION 
+
+This work presents a zero-shot framework for 6D pose es-timation that operates exclusively on geometric information, requiring only untextured CAD models while eliminating the need for object-specific training, textured models, or explicit knowledge about assembly defects and geometric deviations. By leveraging cross-modality feature matching between geometric renderings and query images, the method achieved state-of-the-art results on textureless objects in the BOP benchmark [15], and demonstrated robustness to geo-metric deviations and occlusions on a novel dataset. These results highlight the potential of geometry-only approaches for 6D pose estimation in challenging real-world scenar-ios, particularly in industrial settings where objects change frequently, textured models are unavailable, and assembly defects introduce geometric deviations from the 3D model. To our knowledge, PIXIE is the first training-free, geometry-only pipeline for zero-shot 6D pose estimation from RGB images that is robust to both texture and geometric deviations, and does not require any object-specific training. Future work could explore how moving away from foun-dational cross-modality feature matchers and towards more specialized geometric matching architectures could further improve performance, especially in scenarios with significant geometric deviations or occlusions. Additionally, integrating geometric and appearance cues could yield a more general-purpose pose estimator that maintains robustness in texture-less scenarios while leveraging texture when available. REFERENCES [1] V. Lepetit, F. Moreno-Noguer, and P. Fua, “Epnp: An accurate o (n) solution to the pnp problem,” in International Conference on Computer Vision , pp. 1–8, IEEE, 2009. [2] A. Collet, M. Martinez, and S. S. Srinivasa, “The moped framework: Object recognition and pose estimation for manipulation,” The inter-national journal of robotics research , vol. 30, no. 10, pp. 1284–1306, 2011. [3] Y. Xiang, T. Schmidt, V. Narayanan, and D. Fox, “Posecnn: Aconvolutional neural network for 6d object pose estimation in cluttered scenes,” in Robotics: Science and Systems , 2018. [4] J. Tremblay, T. To, B. Sundaralingam, Y. Xiang, D. Fox, and S. Birch-field, “Deep object pose estimation for semantic robotic grasping of household objects,” in Conference on Robot Learning , pp. 306–316, PMLR, 2018. [5] S. Zakharov, I. Shugurov, and S. Ilic, “Dpod: 6d pose object detector and refiner,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , pp. 1941–1950, 2019. [6] A. Maga˜ na, H. Wu, P. Bauer, and G. Reinhart, “Posenetwork: Pipeline for the automated generation of synthetic training data and cnn for object detection, segmentation, and orientation estimation,” in 2020 25th IEEE International conference on emerging technologies and factory automation (ETFA) , pp. 587–594, IEEE, 2020. (a) Different states of the same 3D model, including the target model (left) and variations with assembly defects (right four), which include missing components, misaligned parts, and incorrect assembly. 
+
+(b) The top row shows the same geometric model with different textures, while the bottom row shows variations of the model with assembly deviations, cluttered backgrounds, and different textures. 
+
+(c) Results of our PIXIE method on our custom dataset, showing the estimated pose of the target model (rendered in red) and the ground truth pose (rendered in green). All results are obtained using the same single reference set per object, generated from the target model without defects or knowledge about the model textures. 
+
+Fig. 5: Examples from our custom dataset: texture variations (b) and assembly deviations (a, b). PIXIE successfully esti-mates poses across all conditions using only the target model ,without knowledge of textures or defects (c). 
+
+[7] T. Nguyen-Cong, J. Zhu, C. Glasenapp, and M. Karl, “Fast adaptable 6d object pose estimation for autonomous robotics,” in 2021 IEEE 17th International Conference on Automation Science and Engineering (CASE) , IEEE, 2021. [8] J. Sun, Z. Wang, S. Zhang, X. He, H. Zhao, G. Zhang, and X. Zhou, “Onepose: One-shot object pose estimation without cad models,” in 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 6825–6834, 2022. [9] X. He, J. Sun, Y. Wang, D. Huang, H. Bao, and X. Zhou, “Onepose++: Keypoint-free one-shot object pose estimation without cad mod-els,” Advances in Neural Information Processing Systems , vol. 35, pp. 35103–35115, 2022. [10] Y. Liu, Y. Wen, S. Peng, C. Lin, X. Long, T. Komura, and W. Wang, “Gen6d: Generalizable model-free 6-dof object pose estimation from rgb images,” in European Conference on Computer Vision , pp. 298– 315, Springer, 2022. [11] Y. Labb´ e, L. Manuelli, A. Mousavian, S. Tyree, S. Birchfield, J. Trem-blay, J. Carpentier, M. Aubry, D. Fox, and J. Sivic, “Megapose: 6d pose estimation of novel objects via render & compare,” arXiv preprint arXiv:2212.06870 , 2022. [12] V. N. Nguyen, T. Groueix, M. Salzmann, and V. Lepetit, “Gigapose: Fast and robust novel object pose estimation via one correspondence,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 9903–9913, 2024. [13] S. Moon, H. Son, D. Hur, and S. Kim, “Genflow: Generalizable recurrent flow for 6d pose refinement of novel objects,” in Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 10039–10049, 2024. [14] W. Deng, D. Campbell, C. Sun, J. Zhang, S. Kanitkar, M. E. Shaffer, and S. Gould, “Pos3r: 6d pose estimation for unseen objects made easy,” in Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 16818–16828, 2025. [15] T. Hodan, F. Michel, E. Brachmann, W. Kehl, A. GlentBuch, D. Kraft, B. Drost, J. Vidal, S. Ihrke, X. Zabulis, et al. , “Bop: Benchmark for 6d object pose estimation,” in Proceedings of the European conference on computer vision (ECCV) , pp. 19–34, 2018. [16] P. Ausserlechner, D. Haberger, S. Thalhammer, J.-B. Weibel, and M. Vincze, “Zs6d: Zero-shot 6d object pose estimation using vision transformers,” in 2024 IEEE International Conference on Robotics and Automation (ICRA) , pp. 463–469, IEEE, 2024. [17] E. P. ¨Ornek, Y. Labb´ e, B. Tekin, L. Ma, C. Keskin, C. Forster, and T. Hodan, “Foundpose: Unseen object pose estimation with foundation features,” in European Conference on Computer Vision , pp. 163–182, Springer, 2024. [18] P.-E. Sarlin, D. DeTone, T. Malisiewicz, and A. Rabinovich, “Su-perglue: Learning feature matching with graph neural networks,” in 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 4938–4947, 2020. [19] J. Sun, Z. Shen, Y. Wang, H. Bao, and X. Zhou, “Loftr: Detector-free local feature matching with transformers,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,pp. 8922–8931, 2021. [20] J. Ren, X. Jiang, Z. Li, D. Liang, X. Zhou, and X. Bai, “Minima: Modality invariant image matching,” in Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 23059–23068, 2025. [21] A. B.-L. Li, V. Prisacariu, and V. Larsson, “Matching 2d images in 3d: Metric relative pose from metric correspondences,” arXiv preprint arXiv:2404.06337 , 2024. [22] X. He, H. Yu, S. Peng, D. Tan, Z. Shen, H. Bao, and X. Zhou, “Matchanything: Universal cross-modality image matching with large-scale pre-training,” arXiv preprint arXiv:2501.07556 , 2025. [23] Z. Li and N. Snavely, “Megadepth: Learning single-view depth pre-diction from internet photos,” in Proceedings of the IEEE conference on computer vision and pattern recognition , pp. 2041–2050, 2018. [24] ´A. Gonz´ alez, “Measurement of areas on a sphere using fibonacci and latitude–longitude lattices,” Mathematical geosciences , vol. 42, no. 1, pp. 49–64, 2010. [25] V. N. Nguyen, T. Groueix, G. Ponimatkin, V. Lepetit, and T. Hodan, “Cnos: A strong baseline for cad-based novel object segmentation,” in 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision , pp. 2134–2140, 2023. [26] P. Lindenberger, P.-E. Sarlin, and M. Pollefeys, “Lightglue: Local feature matching at light speed,” in Proceedings of the IEEE/CVF international conference on computer vision , pp. 17627–17638, 2023. [27] A. Kundu, Y. Li, and J. M. Rehg, “Pose3rcnn: Monocular 3d object pose estimation via differentiable rendering and point cloud matching,” 
+
+arXiv preprint arXiv:2209.12638 , 2022. [28] T. Hodan, F. Michel, E. Brachmann, W. Kehl, A. G. Buch, D. Kraft, B. Drost, J. Vidal, S. Ihrke, X. Zabulis, et al. , “Bop: Benchmark for 6d object pose estimation.” https://bop.felk.cvut.cz , 2018. [29] N. Ravi, J. Reizenstein, D. Novotny, T. Gordon, W.-Y. Lo, J. Johnson, and G. Gkioxari, “Accelerating 3d deep learning with pytorch3d,” 
+
+arXiv:2007.08501 , 2020. [30] S. Hinterstoisser, V. Lepetit, S. Ilic, S. Holzer, G. Bradski, K. Konolige, and N. Navab, “Model based training, detection and pose estimation of texture-less 3d objects in heavily cluttered scenes,” in Asian conference on computer vision , pp. 548–562, Springer, 2012.
