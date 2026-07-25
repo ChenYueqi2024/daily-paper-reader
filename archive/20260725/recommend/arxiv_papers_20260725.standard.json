@@ -1,0 +1,421 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-25T21:16:43.701242+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2607.17967v2",
+      "source": "arxiv",
+      "title": "MoGe-3: Fine-Detail Monocular Geometry Estimation with Self-Guided Sparse Volumetric Refinement",
+      "abstract": "Monocular geometry estimation has recently achieved impressive performance across diverse scenes. However, state-of-the-art models still face notable distortion in local 3D structure, especially in fine details, like thin structures and small objects. We attribute this limitation to an architectural mismatch: most current models decode 3D geometry within a 2D parameterization, where feature interactions are governed by image-plane proximity rather than true 3D spatial relationships. This inadvertently mixes features from geometrically distant surfaces, resulting in over-smoothed geometry particularly around thin or elongated structure. In this paper, we propose MoGe-3, a fine-detail monocular geometry estimation model with Self-Guided Sparse 3D Refinement (SSR) that lifts monocular geometry modeling from 2D image space to 3D space for high-fidelity metric-scale point maps. MoGe-3 lifts the coarse point map from a foundation base model onto a sparse voxel shell and refines it via SSR. The SSR employs sparse convolutions that aggregate features based on 3D spatial locality, avoiding feature mixing across depth discontinuities. Extensive experiments on diverse datasets demonstrate that MoGe-3 significantly outperforms existing approaches in recovering fine detailed 3D geometry across both quantitative metrics and qualitative visualizations. Project page: https://qft-333.github.io/moge3page/",
+      "authors": [
+        "Lingyu Kong",
+        "Ruicheng Li",
+        "Ruicheng Wang",
+        "Sicheng Xu",
+        "Chengtang Yao",
+        "Jianfeng Xiang",
+        "Jiaolong Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T14:07:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.17967v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "fine-detail monocular geometry estimation with volumetric refinement",
+      "llm_evidence_cn": "细粒度单目几何估计与自引导稀疏体素细化",
+      "llm_evidence": "细粒度单目几何估计与自引导稀疏体素细化",
+      "canonical_evidence": "细粒度单目几何估计与自引导稀疏体素细化",
+      "llm_tldr_en": "MoGe-3 refines monocular geometry estimation by using sparse volumetric refinement to correct local 3D distortions, improving fine detail.",
+      "llm_tldr_cn": "单目几何估计在局部3D结构细节上存在畸变，尤其对细薄结构。MoGe-3提出自引导稀疏体素细化方法，在3D空间修正几何，而非在图像平面混合特征。实验在多个数据集上展示了更精确的局部几何，尤其在细部重建方面。该方法为单目三维理解提供了更鲁棒的技术手段。",
+      "llm_tldr": "单目几何估计在局部3D结构细节上存在畸变，尤其对细薄结构。MoGe-3提出自引导稀疏体素细化方法，在3D空间修正几何，而非在图像平面混合特征。实验在多个数据集上展示了更精确的局部几何，尤其在细部重建方面。该方法为单目三维理解提供了更鲁棒的技术手段。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.17967v1",
+      "source": "arxiv",
+      "title": "Fine-Detail Monocular Geometry Estimation with Self-Guided Sparse Volumetric Refinement",
+      "abstract": "Monocular geometry estimation has recently achieved impressive performance across diverse scenes. However, state-of-the-art models still face notable distortion in local 3D structure, especially in fine details, like thin structures and small objects. We attribute this limitation to an architectural mismatch: most current models decode 3D geometry within a 2D parameterization, where feature interactions are governed by image-plane proximity rather than true 3D spatial relationships. This inadvertently mixes features from geometrically distant surfaces, resulting in over-smoothed geometry particularly around thin or elongated structure. In this paper, we propose a fine-detail monocular geometry estimation with Self-Guided Sparse 3D Refinement (SSR) that lifts monocular geometry modeling from 2D image space to 3D space for high-fidelity metric-scale point maps. Our model lifts the coarse point map from a foundation base model onto a sparse voxel shell and refines it via SSR. The SSR employs sparse convolutions that aggregate features based on 3D spatial locality, avoiding feature mixing across depth discontinuities. Extensive experiments on diverse datasets demonstrate that our method significantly outperforms existing approaches in recovering fine detailed 3D geometry across both quantitative metrics and qualitative visualizations.",
+      "authors": [
+        "Lingyu Kong",
+        "Ruicheng Li",
+        "Ruicheng Wang",
+        "Sicheng Xu",
+        "Chengtang Yao",
+        "Jianfeng Xiang",
+        "Jiaolong Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T14:07:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.17967v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "fine-detail monocular geometry estimation via sparse 3D refinement",
+      "llm_evidence_cn": "通过自引导稀疏3D细化进行精细细节单目几何估计",
+      "llm_evidence": "通过自引导稀疏3D细化进行精细细节单目几何估计",
+      "canonical_evidence": "通过自引导稀疏3D细化进行精细细节单目几何估计",
+      "llm_tldr_en": "Proposes a self-guided sparse volumetric refinement module to improve fine-detail geometry in monocular depth estimation by enforcing 3D spatial relationships.",
+      "llm_tldr_cn": "现有单目几何估计在细节上过度平滑，归因于2D参数化导致的特征混淆。本文提出自引导稀疏3D细化模块，在3D空间推理特征交互，保留薄结构和小物体的几何细节。实验表明该方法在多个数据集上显著提升了局部几何精度，推进了单目3D理解的前沿。",
+      "llm_tldr": "现有单目几何估计在细节上过度平滑，归因于2D参数化导致的特征混淆。本文提出自引导稀疏3D细化模块，在3D空间推理特征交互，保留薄结构和小物体的几何细节。实验表明该方法在多个数据集上显著提升了局部几何精度，推进了单目3D理解的前沿。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16560v1",
+      "source": "arxiv",
+      "title": "From Modalities to Propositions: A Language-Centric Framework for Multimodal Intelligence",
+      "abstract": "We propose a language representation for multimodal data in which any observation, whether image, video, or text, is expressed as a bag of atomic propositions, simple statements about the entities, actions, and relations in a scene. A global semantic codebook unifies these into a shared vocabulary of canonical atomic propositions, placing every modality and observation into one interpretable space that spans fine grained facts to high level concepts and composes into richer ones. This brings interpretability with reasoning, cross-modal understanding and retrieval, and compositionality that enables complex multimodal understanding, rich data curation and complex structured retrieval. We demonstrate the framework on autonomous driving and open-world data.",
+      "authors": [
+        "Nadine Chang",
+        "Maying Shen",
+        "Shizhe Diao",
+        "Jialiang Wang",
+        "Jingde Chen",
+        "Thomas Breuel",
+        "Pavlo Molchanov",
+        "Rafid Mahmood",
+        "Jose M. Alvarez"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.LG",
+        "cs.MM"
+      ],
+      "published": "2026-07-18T00:08:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.16560v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multimodal understanding via atomic propositions",
+      "llm_evidence_cn": "通过原子命题实现多模态理解",
+      "llm_evidence": "通过原子命题实现多模态理解",
+      "canonical_evidence": "通过原子命题实现多模态理解",
+      "llm_tldr_en": "A language-centric framework represents multimodal observations as atomic propositions, enabling interpretable reasoning and cross-modal understanding.",
+      "llm_tldr_cn": "本文提出一个以语言为中心的多模态表征框架，将图像、视频、文本等观测转化为原子命题的集合，并由全局语义码本统一为共享词汇。该框架在自动驾驶等场景中展示了可解释推理、跨模态理解和组合检索能力，解决了多模态模型缺乏统一语义空间和可解释性的问题。",
+      "llm_tldr": "本文提出一个以语言为中心的多模态表征框架，将图像、视频、文本等观测转化为原子命题的集合，并由全局语义码本统一为共享词汇。该框架在自动驾驶等场景中展示了可解释推理、跨模态理解和组合检索能力，解决了多模态模型缺乏统一语义空间和可解释性的问题。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "understanding",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.18646v1",
+      "source": "arxiv",
+      "title": "Fluid-SDF: Ultra-Lightweight and Editable Implicit Shape Representation via Differentiable Primitives",
+      "abstract": "Implicit Neural Representations (INRs) have become the standard for continuous 2D shape modeling, but they suffer from black-box uneditability, vulnerability to noise, and high parameter counts that severely hinder deployment on edge devices. We introduce Fluid-SDF, a highly compressed, differentiable Constructive Solid Geometry (CSG) framework that models shapes using explicit geometric primitives blended via a smooth minimum function. By replacing traditional multi-layer perceptrons (MLPs) with a parameterized primitive engine, Fluid-SDF reconstructs complex, non-convex topologies using strictly under 100 parameters, achieving comparable or superior intersection-over-union (mIoU) to standard neural baselines. Furthermore, we demonstrate that Fluid-SDF acts as a powerful geometric prior, inherently resisting high-frequency dataset noise where capacity-matched neural networks catastrophically overfit. Finally, unlike standard INRs, Fluid-SDF's explicit parameter space allows for direct, zero-shot user editing of local and global shape features without retraining. By bypassing expensive on-device gradient updates entirely, Fluid-SDF is uniquely suited for mobile AI, augmented reality, and resource-constrained embedded environments",
+      "authors": [
+        "Pradyumna Sripada",
+        "Chinmay Nadgir",
+        "Ksheer Agrawal",
+        "Krishna Kanth Kodanganti"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T02:35:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.18646v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D representation learning, implicit shape modeling for generation",
+      "llm_evidence_cn": "3D表示学习，隐式形状建模用于生成",
+      "llm_evidence": "3D表示学习，隐式形状建模用于生成",
+      "canonical_evidence": "3D表示学习，隐式形状建模用于生成",
+      "llm_tldr_en": "Fluid-SDF introduces an ultra-lightweight differentiable CSG framework using geometric primitives for editable implicit 3D shape representation with under 100 parameters.",
+      "llm_tldr_cn": "隐式神经表示虽好但笨重且不可编辑。Fluid-SDF用可微CSG框架，以几何基元通过平滑最小函数混合，仅需不到100个参数即可表示复杂非凸拓扑。在多个数据集上达到与神经基线相当或更优的交并比。该表示高度可编辑且抗噪，适合边缘部署。",
+      "llm_tldr": "隐式神经表示虽好但笨重且不可编辑。Fluid-SDF用可微CSG框架，以几何基元通过平滑最小函数混合，仅需不到100个参数即可表示复杂非凸拓扑。在多个数据集上达到与神经基线相当或更优的交并比。该表示高度可编辑且抗噪，适合边缘部署。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17140v1",
+      "source": "arxiv",
+      "title": "STBridge: Shared-Target Alignment for Bridging Understanding and Generation in UMMs",
+      "abstract": "Unified multimodal models (UMMs) aim to integrate visual understanding and generation within a single architecture, but architectural unification alone does not ensure semantic consistency. A model may describe the intended target correctly while generating an inconsistent edit. This exposes an understanding-generation alignment gap: linguistic and visual outputs live in different spaces, yet should be governed by the same target semantics. We study this gap in image editing, where an instruction defines a target state that can be both described and visually realized. Given a source image and an edit instruction, we compare a UMM's target caption with its edited image to test whether the two outputs converge on the same result. Our analysis shows that existing UMMs remain weakly aligned, especially for fine-grained entities, attributes, spatial relations, and local details, indicating that semantic unification is not achieved by architecture alone. To bridge this gap, we propose STBridge, a shared-target alignment framework that connects understanding and generation through a common target state. Here the target caption expresses the desired visual result, while the edited image realizes it visually, replacing separate task-specific paths with a shared information flow from target expression to target realization. STBridge follows an align-then-optimize strategy: supervised fine-tuning first establishes the shared-target channel, and sequential reinforcement learning further refines target-centered coordination. Across visual understanding, image generation, and image editing benchmarks, STBridge consistently improves over the initialization model. Alignment analysis confirms that STBridge narrows the gap between what the model describes and what it generates, demonstrating shared-target alignment as an effective post-training strategy for bridging understanding and generation in UMMs.",
+      "authors": [
+        "Ye Wang",
+        "Hongjun Wang",
+        "Hao Fang",
+        "Tongyuan Bai",
+        "Zuwei Long",
+        "Peixian Chen",
+        "Wei Liu",
+        "Weibo Gu",
+        "Xing Sun",
+        "Rui Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-19T08:53:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.17140v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "bridging understanding and generation in multimodal models",
+      "llm_evidence_cn": "桥接多模态模型中的理解与生成",
+      "llm_evidence": "桥接多模态模型中的理解与生成",
+      "canonical_evidence": "桥接多模态模型中的理解与生成",
+      "llm_tldr_en": "Proposes Shared-Target Alignment to bridge understanding and generation in unified multimodal models, focusing on semantic consistency in image editing.",
+      "llm_tldr_cn": "针对统一多模态模型中理解与生成之间的语义不一致问题，提出共享目标对齐方法。通过比较模型对同一编辑指令产生的描述和生成图像，评估目标语义一致性。实验表明该方法能有效检测对齐差距，为提升多模态模型可靠性提供新思路。",
+      "llm_tldr": "针对统一多模态模型中理解与生成之间的语义不一致问题，提出共享目标对齐方法。通过比较模型对同一编辑指令产生的描述和生成图像，评估目标语义一致性。实验表明该方法能有效检测对齐差距，为提升多模态模型可靠性提供新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "understanding",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21023v1",
+      "source": "arxiv",
+      "title": "WAT3R: Feedforward Underwater 3D Reconstruction",
+      "abstract": "Reliable feedforward underwater 3D reconstruction remains challenging due to severe light attenuation and backscattering, which degrade visual quality and disrupt feature consistency across views, leading to inaccurate multi-view geometry. To address this issue, we propose WAT3R, a feed-forward framework for reconstructing 3D scenes directly from underwater images. By leveraging degradation adaptation as a geometry-constrained process, WAT3R integrates a lightweight neural adaptation module to flexibly account for these underwater imaging effects, thereby improving multi-view reconstruction quality. Implemented in a single forward pass, WAT3R directly and efficiently outputs pixel-aligned 3D point maps and camera poses from underwater videos, allowing a high-quality underwater 3D reconstruction. Experiments conducted on the FLSea, SQUID, and USOD10K datasets show that our method consistently outperforms state-of-the-art approaches on 3D reconstruction tasks, including multi-view/monocular depth estimation and camera pose estimation.",
+      "authors": [
+        "Jiayi Xu",
+        "Jiahao Lu",
+        "Ziqiang Zheng",
+        "Yihao Tan",
+        "Yaolong Zhu",
+        "Yuan Liu",
+        "Sai-Kit Yeung"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T08:07:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.21023v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "feedforward underwater 3D reconstruction",
+      "llm_evidence_cn": "前馈式水下三维重建",
+      "llm_evidence": "前馈式水下三维重建",
+      "canonical_evidence": "前馈式水下三维重建",
+      "llm_tldr_en": "WAT3R is a feed-forward framework for underwater 3D reconstruction that integrates a lightweight neural adaptation module to handle degradation, directly outputting pixel-aligned 3D point maps and camera poses from underwater videos.",
+      "llm_tldr_cn": "针对水下图像因衰减和散射导致多视角几何不一致的问题，本文提出WAT3R前馈式框架，通过轻量神经自适应模块将退化建模为几何约束过程，单次前向传播即可从水下视频输出像素对齐的三维点图和相机位姿。实验在合成和真实水下数据集上均取得了优于现有方法的重建质量。",
+      "llm_tldr": "针对水下图像因衰减和散射导致多视角几何不一致的问题，本文提出WAT3R前馈式框架，通过轻量神经自适应模块将退化建模为几何约束过程，单次前向传播即可从水下视频输出像素对齐的三维点图和相机位姿。实验在合成和真实水下数据集上均取得了优于现有方法的重建质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.18664v1",
+      "source": "arxiv",
+      "title": "DeforM: Reasoning-Guided Physics-Aware Video Generation via Spatial-Temporal Masking",
+      "abstract": "Video generation models achieve high visual quality but often struggle to generate physics-aware videos. Unlike rigid-body motion, which can be described by explicit trajectories or formulas, complex deformation dynamics remain challenging to synthesize. We observe that a lack of physical reasoning for localizing dynamic areas allows irrelevant regions to dilute the model's attention, leading to generation failure. In this paper, we propose DeforM, a reasoning-guided image-to-video generation framework that directs the model's focus toward physics-critical regions. To reason about and localize these critical regions, we introduce a VLM-guided physical reasoning module, DeforM-Reason, to identify target objects and generate spatial-temporal masks. For physical guidance, we develop two alternative strategies: DeforM-Free for training-free mechanism analysis and DeforM-Injection as a powerful training-based generator. Experimental results demonstrate that DeforM improves the realism of generated deformation scenarios, outperforming baseline models in both visual quality and physical consistency.",
+      "authors": [
+        "Yunyi Li",
+        "Yu Qiao",
+        "Yaohui Wang",
+        "Xinyuan Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T03:23:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.18664v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "physics-aware video generation as a world model",
+      "llm_evidence_cn": "物理感知视频生成作为世界模型",
+      "llm_evidence": "物理感知视频生成作为世界模型",
+      "canonical_evidence": "物理感知视频生成作为世界模型",
+      "llm_tldr_en": "Proposes a reasoning-guided video generation framework that focuses on physics-critical regions via spatial-temporal masking, improving physical plausibility.",
+      "llm_tldr_cn": "针对视频生成缺乏物理感知的问题，提出DeforM框架。利用VLM进行物理推理定位关键区域，生成时空掩码引导模型聚焦变形物体。实验表明该方法能生成更符合物理规律的变形视频，在多个指标上超越基线，为物理感知视频生成提供了新思路。",
+      "llm_tldr": "针对视频生成缺乏物理感知的问题，提出DeforM框架。利用VLM进行物理推理定位关键区域，生成时空掩码引导模型聚焦变形物体。实验表明该方法能生成更符合物理规律的变形视频，在多个指标上超越基线，为物理感知视频生成提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21504v1",
+      "source": "arxiv",
+      "title": "Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model",
+      "abstract": "Numerous 3D assets are discarded due to low texture resolution, while current super-resolution models ignore texture maps and focus on natural images. An efficient and generalizable texture super-resolution model can revitalize a large corpus of aging yet valuable assets across industries such as film and video games. We present Texture++, a novel framework for texture super-resolution, which enhances the low-resolution textures of assets to produce high-resolution, high-quality results. Specifically, we reformulate the task of super-resolution in UV space into performing it across multiple rendered views and merging the outputs. Firstly, to achieve more complete and continuous textures in the view space, we propose an adaptive view selection strategy to integrate textures dispersed across UV texture patches. Furthermore, we introduce a quadtree-based texture region organization method for combining super-resolved textures from different viewpoints, providing masks to distinguish regions that require improvement. Finally, we design a diffusion-based super-resolution model that enhances the texture resolution for specified masked regions, seamlessly integrating with surrounding regions. Through comprehensive evaluations, we demonstrate that our approach yields textures with substantially improved detail and coherence over existing methods.",
+      "authors": [
+        "Shuaiwei Wang",
+        "Shi Li",
+        "Jieting Xu",
+        "Yuchi Huo",
+        "Qi Wang",
+        "Wenting Zheng",
+        "Rengan Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T16:52:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.21504v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "diffusion model for 3D texture super-resolution",
+      "llm_evidence_cn": "扩散模型用于3D纹理超分辨率",
+      "llm_evidence": "扩散模型用于3D纹理超分辨率",
+      "canonical_evidence": "扩散模型用于3D纹理超分辨率",
+      "llm_tldr_en": "Presents a region-aware diffusion model framework for 3D asset texture super-resolution via multi-view rendering and merging.",
+      "llm_tldr_cn": "大量3D资产因低纹理分辨率被废弃，现有超分模型忽略纹理图。本文提出Texture++框架，将UV空间超分转化为多视角渲染并融合。通过自适应视角选择和区域感知扩散模型，生成高分辨率、连续的纹理。方法在多个3D资产上取得高质量结果，有效提升纹理细节，可广泛应用于影视游戏行业。",
+      "llm_tldr": "大量3D资产因低纹理分辨率被废弃，现有超分模型忽略纹理图。本文提出Texture++框架，将UV空间超分转化为多视角渲染并融合。通过自适应视角选择和区域感知扩散模型，生成高分辨率、连续的纹理。方法在多个3D资产上取得高质量结果，有效提升纹理细节，可广泛应用于影视游戏行业。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.20947v1",
+      "source": "arxiv",
+      "title": "RECO: Region-Aware Compensation for Extrinsic Perturbations in Roadside 3D Detection",
+      "abstract": "In intelligent transportation systems, roadside 3D object detection provides wide-area perception crucial for traffic understanding, cooperative early warning, and safe autonomous driving. However, existing methods suffer from high sensitivity to camera extrinsics; even slight deviations (whether manifesting as transient jitter or persistent drift) can be significantly amplified by projective geometry. This cascade results in severe feature misalignment and degraded localization. To mitigate this limitation, we propose RECO, a region-aware extrinsic compensation framework that corrects extrinsics using piecewise 6-DoF pose offsets. RECO predicts a learnable range boundary to partition the scene into near and far regions, estimating region-specific pose corrections. A differentiable sigmoid gate then smoothly blends the two compensated geometries to preserve continuous BEV sampling and facilitate stable optimization. To supervise the refinement of extrinsics, we introduce an auxiliary reprojection loss that compares 2D bounding boxes projected from 3D ground truth against 2D annotations, optimizing it jointly with the standard detection objective. Extensive experiments on the DAIR-V2X-I and Rope3D benchmarks under extrinsic perturbations demonstrate consistent improvements over state-of-the-art baselines across both yaw and $z$-axis deviations. RECO also generalizes from transient perturbations to persistent shifts, maintaining highly competitive performance under strict calibration uncertainty.",
+      "authors": [
+        "Junsheng Du",
+        "Zhaocheng He",
+        "Yuhuan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T05:56:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.20947v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "roadside 3D object detection with extrinsic compensation",
+      "llm_evidence_cn": "路边3D目标检测与外参补偿",
+      "llm_evidence": "路边3D目标检测与外参补偿",
+      "canonical_evidence": "路边3D目标检测与外参补偿",
+      "llm_tldr_en": "RECO corrects camera extrinsic perturbations in roadside 3D detection via piecewise 6-DoF pose offsets learned with region-aware partitioning, improving feature alignment and localization.",
+      "llm_tldr_cn": "路边3D检测对相机外参敏感，微小偏差会导致特征错位。RECO提出区域感知外参补偿框架，用可学习范围边界将场景分为远近区域，预测分段6自由度位姿偏移，有效修正外参扰动，提升定位精度。",
+      "llm_tldr": "路边3D检测对相机外参敏感，微小偏差会导致特征错位。RECO提出区域感知外参补偿框架，用可学习范围边界将场景分为远近区域，预测分段6自由度位姿偏移，有效修正外参扰动，提升定位精度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21089v1",
+      "source": "arxiv",
+      "title": "Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance",
+      "abstract": "Semantic segmentation of 3D point clouds faces severe class imbalance, yet the effectiveness of specialized imbalance-aware methods from 2D computer vision remains unclear in 3D contexts. We systematically evaluate 11 imbalance mitigation approaches across datasets with extreme (641:1) and moderate (56:1) imbalance ratios, revealing a surprising finding: standard cross-entropy with uniform weighting achieves competitive performance, typically within 0.8-3.3% mIoU of specialized methods across architectures and datasets. Through multifaceted mechanistic analysis of error patterns, decision boundaries, and the geometry of the optimization landscape, our analyses suggest that imbalance severity shapes the topology, creating narrow solution basins under extreme imbalance and flat plateaus under moderate imbalance. This appears to constrain the effectiveness of loss-level modifications, as all methods must navigate these geometric constraints. Our findings offer practical guidance; standard cross-entropy provides a robust baseline, with specialized methods offering modest improvements (0.8-3.3% mIoU) that vary by architecture and dataset but risk substantial degradation if poorly tuned. This work provides the first mechanistic explanation for why techniques proven effective in 2D do not readily transfer to point-based 3D point cloud segmentation, validated across two representative architectures.",
+      "authors": [
+        "Antonis Savva",
+        "Christos Kyrkou",
+        "Theocharis Theocharides"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T09:19:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.21089v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D point cloud segmentation under class imbalance",
+      "llm_evidence_cn": "3D点云分割中的类别不平衡",
+      "llm_evidence": "3D点云分割中的类别不平衡",
+      "canonical_evidence": "3D点云分割中的类别不平衡",
+      "llm_tldr_en": "Systematic evaluation of 11 imbalance methods on 3D point cloud segmentation reveals cross-entropy with uniform weighting is competitive within 0.8-3.3% mIoU, explained via loss landscape topology.",
+      "llm_tldr_cn": "3D点云语义分割面临严重类别不平衡，但2D不平衡方法在3D中效果不明。本文系统评估了11种平衡方法，发现标准交叉熵+均匀权重在极端(641:1)和中等(56:1)不平衡比下与专用方法差距仅0.8-3.3% mIoU。通过损失景观拓扑分析揭示了简单基线为何有效。",
+      "llm_tldr": "3D点云语义分割面临严重类别不平衡，但2D不平衡方法在3D中效果不明。本文系统评估了11种平衡方法，发现标准交叉熵+均匀权重在极端(641:1)和中等(56:1)不平衡比下与专用方法差距仅0.8-3.3% mIoU。通过损失景观拓扑分析揭示了简单基线为何有效。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D understanding",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

@@ -1,0 +1,483 @@
+Title: Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model
+
+URL Source: https://arxiv.org/pdf/2607.21504v1
+
+Published Time: Fri, 24 Jul 2026 01:17:47 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+# Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model 
+
+# SHUAIWEI WANG ∗, State Key Laboratory of CAD&CG, Zhejiang University, China 
+
+# SHI LI ∗, State Key Laboratory of CAD&CG, Zhejiang University, China 
+
+# JIETING XU, State Key Laboratory of CAD&CG, Zhejiang University, China 
+
+# YUCHI HUO, State Key Laboratory of CAD&CG, Zhejiang University, China 
+
+# QI WANG, North China Electric Power University, China 
+
+# WENTING ZHENG, State Key Laboratory of CAD&CG, Zhejiang University, China 
+
+# RENGAN XIE †, State Key Laboratory of CAD&CG, Zhejiang University, China OSEDiff 
+
+LR image 
+
+Our s
+
+GT 
+
+Diffbir 
+
+PiSASR 
+
+Ours LR 
+
+OSEDiff 
+
+Invsr 
+
+HYPIR 
+
+GT 
+
+Diffbir 
+
+PiSASR 
+
+Ours LR 
+
+OSEDiff 
+
+Invsr 
+
+HYPIR 
+
+Ours 
+
+LR image 
+
+Fig. 1. Texture++ is capable of elevating the texture resolution of 3D assets. The visual comparison displays 3D meshes diagonally split between the low-resolution input (bottom-left) and our upscaled result (top-right). As highlighted by the zoomed-in regions, our approach recovers intricate details that are significantly closer to the ground truth, outperforming recent state-of-the-art methods. 
+
+Numerous 3D assets are discarded due to low texture resolution, while current super-resolution models ignore texture maps and focus on natural images. An efficient and generalizable texture super-resolution model can revitalize a large corpus of aging yet valuable assets across industries such as film and video games. We present Texture++, a novel framework for texture super-resolution, which enhances the low-resolution textures of assets to produce high-resolution, high-quality results. Specifically, we reformulate 
+
+> ∗
+
+Equal Contribution. 
+
+> †
+
+Corresponding Author. Authors’ Contact Information: Shuaiwei Wang, State Key Laboratory of CAD&CG, Zhe-jiang University, Hangzhou, China; Shi Li, State Key Laboratory of CAD&CG, Zhejiang University, Hangzhou, China; Jieting Xu, State Key Laboratory of CAD&CG, Zhejiang University, Hangzhou, China; Yuchi Huo, State Key Laboratory of CAD&CG, Zhejiang University, Hangzhou, China; Qi Wang, North China Electric Power University, Bei-jing, China; Wenting Zheng, State Key Laboratory of CAD&CG, Zhejiang University, Hangzhou, China; Rengan Xie, State Key Laboratory of CAD&CG, Zhejiang University, Hangzhou, China. Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. 
+
+© 2026 Copyright held by the owner/author(s). Publication rights licensed to ACM. ACM 1557-7368/2026/7-ART https://doi.org/10.1145/nnnnnnn.nnnnnnn 
+
+the task of super-resolution in UV space into performing it across multiple rendered views and merging the outputs. Firstly, to achieve more complete and continuous textures in the view space, we propose an adaptive view selection strategy to integrate textures dispersed across UV texture patches. Furthermore, we introduce a quadtree-based texture region organization method for combining super-resolved textures from different viewpoints, providing masks to distinguish regions that require improvement. Finally, we design a diffusion-based super-resolution model that enhances the tex-ture resolution for specified masked regions, seamlessly integrating with surrounding regions. Through comprehensive evaluations, we demonstrate that our approach yields textures with substantially improved detail and coherence over existing methods. 
+
+ACM Reference Format: 
+
+Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie. 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model. ACM Trans. Graph. 1, 1 (July 2026), 16 pages. https://doi.org/10.1145/nnnnnnn.nnnnnnn 
+
+1 Introduction 
+
+High-fidelity 3D assets are vital for modern digital experiences, underpinning immersive media, video games, virtual reality, and industrial digital twins. Surface texture quality dictates the visual realism of 3D assets, yet crafting high-resolution (HR), artistically consistent textures is labor-intensive and costly. Many existing 
+
+ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. arXiv:2607.21504v1 [cs.CV] 23 Jul 2026 2 • Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie (b) HYPIR (a) Ground Truth  (c)  MVPaint 
+
+> Fig. 2. Failure cases of baseline methods on texture SR. (a) HR ground truth. (b) A naive image SR model applied directly to the texture produces severe seam artifacts across UV boundaries. (c) A texture generation method fails to preserve fine content and yields over-smoothed details.
+
+models have low-resolution (LR) textures, limiting their modern applicability. Efficient texture super-resolution (SR) techniques thus boost visual fidelity without asset re-creation, preserving artistic intent and compatibility with modern rendering pipelines. A straightforward idea is to apply the image SR models [Li et al. 2025; Lin et al . 2024, 2025; Sun et al . 2024, 2025; Wu et al . 2024a,b; Yue et al . 2025; Zhu et al . 2025] directly to the texture map. As shown in Figure 2, although these models demonstrate proficiency in restoring photorealistic details within natural images, they are inherently flawed when utilized for textures and fail to generate continuous patterns across the artificial boundaries of UV seams. This failure arises from fundamental differences in the image dis-tributions between texture maps and natural images. UV mapping breaks the continuity of patterns found in natural images, producing fragmented pattern pieces that mix with the texture background and result in a distinct image distribution. To mitigate the seams introduced by UV mapping, prior work [Chen et al . 2025c; Li et al .2019; Ranade et al . 2022; Richard et al . 2020] employs a differen-tiable rendering pipeline to render view-specific observations of the texture map, producing seamless natural images in view space for SR. The SR rendered images is back-propagated through gradi-ents to optimize the texture map. However, the same region of the texture map can be SR multiple times from different views, and in-consistencies among these results can blur that texture region, while gradient optimization incurs substantial overhead. Further, there exist end-to-end models [Li et al . 2019; Ranade et al . 2022; Richard et al . 2020] that operate texture maps directly without optimization, but these methods are trained only on specific texture map datasets and may lack the generalization ability to handle different kinds of UV unwrapping methods. Recently, mesh-based texture generation methods [Ho et al . 2020; Richardson et al . 2023; Xiong et al . 2025; Zhang et al . 2025] have attracted increasing interest and often adopt a generate-then-refine strategy. Their refinement stage mainly serves as a generation-side cleanup process, re-editing or inpainting synthesized textures to improve visual quality, prompt alignment, seam handling, and multi-view consistency. Unlike texture SR methods, it is not designed to recover high-resolution details from a given low-resolution tex-ture, nor does it enforce strict content preservation or degradation consistency. In this paper, we present Texture++, a novel texture SR method that is applicable to arbitrary UV mappings and enables the gener-ation of high-resolution texture maps without any gradient-based optimization. Our core objective is to achieve the efficiency of end-to-end methods in texture space while preserving the strong generaliza-tion of view-space SR. Initially, we propose an iterative framework that renders view-space images in multiple passes and performs texture detail enhancement. Then, we introduce an adaptive view selection strategy. Since a complete pattern yields the best SR per-formance, we categorize viewpoints into two types, observation viewpoints and canonical viewpoints. The former aims to connect two UV charts that become contiguous in view space to produce a coherent pattern, while the latter aims to maximize the visibility of content that lies within a single UV chart in texture space. Later, to prevent flickering caused by applying SR to the same texture region across multiple rendered views, we introduce an SR mask generation mechanism to identify, at each iteration, the regions in the view image that require SR, and a quadtree-based mechanism to manage masks with smooth boundaries across texture patches. Finally, to update only local regions in view space with SR, we de-sign a specialized local SR model that injects high-frequency details into the specified regions with a single diffusion step while blending seamlessly with the surrounding context. Our main contributions can be summarized as follows: 
+
+• We propose a novel texture SR method, Texture++, that pro-duces high-quality SR texture maps for LR assets without gradient optimization. Experiments show our method signif-icantly outperforms SOTA texure map SR methods in both quantitative and qualitative evaluations. 
+
+• We introduce an adaptive view selection strategy that favors complete patterns for stronger SR performance while jointly accounting for texture patterns both within a single UV chart and across different UV charts. 
+
+• We introduce an SR mask generation mechanism that iden-tifies update regions across iterations and a quadtree-based scheme that ensures smooth mask boundaries across texture patches. 
+
+• We design a specialized, local SR diffusion model performs tar-geted enhancement within a specified mask while preserving the surrounding content and seamless boundary transition. 
+
+2 Related Work 
+
+Single Image SR. Recent advances in single image SR are largely driven by generative models, which excel at synthesizing photo-realistic details [Ai et al . 2024; Chen et al . 2025b; Li et al . 2025; Lin et al . 2024, 2025; Qu et al . 2024; Sun et al . 2024, 2025; Wang et al . 2024, 2023; Wu et al . 2024a,b; Yue et al . 2025; Zhu et al . 2025]. A dominant research thrust focuses on improving efficiency and control, with methods like OFTSR [Zhu et al . 2025], FluxSR [Li et al . 2025] and CCSR [Sun et al . 2024] developing single-step in-ference pipelines, and PiSA-SR [Sun et al . 2025] enabling a tunable trade-off between fidelity and realism via a dual-LoRA [Hu et al .2021] structure. Concurrently, enhancing semantic consistency re-mains a critical goal, addressed by methods such as SeeSR [Wu et al .2024b] which leverages degradation-aware prompts. Another line of work targets arbitrary-scale upsampling, employing techniques that range from dynamic convolutions to novel representations like 2D Gaussian Splatting (GSASR) [Chen et al . 2025a]. State-of-the-art   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •3
+
+2D image restoration methods, designed for holistic rectangular im-ages, induce severe artifacts when applied directly to UV-partitioned textures. In contrast, Texture++, purpose-built for the 3D domain, adopts canonical view selection and dynamic masking to achieve globally coherent, seamlessly integrated details across the mesh surface. 
+
+Mesh-based Texture Generation. Automatic 3D texturing has re-cently seen a surge in generative methods leveraging 2D diffusion models [Ho et al . 2020]. Approaches such as TEXTure [Richardson et al . 2023] pioneered text-to-texture synthesis by iteratively paint-ing a mesh from multiple camera views, while AlignTex [Zhang et al .2025] focuses on transferring pixel-perfect details from multi-view images onto a mesh. Other works, like TexGaussian [Xiong et al .2025], have even proposed alternative 3D representations to ensure geometric consistency during PBR material generation from scratch. While these methods excel at scratch 3D asset generation, they fail to address the critical need to enhance the vast corpus of existing 3D models with legacy LR textures. This poses an orthogonal challenge, where the core objective is not synthesis but faithful preservation and enhancement of original artistic intent. Our work is specifically designed to address this challenge, framing high-fidelity texture SR as a task complementary to such generative methods. 
+
+Texture SR. Learning-based texture SR methods are divided into end-to-end and zero-shot models. For instance, Richard et al. [Richard et al . 2020] proposed an end-to-end model unifying multi-view redundancy and learned single-image priors in a single network for texture enhancement. In contrast, zero-shot models like PBR-SR [Chen et al . 2025c] leverage pre-trained 2D SR models as strong priors, iteratively refining textures by minimizing view-space losses via differentiable rendering and applying multi-view constraints to mitigate inconsistencies. However, this iterative optimization is prone to artifact accumulation. Instead, we propose a canonical view selection algorithm for stable, conflict-free supervision and adopt a single-step masked diffusion model ensuring monotoni-cally beneficial updates. This design effectively mitigates the error accumulation prevalent in prior optimization-based methods. 
+
+3 Method 3.1 Overview 
+
+Considering a single LR texture 𝑇 L R , our goal is to recover the corresponding HR texture 𝑇 H R . Unlike traditional image SR, texture SR should incorporate the information of the 3D model M and UV mapping, otherwise it will yield poor recovery near the seam of UV charts. For texture SR, with the camera 𝑣 𝑛 , the operator 𝜋 renders the geometric mesh with texture 𝑇 on the image 𝐼 𝑛 = 𝜋 (M ,𝑇 , 𝑣 𝑛 ).To generate HR and view-consistent textures, we introduce a novel SR method through an iterative texture refinement framework. We initially use a simple bilinear upscaler to generate the HR texture 
+
+𝑇 dH R . The pipeline of our method is illustrated in Figure 3 and can be divided into four modules: 1) Observation view selection .At first, we introduce a seam-aware observation view selection method to establish a set of canonical and consistent viewpoints. 2) SR region nomination . At each iteration, we take one view 
+
+𝑣 𝑛 from the selected views and render the image 𝐼 𝑛 with the HR texture 𝑇 dH R . Meanwhile, we generate a SR mask 𝑀 𝑛 with 𝐼 𝑛 and a global quality map, 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙 , which indicates texture regions that require resolution enhancement. 3) Local SR generation . Then we generate the locally SR image ˜𝐼 𝑛 using a pretrained local SR model, conditioned on the rendered image 𝐼 𝑛 and the mask 𝑀 𝑛 . 4) Global texture update . Finally, we seamlessly project the generated details 
+
+˜𝐼 𝑛 back and update the predicted HR texture 𝑇 dH R .
+
+3.2 Seam-Aware View Observation Selection 
+
+A significant challenge in texture SR is handling the artificial bound-aries introduced by UV unwrapping. UV unwrapping cuts a continu-ous 3D surface into multiple isolated charts so that surface-adjacent regions may be far apart in the 2D texture map, as shown in Figure 3. This separation prevents standard image-based SR operations from naturally preserving cross-seam consistency. In addition, multi-view texture updates may assign different high-frequency details to the same surface area because of viewpoint-dependent visibility and projection differences, as shown in Figure 4. Such inconsistent up-dates often result in spurious high-frequency artifacts and visible seams within UV charts and across their boundaries. To address this issue, we introduce an adaptive observation view selection strategy. The core idea is to assign a set of viewpoints to richly textured region to ensure stable and coherent convergence during iterative refinement. Our strategy decouples viewpoint selection into two complemen-tary schemes: one that preserves intra-chart coherence and another that enforces cross-seam texture continuity. 
+
+Viewpoint selection within the UV chart. We segment the mesh faces into distinct sets, where each set corresponds to a contiguous UV chart. For each UV chart 𝑃 , the camera’s viewing direction is set to align with the area-weighted average normal of the corresponding mesh surface, ensuring a frontal perspective that maximizes the sampling density and minimizes projective distortion. The camera is centered on the geometric centroid of the corresponding mesh surface. The canonical view vector 𝑣 ∗ 
+
+> 𝑃
+
+is computed as: 
+
+𝑣 ∗ 
+
+> 𝑃
+
+=
+
+Í𝑓 𝑖 ∈𝑃 𝐴 𝑖 · 𝑁 𝑖 
+
+Í𝑓 𝑖 ∈𝑃 𝐴 𝑖 · 𝑁 𝑖 2
+
+(1) where 𝑓 𝑖 is a face within the chart 𝑃 , 𝐴 𝑖 is area, and 𝑁 𝑖 is normal. By precomputing a canonical viewpoint for each chart, we ensure that every UV chart’s texture pattern is covered by at least one viewpoint and that this viewpoint observes the chart as completely as possible, minimizing unobserved regions. 
+
+Viewpoint selection across the UV chart. We define a seam as a geometric edge on the 3D mesh whose constituent vertices map to different pairs of vertices in the UV coordinate space. After identify-ing the set of all seam edges, we group them into contiguous seam 
+
+𝑠𝑡𝑟𝑖𝑝𝑠 , and each strip represents the continuous seam edges on the 3D model. For each identified seam strip, we define an encompass-ing seam region, Rs, which is comprised of all mesh faces adjacent to any edge within the strip. Similarly to the intra-chart case, the camera’s viewing direction is aligned with the area-weighted aver-age normal of all faces in Rs. The camera is then positioned to be centered over the geometric centroid of this region.        
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. 4•Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie LR Texture Seam Clues Quality Map
+> Shading Images
+
+# ...         
+
+> Cross UV Chart
+> Inner UV Chart
+> (b) SR Mask generation (a) Seam -Aware View Selection (c) Diffusion -based local SR
+> Back projection
+> Frozen parameters
+> n+1
+> n
+
+…        
+
+> 𝑣 1𝑣 2
+> 𝑣 𝑛
+> Mesh M
+> 𝜋
+> HR Images
+> MnMn
+> ′HR Texture 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙
+> n+2
+> local SR model
+> Refine
+> Update
+> Upsample
+> Input
+> mask
+> Input
+> image
+> Output
+> Image
+> Back projection ×n times
+> LR HR
+> View selection
+
+Fig. 3. Overview. Our method consists of four main stages. (1) Observation view selection: A set of canonical viewpoints (𝑣 1, . . . , 𝑣 𝑛 ) are selected to render the 3D model M. (2) SR region nomination: For each view, we render a image 𝐼 LR  
+
+> 𝑛
+
+and compute a per-view quality map 𝑄 𝑛 . This is compared against a global quality map 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙 to generate a binary mask 𝑀 𝑛 that identifies regions for enhancement and updates the global quality map 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙 , which is then refined using quadtree-based regularization to produce the final mask 𝑀 ′ 
+
+> 𝑛
+
+. (3) Local SR generation: The rendered image and its mask are inputed into the local SR model, which outputs a locally SR image 𝐼 HR  
+
+> 𝑛
+
+. (4) Global texture update: The new HR details are projected back onto the HR texture 𝑇 HR .Bad viewpoint Good viewpoint Continuous pattern 
+
+Fig. 4. Effect of viewpoint quality on texture continuity. Bad view-points (left) force a continuous surface pattern (right) to be updated across multiple views, disrupting its original continuity. In contrast, a good view-point (middle) covers the entire pattern, enabling it to be super-resolved consistently in a single view. 
+
+Viewpoint Consolidation. To mitigate the computational overhead caused by numerous UV islands and seams, we use a hierarchical viewpoint consolidation strategy. We first apply area-weighted 𝑘 -means clustering in normal space to group UV islands and seam strips into compact representative viewpoints, respectively. These candidates are then jointly merged via hierarchical clustering 1. Fi-nally, we reapply visibility culling to recompute the exact sets of visible faces. This step effectively prunes inter-view redundancies while guaranteeing complete surface coverage. Conversely, for mod-els with simplistic UV layouts, such as a sphere that unwraps to a single large chart, a single canonical viewpoint would provide insuf-ficient coverage for iterative refinement. In such cases, we render six axis-aligned views (front, back, top, bottom, left, right) of the model’s bounding box. 
+
+3.3 SR Region Nomination 
+
+Following the determination of canonical viewpoints, the next stage involves rendering the corresponding regions and identifying pre-cisely which pixels within these renderings are suitable for SR and 
+
+> 1Please refer to the supplementary document for the details.
+
+subsequent texture updates. A naive strategy of updating all ren-dered pixels is problematic for two reasons. First, diffusion models inherently introduce stochastic variations, repeatedly updating the same texel with slightly different outputs gradually blurs the texture. Second, indiscriminately re - generating regions that are already of sufficient quality wastes computation and slows down the pipeline. To prevent those, we introduce an SR mask generation mechanism that identifies update regions across iterations, ensuring that tex-ture updates improve monotonically. This is orchestrated through a global quality map that tracks the best-achieved rendering quality for every texel across all iterations. 
+
+Quality Evaluation. For each viewpoint 𝑣 𝑛 , we compute a corre-sponding geometric quality map 𝑄 𝑛 . The quality score at each pixel is determined by both the geometric orientation and the proximity of the camera to the surface. The goal is to favor camera poses that capture the surface from a frontal perspective at close range, as these views maximize visible detail and minimize projective distor-tion. We quantify this by weighting surface patches viewed frontally more heavily, where texture is sampled without foreshortening, and by penalizing distant views, where captured detail falls off inversely with the square of distance. Concretely, for each pixel (𝑢, 𝑣 ), the value is: 
+
+𝑄 𝑛 (𝑢, 𝑣 ) = max (0, cos (𝑣 ∗ · 𝑁 )) 
+
+𝑑 2 (2) where 𝑑 is the distance from the camera to the surface, 𝑣 ∗ is the view-ing direction and 𝑁 is the surface normal. This formulation ensures that a high quality score is assigned only when the surface is both facing the camera directly and close to the camera. This dual crite-rion prevents distant views, which may suffer from low sampling density, from overwriting details captured by closer, higher-fidelity observations. 
+
+Mask Generation. To ensure that the iterative refinement process is strictly progressive, we maintain a global quality map, 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙 ,which has the same dimensions as the HR texture. 𝑄 𝑔𝑙𝑜𝑏𝑎𝑙 stores           
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •5Input image Input mask Output image
+> 0
+> N+1
+> N
+> ITERATION
+> Fig. 5. Visualization of the iterative refinement process. The rows show snapshots of the pipeline at iterations 0, 𝑁 and 𝑁 +1. For each step, we present the rendered view of the current texture( middle ), the mask identifying regions for update( left ), and the locally SR output( right ).
+
+the maximum rendering quality score achieved from any viewpoint across all preceding iterations for each texel. We define a binary up-date mask in the image space, 𝑀 , that indicates corresponding pixels require SR. For each view, we first compute a quality map 𝑄 𝑛 (𝑥, 𝑦 )
+
+for the current rendered image, then retrieve the corresponding historical best scores 𝑄 ℎ𝑖𝑠𝑡 (𝑥, 𝑦 ) from the 𝑄 global . We then generate a raw mask, 𝑀 𝑟𝑎𝑤 by comparing the 𝑄 𝑣𝑖𝑒𝑤 (𝑥, 𝑦 ) and 𝑄 ℎ𝑖𝑠𝑡 (𝑥, 𝑦 ):
+
+𝑀 𝑟𝑎𝑤 (𝑥, 𝑦 ) =
+
+(
+
+1 𝑄 hist (𝑥, 𝑦 ) ≤ 𝑄 n (𝑥, 𝑦 )
+
+0 𝑄 hist (𝑥, 𝑦 ) > 𝑄 n (𝑥, 𝑦 ). (3) Raw masks 𝑀 𝑟𝑎𝑤 are often produced with fragmented, jagged and irregular boundaries, which tend to be misinterpreted by the diffusion model as texture patterns, causing boundary artifacts. To address this, we introduce a quadtree-based mask regularization strategy that produces clean, structured mask boundaries. Specifi-cally, we construct a quadtree on the spatial domain of the rendered image, where the root represents the entire image. We then re-cursively subdivide each node into four equal-sized children and terminate under one of the following conditions: a) All pixels within the node’s corresponding region in 𝑀 𝑟𝑎𝑤 are 0 (no SR required). b) All pixels within the node’s region in 𝑀 𝑟𝑎𝑤 are 1 (full SR required). c) The node has reached a predefined minimum size, signaling a boundary region where 0 and 1 pixels are mixed; we set all its pixels to 1 to consolidate these fragments into a clean block. The mask 𝑀 𝑛 
+
+provides a coherent and more stable signal to the diffusion model, facilitating the synthesis of high-quality details. 
+
+3.4 Local SR Generation 
+
+After identifying the local regions that require SR, the next step is to select an appropriate SR model. Our input at this stage is a rendered image that is sharp everywhere except in the target regions, which remain blurry. Image SR models are not designed for such a setting: they process the entire image uniformly, altering the sharp context and failing to harmonize the enhanced details with the surrounding texture, leaving visible seams or inconsistencies as shown in Figure 9 (left). To address this, we fine-tune a pre-trained Stable Diffusion 2.1-base model (SD) [Rombach et al . 2022] to SR local regions defined by our generated masks, ensuring seamless integration with the surrounding context. First, to enable precise control over the generation process, we adapt its architecture to accept both an image and the corresponding mask 𝑀 as conditional inputs. The rendered image is encoded into a latent representation 𝑧 ∈ R4×𝐻 ×𝑊 using a VAE encoder. To restrict the SR to the masked regions, we provide the mask as an explicit spatial condition to the diffusion model. Concretely, we concate-nate the latent 𝑧 with the mask 𝑀 along the channel dimension, creating a 5-channel input, [𝑧 ; 𝑀 ] ∈ R5×𝐻 ×𝑊 , and modify the first convolutional layer of the U-Net accordingly. Second, we leverage Low-Rank Adaptation (LoRA) [Hu et al . 2021]. We integrate two trainable LoRA modules into the U-Net, one to restore high-fidelity content and the other to focus on specific areas. Inspired by some previous advancements in SR [Sun et al . 2025; Zhang et al . 2017, 2018b], we frame the generation as a residual prediction problem in the latent space. Specifically, the U-Net is trained to predict the latent space residual, Δ𝑧 , required to transform the initial latent 𝑧 
+
+into the high-fidelity latent 𝑧 𝑓 𝑖𝑛𝑎𝑙 , which is computed as: 
+
+𝑧 𝑓 𝑖𝑛𝑎𝑙 = 𝑧 − Δ𝑧 ⊙ 𝑀 (4) where ⊙ denotes the Hadamard (element-wise) product, 𝑀 is the binary mask. This residual formulation provides a stable training target, allowing for a direct, single-step SR without the need for an iterative denoising schedule. 
+
+Model Optimization. To ensure that the generated details are not only structurally accurate but also perceptually convincing, we train our model using a hybrid loss function. The loss L is a weighted combination of a masked pixel-wise Mean Squared Error (MSE) loss 
+
+L𝑚𝑠𝑒 and the masked Learned Perceptual Image Patch Similarity (LPIPS) [Zhang et al . 2018a] loss L𝑙𝑝𝑖𝑝𝑠 in the decoded image space. 
+
+L𝑚𝑠𝑒 = ∥(D ( 𝑧 𝑓 𝑖𝑛𝑎𝑙 ) − I𝐺𝑇 ) ⊙ 𝑀 ∥2 (5) where D (·) is the VAE decoder, I𝐺𝑇 is the GT image. Similarly, the masked perceptual loss, L𝑙𝑝𝑖𝑝𝑠 , leverages a pre-trained network VGG [Simonyan and Zisserman 2015]to compare features in a per-ceptually relevant space, again focusing on the masked region: 
+
+L𝑙𝑝𝑖𝑝𝑠 = 𝐿𝑃𝐼𝑃𝑆 (D ( 𝑧 𝑓 𝑖𝑛𝑎𝑙 ) ⊙ 𝑀, I𝐺𝑇 ⊙ 𝑀 ) (6) The final training objective is the weighted sum of these two losses: 
+
+L = 𝜆 𝑚𝑠𝑒 L𝑚𝑠𝑒 + 𝜆 𝑙𝑝𝑖𝑝𝑠 L𝑙𝑝𝑖𝑝𝑠 (7) 
+
+Inference for Texture Refinement. During the inference phase of our pipeline, the rendered image 𝐼 from a viewpoint and its cor-responding mask 𝑀 serve as inputs to our local SR model, which enables the SR module to utilize the high-frequency context from previous iterations, ensuring global consistency. The output is a locally SR image that exhibits rich detail in the target region and maintains a seamless boundary with its surroundings. 
+
+3.5 Global Texture Update 
+
+The final stage of each iteration is to project the locally SR im-age, generated by our model, back onto the HR texture 𝑇 dH R . Our   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. 6•Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie
+
+framework accomplishes this through an direct projection mecha-nism [Zeng et al . 2024], avoiding slower optimization-based tech-niques [Chen et al . 2025c; Youwang et al . 2024]. The update is con-strained by the binary mask 𝑀 𝑛 (Sec 3.3), which ensures that only regions with improved visual quality are modified. Figure 5 visual-izes this process, illustrating how our method dynamically targets and refines different surface regions across iterations to cumula-tively build a high-fidelity 3D asset. 
+
+4 Experiments 
+
+In this section, to validate the effectiveness of our method, we con-duct a series of comprehensive experiments. We first detail the implementation and training setup. Then, we present both qualita-tive and quantitative comparisons against several state-of-the-art (SOTA) methods. Finally, we perform ablation studies to analyze the impact of key components in our framework. 
+
+4.1 Implementation Details 
+
+Our entire framework is implemented in PyTorch. For the core task of rendering, we leverage the Nvidiffrast [Laine et al . 2020]. We use three NVIDIA A6000 GPUs with 48 GB of VRAM for SR model training and one NVIDIA A6000 GPU for iterative texture refinement. We train our model on a custom pairwise local SR dataset, and more details on the dataset and training procedure can be found in the supplementary material. Method PSNR ↑ SSIM ↑ LPIPS ↓ DISTS ↓ Time(s) ↓
+
+DiffBIR 35.9406 0.9292 0.1067 0.1056 586.2 HYPIR 33.3778 0.8997 0.1066 0.0996 48.0 OSEDiff 31.6975 0.9168 0.0959 0.0964 108.6 PiSASR 33.1539 0.9159 0.0866 0.0864 111.4 InvSR 30.5382 0.8789 0.1281 0.1123 42.0 
+
+Text2Tex 27.5001 0.8855 0.1405 0.1272 321.5 Paint3D 24.3583 0.8300 0.1826 0.1570 130.4 MVPaint 20.9008 0.7098 0.2581 0.1872 215.6 
+
+Our 37.5277 0.9524 0.0637 0.0736 94.4 
+
+> Table 1. Quantitative comparison with state-of-the-art methods for 4x tex-ture SR. We report PSNR, SSIM, LPIPS, and DISTS. Best results are in red, second best in blue, and third best in green.
+
+4.2 Comparison 
+
+Due to the scarcity of work related to texture SR and the exist-ing methods are not open-source [Chen et al . 2025c; Richard et al .2020], we conduct extensive comparisons against a suite of SOTA image SR and texture generation methods. We select five power-ful and contemporary image SR baseline models, representing the cutting edge of diffusion-based and efficient SR. HYPIR[Lin et al .2025], a method that harnesses diffusion-yielded score priors for high-quality image restoration. DiffBIR[Lin et al . 2024], another strong diffusion-based model that uses a dual-branch architecture for controlled image restoration. OSEDiff [Wu et al . 2024a] uses one-step effective diffusion network for faster inference. InvSR[Yue et al . 2025], an efficient framework for arbitrary-step SR based on invertible neural networks. PiSASR[Sun et al . 2025], an advanced single-step SR model that also utilizes a pre-trained Stable Diffusion backbone. These methods are designed for 2D image SR and cannot be directly integrated as a local SR module in our pipeline, since our iterative refinement process generates hybrid-resolution rendering images that comprise both sharp and blurry regions, which is in-compatible with standard SR methods designed for uniformly LR inputs. Therefore, we apply each baseline to the entire LR texture to generate a HR output in a single pass. In addition, we select three texture generation methods that employ coarse-to-fine strategies with dedicated refinement stages. Text2Tex [Chen et al . 2023] progressively synthesizes HR partial textures from multiple viewpoints using a depth-aware inpainting diffusion model. Paint3D [Zeng et al . 2024] first generates coarse texture maps through multi-view texture fusion, then refines them using UV Inpainting and UVHD diffusion models in UV space. MV-Paint [Cheng et al. 2025] introduces a three-stage framework with synchronized multi-view generation, spatial-aware 3D inpainting, and UV refinement that performs SR in UV space followed by spatial-aware seam smoothing. Since these methods are designed for tex-ture generation from scratch rather than SR of existing textures, we adapt them to our task by utilizing their refinement stages. Specifi-cally, we use the LR textures as input to their refinement modules and perform the same refinement operations as in their original pipelines. For all baselines, we use their officially released pre-trained mod-els and follow the recommended inference settings to ensure optimal performance. All experiments are conducted for a 4 × upsampling factor, partial results are shown in Figure 6 and Table 1, with other results available in Figure 13 in the supplementary material. 
+
+Qualitative Comparison. As shown in Figure 6, 15 and Figure 13, while image SR baselines may produce sharper details, their lack of 3D spatial awareness leads to severe seams and boundary artifacts. Texture generation methods fail to preserve the original content or achieve SR, resulting in blurred, distorted, or even erased text and structural details. On the beige mug (row 3) and wooden owl (row 2), baselines introduce spurious noise and distort original patterns. Text on the scene model (row 1) is either blurred, corrupted by artifacts in all baseline methods, whereas ours reconstructs crisp, readable characters. In contrast, our 3D-aware approach reliably synthesizes high-fidelity details and ensures seamless consistency across all views, yielding results closest to the GT. 
+
+Quantitative Comparison. We provide a quantitative evaluation using four standard image quality assessment metrics: Peak Signal-to-Noise Ratio (PSNR), Structural Similarity Index (SSIM)[Wang et al . 2004], LPIPS[Zhang et al . 2018a], and DISTS[Ding et al . 2020]. The metrics are computed between the Output HR texture and the GT texture. As presented in Table 1, our method achieves the best performance in the all metrics. This indicates a superior ability to accurately reconstruct the GT structure and content, which aligns with our qualitative findings that baseline methods often hallucinate incorrect details. We also report time cost. Although our pipeline involves an iterative process, it still takes less time than most meth-ods. This is possibly due to the fact that we SR rendered images in view space (1K), rather than directly operating on the texture (2K). More importantly, our SR model is a single-step diffusion model that   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •7
+
+LR  Our Text2Tex MVPaint HYPIR DiffBIR GT 
+
+> Fig. 6. Qualitative comparison with SOTA image SR (DiffBIR, HYPIR) and texture generation methods (MVPaint, Text2Tex). The image SR baselines produce jarring seam artifacts across UV boundaries, while the texture generation methods tend to over-smooth details and erase fine text and structural patterns. In contrast, our method reconstructs crisper textures and avoids these boundary discontinuities.
+
+performs SR on rendered images efficiently. In contrast, baseline methods typically process texture at the target resolution (2K). Setting PSNR ↑ SSIM ↑ LPIPS ↓ DISTS ↓
+
+w/o v.s. 36.3777 0.9545 0.0482 0.0875 w/o quadtree 38.3475 0.9685 0.0435 0.0765 w/o mask 36.2000 0.9641 0.0490 0.0979 
+
+full 38.4241 0.9686 0.0433 0.0760   
+
+> Table 2. Quantitative results of the ablation study. We report metrics for variants of our method, including removing our view selection (v.s.), quadtree processing, and masked synthesis.
+
+4.3 Ablation Study 
+
+We conduct ablation studies to evaluate the key components of our framework. Specifically, we analyze the impact of our observation view selection, quadtree-based mask processing, and local SR model. The results, presented in Table 2 and Figure 9, demonstrate the necessity of each component for achieving high-quality results. 
+
+Effect of Observation View Selection. To validate the view selec-tion strategy, we compare it against a baseline that employs random viewpoint sampling. As illustrated in the Figure 9 (left), this naive approach fails to preserve topological continuity. Without canonical views optimized to frame UV boundaries, the model generates in-consistent updates for adjacent texture regions, resulting in severe seam artifacts that sever continuous patterns across the 3D surface. In contrast, our strategy ensures that updates are geometrically aligned, producing globally coherent textures. 
+
+Effect of Quadtree-based Mask Processing. Raw, pixel-level com-parisons often yield fragmented masks with high-frequency noise along the boundaries. To verify the necessity of our quadtree regu-larization, we ablate this component and use the raw masks directly. As shown in Figure 9 (middle), this leads to a noticeable degradation in sharpness and detail. The noisy, disconnected mask regions fail to provide a coherent spatial guide, preventing the SR model from effectively focusing its generative capacity. By regularizing these regions via quadtree decomposition, our full method provides a robust spatial prior, enabling the synthesis of significantly sharper and more intricate textures. 
+
+Effect of Local SR. Finally, we validate the importance of our local SR model, which takes the mask as an explicit spatial condition. We compare our approach against a baseline where the SR module is replaced by a standard SR model [Sun et al . 2025]. In this setup, masking is applied after the entire image has been SR. As shown in Figure 9 (right), this strategy invariably produces pronounced boundary artifacts at the interface with the existing texture. Lacking 
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026.
+
+8 • Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie 
+
+mask-based conditioning during the generative process, the baseline model is unconstrained by the surrounding context, resulting in severe color and pattern discontinuities at the patch periphery. In contrast, our model explicitly conditions the synthesis on the mask, ensuring that the generated content is contextually coherent and seamlessly integrated. 
+
+5 Conclusion 
+
+In conclusion, we presented Texture++, a texture SR method that supports arbitrary UV mappings and produces HR textures. We introduced an iterative framework that refines texture detail via multi-view rendering, with an adaptive view selection strategy that uses observation views to connect adjacent UV charts for coherent patterns and canonical views to maximize visibility within a single chart. We further developed an SR mask generation scheme with a quadtree-based representation that selects regions requiring SR at each iteration and preserves smooth boundaries across texture patches, and we designed a local SR diffusion model that updates only targeted regions in view space, injecting high-frequency details while blending seamlessly with surrounding context. Experiments validate our approach, as quantitative metrics show significant im-provements over SOTA baselines and qualitative results confirm that the framework can generate seamless and HR textures. We discuss the limitations and potential directions for future work in the Supplementary Material. 
+
+References 
+
+Yuang Ai, Xiaoqiang Zhou, Huaibo Huang, Xiaotian Han, Zhengyu Chen, Quanzeng You, and Hongxia Yang. 2024. DreamClear: High-Capacity Real-World Image Restoration with Privacy-Safe Dataset Curation. arXiv:2410.18666 [cs.CV] https: //arxiv.org/abs/2410.18666 Bin Chen, Gehui Li, Rongyuan Wu, Xindong Zhang, Jie Chen, Jian Zhang, and Lei Zhang. 2025b. Adversarial Diffusion Compression for Real-World Image Super-Resolution. arXiv:2411.13383 [eess.IV] https://arxiv.org/abs/2411.13383 Du Chen, Liyi Chen, Zhengqiang Zhang, and Lei Zhang. 2025a. Generalized and Efficient 2D Gaussian Splatting for Arbitrary-scale Super-Resolution. arXiv preprint arXiv:2501.06838 (2025). Dave Zhenyu Chen, Yawar Siddiqui, Hsin-Ying Lee, Sergey Tulyakov, and Matthias Nießner. 2023. Text2tex: Text-driven texture synthesis via diffusion models. In 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision . 18558– 18568. Yujin Chen, Yinyu Nie, Benjamin Ummenhofer, Reiner Birkl, Michael Paulitsch, and Matthias Nießner. 2025c. PBR-SR: Mesh PBR Texture Super Resolution from 2D Image Priors. arXiv:2506.02846 [cs.CV] https://arxiv.org/abs/2506.02846 Wei Cheng, Juncheng Mu, Xianfang Zeng, Xin Chen, Anqi Pang, Chi Zhang, Zhibin Wang, Bin Fu, Gang Yu, Ziwei Liu, et al . 2025. Mvpaint: Synchronized multi-view diffusion for painting anything 3d. In Proceedings of the Computer Vision and Pattern Recognition Conference . 585–594. Keyan Ding, Kede Ma, Shiqi Wang, and Eero P. Simoncelli. 2020. Image Quality Assessment: Unifying Structure and Texture Similarity. IEEE Transactions on Pattern Analysis and Machine Intelligence (2020), 1–1. doi:10.1109/tpami.2020.3045810 Jonathan Ho, Ajay Jain, and Pieter Abbeel. 2020. Denoising Diffusion Probabilistic Models. arXiv:2006.11239 [cs.LG] https://arxiv.org/abs/2006.11239 Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. 2021. LoRA: Low-Rank Adaptation of Large Language Models. arXiv:2106.09685 [cs.CL] https://arxiv.org/abs/2106.09685 Diederik P. Kingma and Jimmy Ba. 2017. Adam: A Method for Stochastic Optimization. arXiv:1412.6980 [cs.LG] https://arxiv.org/abs/1412.6980 Samuli Laine, Janne Hellsten, Tero Karras, Yeongho Seol, Jaakko Lehtinen, and Timo Aila. 2020. Modular Primitives for High-Performance Differentiable Rendering. arXiv:2011.03277 [cs.GR] https://arxiv.org/abs/2011.03277 Jianze Li, Jiezhang Cao, Yong Guo, Wenbo Li, and Yulun Zhang. 2025. One Dif-fusion Step to Real-World Super-Resolution via Flow Trajectory Distillation. arXiv:2502.01993 [cs.CV] https://arxiv.org/abs/2502.01993 Yawei Li, Vagia Tsiminaki, Radu Timofte, Marc Pollefeys, and Luc Van Gool. 2019. 3D appearance super-resolution with deep learning. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 9671–9680. Yawei Li, Kai Zhang, Jingyun Liang, Jiezhang Cao, Ce Liu, Rui Gong, Yulun Zhang, Hao Tang, Yun Liu, Denis Demandolx, Rakesh Ranjan, Radu Timofte, and Luc Van Gool. 2023. LSDIR: A Large Scale Dataset for Image Restoration. In 2023 IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition Workshops (CVPRW) . 1775–1787. doi:10.1109/CVPRW59228.2023.00178 Xinqi Lin, Jingwen He, Ziyan Chen, Zhaoyang Lyu, Bo Dai, Fanghua Yu, Wanli Ouyang, Yu Qiao, and Chao Dong. 2024. DiffBIR: Towards Blind Image Restoration with Generative Diffusion Prior. arXiv:2308.15070 [cs.CV] https://arxiv.org/abs/2308. 15070 Xinqi Lin, Fanghua Yu, Jinfan Hu, Zhiyuan You, Wu Shi, Jimmy S. Ren, Jinjin Gu, and Chao Dong. 2025. Harnessing Diffusion-Yielded Score Priors for Image Restoration. arXiv:2507.20590 [cs.CV] https://arxiv.org/abs/2507.20590 Yunpeng Qu, Kun Yuan, Kai Zhao, Qizhi Xie, Jinhua Hao, Ming Sun, and Chao Zhou. 2024. XPSR: Cross-modal Priors for Diffusion-based Image Super-Resolution. arXiv:2403.05049 [cs.CV] https://arxiv.org/abs/2403.05049 Rohit Ranade, Yangwen Liang, Shuangquan Wang, Dongwoon Bai, and Jungwon Lee. 2022. 3D Texture Super Resolution via the Rendering Loss. In ICASSP 2022-2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) .IEEE, 1556–1560. Audrey Richard, Ian Cherabier, Martin R. Oswald, Vagia Tsiminaki, Marc Polle-feys, and Konrad Schindler. 2020. Learned Multi-View Texture Super-Resolution. arXiv:2001.04775 [cs.CV] https://arxiv.org/abs/2001.04775 Elad Richardson, Gal Metzer, Yuval Alaluf, Raja Giryes, and Daniel Cohen-Or. 2023. Texture: Text-guided texturing of 3d shapes. In ACM SIGGRAPH 2023 conference proceedings . 1–11. Robin Rombach, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer. 2022. High-Resolution Image Synthesis with Latent Diffusion Models. arXiv:2112.10752 [cs.CV] https://arxiv.org/abs/2112.10752 Karen Simonyan and Andrew Zisserman. 2015. Very Deep Convolutional Networks for Large-Scale Image Recognition. arXiv:1409.1556 [cs.CV] https://arxiv.org/abs/1409. 1556 Lingchen Sun, Rongyuan Wu, Jie Liang, Zhengqiang Zhang, Hongwei Yong, and Lei Zhang. 2024. Improving the Stability and Efficiency of Diffusion Models for Content Consistent Super-Resolution. arXiv:2401.00877 [eess.IV] https://arxiv.org/abs/2401. 00877 Lingchen Sun, Rongyuan Wu, Zhiyuan Ma, Shuaizheng Liu, Qiaosi Yi, and Lei Zhang. 2025. Pixel-level and Semantic-level Adjustable Super-resolution: A Dual-LoRA Approach. arXiv:2412.03017 [cs.CV] https://arxiv.org/abs/2412.03017 Jianyi Wang, Zongsheng Yue, Shangchen Zhou, Kelvin C. K. Chan, and Chen Change Loy. 2024. Exploiting Diffusion Prior for Real-World Image Super-Resolution. arXiv:2305.07015 [cs.CV] https://arxiv.org/abs/2305.07015 Xintao Wang, Liangbin Xie, Chao Dong, and Ying Shan. 2021. Real-ESRGAN: Training Real-World Blind Super-Resolution with Pure Synthetic Data. In 2021 IEEE/CVF International Conference on Computer Vision Workshops (ICCVW) . 1905–1914. doi:10. 1109/ICCVW54120.2021.00217 Yufei Wang, Wenhan Yang, Xinyuan Chen, Yaohui Wang, Lanqing Guo, Lap-Pui Chau, Ziwei Liu, Yu Qiao, Alex C. Kot, and Bihan Wen. 2023. SinSR: Diffusion-Based Image Super-Resolution in a Single Step. arXiv:2311.14760 [cs.CV] https://arxiv.org/abs/ 2311.14760 Zhou Wang, A.C. Bovik, H.R. Sheikh, and E.P. Simoncelli. 2004. Image quality as-sessment: from error visibility to structural similarity. IEEE Transactions on Image Processing 13, 4 (2004), 600–612. doi:10.1109/TIP.2003.819861 Rongyuan Wu, Lingchen Sun, Zhiyuan Ma, and Lei Zhang. 2024a. One-Step Effective Dif-fusion Network for Real-World Image Super-Resolution. arXiv:2406.08177 [eess.IV] https://arxiv.org/abs/2406.08177 Rongyuan Wu, Tao Yang, Lingchen Sun, Zhengqiang Zhang, Shuai Li, and Lei Zhang. 2024b. SeeSR: Towards Semantics-Aware Real-World Image Super-Resolution. arXiv:2311.16518 [cs.CV] https://arxiv.org/abs/2311.16518 Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng Wang, Bowen Zhang, Dong Chen, Xin Tong, and Jiaolong Yang. 2024. Structured 3D Latents for Scalable and Versatile 3D Generation. arXiv preprint arXiv:2412.01506 (2024). Bojun Xiong, Jialun Liu, Jiakui Hu, Chenming Wu, Jinbo Wu, Xing Liu, Chen Zhao, Errui Ding, and Zhouhui Lian. 2025. Texgaussian: Generating high-quality pbr material via octree-based 3d gaussian splatting. In Proceedings of the Computer Vision and Pattern Recognition Conference . 551–561. Kim Youwang, Tae-Hyun Oh, and Gerard Pons-Moll. 2024. Paint-it: Text-to-texture synthesis via deep convolutional texture map optimization and physically-based rendering. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition . 4347–4356. Zongsheng Yue, Kang Liao, and Chen Change Loy. 2025. Arbitrary-steps Image Super-resolution via Diffusion Inversion. arXiv:2412.09013 [cs.CV] https://arxiv.org/abs/ 2412.09013 Xianfang Zeng, Xin Chen, Zhongqi Qi, Wen Liu, Zibo Zhao, Zhibin Wang, Bin Fu, Yong Liu, and Gang Yu. 2024. Paint3d: Paint anything 3d with lighting-less texture diffusion models. In Proceedings of the IEEE/CVF Conference on Computer Vision and 
+
+ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model • 9
+
+Pattern Recognition . 4252–4262. Kai Zhang, Wangmeng Zuo, Yunjin Chen, Deyu Meng, and Lei Zhang. 2017. Beyond a Gaussian Denoiser: Residual Learning of Deep CNN for Image Denoising. IEEE Transactions on Image Processing 26, 7 (2017), 3142–3155. doi:10.1109/TIP.2017. 2662206 Richard Zhang, Phillip Isola, Alexei A. Efros, Eli Shechtman, and Oliver Wang. 2018a. The Unreasonable Effectiveness of Deep Features as a Perceptual Metric. arXiv:1801.03924 [cs.CV] https://arxiv.org/abs/1801.03924 Yulun Zhang, Yapeng Tian, Yu Kong, Bineng Zhong, and Yun Fu. 2018b. Residual Dense Network for Image Super-Resolution. arXiv:1802.08797 [cs.CV] https://arxiv.org/ abs/1802.08797 Yuqing Zhang, Hao Xu, Yiqian Wu, Sirui Chen, Sirui Lin, Xiang Li, Xifeng Gao, and Xiaogang Jin. 2025. AlignTex: Pixel-Precise Texture Generation from Multi-view Artwork. ACM Trans. Graph. 44, 4, Article 161 (July 2025), 12 pages. doi:10.1145/ 3731158 Yuanzhi Zhu, Ruiqing Wang, Shilin Lu, Junnan Li, Hanshu Yan, and Kai Zhang. 2025. OFTSR: One-Step Flow for Image Super-Resolution with Tunable Fidelity-Realism Trade-offs. arXiv:2412.09465 [cs.CV] https://arxiv.org/abs/2412.09465 ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. 10 • Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie Our GT LR 
+
+Fig. 7. Qualitative results (1/3). Each triplet shows the rendered LR input, our HR output, and the GT. In these examples, our method excels at restoring sharp text and fine textural details that are often severely degraded in the LR inputs.   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •11
+
+Our GT LR 
+
+Fig. 8. Qualitative results (2/3). Each triplet shows the rendered LR input, our HR output, and the GT. These cases further demonstrate our method’s ability to recover fine surface details and maintain texture consistency. w/o View Selection 
+
+w/ View Selection 
+
+w/o Mask Regularization 
+
+w/ Mask Regularization 
+
+w/o Mask Conditioning 
+
+w/ Mask Conditioning 
+
+Fig. 9. Ablation study of the key components. We visualize the impact of each proposed module by comparing the ablated baselines (top) with our full method (bottom). The results demonstrate that consistent view selection is crucial for geometric continuity, mask regularization is essential for detail sharpness, and mask conditioning is indispensable for seamless integration.   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. 12 •Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie
+
+# Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model 
+
+# Supplementary Material 
+
+A Limitations and Future Work. 
+
+Our framework performs well across diverse assets, yet it has sev-eral limitations. First, it struggles with models that exhibit highly complex or self-occluding geometry. A representative failure case is shown in Figure 11: on a human character, the pattern on the left shoulder (green arrow) is unobstructed and successfully super - resolved, whereas the pattern on the right shoulder (red arrow) is occluded by the armor. Consequently, the corresponding texture region (blue box), whose underlying geometry is occluded by the geometry linked to the red box, cannot obtain meaningful updates and re-mains blurry. In addition, our method does not yet support PBR. In future work, we will explore more adaptive view sampling strategies to enhance robustness on geometrically complex assets, and we will also extend the framework to support PBR material SR. VAE  
+
+> encoder
+> Pixel and Semantic
+> LoRA
+> Mask LoRA
+> VAE
+> decoder
+
++
+
+> concat
+
+-
+
+Fig. 10. Architecture of our diffusion-based local SR module. The LR image 𝐼 LR  
+
+> 𝑛
+
+is first encoded into a latent representation 𝑧 LR by the frozen VAE encode. This latent is concatenated with the binary mask 𝑀 
+
+and inputed into the U-Net. The U-Net is fine-tuned using two trainable LoRA modules and performs a single-step prediction of a latent residual Δ𝑧 ,which is subtracted from the original latent 𝑧 LR . The final, enhanced latent is then decoded by the frozen VAE decoder to produce the HR output 𝐼 HR  
+
+> 𝑛
+
+.Only the LoRA modules and the U-Net’s input layer are trained. 
+
+B More implementation details B.1 Datasets 
+
+Due to the lack of sufficient open-source rendered image datasets, we train the module on the LSDIR (Large-Scale Diverse Image Restora-tion) dataset [Li et al . 2023]. LSDIR is well-known for SR task as they contain a vast collection of HR, high-quality images with diverse content. During training, random masks are synthetically generated for each image to simulate the local SR task, and then we create pairs of LR and HR image patches using the RealESRGAN degrada-tion module [Wang et al . 2021]. For evaluation, we collect a diverse set of high-quality 3D assets from TRELLIS [Xiang et al . 2024] and Sketchfab. LR textures are synthesized by applying Gaussian blur and 4× bicubic downsampling to the original HR textures. Rendered image Output texture 
+
+Fig. 11. Limitation on severely self-occluded geometry. Our method fails on regions that are largely occluded by other parts of the model. In the rendered image (left), the left shoulder pattern (green arrow) is visible and successfully super -resolved, while the right shoulder pattern (red arrow) is occluded by the armor. In the output texture (right), the blue box marks the corresponding texture region that remains blurry due to the lack of valid observations; the red box indicates the texture of the occluding geometry. 
+
+B.2 Model Training 
+
+Our SR module is built upon the public pre-trained Stable Diffusion 2.1-base model [Rombach et al . 2022] for the ×4 SR task. The binary mask 𝑀 is downsampled to match the spatial dimensions of the latent space and applied Gaussian blur to ensure the generated content blends seamlessly with its surroundings. The Mask LoRA is applied to the shallow encoder blocks of the U-Net and the Pixel-and-Semantic LoRA is applied to the down-sampling blocks, the middle block, and the up-sampling blocks as shown in Figure 10. We configure LoRAs with a rank of 𝑟 = 8 and a scaling factor of 
+
+𝛼 = 16 . We use Adam [Kingma and Ba 2017] optimizer with a constant learning rate of 5 × 10 −5 and a batch size of 12. The model is trained for 10,000 steps. The weighting coefficients for our hybrid loss function are empirically set to 𝜆 𝑚𝑠𝑒 = 1.0 and 𝜆 𝑙𝑝𝑖𝑝𝑠 = 2.0 to strike a balance between structural fidelity and perceptual realism. 
+
+B.3 The details of the local SR model 
+
+In this section, we provide a more detailed description of the ar-chitecture and training procedure for our diffusion-based local SR module and we will release the detailed network source code in the future. 
+
+Network Architecture and Data Flow. Our enhancement module is based on a Stable Diffusion 2.1 model, specifically adapted for single-step, masked SR. The detailed data flow during a single forward pass is illustrated in Figure 10 and proceeds as follows: 
+
+Step 1. VAE Encoding: The LR input shading image, 𝐼 L R  
+
+> 𝑛
+
+, is first encoded into a 4-channel latent representation, 𝑧 L R , using the pre-trained VAE encoder. 
+
+Step 2. Mask Conditioning: The binary mask image, 𝑀 𝑛 , is downsampled to match the spatial dimensions of 𝑧 L R , This down-sampled mask is then concatenated with 𝑧 L R along the channel   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •13
+
+UV Layout PSNR ↑ SSIM ↑ LPIPS ↓ DISTS ↓
+
+xatlas 34.69 0.9519 0.0470 0.0911 45 ° 34.70 0.9511 0.0485 0.1037 60 ° 35.00 0.9521 0.0481 0.1003   
+
+> Table 3. Quantitative evaluation of robustness to UV parameteriza-tions. The minimal variance across all three metrics demonstrates that our method is robust to variations in UV island shapes and artificial seam placements.
+
+dimension, forming a 5-channel tensor that serves as the input to the U-Net. To accommodate this, the U-Net’s initial convolutional layer was replaced with a new layer accepting a 5-channel input. 
+
+Step 3. LoRA-guided Denoising: The 5-channel tensor is pro-cessed by the U-Net, whose generative process is controlled by two distinct, trainable LoRA modules integrated into its attention layers. The Pixel-and-Semantic LoRA module governs the synthesis of high-fidelity content and the restoration of core image structures. The Mask LoRA module enforces spatial conditioning, constraining the synthesis process primarily to the masked regions and promoting a seamless transition with the unmasked context. 
+
+Step 4. Single-Step Residual Prediction: The LoRA-guided U-Net performs a single forward pass to predict a latent-space residual, 
+
+Δ𝑧 . This residual is then subtracted from the initial latent represen-tation, 𝑧 L R , to compute the final high-resolution latent, 𝑧 H R .
+
+Step 5. VAE Decoding: Finally, the high-resolution latent, 𝑧 H R ,is passed through the pre-trained VAE decoder to produce the final high-resolution output image, 𝐼 H R  
+
+> 𝑛
+
+.
+
+Training Procedure. The model is trained end-to-end to optimize the weights of the two LoRA modules and the modified layer. The weights of the base Stable Diffusion U-Net and the VAE encoder/de-coder are kept frozen. The training objective is a hybrid loss function computed between the output image 𝐼 H R  
+
+> 𝑛
+
+and the ground-truth HR image 𝐼 G T  
+
+> 𝑛
+
+. As described in the main paper, this loss is a weighted combination of a masked L2 MSE loss( L𝑚𝑠𝑒 ) and a masked LPIPS perceptual loss( L𝑙𝑝𝑖𝑝𝑠 ). Further details on the training hyperparam-eters, including learning rate and batch size, are provided in the main paper. 
+
+C Sensitivity to UV Parameterization 
+
+We further evaluate the robustness of our approach to UV param-eterization by testing multiple unwrapping strategies, including Blender’s Smart UV Project(45 ° and 65 ° angle limits) and xatlas, which produce distinct seam layouts and island shapes. As shown in Table 3, our method maintains consistent visual quality across all configurations. 
+
+D Iterative Texture Refinement 
+
+Figure 12 illustrates the overview of our iterative texture SR pipeline. Starting with a LR input, our method progressively enhances tex-ture details through a sequence of rendering and SR steps. In each iteration, a specific part of the surface is selected for SR, visualized by the distinct colors on both the 3D mesh and the corresponding UV layout. This process allows the model to focus on local regions Input Iteration t Iteration t+1 Output   
+
+> Fig. 12. Pipeline overview. From the LR texture, we iteratively SR local regions across different viewpoints (each iteration highlighted in a distinct color) until the final HR texture is produced.
+
+from optimal viewpoints, gradually covering the entire surface until a complete HR texture is generated. 
+
+E The detail of the viewpoint consolidation 
+
+We consolidate island and seam viewpoints using a greedy clustering algorithm governed by two criteria. The positional threshold 𝜏 pos is defined as a fixed proportion of the 3D model bounding box diagonal, making it scale -invariant across different meshes. A viewpoint is assigned to a cluster only if both its spatial distance to the cluster centroid is below 𝜏 pos and the cosine similarity between its viewing direction and the cluster’s mean direction exceeds 𝜏 cos . This dual constraint prevents erroneous merges between viewpoints that are spatially proximate but face opposite directions, or those that share similar orientations but are distant. Then we recompute the visible face set of each merged view through frustum culling, detect and cover uncovered areas with additional camera viewpoints.   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. 14 •Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie
+
+LR Our Paint3D InvSR PiSASR OSEDiff GT 
+
+Fig. 13. Qualitative comparison with additional baseline methods. We further compare against image SR methods (OSEDiff, PiSASR, InvSR) and a texture generation method (Paint3D). Consistent with the previous evaluation, these baselines also exhibit UV boundary discontinuities or over -smoothed textures and hallucinated details (Paint3D) that deviate from the GT. In contrast, our method consistently reconstructs sharper, more faithful textures and avoids such artifacts.   
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026. Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model •15
+
+Our GT LR 
+
+Fig. 14. Qualitative results (3/3) . Each triplet shows the rendered LR input, our HR output, and the GT. These examples span both structured patterns (text, symbols) and organic surface details (such as turtle and fish skin textures), demonstrating the versatility of our method. 
+
+> ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026.
+
+16 • Shuaiwei Wang, Shi Li, Jieting Xu, Yuchi Huo, Qi Wang, Wenting Zheng, and Rengan Xie LR  Our Text2Tex MVPaint HYPIR DiffBIR GT 
+
+Fig. 15. Qualitative comparison with SOTA image SR (DiffBIR, HYPIR) and texture generation methods (MVPaint, Text2Tex). 
+
+ACM Trans. Graph., Vol. 1, No. 1, Article . Publication date: July 2026.
