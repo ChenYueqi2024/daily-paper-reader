@@ -6,52 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-25
-- 运行时间：2026-07-25 21:23:13 UTC
+- 最新运行日期：2026-07-26
+- 运行时间：2026-07-26 21:00:17 UTC
 - 运行状态：成功
-- 本次总论文数：10
-- 精读区：1
-- 速读区：9
+- 本次总论文数：4
+- 精读区：0
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦10篇论文，精读《MoGe-3》以自引导稀疏体素细化技术突破单目几何精细度，速读覆盖水下3D重建与可编辑隐式形状表示。  
-最值得关注的是MoGe-3的几何细化机制，以及Fluid-SDF中超轻量可编辑隐式形状的差异化基元方案。  
-下一步可探索将MoGe-3的细化策略与Fluid-SDF的可编辑性结合，提升3D重建的精细度与交互性。
-- 详情：[/202607/25/README](/202607/25/README)
+今日速读3篇AI前沿论文，聚焦单目深度模型小型化、3D几何图像篡改定位及动态场景视觉推理。
+
+最值得关注的是《DepthART》探索基础单目深度模型向小模型迁移，以及《When 2D Cues Fail》用可靠3D几何提升篡改定位效果，二者均为7.0分。
+
+若你关注多模态大模型，可进一步了解《ViSTR-Bench》如何从连续视觉线索中推理动态场景。
+- 详情：[/202607/26/README](/202607/26/README)
 
 ### 精读区论文标签
-1. [MoGe-3: Fine-Detail Monocular Geometry Estimation with Self-Guided Sparse Volumetric Refinement](/202607/25/2607.17967v2-moge-3-fine-detail-monocular-geometry-estimation-with-self-guided-sparse-volumetric-refinement)  
-   标签：评分：8.0/10、query:d
-   evidence：细粒度单目几何估计与自引导稀疏体素细化
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Fine-Detail Monocular Geometry Estimation with Self-Guided Sparse Volumetric Refinement](/202607/25/2607.17967v1-fine-detail-monocular-geometry-estimation-with-self-guided-sparse-volumetric-refinement)  
+1. [DepthART: Scaling Foundation Monocular Depth to Tiny Models](/202607/26/2607.17099v1-depthart-scaling-foundation-monocular-depth-to-tiny-models)  
    标签：评分：7.0/10、query:d
-   evidence：通过自引导稀疏3D细化进行精细细节单目几何估计
-2. [Fluid-SDF: Ultra-Lightweight and Editable Implicit Shape Representation via Differentiable Primitives](/202607/25/2607.18646v1-fluid-sdf-ultra-lightweight-and-editable-implicit-shape-representation-via-differentiable-primitives)  
+   evidence：将单目深度估计扩展到小型模型以支持3D理解
+2. [When 2D Cues Fail: Improving Image Manipulation Localization with Reliable 3D Geometry](/202607/26/2607.18040v1-when-2d-cues-fail-improving-image-manipulation-localization-with-reliable-3d-geometry)  
    标签：评分：7.0/10、query:d
-   evidence：3D表示学习，隐式形状建模用于生成
-3. [WAT3R: Feedforward Underwater 3D Reconstruction](/202607/25/2607.21023v1-wat3r-feedforward-underwater-3d-reconstruction)  
+   evidence：利用单目重建提供3D几何线索用于图像取证
+3. [ViSTR-Bench: Can MLLMs Reason from Continuous Visual Cues in Dynamic Scenes?](/202607/26/2607.20868v1-vistr-bench-can-mllms-reason-from-continuous-visual-cues-in-dynamic-scenes)  
    标签：评分：7.0/10、query:d
-   evidence：前馈式水下三维重建
-4. [Texture++: Elevating 3D Asset Texture Resolution with a Region-Aware Diffusion Model](/202607/25/2607.21504v1-texture-elevating-3d-asset-texture-resolution-with-a-region-aware-diffusion-model)  
+   evidence：动态3D场景时空推理基准
+4. [HyWorldVLA: A Vision-Language-Action Model with Hybrid World Modeling for Autonomous Driving](/202607/26/2607.20988v1-hyworldvla-a-vision-language-action-model-with-hybrid-world-modeling-for-autonomous-driving)  
    标签：评分：7.0/10、query:d
-   evidence：扩散模型用于3D纹理超分辨率
-5. [From Modalities to Propositions: A Language-Centric Framework for Multimodal Intelligence](/202607/25/2607.16560v1-from-modalities-to-propositions-a-language-centric-framework-for-multimodal-intelligence)  
-   标签：评分：6.0/10、query:d
-   evidence：通过原子命题实现多模态理解
-6. [STBridge: Shared-Target Alignment for Bridging Understanding and Generation in UMMs](/202607/25/2607.17140v1-stbridge-shared-target-alignment-for-bridging-understanding-and-generation-in-umms)  
-   标签：评分：6.0/10、query:d
-   evidence：桥接多模态模型中的理解与生成
-7. [DeforM: Reasoning-Guided Physics-Aware Video Generation via Spatial-Temporal Masking](/202607/25/2607.18664v1-deform-reasoning-guided-physics-aware-video-generation-via-spatial-temporal-masking)  
-   标签：评分：6.0/10、query:d
-   evidence：物理感知视频生成作为世界模型
-8. [RECO: Region-Aware Compensation for Extrinsic Perturbations in Roadside 3D Detection](/202607/25/2607.20947v1-reco-region-aware-compensation-for-extrinsic-perturbations-in-roadside-3d-detection)  
-   标签：评分：6.0/10、query:d
-   evidence：路边3D目标检测与外参补偿
-9. [Loss Landscape Topology Reveals Why Simple Baselines are Competitive at 3D Point Cloud Segmentation Under Class Imbalance](/202607/25/2607.21089v1-loss-landscape-topology-reveals-why-simple-baselines-are-competitive-at-3d-point-cloud-segmentation-under-class-imbalance)  
-   标签：评分：6.0/10、query:d
-   evidence：3D点云分割中的类别不平衡
+   evidence：自动驾驶中混合世界建模
 
 
 <div class="dpr-home-promo-card">
