@@ -1,0 +1,1035 @@
+Title: TRW: TRACE-RealWorld—An Auditable Consistency Contract for World Models as Materialized Views
+
+URL Source: https://arxiv.org/pdf/2607.21910v1
+
+Published Time: Mon, 27 Jul 2026 00:19:33 GMT
+
+Number of Pages: 50
+
+Markdown Content:
+# TRW: TRACE-RealWorld—An Auditable Consistency Contract for World Models as Materialized Views 
+
+Edward Y. Chang Stanford University 
+
+Abstract 
+
+World models let agents plan against a predicted physical state, but that state drifts as the world changes; re-observation is costly and delayed, and repair can fail. We present TRACE-RealWorld (TRW ), to our knowledge the first commitment-level consistency contract for world models. TRW treats predicted state as a materialized view and a physical commitment as a read whose authorization can expire. Typed, calibrated claims specify consequence-conditioned freshness and priced verification. Adaptive refresh generalizes dual-Kalman synchronization to consult the world when evidence could change a decision, while dependency-scoped SagaLLM compensation repairs reversible commitments invalidated after authorization. We prove that synchronization and compensation are each insufficient alone and that their composition bounds expected violations under explicit, measurable assumptions. We implement TRW in Flood-SAR, a simulated search-and-rescue workbench over real geography, and evaluate it through six pre-registered questions with frozen operating points and held-out seeds. Adaptive refresh reduces stale execution but does not dominate fixed refresh on cost, coverage, or rescue outcomes. In the composition campaign, localized repair reduces repair work by 9.56 units per mission and restoration latency by 80.7 seconds relative to global recovery, while their observed residual-violation difference is zero without establishing equivalence. Detection coverage is 0.83–0.89, and 10 of 97 invoked restorations are incomplete by mission end: the campaign estimates the theorem’s empirical slack rather than claiming to discharge its assumptions. Exact replay reconstructs a disputed dispatch. TRW thus makes a world model an auditable predictive interface rather than a self-validating source of truth. 
+
+# 1 Introduction 
+
+World models are the current bet for grounding agentic AI in physical reality: an internal, digital replica of the world on which an agent can plan, predict, and rehearse interventions LeCun [2022], Hafner et al. [2023], NVIDIA [2025]. The replica exists because the physical world does not permit experimentation: no operator can flood a levee to see which routes survive, so the do-operation of causal reasoning is affordable only inside the model. This creates the discipline’s least glamorous, most consequential problem: the digital and physical worlds drift apart the moment the agent stops looking. How should they be kept in sync, when continuous synchronization means paying for a drone sortie or a crew report at every tick, and updating every k seconds is too slow for the hour the levee breaks and wasteful for the days it holds? We present TRACE-RealWorld (TRW ), to our knowledge the first commitment-level consistency contract for world models: typed semantic claims, consequence-conditioned freshness, priced heterogeneous verification, transactional repair, and replayable provenance, bound together so that a commitment is authorized, re-verified, or 1arXiv:2607.21910v1 [cs.AI] 24 Jul 2026 repaired under one auditable discipline. The theory it establishes is that the deployment-critical property an operational world model must control is consistency between the model and the world it models, with two complementary halves: no refresh policy alone can drive violations to zero at bounded price while meeting a service obligation, no compensation policy alone can either, and their composition yields a conditional bound, with every remaining assumption failure priced as a named, measurable consistency debt, the empirically instantiated inputs reported in Section 7 (Theorems 1 through 3, Section 4). The treatment is database discipline, where the problem has a fifty-year-old name Gray and Reuter [1993], Gupta and Mumick [1995], Huang et al. [1994], Olston and Widom [2000, 2002]: the predicted world state is a materialized view over reality, an observation is a partial refresh, a planned action is a read whose validity can expire while the world changes, and when to look becomes a view-maintenance policy that must answer for its choices. The investment in the replica side is enormous: joint-embedding architectures plan robot tra-jectories from raw video Assran et al. [2025], latent-imagination agents master control suites Hafner et al. [2023], Hansen et al. [2022], and generative environments Bruce et al. [2024] and physical-AI foundation models NVIDIA [2025] anchor the roadmaps of major laboratories. Nearly all of it targets predictive quality; the data-management questions underneath, how fresh a representation must be for a given use, at what verification cost, with what audit trail, are largely unasked. This paper asks them with an abstraction this community already owns, and proves why predictive quality cannot answer them: within its declared dynamics, the stale-execution floor of Theorem 1 is predictor-independent (Corollary 1): conditional on the same observation filtration, no richer predictor removes the final latency window, so closing it is a contract obligation rather than a modeling one. The deployment-correctness question is not whether the view is accurate at one instant, but whether a read served from it remains justified while the base keeps changing, and whether the system can show, after the fact, why it believed the view fresh enough. Safety is the sharpest stake; a stale read also breaks chained commitments, wastes resources on invalidated plans, and blurs responsibility. The problem recurs wherever agents commit against a drifting world; disaster response, autonomous logistics, and power distribution all share one structure: observation is priced, commitments are hard to reverse, staleness propagates down dependency chains, and after an incident someone must reconstruct what the system believed and why it acted. For illustration and experiments we use Flood-SAR, a search-and-rescue planning and reasoning workbench we implemented over real geography, as the running example; the geography, hydrology rasters, and network are real, while missions, channels, failures, and outcomes are simulated. The contract abstraction is not water-specific, though only Flood-SAR is evaluated; Section 8 discusses how far the illustrations generalize. What an application cares about lives above the sensor: not what the water level is, but whether to send the boat through the channel now or take the longer, safer route. The maintenance problem decomposes into three questions: semantic elevation , how raw measurements become typed claims such as “edge E12 impassable for rescue boats” with calibrated adequacy attached (Section 3); signal economy , when the system must look at the world at all and through which priced channel (Section 6); and consequence admission , which claims at what freshness may authorize which class of action (Section 6.5). 
+
+TRACE-RealWorld answers all three. It extends TRACE’s typed, versioned, append-only records Chang and Chang [2026] to a world that keeps changing after the snapshot is taken: 2state, event, and practical claims make the maintained object a calibrated, falsifiable claim rather than a number. Each claim declares its own refresh condition, four trigger families decide when the world must be consulted, and a value-of-information rule decides through which channel, generalizing dual-Kalman stream management Jain et al. [2004] from query precision to commitment precision; in the regime a model-conditional lemma covers, the re-verification deadline is derived from a consequence-scaled regret budget rather than configured, and outside it the deployed guards are declared and empirically validated. A deterministic gate scales required freshness and confidence to the action’s reversibility and loss, and the decision itself is a recorded, re-litigable object. The held-out result is a priced trade-off, stated at the outset so the evaluation reads as designed rather than discovered: adaptive refresh cuts stale executions against the strongest fixed interval and verification spend against the validity clock, and pays in coverage and completed opportunities against that fixed interval. The contribution is not that adaptive refresh wins; it is that the choice among refresh policies becomes an explicit, priced, auditable decision instead of a configuration accident. 
+
+TRACE-RealWorld also occupies a definite place in a reasoning stack, sketched in Appendix A. Below it sits TRACE Chang and Chang [2026], the memory facility: typed, versioned, append-only records. Above it sits planning: schedules are chains of commitments with transactional semantics in the sense of SagaLLM Chang and Geng [2025], the planning layer of our broader program on multi-LLM collaborative intelligence and System-2 reasoning Chang [2025, 2026], and the layers interact through conditions. Semantic elevation aggregates signals into conditions; conditions license decisions; and when a condition changes during the execution of a prior decision, the river closing after the boat is dispatched, the decision must be invalidated, rolled back, or compensated by the planning layer. TRACE-RealWorld is not a juxtaposition of synchronization and compensation; it closes a loop that both lines of work, each ours, left open. Synchronization can prevent some stale commitments but cannot eliminate violations at bounded observation cost (Theorem 1); compensation can repair reversible consequences but cannot undo irreversible actions (Theorem 2). TRW converts the two mechanisms, two decades apart in our own work, the preventive half in dual-Kalman stream management Jain et al. [2004] and the corrective half in SagaLLM Chang and Geng [2025], into a single commitment-level consistency contract; and the new object is the thing being protected, the physical commitment itself, with its gate, deadlines, reversibility classes, affected-set semantics, evidence record, and measurable violation bound. This also delimits the boundary of TRACE-RealWorld : it neither learns the predictor nor constructs the plan. Its input is what a world model outputs, predicted state with uncertainty, support, and out-of-distribution scores, and its output is the set of claims those predictions justify, with calibrated adequacy, validity intervals, and refresh conditions attached. The composition, not any component, is the claim: TRW binds predictive-view synchroniza-tion and dependency-scoped saga compensation into one deployed, pre-registered contract. In summary, TRACE-RealWorld makes the following contributions: 1. a theory of digital-physical consistency over the materialized-view formulation: insufficiency theorems for synchronization alone and for compensation alone, a filtration-conditional predictor-independence corollary, a composition theorem stated at the interface, and a cost corollary that predicts the measured trade-off regimes (Sections 3 and 4); 2. the commitment-level contract and its mechanisms: typed claims with declared refresh conditions, Kalman-gated adaptive refresh with the model-conditional deadline lemma and 3scheduler separation, and consequence-scaled gate semantics integrated with transactional commitment chains (Sections 6 and 6.5); 3. the Flood-SAR workbench and its pre-registered evaluation: no-refresh, fixed-interval, validity-clock, and adaptive refresh under a declared-observables discipline, closed by the RQ6 composition campaign that crosses refresh policy with recovery discipline to measure the contract end to end (Sections 5 and 7). 
+
+# 2 Related Work 
+
+The term world model is currently overextended: four capabilities travel under one phrase. A predictor estimates the next state; a simulator generates candidate futures; a digital twin 
+
+maintains an identity-linked replica synchronized with a physical entity; and an operational world model additionally knows when its claims expire, when and through which channel to re-observe, which actions its claims may authorize, and how to recover when a late change proves them wrong. Most prominent world models achieve the first two levels; digital-twin architectures approach the third; TRACE-RealWorld supplies the contract that defines the fourth, and the lineage below reads against that distinction. 
+
+Synchronizing replicas, before the LLM era. Digital-physical synchronization itself is not new. Best-effort cache synchronization refreshes when cached values diverge past a precision bound Olston and Widom [2002]; adaptive filters allocate update precision to query needs against communication cost Olston et al. [2003]; and our dual-Kalman stream architecture, the direct mechanism ancestor, contacts the source only when innovation threatens declared query precision Jain et al. [2004]. Divergence caching and precision-constrained replication trade communication for bounded approximation Huang et al. [1994], Olston and Widom [2000], adaptive view maintenance prices refresh against benefit Gupta and Mumick [1995], the digital-twin paradigm posed continuous synchronization for flight hardware Glaessgen and Stargel [2012], and the Age of Incorrect Information replaced raw staleness with downstream incorrectness Maatouk et al. [2020]. What all of these maintain is a number, cache, estimate, or replica. TRACE-RealWorld maintains a typed, calibrated claim that licenses an irreversible action, which changes what freshness must mean and what a late failure must trigger; and unlike an ordinary view, the base cannot be read transactionally. 
+
+Event triggers and information value. Event- and self-triggered control replace periodic sampling with state-dependent communication or actuation ˚Astr¨ om and Bernhardsson [1999, 2002], Tabuada [2007], Heemels et al. [2012], and value of information prices an observation by its expected decision improvement Howard [1966], Kaelbling et al. [1998], Krishnamurthy [2016]. Our trigger is not claimed as a new control law: the contribution binds these ideas to typed claims, declared observables, a deterministic consumer gate, and durable commitment records. 
+
+Modern world models, read by level. Latent-imagination and joint-embedding systems learn state for control Hafner et al. [2023], Hansen et al. [2022], LeCun [2022], Assran et al. [2025], and generative environments and physical-AI foundation models extend the agenda Bruce et al. [2024], NVIDIA [2025]: strong predictors and simulators, levels one and two, with no 4freshness, priced re-observation, or commitment semantics. The learned line divides by function: planning-oriented latent models roll compact state forward Hafner et al. [2019], Schrittwieser et al. [2020], Hansen et al. [2024], an uncertainty-aware branch estimates where rollouts degrade Chua et al. [2018], with RWM-U propagating ensemble epistemic uncertainty through long horizons on real robots Li et al. [2025], directly relevant to our support, OOD, and uncertainty inputs but not synchronizing the model during deployment, and a filtering branch learns the correction step itself Revach et al. [2022], Karl et al. [2017]. At level three, a data-centric digital-twin architecture aligns virtual and physical entities through telemetry, analysis, and actuation Freitas et al. [2026], without decision-level freshness, priced channel choice, or transactional repair. Closest to level four, sensing clocks convert a certified world model’s validity horizon into a proactive re-sensing deadline Wang [2026]: they answer when to sense, while TRACE-RealWorld 
+
+additionally asks through which channel, for which commitment, at what consequence level, and what happens after a late failure; and Pre-VLA verifies candidate actions before physical execution Sun et al. [2026], a gate-shaped neighbor that neither maintains changing evidence nor repairs dependent commitments. Because confidence is part of the contract, uncertainty here is not a penalty shaping a planner’s objective but an admission condition a deterministic gate checks and records Guo et al. [2017]. 
+
+Auditability and transactional plans. TRACE supplies typed, versioned reasoning records Chang and Chang [2026]; SagaLLM and classical sagas structure dependent plans and compensation Chang and Geng [2025], Garcia-Molina and Salem [1987]; Mnemosyne governs episodic memory Chang et al. [2026]; the multi-agent reasoning program these components serve is developed in Chang [2025, 2026]; and runtime verification and database reenactment reconstruct behavior from recorded state Leucker and Schallhart [2009], Arab et al. [2018]. The position, stated once: prior work synchronizes numerical replicas, schedules sensing, propagates model uncertainty, or verifies candidate actions; TRACE-RealWorld binds these functions at the commitment level, where semantic freshness, consequence, channel choice, transactional repair, and replayable provenance form one consistency contract. 
+
+# 3 The TRACE-RealWorld Contract 
+
+This section answers the semantic-elevation question: it fixes the framing under which a world model is a maintainable object (Section 3.1), then gives the record contract that realizes the framing (Sections 3.2 and 3.3). 
+
+3.1 World models as materialized views 
+
+We state the framing once, precisely, and use it throughout. 
+
+Definition 1 (World view) . Let St denote the state of the physical world at time t, observable only through priced channels C = {1, . . . , m }, where channel j returns y ∼ pj (· | St) at cost cj . A world view is a belief bt over St maintained by a predictor: between observations, bt+1 = f (bt, a t)
+
+advances the view without reading the base (incremental maintenance under a motion model); an observation yt through any channel conditions the view (partial refresh). 
+
+5Definition 2 (Commitment read) . A commitment of class c is a read against the view that authorizes a durable action over horizon h. The class declares a precision requirement: bounds on the view’s calibrated uncertainty, support, and out-of-distribution scores, and a maximum evidence age, that the read must satisfy at authorization time and that the view must be expected to satisfy over [t, t + h].
+
+Definition 3 (Refresh condition) . A refresh condition is a triple ρ = ( ω, θ, Cρ): a declared observable ω, a tolerance θ, and a channel menu Cρ ⊆ C . The tuple parameterizes the divergence clause: the condition fires when the declared discrepancy dω between predicted and observed evidence on ω exceeds θ. The discrepancy is type-specific and the claim declares it: for numerical observables dω(u, v ) = |u − v|, absolute error; for categorical and semantic claims, route-open predicates among them, dω(u, v ) = 1[u̸ = v], so any θ < 1 fires on disagreement. Two further clauses fire from fields of the claim and the pending commitment rather than from ρ: when the view’s predicted adequacy for the pending commitment class falls below that class’s declared requirement, and when the claim’s validity interval no longer covers the commitment horizon. 
+
+Definition 4 (Decision margin) . For a pending commitment with admissible alternative actions 
+
+A and loss L, the margin of belief b is m(b) = min a′̸ =a∗ 
+
+> b
+
+Es∼b[L(a′, s )] − Es∼b[L(a∗ 
+
+> b
+
+, s )] , the expected-loss gap between the chosen action and its best alternative, with |A| ≥ 2 and ties in a∗
+
+> b
+
+broken by a fixed declared order on A. If only one admissible action remains, m(b) = + ∞ by convention: refresh relevance vanishes and the empty-alternative case is governed by escalation, not refresh. The set of beliefs where the margin vanishes is the boundary at which the optimal commitment switches. 
+
+Claim 1. Under this framing, the freshness-dependent safety question of agentic world models is a view-maintenance problem with two properties not jointly represented in classical caching: refreshes are priced physical acts with channel choice, and maintenance decisions must themselves be auditable. TRACE-RealWorld is a maintenance policy and an audit contract for exactly this setting. 
+
+Definition 4 carries the paper’s semantic weight: refresh relevance is a property of the pending decision, belief, loss, and available channel, not of signal variance alone. What justifies polling the gauge is whether an observation could move the belief across the boundary at which the optimal commitment switches (Section 6.3); the quantity maintained is the justification of a commitment, and signal refresh is only its means. 
+
+3.2 World-state claims 
+
+A world-state claim names its subject (a route, dock, asset, incident, or schedule), a predicted value, the horizon over which it is intended to hold, calibrated uncertainty, supporting evidence, and a refresh condition. Its verdict is a record field drawn from the frozen TRACE vocabulary (accept , qualify , revise , defer , reject , no_argument ); what a consumer may do with the record is a separate decision (CLEAR, QUALIFY, HOLD, BLOCK, ESCALATE) written to 
+
+consumer_actions after the consumer reads it. The distinction is load-bearing for audit: defer 
+
+is a property of the claim’s warrant, HOLD is a plan-gate action, and collapsing them destroys the trail. The base type is the frozen TraceRecord of TRACE schema v1.0 Chang and Chang [2026], with its typing, evidence, outcome, and infrastructure fields; the schema is versioned, fields 6are added by version and never silently mutated, and every consumer declares the versions it reads. TRACE-RealWorld adds nothing to the frozen core. It uses the schema’s own extension path: the versioned experimental profile, which already carries declared_observables and 
+
+attribution_status , gains two sibling fields: 
+
+> ExperimentalProfile = { declared_observables, attribution_status, refresh_condition, validity_interval}
+
+The field refresh_condition instantiates Definition 3; a validity_interval bounds the wall-clock span over which the predicted value is asserted, and a commitment extending past 
+
+valid_until cannot be cleared on that claim alone. 
+
+Predictor-version provenance. Every claim derived from the predictive view identifies the model that produced it ( predictor_version , calibration_version , timestamp, claim family, adequacy status), and a predictor update is itself a recorded structural event. The governing principle is that online adaptation does not inherit authority: consequence-sensitive commitments remain held until the new version satisfies the applicable adequacy requirement, with what a superseded-version claim may still authorize decided by the gate (Section 6.5). 
+
+3.3 Refresh conditions are declared observables 
+
+The unification that makes refresh auditable fits in one sentence: an innovation tolerance is a pre-declared observable with a healthy signature (innovation within tolerance, claim confirmed at passive cost) and a pathological one (tolerance exceeded, claim revised append-only), so a refresh decision is falsifiable and attributable to its declared condition rather than an anonymous scheduler, and the refresh policy stops being an operational knob and becomes an auditable object. 
+
+# 4 A Theory of Digital-Physical Consistency 
+
+The abstract stakes a claim that this section makes precise: consistency between a world model and the world is the property to guarantee, synchronization plus compensation yields a conditional guarantee of it under named, measured assumptions, and neither half alone can. We first say what consistency means for a view that authorizes physical action, then name the assumptions under which the guarantee is provable, and prove three results. Theorem 1 shows that no refresh policy alone, under a nonzero obligation to execute, drives consistency violations to zero at bounded price, and that the obstruction is independent of predictor quality. Theorem 2 shows that compensation alone cannot either: it leaves the irreversible floor untouched. Theorem 3 shows that the composed contract does, reducing residual violations to a sum of additive, measurable consistency debts. A corollary prices the guarantee and predicts the trade-off regimes that Section 7 measures. Full proofs follow the statements. 
+
+4.1 Consistency and its price 
+
+Definition 5 (Stale execution) . Fix a commitment whose justifying claim asserts value ˆω for its declared observable ω within tolerance θ (Definition 3). The commitment executes stale if at its 
+
+7execution time te the world violates the assertion, dω(ω(Ste ), ˆω) > θ under the claim’s declared type-specific discrepancy (Definition 3); for numerical observables this is the absolute-error case 
+
+|ω(Ste ) − ˆω| > θ , the case the analytic model instantiates. Staleness is a property of the world at execution, not of the belief, and it is decidable after the fact from the record and ground truth. 
+
+Definition 6 (Consistency violation) . A consistency violation is a commitment that executes stale and whose declared invariants have not been restored by mission end through any registered corrective mechanism. Violations are the composed system’s failure unit: prevention failed before execution, and every registered correction failed, or none applied, after it. The definition is mechanism-neutral: localized saga repair and global recovery are both registered mechanisms, so neither arm of RQ6 wins by terminology. 
+
+Definition 7 (Two-tier consistency) . A run is consistent at level η with recovery endpoint 
+
+T if (i) every irreversible commitment executes with action-specific flip risk at most η under the controller’s observation filtration (execution consistency), and (ii) every stale execution of a reversible commitment has its declared invariants I restored by T through a registered corrective mechanism, over the computed dependency-scoped affected set (complete under A6-C, minimal under A6-S). Flood-SAR declares T as mission end, matching the violation definition and observable O3; restoration latency relative to detection is recorded and reported (O3), but a latency-graded refinement is not part of the theorem’s endpoint (eventual consistency). 
+
+Definition 8 (Consistency cost) . For a policy π over a mission, J(π) = E[ Csync + Ccomp + Lviol ]:the priced observations that fired, the compensations executed (asset displacement, re-planning, re-timing), and the losses of uncompensated stale executions. The contract’s obligation is not to minimize any single term; it is to bound J while making each term attributable. 
+
+Throughout, Nirr and Nrev denote the numbers of irreversible and reversible commitments a mission executes, classified by the gate’s declared reversibility field. 
+
+4.2 Assumptions 
+
+Each assumption is named once, used by the theorems below, and checked somewhere specific; none is hidden inside a mechanism. 
+
+A1 (Calibration validity, marginal). Within declared support, the calibrated uncertainty attached to a claim is correct at the marginal level the deployed evidence establishes: expected calibration error at most εcal over the declared mixture, per horizon and per consequence class. This is a marginal statement, not per-claim conditional coverage, and the theorems transport exactly this much; a conditional-coverage certificate would strengthen Theorem 3(i) and is declared future work, using seed-blocked or time-aware calibration, since ordinary split conformal coverage does not automatically certify dependent mission trajectories. Checked marginally by the calibration precondition (Section 7.2) and on the gate-cleared stratum by O6, which supplies εU
+
+> cal
+
+.
+
+A2 (Bounded latency). Sensing-to-authorization latency is at least δ > 0 on every channel, and invalidation detection completes within δd. The floor δ is a fact about physical channels. The ceiling δd is a detection-latency property, measured by RQ6 as the time from a registered world shock to the detected invalidation, reported with a predeclared upper confidence bound; the repository and gate overheads of Section 7.5 are a component of that path, not a substitute for the measurement. 8A3 (Compensability). Every reversible step Ti of a chain registers a compensating transaction 
+
+Ci whose successful execution restores I over its affected set; irreversible steps are declared irreversible and are gated, not compensated. Enforced by construction; exercised by RQ6 (observable O3). 
+
+A4 (Acyclic dependencies). The dependency relation D = {(oi, o j , c ij )} of Section 6.7 is a directed acyclic graph. Enforced by the scheduler’s construction. 
+
+A5 (Isolation). Compensation executes with serial equivalence over the affected set: no in-terleaved commit reads or writes the set mid-repair. Inherited from SagaLLM’s isolation guarantee Chang and Geng [2025]. 
+
+A6-C (Dependency completeness). Every true dependency among commitments appears in 
+
+D, so the computed dependency-scoped affected set contains every truly affected commitment. Completeness is what restoration correctness requires: a missed dependent may remain unrepaired and prevents a restoration guarantee. Measured by RQ6’s affected-set recall (O7). 
+
+A6-S (Dependency soundness). No spurious dependency appears in D, so the computed set contains nothing the revision leaves untouched. Soundness is what minimality and repair economy require; restoration correctness does not need it. Measured by RQ6’s affected-set precision (O7). Both halves are declared architectural invariants, tested rather than assumed: services exchange reasoning state only through records, every commitment cites its justifying claims, and citation-closure checks run in the contract tests; the campaigns measure the invariants on the incident stream and do not establish them generally. We write A6 for the conjunction of A6-C and A6-S. 
+
+4.3 Neither half suffices 
+
+Common setup. The substate follows dx t = σ dW t with σ > 0. Every observation channel has cost at least cmin > 0 and latency at least δ > 0 (A2), so the controller’s observation filtration Fobs 
+
+> t
+
+is generated by observations taken at times s ≤ t − δ: an observation contributes to a decision at 
+
+t only if issued by t − δ. A refresh policy is any channel-selection and timing rule adapted to Fobs .For Theorem 1(ii) we additionally use the demand condition stated there: commitments may require execution at any time in the horizon, so the policy cannot concentrate its observations around known execution epochs. Throughout, Φ is the standard normal distribution function and zp = Φ −1(1 − p). Throughout the analytic model, an irreversible commitment’s declared tolerance is boundary-anchored : the claim asserts that the state lies on the safe side of the action’s decision boundary at observed distance d, so its stale event (Definition 5) is the one-sided terminal exceedance toward the boundary and coincides with the action-flip event, matching the gate’s flip-risk semantics. A two-sided tolerance band would add a safe-side exceedance that flips no action; no result below bounds that term. 
+
+Theorem 1 (Insufficiency of synchronization) . Let a substate follow dx t = σ dW t with σ > 0,let every observation channel have cost at least cmin > 0 and latency at least δ > 0 (A2), and consider a commitment whose last usable observation found boundary distance d > 0. Then, for any refresh-only policy: (i) conditional on executing the commitment without evidence newer than te − δ, the stale-execution probability is at least pδ = Φ 
+
+
+
+−d/ (σ√δ)
+
+
+
+> 0, regardless of 
+
+9expenditure, and if the policy must execute with probability at least s > 0 on this fixed-distance stratum, its unconditional stale-execution probability is at least s p δ; and (ii) relaxing the latency floor to zero (the case most favorable to refresh), consider a service stratum in which every authorization’s observed boundary distance is at most d, commitments may require execution at any time in a horizon H with demand instants not signaled in advance (the policy cannot co-locate an observation with an execution), and the service must remain available throughout; sustaining stale-execution probability at most p on this stratum costs at least cmin Hσ 2z2 
+
+> p
+
+/d 2 with 
+
+zp = Φ −1(1 − p), which diverges as p → 0. No refresh-only policy under a nonzero service obligation can therefore drive stale-execution probability to zero at bounded observation cost; abstention is not a loophole but the gate’s own third option, HOLD, priced as lost coverage. Proof of Theorem 1. (i) Fix a commitment executed at te and let to ≤ te − δ be the time of the last observation that contributes to Fobs  
+
+> te
+
+, with observed boundary distance d > 0 on the safe side. The increment xte − xto is Gaussian with mean zero and variance σ2(te − to) and is independent of Fobs  
+
+> to
+
+by the independent increments of W . The stale event of Definition 5 is the terminal-exceedance event, the increment leaving the state past the boundary at execution time (an endpoint statement; no first-passage claim is made), whose conditional probability is therefore Pr 
+
+
+
+stale | F obs 
+
+> te
+
+
+
+= Φ 
+
+ −dσ√te − to
+
+
+
+≥ Φ
+
+ −dσ√δ
+
+
+
+= pδ,
+
+using te − to ≥ δ and monotonicity of u 7 → Φ( −d/ (σ√u)). This is the conditional statement: conditional on executing at te with no evidence newer than te − δ and last observed distance 
+
+d, the stale-execution probability is at least pδ. If the policy must execute with probability at least s > 0 on this fixed-distance stratum, the law of total probability gives an unconditional stale-execution probability of at least s p δ. Additional expenditure buys observations no later than te − δ: it can change the observed distance d, but it cannot shrink the final window below 
+
+δ. Since pδ does not depend on the policy, no refresh-only policy escapes the conditional floor, and none under the service obligation escapes the unconditional one. (ii) Set δ = 0 and fix a target p ∈ (0 , 12 ). At an execution whose staleness age is s, the observed boundary distance is at most d by the stratum hypothesis, so the stale probability is at least Φ( −d/ (σ√s)) by the identity of part (i); keeping it at most p therefore requires d/ (σ√s) ≥ zp,that is s ≤ kp := d 2/(σ2z2 
+
+> p
+
+). Under the demand condition a commitment may require execution at any t ∈ [0 , H ], the service must remain available throughout, and demand instants are not signaled, so the policy cannot concentrate observations at execution epochs and must keep the observation age at most kp at every time in the horizon; any policy doing so issues at least 
+
+⌈H/k p⌉ observations, each costing at least cmin , for a total of at least cmin Hσ 2z2 
+
+> p
+
+/d 2. As p → 0, 
+
+zp → ∞ and the bound diverges. The conclusion is conditional on execution: a policy that abstains has no stale executions and no violations, at the price of the declared service obligation; under any nonzero obligation to execute, zero stale-execution probability at bounded observation cost is unattainable by refresh alone. 
+
+Corollary 1 (Predictor independence, filtration-conditional) . Conditional on the same ob-servation filtration and on the independent-increment dynamics of Theorem 1, the floor pδ is predictor-independent: the terminal-exceedance event is driven by increments no functional of the filtration can access, so every predictor faces the same floor at the same observed distance. A predictor with genuinely richer inputs, upstream gauges, forecasts, spatial correlates, changes the 
+
+10 filtration itself and can improve the observed-distance distribution; what it cannot do is remove the final latency window on the channels it actually has. Within that scope, synchronization is a contract obligation of the channel, not a capability gap a larger encoder closes. Proof of Corollary 1. The terminal-exceedance event in part (i) is a function of the increment over ( to, t e], which is independent of Fobs  
+
+> to
+
+. Any predictor computes its belief as a functional of the observation history and its priors, so for every predictor the conditional law of the increment given that history is the same, and the conditional stale probability given the last observed distance d is Φ( −d/ (σ√te − to)) identically. The floor pδ therefore binds uniformly over predictor classes. A better predictor can influence which commitments are attempted and at what observed distances; it cannot alter the floor conditional on the distance, which is the sense in which synchronization is an obligation of the channel rather than a property of the model. 
+
+Theorem 2 (Insufficiency of compensation) . Under the setting of Theorem 1, consider any policy whose only consistency instrument is correction. Then: (i) correction cannot change the stale execution of an already executed irreversible commitment: under the model’s exogenous observable dynamics and an execution schedule held fixed across recovery layers (the counterfactual O1 declares), the executed-stale count is invariant to the recovery layer, and each executed irreversible commitment at observed boundary distance di retains the floor pδ,i , so expected violations are at least P 
+
+> i
+
+pδ,i , and no compensation term reduces them, because compensation acts after execution and irreversible actions register no Ci (A3). (ii) For a fixed reversible commitment exposed over a single inter-observation interval from the same observed boundary distance, the probability that its claim is outside its declared tolerance at the check that ends the interval, and hence is registered there as an invalidation carrying a repair obligation for its committed dependents, is nondecreasing in the interval length k; no bound on executed compensation cost is claimed, because an obligation becomes an executed repair only through the detection and invocation machinery that Theorem 3(iii) prices separately. Correction alone therefore leaves the irreversible floor untouched and, interval for interval, converts the price of consistency into repair obligation rather than into a guarantee. Proof of Theorem 2. (i) The stale event of Definition 5 is determined by the world state and the claim at execution time, both of which are fixed before any compensation acts; with the model’s observables exogenous to compensation and the execution schedule held fixed across recovery layers, removing or installing the compensation layer therefore changes no executed-stale count. (RQ6 declares this invariance as observable O1’s healthy signature, so the proofs and the campaign test the same identity.) Irreversible commitments register no compensating transaction (A3), so an executed-stale irreversible commitment is uncompensated at mission end and is a violation by Definition 6. Its probability is at least pδ,i , the floor of Theorem 1(i) at commitment 
+
+i’s own observed boundary distance. Linearity of expectation over the executed irreversible commitments gives P 
+
+> i
+
+pδ,i , hence the coarser bound Nirr min i pδ,i .(ii) Let Ek be the event that the claim’s observable lies outside its declared tolerance band at the check ending an interval of width k: the terminal-exceedance event the checker actually evaluates, not a first-passage event. For zero-drift Brownian motion the terminal discrepancy is distributed as σ√k |Z| with Z standard normal, stochastically increasing in k, so Pr (Ek) is nondecreasing in k; and because the terminal variance grows without bound, Pr (Ek) → 1 as 
+
+k → ∞ . A registered terminal exceedance at a check is exactly an invalidation, so for the fixed 11 commitment of the statement Pr (Ek) is the probability of carrying a repair obligation at the check. The result deliberately stops at the obligation: an excursion that returns inside tolerance before the check is never registered, and whether a registered obligation becomes an executed, costed repair depends on the detection and invocation machinery that Theorem 3(iii) prices separately, so no bound on executed compensation cost is claimed. The claim is per commitment and per interval: aggregating to a mission-level load would require workload assumptions the statement does not make, on how many commitments are exposed, over how many intervals, and at what observed distances, so no mission-level monotonicity is asserted. Correction alone therefore leaves the irreversible floor of part (i) untouched and, interval for interval, converts the price of consistency into repair obligation rather than into a guarantee. 
+
+4.4 The composition theorem 
+
+The theorem is stated at an interface, so the division of labor between the analytic lemma and the deployed system stays visible. 
+
+Definition 9 (Valid deadline oracle) . A deadline oracle for an irreversible commitment authoriz-ing action ai returns, at each verification epoch ti, a deadline τi > 0 such that the action-specific flip risk remains at most η(ai) on [ti, t i + τi] under the controller’s observation filtration. The oracle is valid when this bound holds for the true dynamics. 
+
+Lemma 1 (Section 6.4) exhibits a valid oracle in closed form, τi = d 2 
+
+> i
+
+/(σ2z2
+
+> η(ai)
+
+), under zero-drift Brownian dynamics, exact observations, and its two-action loss. Outside that regime the deployed guards and declared thresholds of Section 6.3 implement the same interface, and their validity is an empirical assumption the evaluation checks rather than a fact the lemma supplies. The oracle and A1 do different work: the oracle bounds flip risk at the signal level, A1 transports that bound to the semantic claim the gate reads. The selective-calibration analysis (O6, Section 7.4) prices the transport: all 12 strata meet their floors, upper bounds run 0.060 to 0.131, so εU 
+
+> cal
+
+= 0 .131, and Theorem 3(iii) inherits the looser constant. 
+
+Theorem 3 (Synchronization plus compensation is consistency) . With assumptions named per part below, if every irreversible commitment class is served by a valid deadline oracle (Definition 9), the composed contract, the gate honoring the oracle’s deadlines over chains with saga compensation (Section 6.7), guarantees, for missions drawn from the declared mixture: (i) 
+
+Execution consistency (uses oracle validity, gate enforcement, and A1): on every mission, no irreversible commitment executes on evidence older than its deadline τi, a deterministic property of the gate; its flip risk at execution is at most the consequence-scaled threshold η(ai) under oracle validity; and the transport of that bound to the claim level holds in expectation over the declared mixture, which is all A1’s marginal scope licenses. (ii) Eventual consistency (uses A2 through A5 and A6-C, with A6-S additionally for minimality): every invalidation surfaced within 
+
+δd triggers compensation over the computed dependency-scoped affected set; by induction on the topological order (A4), with A3 and A5, under A6-C the traversal reaches every truly affected commitment and, conditional on each invoked compensation succeeding, restores I; if A6-S also holds, the repair is additionally minimal and touches nothing outside the true set. Repairs that fail to restore by mission end are exactly what part (iii)’s failure term counts. (iii) Violation bound with measured slack (without A2 or A6-C; conditional on part (i)’s oracle and A1 bound for the irreversible term, on A3 and A5 for invocation semantics, and on the registered empirical 
+
+12 bounds): every reversible violation is classified by the first stage that failed, so over missions drawn from the declared mixture, 
+
+E[V ] ≤ E[Nirr ] η + εU
+
+> cal
+
+ + E[Mdet ] + E[Mdep ] + E[Minv ] + E[Nrep ] f U
+
+> restore
+
+,
+
+where η is the largest applicable flip-risk threshold, εU 
+
+> cal
+
+is the pre-registered one-sided upper bound on gate-cleared-stratum calibration error, Mdet counts reversible violations whose invalidation was undetected by mission end, Mdep counts those whose invalidation was detected but whose commitment the computed affected set missed, Minv counts those whose commitment the computed affected set contains but for which no restoration invocation was ever scheduled, and Nrep is the number of invoked restorations. The partition is exhaustive by construction, with no invariant assumed: the invocation invariant , a detected invalidation atomically enqueues exactly one restoration invocation per member of the computed affected set, is an architectural property of the traversal checked by the workbench’s contract tests, and it predicts Minv = 0 ; a scheduling failure to invoke is not a gap in the theorem but an occupant of the invocation-scheduling cell the bound already carries. Two further properties make the last term valid. First, each invoked restoration targets exactly one commitment, because the saga pairs one compensating transaction with one step, so a failed invocation contributes at most one violated commitment. Second, frestore is defined at the declared mixture as the ratio E[Frestore ]/E[Nrep ] of failed to invoked restorations, so 
+
+E[Nrep ] frestore equals the expected failed-invocation count identically and no mission-conditional rate is assumed; f U 
+
+> restore
+
+is the registered one-sided upper bound on that ratio. The calibration constant is read the same way: εU 
+
+> cal
+
+bounds the claim-weighted gate-cleared calibration error over the mixture (O6’s pooled estimand), so the irreversible term is a mixture-level product, not a per-mission conditional claim. Each term is a named, additive consistency debt readable from the record: A2’s slack is Mdet , A6-C’s slack is Mdep , the scheduler’s slack is Minv , and none of these assumptions is needed for the bound, only for the debts to vanish. The middle terms cannot be folded into the restoration term: Mdep and Minv count commitments for which no restoration was invoked, while frestore is defined over invoked restorations, so a non-invoked miss can never enter that denominator, and the five-term form is the one this paper instantiates. In the empirical factors the bound is empirical-conditional, not analytic; each is a record-defined measurable quantity, not a modeling residue, with the empirically instantiated inputs identified below. Proof of Theorem 3. (i) By validity of the deadline oracle (Definition 9), after a verification epoch at ti while authorizing ai, the action-specific flip risk remains at most η(ai) on [ ti, t i + τi]; Lemma 1 instantiates such an oracle in closed form under its stated model, and the deployed guards implement the same interface with validity as a checked assumption. The gate refuses to clear an irreversible commitment in exactly three staleness situations: the claim’s validity interval fails to cover the commitment horizon, the evidence age exceeds the declared bound, or the admissibility deadline has lapsed without evidence adequate under the refresh rule. The guarded scheduler ends every lapsed authorization in the safe alternative, HOLD, or ESCALATE, and its tick guard handles the Zeno case: when the theoretical deadline falls below one tick, no authorization is issued at all, so no execution occurs outside a certified window in that case either. Every irreversible execution time therefore lies inside a window certified by the lemma, where the flip risk is at most η(ai) ≤ η. Under A1 the claim-level statement inherits the calibration level A1 establishes, with the contribution on the gate-cleared stratum upper-bounded by the 13 pre-registered εU 
+
+> cal
+
+of observable O6; per-claim conditional coverage is not claimed, matching A1’s marginal scope. (ii) Let r be the revised claim and let the affected set A(r) be the set of committed steps whose justification cites r transitively under D; this is what the dependency traversal computes. A6-C makes the computed set contain every truly affected commitment, which restoration correctness rests on; A6-S makes it contain nothing else, which minimality rests on. Minimality first: under A6-S a commitment outside A(r) cites no invalidated claim, so its authorization is untouched and the gate discipline forbids repairing it; under A6-C no truly dependent commitment escapes the traversal, so the induction below reaches everything restoration requires. Restoration by induction: since D is a finite directed acyclic graph (A4), the reverse commit order over A(r)is well founded. A3 supplies the inductive interface: each registered Ci restores the declared invariants over its own affected slice provided the compensations of all steps committed after 
+
+Ti within A(r) have completed, which is exactly the reverse-order precondition. The first compensation in reverse order has no later committed step in A(r), so its precondition holds vacuously and it restores its local invariant; inductively, when Ci runs, every later step has been compensated, so its precondition holds and its execution restores oi’s invariant; every step of this induction is conditional on the invoked compensations succeeding, and a failed compensation exits the induction into the failure count of part (iii). A5 excludes interleaved commits that could read or write the set mid-repair, so no restored invariant is invalidated during the traversal. Detection within δd (A2) starts the traversal, and each compensation is itself gated; when part (i)’s oracle assumptions hold, its execution inherits that guarantee, though the restoration claim of this part does not require it. After the traversal, all declared invariants over A(r) hold and nothing outside A(r) was touched. (iii) A violation is an executed-stale commitment whose declared invariants no registered mechanism restores by mission end. Condition on a mission and partition by class. An irreversible stale execution admits no restoring mechanism, so it is a violation exactly when stale at execution; within a certified window, staleness of a boundary-anchored irreversible claim is exactly the flip event (the declaration preceding Theorem 1), whose conditional probability part (i) bounds by η + εU
+
+> cal
+
+. A reversible violation is classified, exhaustively and disjointly, by the first stage that failed on its path from staleness to restoration: either its invalidation was never detected by mission end (counted by Mdet ); or it was detected but the commitment lay outside the computed affected set (counted by Mdep ); or it was detected and the computed affected set contains the commitment, but no restoration invocation was ever scheduled (counted by Minv ); or a restoration was invoked for it and failed to complete by mission end. These four cells exhaust the reversible violations by construction. The invocation invariant (one restoration invocation enqueued atomically per member of the computed affected set, checked by the workbench’s contract tests) predicts that the third cell is empty; the frozen per-violation classifier reports any occupant it nevertheless finds, surfacing under its v1 cells as unclassified , which flags the identity rather than silently absorbing the case. For the fourth cell, each invoked restoration targets exactly one commitment (one compensating transaction per saga step), so distinct violations in this cell correspond to distinct failed invocations and the cell’s count is at most 
+
+Frestore , the number of failed invocations. No assumption enters the partition; A2 empties the first cell, A6-C the second, and the contract-tested invocation invariant the third. Taking expectations over the mixture: the irreversible term uses the per-commitment conditional oracle bound with the tower property for η and the claim-weighted mixture reading of εU 
+
+> cal
+
+for the 14 calibration part, the first three cells contribute their expectations directly, and the fourth cell contributes E[Frestore ] = E[Nrep ] frestore by the mixture-level definition of frestore , bounded by 
+
+E[Nrep ] f U
+
+> restore
+
+. This yields E[V ] ≤ E[Nirr ]( η +εU
+
+> cal
+
+)+ E[Mdet ]+ E[Mdep ]+ E[Minv ]+ E[Nrep ] f U
+
+> restore
+
+.The middle cells cannot migrate into the last term: their members have no invocation, and 
+
+frestore ’s denominator is the set of invoked restorations, so the bound carries them as separate debts. 
+
+Corollary 2 (Priced consistency and its regimes) . Under the composed contract and a finite workload, finite per-repair cost, and bounded retry policy, the three terms of J are finite, observable, and separately attributable; the results supply a quantitative bound for the violation count behind 
+
+Lviol (a loss bound follows under a declared per-violation loss cap), a check-count comparison for 
+
+Csync (a spend comparison when per-check prices are comparable), and no standalone bound for 
+
+Ccomp . Csync is the deadline scheduler’s N checks priced by channel choice, and by Proposition 1 any uniform scheduler honoring the same deadlines spends more by a factor exceeding ¯τ /τ min ;
+
+Ccomp follows the invalidation rate, and prevention does not simply lower it: a tighter tolerance detects more exits, raising invalidations while lowering stale executions, so prevention converts undetected staleness into detected, repairable invalidations; a quantitative bound on Ccomp would require workload and repair-frequency assumptions the theorems do not make; Lviol is bounded by Theorem 3(iii). The comparison with fixed spacing is regime-dependent, and the governing quantity is deadline heterogeneity: when ¯τ /τ min is near one, a well-chosen fixed interval honors the same deadlines at comparable price and can win on opportunity cost; when deadlines are heterogeneous, the adaptive advantage grows with the ratio ¯τ /τ min . The reversals measured in RQ1 are therefore consistent with the theory’s predicted regimes rather than embarrassments to it. Proof of Corollary 2. The Csync claim is Proposition 1 verbatim: over a span SN of declared deadlines the deadline scheduler issues N checks, while any uniform scheduler honoring the same deadlines must use spacing k ≤ τmin and issues more than SN /τ min = N ¯τ /τ min checks. For 
+
+Ccomp : an invalidation requires the observable to exit its declared tolerance between consecutive certified epochs. Tightening the tolerance does not lower this rate; it raises it, because more exits are detected, while lowering the stale-execution rate. The prevention-side control on total repair is therefore not the tolerance but the validity horizons and deadlines, which limit how long a commitment stays exposed; a quantitative bound on accumulated repair would require workload and repair-frequency assumptions not made here, so the corollary claims finiteness and attribution for Ccomp , not a bound; prevention converts undetected staleness into detected, repairable invalidations rather than reducing correction to zero. Lviol is bounded by Theorem 3(iii). For the regimes: if ¯τ /τ min = 1 + o(1), a uniform scheduler at k = τmin 
+
+issues N (1 + o(1)) checks and matches the deadline scheduler’s price, so J is decided by the compensation and opportunity terms, which is where the RQ1 reversals live; if deadlines are heterogeneous, the uniform scheduler’s excess factor exceeds ¯τ /τ min > 1, which is the adaptive advantage. 
+
+Scope. The proofs establish exactly what the theorem statements claim and nothing further. They do not establish refresh-policy dominance (Corollary 2 predicts regimes in which fixed spacing wins), do not re-derive SagaLLM’s internal guarantees (A3 and A5 import them as cited machinery), and are conditional where stated: on the analytic model where Lemma 1 supplies the deadline oracle, on oracle validity where the deployed guards do, on A1’s marginal 15 calibration scope, and on the registered rate bound f U
+
+> restore
+
+; drift, passive observation channels, and misspecified dynamics require separate analysis, as declared in Appendix B. 
+
+What the theory claims. The theorems bound violations under named assumptions; they do not claim refresh dominance (Corollary 2 predicts where fixed intervals win), do not re-prove SagaLLM’s guarantees, and are conditional exactly where stated, on the analytic model or deployed guards supplying the oracle, on A1’s marginal scope, and on the registered bounds εU
+
+> cal
+
+and f U
+
+> restore
+
+. The interface is the contribution: any world model, JEPA-class included, plugs in by supplying calibrated claims and a valid deadline oracle, and its obligations are stated rather than implied. Part (iii) goes one step further: every proof-to-system gap becomes an additive, measurable consistency debt, so the bound applies to the observed implementation, not to an idealized one. 
+
+# 5 The Flood-SAR System 
+
+We use Flood-SAR, a simulated search-and-rescue planning and reasoning workbench we im-plemented over real geography, as the running example. Flood-SAR simulates drones, boats, ambulances, ground teams, and dynamic waterways over a real geography asset; the geography and hydrology are real, the missions, channels, and failures are simulated. The contract abstrac-tion is not water-specific, though only Flood-SAR is evaluated: wildfire perimeters, highway logistics, laboratory automation, and market or geopolitical monitoring instantiate the same triple of predictive claims, priced channels, and consequence classes. 
+
+5.1 Architecture  
+
+> Commander: authority for irreversible action classes
+> Mission controller: event-sourced state, dispatcher
+> TRACE runtime: schema v1.0, policy trace_v1.yaml ,hash-chained append-only store
+> Predictive world view (kine-matics; transparent route score + heuristic support/OOD + frozen iso-tonic) and adaptive refresh manager
+> Planner and channels: drone, sensor, human, external feed
+> Environment: flood dynamics over the Antioch delta asset
+
+Figure 1: The six-layer Flood-SAR architecture. Every arrow crossing into or out of the TRACE runtime is a record read or write; that no service passes reasoning state in any other form is an architectural invariant enforced by the interfaces and checked by the workbench’s contract tests. 16 Figure 1 shows the architecture in six layers: a commander (human authority) above a mission controller owning the event-sourced mission state; the TRACE runtime holding schema, policy, and the append-only store; the predictive world view and adaptive refresh manager; the planner and verification channels; the environment. Controller model state is deliberately separated from the event-sourced store: the view may be wrong, but the record preserves what the system represented and why the gate accepted it, subject to the store-integrity assumptions of Section 5.2. The operational console over the Antioch delta geography asset that all campaigns of Section 7 use is shown in Figure 2. 
+
+Figure 2: The Flood-SAR operational console over the Antioch delta geography asset. The map renders docks, waterways, hospital, and the live positions of survey drones, rescue boats, and ambulances; the right panel supports incident entry (people, severity, deadline, caller access hint), reports mission totals (waiting, onboard, at port, hospital; the evaluation’s completion endpoint is the safe transfer dock, and hospital time is a projected quantity, not an observed clinical outcome), and lists per-asset fleet state with the authorizing dock identifiers and per-incident outcome accounting. Every quantity shown is a projection of the event-sourced store of Section 5.2; the console holds no authoritative mission state. 
+
+5.2 The record store 
+
+The store is event-sourced and hash-chained: every claim, gate decision, refresh, and revision is an append-only record whose integrity a full-chain scan verifies; storage mechanics and layout detail appear in Appendix L; the operator console over this store appears in Figure 2. 
+
+5.3 The condition hierarchy 
+
+Conditions form a three-level hierarchy, signal to event to practical claim, so that what the gate judges is the decision an application cares about rather than a sensor value; the full hierarchy and its field-level detail appear in Appendix M. 17 5.4 Implementation status 
+
+The canonical D0.5 release realizes the contract end to end; its test counts and release prove-nance are catalogued in Appendix N, and storage detail in Appendix L, and the running gate demonstration appears in Section 6.8. Everything measured in Section 7 runs on this release with the frozen policy trace_v1.yaml .
+
+# 6 Maintaining Commitments: Adaptive Refresh and the Gate 
+
+This section answers the remaining two questions over the contract of Section 3. Signal economy occupies Sections 6.1 through 6.4: when to acquire evidence, through which channel, and with what guarantees. Consequence admission occupies Sections 6.5 through 6.7: what an admitted claim may authorize, and how commitments chain. 
+
+6.1 From Kalman state to hybrid beliefs 
+
+For continuous substate xt (river level, travel time, vehicle positions), the view advances ˆxt+1 |t =
+
+f ( ˆxt|t, a t) and propagates uncertainty Pt+1 |t = FtPt|tF ⊤ 
+
+> t
+
++ Qt; an observation yt yields the innovation νt = yt − Ht ˆxt|t−1 and the standard correction Kalman [1960]. Two quantities feed the refresh logic: the predicted variance of the commitment-relevant functional, σ2 
+
+> c
+
+(t+h) = g⊤ 
+
+> c
+
+Pt+h|t gc,which grows with the horizon and drives the predicted trigger; and the innovation from whatever partial observations arrive for free, which drives the observed trigger. This is the special case, not the theory; it is also precisely the case the 2004 stream system implemented, with δi as the tolerance and the mirror filter as the innovation monitor. Flood-SAR state, however, is hybrid: edge passability and dock reachability are categorical and carry no covariance. The refresh principle of Definition 3 is therefore stated over beliefs, not Gaussians. The discrete case is instantiated by the workbench’s current risk package: a transparent surrogate produces a raw route probability and heuristic support/OOD quantities, and a frozen isotonic map calibrates the route probability. The seed-grouped OOF check gives ECE 0 .00477 on the declared development mixture (Section 7.2); this is a marginal, horizon-1 route-traversability statement, not evidence that the heuristic support/OOD quantities or a future learned predictor are calibrated. A worked example fixes intuition: a passability claim “edge E12 is traversable by rescue boat” carries a calibrated probability, a support score, and an OOD score; a drone overflight observing debris where the view predicted clear water is an innovation on the declared observable, and the claim is revised append-only. The 2004 system and the linear-Gaussian case are instances of the abstract principle, not the principle itself. 
+
+6.2 Trigger taxonomy 
+
+Four trigger families organize every refresh the architecture can fire: predicted (validity or pre-dicted uncertainty crosses the action bound before any observation arrives), observed (innovation from a partial observation exceeds the declared tolerance), structural (support or OOD leaves admitted competence), and normative (policy or authority demands fresh evidence for the action class). Each family is a declared observable in the sense of Section 3.3; the table mapping each to its policy fields in trace_v1.yaml and to the fixed-priority reason codes of the evaluation discipline is in Appendix E. 18 6.3 The refresh decision rule 
+
+A fired trigger poses two decisions: whether to acquire evidence, and through which channel. Let L(a, s ) be the loss of executing action a in true state s under belief b, with channel costs cj
+
+scalarized into the same loss units. For channel j with observation model pj , and y ∼ pj (· | b)drawn from the posterior-predictive distribution, the value of information is the preposterior quantity Howard [1966] VoI j = Es∼b[L(a∗ 
+
+> b
+
+, s )] − Ey∼pj (·| b)
+
+h
+
+Es∼b|y[L(a∗
+
+> b|y
+
+, s )] 
+
+i
+
+,
+
+which is strictly positive only when, with positive predictive probability, observing y changes the posterior-optimal action and strictly reduces expected loss. The rule is one deterministic procedure. Define the adequate set preposteriorly, Jadm  
+
+> c
+
+= { j : Pr y[ Gate (b | y) = CLEAR ] ≥
+
+γc } for the pending class’s declared level γc. Acquire evidence only when Jadm 
+
+> c
+
+̸ = ∅ and max j∈Jadm  
+
+> c
+
+(VoI j −cj ) > 0, routing to the maximizer; otherwise the outcome is the safe alternative, HOLD, or ESCALATE, never action on stale evidence. Two clarifications. The comparison is between reducible loss and sensing cost, since irreducible loss cannot justify a purchase that does not reduce it. And adequacy is checked before net value: a channel with positive net value but inadequate posteriors cannot authorize the commitment, which is exactly the channel a cost-normalized ratio would prefer. The upshot: refresh concentrates evidence where an observation could move the belief across the boundary at which the pending commitment switches, while a fixed interval spends uniformly; the worked boundary example and three practical refinements (consequence scaling, reversibility, routing auditability) appear in Appendix M. 
+
+6.4 A model-conditional deadline lemma and a scheduler separation 
+
+Three quantities must not be conflated: the boundary distance d = |x−θ| (a state-space quantity), the threshold-exceedance probability pt with its action-specific flip risk qt(a) (posterior quantities), and the decision margin m(b) of Definition 4 (an expected-loss gap). The lemma triggers on expected regret, not the margin: at the action boundary the margin vanishes while expected regret peaks at ∆( L − ∆) /L , which is why the deadline is budgeted on regret; the deadline depends on d, and no statement in this paper identifies the three quantities. 
+
+Setup. A scalar substate follows dx t = σ dW t; between verification epochs the observation filtration gains nothing, and an exact observation at cost c > 0 is the only channel. Actions: af
+
+with loss L·1[xt > θ ]; as with certain loss ∆, 0 < ∆ < L . Expected regrets are Rt(af ) = pt(L−∆) and Rt(as) = (1 − pt) ∆; the regret trigger at level εc fires when Rt(at) ≥ εc, equivalently an action-specific flip-probability threshold ηf = εc/(L − ∆) or ηs = εc/∆, consequence scaling in the trigger itself. Assume 0 < ε c < 12 min {∆, L − ∆} (both thresholds inside (0 , 12 ), held action belief-optimal between epochs) and polled distance di > 0. 
+
+Lemma 1 (Model-conditional regret deadline) . Under exact observation, zero drift, no inter-mediate evidence, and before any accumulation point of the epoch times: after an observation at boundary distance di > 0 while authorizing action ai, the posterior expected regret satisfies 
+
+E[ rt(ai) | F obs  
+
+> ti
+
+] ≤ εc for t ∈ [ti, t i + τi], where τi = d 2
+
+> i
+
+  σ2 z2
+
+> η(ai)
+
+, with zη = Φ −1(1 − η) > 0
+
+and η(ai) ∈ { ηf , η s}. The deadline τi is an admissibility deadline on a continuing authorization, 
+
+19 not unconditionally a verification time: at ti + τi the gate must either acquire evidence adequate under Section 6.3’s rule or cease authorizing ai, via the safe alternative, HOLD, or ESCALATE. Proof sketch. With zero drift the posterior mean is frozen, so the action-specific flip risk satisfies qt(ai) = Φ( −di/(σ√t − ti)), rising deterministically from 0 toward 12 ; for af this is pt,and for as it is 1 − pt, since pt itself falls from one toward 12 . Hence Rt(ai) rises deterministically and reaches εc exactly at ti + τi, which is finite because η(ai) < 12 gives zη(ai) > 0; the assumption on εc keeps ai belief-optimal on the interval, and the regret identities are immediate from the loss table. □
+
+The corresponding realized-path cost identity, including its terminal residual and the distinc-tion between the analytical and guarded schedulers, appears in Appendix B; no expectation-level cost formula is claimed. 
+
+Proposition 1 (Deterministic scheduler separation) . Fix a finite sequence of declared admissible deadlines τ1, . . . , τ N , write SN = P 
+
+> i
+
+τi and τmin = min i τi, and say a scheduler honors the deadlines if its maximum inter-check spacing never exceeds the deadline in force. A uniform periodic scheduler honoring them must use k ≤ τmin and, counting an initial check at time zero, issues ⌊SN /k ⌋ + 1 ≥ ⌈ SN /τ min ⌉ checks over the span SN , whereas the deadline scheduler issues N ;since ⌊SN /k ⌋ + 1 > S N /τ min = N ¯τ /τ min , the ratio strictly exceeds ¯τ /τ min . This is an elementary counting statement about schedulers over declared deadlines; it is not a comparison between two policies observing the same stochastic process at different times, whose polled distances would differ. Zeno and scope. Near the boundary, epochs can accumulate, so the workbench uses tick-resolution epochs and a hard guard ending authorization in HOLD or ESCALATE when the deadline falls below one tick or a declared rate or cost limit binds. The lemma is model-conditional to zero-drift Brownian dynamics with exact observations; the full Zeno calculation and scope discussion appear in Appendix B. 
+
+6.5 Gate conditions 
+
+The gate evaluates a claim record against the declared policy and issues a consumer decision. The deployed policy states the conditions in the frozen vocabulary: support at least 0 .60; OOD at most 0 .35; calibrated uncertainty at most 0 .30; prediction horizon at most 8 steps; observation age at most 1800 seconds behind an irreversible action; no undefeated defeaters; authority present for the classes that require it ( dispatch_rescue_boat , deploy_ground_team ), while a reversible probe may be cleared as qualified without commander authority. Decisions are evaluated in the fixed precedence BLOCK, ESCALATE, QUALIFY, HOLD, CLEAR, so the most restrictive applicable decision wins and the ordering is part of the declared policy rather than an implementation accident. Freshness is the condition this paper adds: the gate checks that the claim’s validity interval covers the commitment horizon, which is exactly where a fixed-interval system silently assumes what TRACE-RealWorld verifies. A revalidation guard extends the conditions with model provenance (Section 3.2): clearing a high-consequence commitment additionally requires model_version_current ∧ calibration_ adequate_for_class . If either conjunct fails the claim cannot authorize a new high-consequence commitment, may still support QUALIFY on a reversible probe, and the failure is recorded with the superseding version identified. 20 The gate’s object, finally, is the decision and not the signal. What it clears or holds is a practical claim, a choice among admissible alternatives with stated reversibility and opportunity cost, licensed by the event claims beneath it. Holding the fast route while a safe alternative remains admissible is a different outcome, and a different record, from holding when no alternative survives, which escalates to the commander rather than silently stalling the mission. 
+
+6.6 The ActiveTRACE loop 
+
+The ActiveTRACE loop closes prediction, gating, action, and refresh into one auditable circuit of eight steps (observe, estimate, predict, gate, act, refresh, revise, complete), each step writing or reading fields of the frozen schema and no step passing reasoning state any other way. 
+
+6.7 Schedules are chains of commitments 
+
+A rescue schedule is a chain, not a single commitment: dock selection depends on passability claims, rendezvous timing on travel-time claims, hospital arrival on both. TRACE-RealWorld treats each link as a record and the chain as a transactional object in the sense of SagaLLM Chang and Geng [2025], Garcia-Molina and Salem [1987]: a sequence of locally atomic steps each paired with a compensating transaction, S = {T1, . . . , T n, C n, . . . , C 1}, invoked in reverse over the committed prefix, with SagaLLM’s structure, consistency preservation, durability, and independent-validation guarantees cited as machinery rather than re-derived; their statements are in Chang and Geng [2025]. Dependencies are explicit, D = {(oi, o j , c ij )}: when a refresh revises an upstream claim, the dependency traversal computes the dependency-scoped set of affected downstream commitments, and compensation (free the asset, re-plan the dock, re-time the rendezvous) proceeds under the same gate discipline as the original dispatch, touching nothing outside the affected set. 
+
+6.8 Mechanisms mapped to the theory 
+
+The canonical release (D0.5, predictive scheduling) realizes the paper’s mechanisms directly. Validity horizons on travel-time and passability claims realize refresh conditions; scheduling fields ( scheduled , dispatched , expected_arrival , actual_arrival , completed_at ) make the innovation on arrival predictions directly observable. Drone-first verification realizes VoI routing. Dock selection minimizing hospital arrival, early ambulance dispatch, parallel readiness, and rendezvous states realize commitment chains. A running demonstration exercises the gate end to end (support-gate failure, defer with named missing observation, held dispatch, drone revision, alternative branch cleared); its trace is reproducible from the released implementation. 
+
+# 7 Evaluation 
+
+Table 1 maps each formal element of Section 4 to the measurement that checks it. The calibration precondition tests semantic elevation; RQ1 prices signal economy against fixed and clock baselines; RQ6 tests the composition itself, whether localized repair closes the violations refresh lets through and at what joint price; and the secondary studies cover mechanism attribution (RQ2), rescue outcomes (RQ3), record-layer cost (RQ4), and the revalidation guard under mid-mission predictor replacement (RQ5). 21 Table 1: Each formal element of Section 4 linked to its implementation evidence. Proof establishes the conditional results (proofs in Section 4); measurements estimate assumption slack and empirical inputs at pre-registered sites. Status reflects the completed RQ5 and RQ6 adjudication; bounded and approximate entries are honest constants, not failures.                                     
+
+> Element What must hold Checked by Status A1 cleared-stratum ECE §7.2; O6 bounded (.131) A2 ceiling δdRQ6 (O2) exposure measured; cell unclassified A3, A5 saga machinery Chang and Geng [2025]; O3 exercised A4 acyclic Dconstruction held A6-C completeness (recall) closure; O7 misses in 2/58 repair missions A6-S soundness (precision) closure; O7 P .88–.94 Thm. 1 stale floor pδRQ1 held Thm. 2 post hoc invariance RQ6 (O1, O8) 160/160 Thm. 3(i) oracle; deadlines guards; RQ5 witnessed Thm. 3(ii,iii) repairs; debts RQ6 (O3, O5) (iii) uncond. in A2/A6-C/invoc. Cor. 2 regime prediction RQ1, RQ3 held
+
+Both campaigns the evaluation plan required have landed. RQ5, the revalidation-guard stress test, witnesses the invariant behind Theorem 3(i) under mid-mission predictor replacement (Section 7.5). RQ6, the composition campaign, checks the recovery-noninterference observable Theorem 2 predicts through O1’s exact invariance, exercises the repair machinery of Theorem 3(ii), and supplies the empirical inputs of part (iii): f U 
+
+> restore
+
+= 0 .165 on the restoration-by-mission-end endpoint (O3) and εU 
+
+> cal
+
+= 0 .131 (O6) (Section 7.4). RQ1 through RQ4 supply their rows’ evidence. Throughout, Theorem 3 is a proved conditional contract whose assumptions are measured, not a theorem the campaigns empirically discharge: detection coverage is 0.83 to 0.89 (A2), the affected set is approximately, not exactly, the true set (A6), and the map records each constant as it is. One design decision governs how every result below should be read. The deployed predictor is a transparent kinematic surrogate with a frozen calibration map, by design: every measured effect is thereby attributable to the contract, the triggers, the gate, and the record rather than to predictor quality, and the calibration precondition is checkable precisely because the predictor is simple. The contract’s prediction for a richer predictor is falsifiable and stated now: substituting an uncalibrated learned model behind the same gate should raise hold and escalate rates, not clear rates, until calibration within declared support is earned, and a gate that clears more freely under a fancier, uncalibrated predictor is broken. 
+
+7.1 Methodology and discipline 
+
+The evaluation reuses the workbench’s S1–S5 scenario suite; R-B, drift plus diffusion in S2, hosts the primary comparison because rising water changes passability at a rate the refresh policy must track. The declared development grid contains 19 configurations: no refresh; fixed-k
+
+at k ∈ { 5, 15 , 45 , 120 , 300 , 600 } seconds; a validity clock at α ∈ { 0.1, 0.25 , 0.4, 0.55 , 0.75 , 1.0},inspired by the sensing-clock method Wang [2026] without claiming its coverage certificate; and adaptive refresh at εc ∈ { 0.25 , 0.5, 1, 2, 4, 7}. Development seeds 1–20 produce 380 missions; the frozen campaign runs all 19 configurations on validation seeds 101–125 (475 missions) and the three selected policies on test seeds 1001–1080 (240 missions). All completed, every event and 22 TRACE chain verifies, and the common-random-number checks pass. The unit of analysis is the commitment: each dispatch, dock selection, and rendezvous is scored on whether it executed against a claim true at execution time. 
+
+Fairness and tuning. The compared policies differ only in when they seek evidence; everything else, seeds, predictor, calibration, planner, claim representation, gate, channel menu, fallback, and loss definitions, is identical, and a gate HOLD imposed on a fixed policy before its next scheduled observation is charged to that policy. Validation freezes four cost budgets and the selected points, fixed k = 600, adaptive εc = 4, and clock α = .4, with the operating-point artifact hashed before any test outcome is opened; the budget values are recorded in that frozen operating-point artifact. 
+
+Partitions, statistics, and metrics. Development fits models and thresholds, validation fixes grids and budgets, both are frozen before the single test evaluation, and all policies share common random numbers; held-out contrasts use a paired max-t bootstrap with simultaneous 95% bands over the declared family, and “pre-registered” means manifest exp-freeze-v1 with an execution commit and annotated tag recorded before test seeds are drawn. To prevent conservative policies from gaming staleness, coverage (unique executed over unique proposed irreversible opportunities) accompanies every staleness number; adjudication is deterministic with no model in the path, under fixed-priority reason codes. A synthetic artifact checks the deadline formula, the censored cost identity, and Proposition 1 numerically; Flood-SAR tests only the lemma’s qualitative scheduling implication. Bootstrap mechanics, attrition codes, and the seed-count power analysis are recorded in the artifact’s methodology package. 
+
+RQ5 and RQ6 protocols, as run. Both campaigns ran on self-contained stochastic workbenches with no V-JEPA or external model weights, under protocols hashed before any seed was drawn and verified by manifest (RQ5 hash d472828d748d , seeds 3101–3180; RQ6 hash ef1fdb994db5 ,seeds 2101–2180, 80 missions per cell, 320 seed-cell rows, disjoint from every development, validation, and test seed). The RQ6 two-by-two crosses two refresh policies with two registered recovery disciplines: localized saga repair over the computed dependency-scoped affected set versus global recovery, in which the dispatcher continues on the stale chain until failure surfaces and recovery is a global replan; the contrast is between two corrective mechanisms. The adaptive arm is the consequence-aware adaptive policy (consequence-specific maximum ages 240/420 s, refresh triggers .055/.10, risk limits .12/.20); it is not the εc = 4 workbench point of RQ1, and no mapping between the two is claimed. One provenance caveat is declared rather than hidden: the protocols froze α, seed clustering, and 10,000 replicates, but not the membership of the max-t family, so the simultaneous bands reported below are conservative post-run sensitivity families over all emitted contrasts (10 for RQ5, 33 for RQ6), alongside the frozen individual paired-bootstrap intervals. The headline outcome is the consistency violation of Definition 6, judged mechanism-neutrally: a commitment executed against a claim false at execution time whose declared invariants no registered corrective mechanism restores by mission end. The protocol enumerates eight observables: executed-stale invariance across recovery arms (O1), shock-to-detected-invalidation latency, the A2 ceiling (O2), compensation success and failure with restoration latency, supplying f U 
+
+> restore
+
+(O3), repair load under adaptive versus fixed refresh (O4), residual consistency violations (O5), selective calibration on gate-cleared irreversible commitments, supplying εU 
+
+> cal
+
+(O6), affected-set precision and recall against the event store, the A6 check (O7), and the outcome and priced-cost guards, including stranded assets and orphaned dependents 23 (O8). For robustness, we report the conservative post-run simultaneous sensitivity families described above; a band containing zero is reported as not separated. 
+
+AI-assisted analysis. OpenAI ChatGPT and Codex assisted in developing and inspecting data-analysis scripts and in formatting tables and figures. They did not generate experimental observations or select operating points. The author reran the analyses against the frozen archives, independently re-derived every reported quantity, and verified all tables and figures against the archived records. 
+
+7.2 Calibration precondition: are route claims meaningful? 
+
+Every proposed dispatch and evacuation route claim, including claims not cleared by the gate, is labeled by replaying immutable events and testing whether the route remains open through arrival: of 300,442 development candidates, 169 are right-censored, leaving 300,273 horizon-1 labels. A weighted isotonic map is evaluated in five folds that hold out complete seeds; the target is route traversability, not generic plan success. Raw scores are strongly miscalibrated (ECE 0.32705); the frozen 16-level map reduces seed-grouped OOF ECE to 0 .00477, with a rejected fixed-k = 300 pilot and the full OOF detail in Appendix C; held-out transfer is primary here. After operating-point freeze, the unchanged map is applied to every test claim. Among 62,977 labeled horizon-1 claims (57 are right-censored), overall ECE is 0 .00450 [.00243, .00700], dispatch 0 .00779 and evacuation 0 .00310, and both action-class upper bounds remain below the predeclared 0 .05 threshold (Table 2; development OOF detail in Appendix C). Calibration therefore transfers to the held-out R-B mixture without refitting. The result is marginal route traversability for dispatch and evacuation at horizon 1; it does not certify support/OOD scores, longer horizons, other actions, or total plan success. The ten-bin reliability diagram behind the sparse-middle-bin caveat, policy-family transportability, and the wiring diagnostics are reported in Appendix C. Table 2: Frozen held-out calibration with seed-clustered 95% intervals. No validation or test refit is performed; dispatch and evacuation labels denote swamping and missed delivery.             
+
+> Class nECE [95% CI] Brier
+> All routes 62,977 .00450 [.00243,.00700] .00874 Dispatch 35,028 .00779 [.00394,.01192] .00657 Evacuation 27,949 .00310 [.00149,.00761] .01146
+
+7.3 RQ1: Does adaptive refresh dominate fixed intervals? 
+
+Development sweeps selected the frozen operating points but used preliminary coverage accounting and are not confirmatory; they showed the same qualitative warning that staleness must be reported with coverage. The development point estimates on both declared axes, with complete tables and paired diagnostics, are plotted in Appendix D. 
+
+Frozen held-out process. Validation selects fixed k = 600, adaptive εc = 4, and clock 
+
+α = .4 without access to test seeds; each runs on the same 80 test seeds (1001–1080), all 240 missions complete, every chain verifies, and the common-random-number check passes. Table 3 reports test means and the selected simultaneous 95% bands from the paired max-t family of 25 24 predeclared contrasts; RQ1’s rescued-person metric is a distinct pre-registered accounting from RQ3’s completed-rescue count and the two are never compared across tables. Table 3: RQ1 held-out means at validation-frozen operating points (80 missions per policy; stale, coverage, completion in percent) and adaptive-minus-comparator paired differences with simultaneous 95% max-t bands. No threshold or point is refit on these outcomes.                            
+
+> Metric Adapt. Fixed Clock ∆vs. fixed ∆vs. clock
+> Cost 3.769 2.738 67.800 1.03 [.28,1.78] −64 .0 [ −74 .4, −53 .7] Stale (pp) .063 .215 6.574 −.151 [ −.28, −.03] −6.51 [ −8.95, −4.07] Coverage 97.18 99.12 97.67 −1.93 [ −3.31, −.56] −.49 [ −2.05,1.07] Completion 83.23 84.58 85.18 −1.35 [ −2.14, −.56] −1.95 [ −2.84, −1.05] Rescued 197.95 201.15 201.95 −3.20 [ −5.05, −1.35] −4.00 [ −5.94, −2.06]
+
+Held-out answer to RQ1. Adaptive refresh does not dominate. Relative to fixed k = 600, it reduces stale execution by 0 .151 percentage points, but costs 1.032 more, covers 1.934 points fewer opportunities, completes 1.346 points fewer people, and rescues 3.20 fewer people; every selected simultaneous band excludes zero. Relative to the validity clock, adaptive is much cheaper and 6.511 points less stale, but completes 1.945 points fewer people; its coverage band includes zero. The confirmatory result is a cost–staleness–coverage–completion trade-off, not an operational win. 
+
+7.4 RQ6: Does the composition close the loop? 
+
+The consistency principle of Section 1 claims that prevention and correction are complements; formally, the claim is Theorem 3, and the headline observable is the consistency violation of Definition 6, the quantity its part (iii) bounds. RQ6 tests the composition on one incident stream under the protocol of Section 7.1: four conditions crossing the selected refresh policies with two recovery disciplines, localized saga repair over the computed dependency-scoped affected set versus a global-recovery baseline in which the dispatcher continues on the stale chain until failure surfaces and recovery is a global replan, on a fresh frozen seed block with pre-registered world shocks; the contrast is between two corrective mechanisms, not correction and its absence. Four predictions were frozen before any seed: recovery must not change stale execution; fixed refresh must invoke more compensations than adaptive; compensation must reduce violations for both policies; and the full contract must carry the fewest violations without losing rescue or coverage beyond the band. Because the violation definition is mechanism-neutral, the headline count is an empirical comparison, not a terminology artifact, and the findings adjudicate every prediction, including the two the data refuse. Table 4: RQ6 held-out cell means (80 missions per cell).                                         
+
+> Refresh Recovery Stale Residual Completion Rescued Repair work Total cost Restore (s) Adaptive Global 0.600 0.300 0.788 3.163 6.513 34.275 124.506 Adaptive Localized 0.600 0.300 0.775 3.163 0.888 28.650 69.845 Fixed 600 s Global 1.625 0.838 0.463 2.600 15.875 45.875 391.232 Fixed 600 s Localized 1.625 0.838 0.488 2.600 2.388 32.388 284.578
+
+25 Adaptive Fixed 
+
+> 0
+> 0.5
+> 1
+
+Residual violations / mission  
+
+> Global recovery
+> Localized saga
+> Adaptive Fixed
+> 0
+> 5
+> 10
+> 15
+
+Repair work / mission  
+
+> Adaptive Fixed
+> 0
+> 100
+> 200
+> 300
+> 400
+
+Restoration latency (s) 
+
+Figure 3: The composition read at a glance (cell means, 80 missions per cell). Refresh policy moves residual violations (left; bars are identical across recovery arms, the tie that refuses the strict synergy prediction), while recovery discipline moves repair work and restoration latency (center, right). Prevention and correction act at different stages: localization buys repair economy, not a lower residual count. Exact cell means for all seven metrics appear in Table 4. Table 5: RQ6 paired factorial contrasts with simultaneous 95% max-t sensitivity bands over all 33 emitted contrasts. Refresh is adaptive minus fixed; recovery is localized minus global.                                                                   
+
+> Outcome Contrast Estimate [95% band] Executed stale Refresh −1.025 [−1.508 ,−0.542] Residual violations Refresh −0.538 [−0.842 ,−0.233] Mission completion Refresh +0.306 [+0 .114 ,+0 .499] Rescued people Refresh +0.563 [+0 .264 ,+0 .861] Observation load Refresh −2.238 [−3.160 ,−1.315] Total operational cost Refresh −7.669 [−11 .128 ,−4.209] Restoration latency (s) Refresh −240 .730 [−374 .096 ,−107 .363] Detection latency (s) Refresh +169 .056 [+10 .649 ,+327 .464] Detection coverage Refresh −0.064 [ −0.159 ,+0 .031] Repair work Recovery −9.556 [−14 .946 ,−4.167] Total operational cost Recovery −9.556 [−14 .946 ,−4.167] Restoration latency (s) Recovery −80 .658 [−115 .154 ,−46 .162] Residual violations Recovery 0.000 [ −0.078 ,+0 .078] Mission completion Recovery +0 .006 [ −0.049 ,+0 .061] Rescued people Recovery 0.000 [ −0.078 ,+0 .078] Repair work Interaction +7.863 [+2 .493 ,+13 .232] Restoration latency (s) Interaction +51 .994 [+8 .054 ,+95 .933]
+
+Finding 1: adaptive refresh prevents, but not every sensing metric improves. Recov-ery could not change authorization: executed-stale commitments were identical across recovery arms in all 160 paired seed and refresh comparisons (O1, exact). Averaged over recovery arms, the consequence-aware adaptive policy reduced executed-stale commitments from 1.625 to 0.600 per mission ( −1.025, band [ −1.508 , −0.542]), reduced residual violations by 0.538, improved completion by 30.6 points and rescued people by 0.563 per mission, and lowered observation load and total operational cost (Figure 3, Tables 5 and 4). Registered-shock detection, however, was 169.1 s slower ([+10 .6, +327 .5]), and the 6.4-point detection-coverage loss did not survive the simultaneous family. Prevention here concerns decision-time stale execution, not uniform dominance of every sensing observable. This workbench and its adaptive policy differ from RQ1’s 26 workbench and frozen εc = 4 point, so this effect does not overturn RQ1’s held-out trade-off; it measures a different policy on a different stream. 
+
+Finding 2: localization preserves the end-state at a fraction of the repair cost. 
+
+Relative to global recovery, localized saga repair reduced repair work and total cost by 9.556 units ([ −14 .946 , −4.167]) and restoration latency by 80.7 s ([ −115 .2, −46 .1]), while the residual-violation difference was exactly zero ([ −0.078 , +0 .078]), rescued people were unchanged, and the completion band included zero. The affected-set estimand must be conditioned correctly: mission-level means score a mission with no invoked recovery as 1.0 by convention, and most missions invoke none, so those means overstate exactness. We report affected-set quality conditional on repair-invoking missions to preserve the registered mission-seed analysis and clustering unit; commitment-level records permit finer per-repair diagnostics, which agree qualitatively and are not substituted for the frozen mission-level estimand. Among the 58 localized missions invoking at least one repair (19 adaptive, 39 fixed), mean mission-level precision is 0.877 and 0.943 and mean mission-level recall is 1.000 and 0.995; 41 of 58 recovered exactly the true affected set, 16 contained at least one false-positive dependent, and 2 missed at least one true dependent, with one mission exhibiting both error types. Global recovery, conditioned the same way, has mean mission-level precision 0.159 (adaptive) and 0.197 (fixed) at recall 1.000, so localization wins decisively on the correct estimand while exact affected-set identity remains the majority case, not the rule (O7). The measured benefit of localization is repair economy, not a lower residual count; and no detected difference is not formal equivalence, since no equivalence margin was frozen. 
+
+Finding 3: the mechanisms are stage-complementary; the strict synergy prediction fails. Fixed refresh triggered more localized compensations than adaptive (0.888 versus 0.325 invocations per mission; the fixed arm’s 0.888 coincides numerically with the adaptive arm’s 0.888 repair-work units in the work table, a coincidence, not a transposition; the frozen family carried no interval for this contrast, so the comparison is descriptive), while adaptive refresh prevented more stale executions before recovery could act. Yet adaptive with localized repair and adaptive with global recovery both ended at 0.300 residual violations per mission: the third declared prediction, that compensation reduces residual violations under both refresh policies, is not supported, and the fourth holds only as a tie. The composition realizes prevention plus economical correction; it does not strictly improve the headline residual outcome over adaptive refresh with global recovery. Table 6: The debt ledger of Theorem 3(iii). εU 
+
+> cal
+
+and f U 
+
+> restore
+
+are empirical inputs to the bound; 
+
+Udet and the affected-set miss counts are exposure diagnostics and do not substitute for realized 
+
+Mdet and Mdep counts, which await the frozen per-violation classifier’s output.                             
+
+> Stage Commitment-level cell Observed now Role in the bound Calibration, oracle irreversible flips εU
+> cal =.131 (O6) E[Nirr ]( η+εU
+> cal )Detection Mdet proxy Udet : .650/.413 E[Mdet ]; classifier Dependency reach Mdep misses in 2/58 missions E[Mdep ]; classifier Invocation scheduling Minv contract tests enforce invariant E[Minv ]; classifier Restoration failed-restoration cell 10 /97; fU
+> restore =.165 E[Nrep ]fU
+> restore
+
+27 Finding 4: the theorem’s empirical inputs. Localized compensation was invoked 97 times. The technical compensation-failure rate is 7 of 97 (0.072, one-sided upper 0.128). The endpoint Theorem 3(iii) consumes, and the endpoint the frozen O3 numerator names, is restoration by mission end: 10 of 97 invoked repairs had not restored consistency by then (the 7 technical failures and 3 further repairs whose restoration did not complete in time), giving frestore = 0 .103 with one-sided Wilson upper bound f U 
+
+> restore
+
+= 0 .165. The 97 invocations cluster in 58 missions; the ordinary one-sided Wilson endpoint is 0.165 and a mission-stratified cluster bootstrap gives 0.161, and we report the larger 0.165 as a conservative sensitivity choice, not as a claim that the Wilson interval is cluster-valid. The theorem’s term uses 0.165, not 0.128. All 12 selective-calibration strata met their identification floors, with simultaneous upper bounds from 0.060 to 0.131, so 
+
+εU 
+
+> cal
+
+= 0 .131 (O6); three point estimates exceed 0.05, so the gate-cleared stratum is not certified at the aggregate precondition’s level. Under the measured-slack form of Theorem 3(iii), neither A2 nor A6-C is assumed; their failures are priced as debts, each defined as a deterministic reclassification of already-declared observables (O2, O3, O5, O7) that the frozen per-violation classifier computes; the present numbers are channel proxies, not classified cells. The seed-level aggregates measure each debt channel’s exposure but do not yet classify the violations into cells. Undetected-invalidation exposure, written Udet , runs 0.650 per mission under adaptive refresh against 0.413 under fixed. Udet counts invalidation events, not violated commitments: Mdet is by definition a subset of the residual violations (0.300 and 0.838 per mission) and cannot exceed them, and because one undetected invalidation can strand several commitments, Udet does not bound 
+
+Mdet in general; the classifier, not the proxy, supplies the cell. Failed invoked restorations run 0.025 against 0.100 per localized mission and, by the one-commitment-per-invocation property, bound the restoration cell, with E[Nrep ]frestore = 10 /160 = 0 .0625 exact as a count of failed invocations. Exposure to the two channels runs in opposite directions across refresh policies; how the residual violations actually distribute over the cells is precisely what the frozen per-violation classifier reports; until it does, each exposure is reported as an exposure and no cell count is claimed. RQ6 likewise does not establish exact A6: 41 of the 58 repair missions recovered exactly the true affected set. Restoration correctness is conditional on A6-C, whose recall misses occurred in 2 of the 58 repair-invoking missions; whether those misses touch one invocation or several is an invocation-level attribution the seed-level archive does not support, so no invocation-level rate is quoted. Exact repair minimality remains conditional on A6-S. The ten unrestored invocations decompose as seven technical failures and three late completions; whether the two recall-miss events intersect them is not derivable from seed-level aggregates, so Mdep remains a separate term until the classifier reports the union. Tightening the calibration constant is a calibration task. Closing the A6 gaps is a dependency-modeling and validation task. Neither is a proof task. 
+
+Answer to RQ6. The theorem defines the complete accounting; the campaign supplies its calibration and restoration inputs and the exposure diagnostics, but does not yet numerically instantiate every term, and it does not deliver the strongest empirical inequality. Adaptive refresh improves pre-authorization freshness and mission outcomes on this stream; localized saga repairs after authorization with substantially less work, latency, and cost than global recovery; recovery cannot change stale execution, exactly as required; and localization does not reduce residual violations relative to global recovery. RQ6 therefore supports a stage-separated consistency contract and an efficiency claim, not a claim that the composed arm uniquely minimizes residual 28 violations. Under the frozen decision rules no frontier-superiority statement is licensed, and none is made. 
+
+7.5 Secondary studies: RQ2–RQ5 and re-litigation 
+
+The remaining questions support attribution, outcome accounting, component cost, and guard correctness; each is summarized here with full detail in the appendices. 
+
+RQ2 (mechanisms). Reported in full in Appendix F. Across 160 missions crossing four leave-one-family-out trigger variants with three routing rules, only two leave-one-family-out ablations show identified effects: removing predicted triggers raises cost by 1.592 and stale execution by 0.361 percentage points, and removing normative triggers cuts coverage by 11.64 points and completion by 5.89 points; channel adequacy blocks cheap but uninformative structural checks, while cheapest-adequate and maximum-net-value routing are indistinguishable on this stream. The mechanism is plural, the trigger families do different jobs, and no pooled near-boundary explanation survives the quantile diagnostics. 
+
+RQ3 (rescue outcomes). Development accounting and sensitivity are in Appendix H. On the 80 held-out missions the answer is a reversal the theory prices: adaptive refresh completes 4.35 fewer people than fixed k = 600 and 6.05 fewer than the validity clock, both simultaneous bands excluding zero, while reducing stale loss against both (against fixed, −15 .0 with band excluding zero) and showing no distinguishable weighted-loss difference, both bands including zero. Lower technical staleness does not by itself establish better mission outcome, and the projected hospital time remains a common geography bridge rather than a policy-specific clinical outcome; the reversal is consistent with the regime analysis of Corollary 2, and the record prices it. 
+
+Held-out process and accounting. We replay the three validation-frozen R-B points over all 80 test seeds. Every mission conserves the 240 generated people among delivered to the safe transfer dock, picked up but still in transit, and not picked up; pickup is never relabeled as completion, and the call-to-hospital quantity remains a projection adding the measured 2079-s geography bridge, not an observed policy-specific clinical outcome. The paired max-t family contains 12 contrasts and uses 10,000 draws. Table 7: RQ3 held-out outcome means, 80 missions per frozen policy. Time is projected call-to-hospital; weighted loss uses the frozen consequence composite.                         
+
+> Metric Adaptive εc=4 Fixed k=600 Clock α=.4Completed people 198.75 203.10 204.80 Not picked up 37.90 35.40 34.55 Projected time (s) 2118.52 2118.06 2175.69 Stale loss 6.25 21.25 778.75 False holds 4.4625 0.0000 1.5375 Weighted loss 7646.40 7103.76 7730.53
+
+29 Table 8: RQ3 held-out paired differences, adaptive minus comparator, with simultaneous 95% max-t bands in brackets.                             
+
+> Metric vs. fixed k=600 vs. clock α=.4Completed people −4.35 [−6.97, −1.73] −6.05 [−8.79, −3.31]
+> Not picked up 2.50 [−1.83,6.83] 3.35 [−.16,6.86]
+> Projected time (s) .462 [.44,.49] −57 .173 [−58 .3, −56 .1]
+> Stale loss −15 .0[−28 .2, −1.8] −772 .5[−1084, −461]
+> False holds 4.463 [4.01,4.92] 2.925 [1.95,3.90]
+> Weighted loss 542.6 [−323,1408] −84 .1[−793,625]
+
+Held-out answer to RQ3. Adaptive refresh does not improve completed rescues. It completes 4.35 fewer people than fixed k = 600 and 6.05 fewer than the validity clock; both simultaneous bands exclude zero. It reduces stale loss relative to both, but creates more false holds and has no distinguishable weighted-loss advantage because both weighted-loss bands include zero. Thus lower technical staleness does not by itself establish better mission outcome. End-to-end hospital claims still require policy-specific geography and clinical modeling rather than the common bridge used here. 
+
+RQ4 (audit-layer cost). Reported in full in Appendix I. On two frozen traces, the online buffered append path costs about 0.1 ms per TRACE version (56.9 ms across the representative 492-version replay), gate evaluation adds microseconds, and full-chain verification is linear at 80.45 microseconds per version ( R2 = 0 .999999), which places incremental appends online and full-chain scans offline or at checkpoints. The predeclared high-volume stress trace (16,334 versions) costs 2.40 s and 61.2 MiB, so record volume, not single-append latency, is the quantity to watch. The benchmark is a single-process, buffered measurement, not a durable-commit one; it supports a modest component-cost claim and nothing stronger. 
+
+Held-out R-C and pre-registered re-litigation. The final stress campaign runs the validation-frozen adaptive εc = 4 and fixed k = 600 points over common seeds 1001–1040; all 80 missions complete and every event and TRACE chain verifies. Under the six-contrast paired max-t family, adaptive reduces the stale-rate point estimate but does not separate from fixed on staleness or weighted stale loss, while raising cost, lowering coverage, and rescuing fewer people with bands excluding zero; the campaign table and case detail appear in Appendix J. Before any R-C outcome is opened, the registered case rule selects the first adaptive stale execu-tion: seed 1013 at t = 3241 s, boat group 027 south, authorized by trace-84c9ca78d3616c6a0e64 
+
+version 2. Replay reconstructs the authorization, evidence age, belief, and trigger state exactly, and the two registered single-artifact repairs, zero evidence latency and a tighter innovation tolerance, both preserve the same stale proposal; the six-step replay appears in Appendix K. We report nonclosure rather than searching post hoc for an unregistered flipping intervention: a negative causal result and a positive reproducibility result, since the record makes the boundary of the supported explanation explicit. 
+
+RQ5 (revalidation-guard stress test). The campaign evaluates the revalidation guard of Section 6.5 under the same freeze discipline: paired seeds run a no-change control and a 30 mid-mission version-replacement scenario (recorded as a structural event, the new version initially unqualified for high-consequence classes), with and without the guard. The pre-registered invariant is that under the guard no high-consequence commitment clears on a superseded or unqualified version; the control bounds guard overhead, and what the campaign prices is coverage and completion cost. The measured contrasts appear in Table 9; the per-seed measures and a representative replacement timeline are in the artifact’s RQ5 evidence package. Table 9: RQ5 held-out replacement stress test (80 paired seeds). Differences are guard minus no guard; brackets are simultaneous 95% max-t sensitivity bands over all 10 reported RQ5 contrasts, with endpoints rounded outward to two decimals; full precision is in the artifact.                                 
+
+> Outcome No guard →guard Diff. [95% band] Unsafe high-conseq. clears 3.688 →0−3.688 [−4.30 ,−3.08] Held pending revalidation 0→3.688 +3.688 [+3 .08 ,+4 .30] Added verification cost 0→4.021 +4.021 [+3 .35 ,+4 .69] Mission completion 1.00 →0.95 −0.050 [ −0.14 ,+0 .04] Rescued people 3.45 →3.28 −0.175 [ −0.50 ,+0 .15]
+
+Results. The revalidation invariant held in every held-out trace (seeds 3101–3180, 80 paired seeds per arm and scenario). In the replacement scenario the unguarded gate issued 3.688 high-consequence clears per mission on a superseded or unqualified version; the guard reduced the count to zero ( −3.688, band [ −4.291 , −3.084]) and converted the same number into explicit holds and escalations, at 4.021 units of additional verification cost ([+3 .359 , +4 .684]) (Table 9). Completion fell from 1.000 to 0.950 and rescued people from 3.450 to 3.275; both simultaneous bands include zero while the individual paired intervals exclude it, so a mission-level cost is possible but not established under the conservative family. In the no-replacement control the guard added no measured overhead, and every model-version and gate transition replayed exactly. The experiment supports a correctness and accountability claim: the guard does not make problematic commitments disappear; it converts unsafe clears into explicit, priced holds. 
+
+7.6 Falsification criteria 
+
+Declared before any run, and scoped: dominance is falsified if any validation-tuned fixed-k point or the budget-matched clock dominates the adaptive frontier on both RQ1 axes beyond the clustered intervals; the audit claim if refresh decisions prove unattributable to their declared conditions; and the calibration precondition if the deployed package exceeds its declared ECE bound per horizon or class. A null frontier with an intact audit trail leaves the contract contribution standing. The RQ5 invariant is falsified if any held-out trace shows a high-consequence commitment cleared on a superseded or unqualified predictor version. The held-out comparison resolves these criteria. Unconditional adaptive dominance is falsified: adaptive significantly reduces staleness relative to fixed k = 600 but is significantly worse on cost, coverage, completion, and rescued people, while the validity clock is far costlier and staler yet completes significantly more rescues; RQ3 likewise falsifies a held-out adaptive rescue-advantage claim, with weighted-loss bands including zero. The marginal proposal-population calibration precondition of Section 7.2 is not falsified: overall and action-class ECE upper bounds remain below .05 without refitting. The stronger selective guarantee for RQ6’s gate-cleared policy by 31 consequence by horizon strata is not established: all simultaneous upper bounds exceed .05, and three point estimates exceed it (Section 7.4, O6). The audit claim is not falsified, because the selected decision is fully reconstructable and attributable; the stronger causal-repair claim fails because neither registered counterfactual flips the held-out plan. RQ4 is not a durability test, so it neither establishes nor falsifies production storage overhead. 
+
+# 8 Discussion and Limitations 
+
+Adaptive refresh cannot detect a change absent from its process model or visible evidence; support, OOD, and normative gates bound where the predictor may authorize action, but thresholds remain declared, versioned institutional choices. The audit guarantee is therefore specific: the record reconstructs what the system represented and why it acted, not whether the representation was true. A related mechanism is deferred: escalating repeated out-of-tolerance innovations into a structural predictor-inadequacy condition is a natural companion to the revalidation guard, but it is an empirical detection claim requiring its own calibrated false-escalation budget and frozen campaign, and we do not report it here. Calibration is equally scoped: the unchanged map transfers to 62,977 held-out horizon-1 dispatch and evacuation route claims but does not certify longer horizons, other actions, support/OOD scores, or another scenario; most development mass lies near probabilities zero and one; and the predictor remains a transparent surrogate rather than the JEPA-class model the interface targets. The empirical results expose two estimand traps. A conservative controller can reduce stale execution by authorizing little, so every staleness result is paired with coverage; and lower stale loss is not itself a rescue benefit, since completion means delivery to the safe transfer dock, hospital time is a projection over one measured bridge, and both held-out weighted-loss contrasts include zero. An operator would choose the adaptive point when the verification budget binds, when stale execution carries regulatory weight beyond its rescue cost, or when audit obligations are non-negotiable; where none of these binds, the record supports choosing fixed k = 600, and that too is the contract working. RQ2 explains mechanism roles without establishing routing superiority, and RQ4 is a single-process, buffered component benchmark, not durable-service latency; both scopes are stated where the results are. The consistency reading spans the stack, and RQ6 measures its composition on one incident stream: the adjudication licenses prevention and repair economy, adaptive refresh reduced stale authorization and residual violations while localization matched global recovery’s residual and rescue outcomes at a fraction of the repair work and latency, and it refuses the strict synergy claim, since localization did not further lower residual violations. The corrective half’s internal guarantees remain evaluated in the SagaLLM campaigns Chang and Geng [2025], not re-derived here, and the composition on a second domain, under production durability, remains open. 
+
+Predictor substitution. We deliberately defer learned-predictor substitution rather than at-tach an uncalibrated semantic probe after observing the present campaigns. Our next frozen cam-paign compares the transparent surrogate, an unqualified V-JEPA predictor, and a development-calibrated V-JEPA predictor under the same TRACE-RealWorld gate. It tests whether unqualified outputs are converted to HOLD or ESCALATE rather than unsafe CLEAR decisions, whether 32 calibration restores in-support coverage while preserving OOD refusal, and whether detection and restoration debts remain equivalent under matched evidence, shocks, and repair instances; closed-loop debt rates are reported separately, because predictor-dependent selection can change the commitment and repair mixture. The protocol is frozen and hashed as a next-campaign commitment; a hash proves temporal freezing, not third-party preregistration. Finally, the held-out re-litigation reconstructs the disputed decision but does not close its cause: no registered shock intersects the claim interval and neither counterfactual flips the plan. Production durability, external chain anchoring, a second domain, and channel-stress evaluation remain open. Transfer beyond Flood-SAR is a design argument, not an empirical claim: the three motivating settings of Section 1 share exactly the structure Definitions 1–3 formalize, priced channels, irreversible reads, and dependency chains, and what changes across them is the channel menu and the loss table, which are policy inputs rather than architecture. 
+
+# 9 Conclusion 
+
+TRACE-RealWorld treats a predicted world state as a materialized view over the physical world and a commitment as a read whose authorization can expire. Typed claims carry calibrated adequacy, validity, and refresh conditions; adaptive triggers route priced verification; a consequence-scaled gate decides what may proceed; and TRACE records each basis, decision, and revision. The contribution is this contract around the trigger, supported by the model-conditional deadline lemma and its deployed guards. The frozen experiments establish trade-offs, not dominance: adaptive refresh lowers stale execution but loses coverage, completion, and rescued people against the strongest fixed interval; calibration transfers without refitting; RQ6 confirms exact recovery noninterference and repair economy while refusing the strict synergy prediction; and the revalidation guard converts every unsafe clear into an explicit, priced hold. The contribution is not an empirical proof that the deployed system is correct. It is a consistency contract that makes each proof-to-system assumption explicit, records the evidence relevant to it, and measures its empirical slack: imperfect detection coverage, approximate dependency soundness, observed completeness misses, uncertified selective calibration, and late restorations enter the record as auditable quantities rather than exceptions, which is the discipline the contract exists to enforce. 
+
+# Acknowledgments 
+
+We thank Longling Geng for executing the revalidation-guard stress campaign (RQ5) and Jaylan Roy for executing the composition campaign (RQ6). We also thank our collaborators on the dual-Kalman SIGMOD 2004 paper Jain et al. [2004] and the SagaLLM VLDB 2025 paper Chang and Geng [2025], which form the pillars of this work. 
+
+# References 
+
+Bahareh Sadat Arab, Dieter Gawlick, Vasudha Krishnaswamy, Venkatesh Radhakrishnan, and Boris Glavic. Using reenactment to retroactively capture provenance for transactions. IEEE 
+
+33 Transactions on Knowledge and Data Engineering , 30(3):599–612, 2018. doi: 10.1109/TKDE. 2017.2769056. Mido Assran, Adrien Bardes, David Fan, Quentin Garrido, Russell Howes, Mojtaba Komeili, Matthew Muckley, Ammar Rizvi, Claire Roberts, Koustuv Sinha, Artem Zholus, Sergio Arnaud, Abha Gejji, Ada Martin, Francois Robert Hogan, Daniel Dugas, Piotr Bojanowski, Vasil Khalidov, Patrick Labatut, Francisco Massa, Marc Szafraniec, Kapil Krishnakumar, Yong Li, Xiaodong Ma, Sarath Chandar, Franziska Meier, Yann LeCun, Michael Rabbat, and Nicolas Ballas. V-jepa 2: Self-supervised video models enable understanding, prediction and planning. 
+
+arXiv preprint arXiv:2506.09985 , 2025. URL https://arxiv.org/abs/2506.09985 .Karl J. ˚Astr¨ om and Bo Bernhardsson. Comparison of periodic and event based sampling for first-order stochastic systems. In Proceedings of the 14th IFAC World Congress , 1999. Karl J. ˚Astr¨ om and Bo Bernhardsson. Comparison of Riemann and Lebesgue sampling for first order stochastic systems. In Proceedings of the 41st IEEE Conference on Decision and Control ,2002. Jake Bruce, Michael Dennis, Ashley Edwards, Jack Parker-Holder, Yuge Shi, Edward Hughes, Matthew Lai, Aditi Mavalankar, Richie Steigerwald, Chris Apps, Yusuf Aytar, Sarah Bechtle, Feryal Behbahani, Stephanie Chan, Nicolas Heess, Lucy Gonzalez, Simon Osindero, Sherjil Ozair, Scott Reed, Jingwei Zhang, Konrad Zolna, Jeff Clune, Nando de Freitas, Satinder Singh, and Tim Rockt¨ aschel. Genie: Generative interactive environments. In Proceedings of the 41st International Conference on Machine Learning (ICML) , 2024. Edward Y. Chang. Multi-LLM Agent Collaborative Intelligence; The Path to Artificial General Intelligence, Volume I . ACM Books, 12 2025. ISBN 979-8-4007-3197-6. doi: 10.1145/3749421. (First Amazon edition published in March 2024). Edward Y. Chang. System-2 Reasoning: From Semantic Anchoring to Causal Intelligence: The Path to Artificial General Intelligence, Volume II . ACM Books, 6 2026. ISBN 979-8-4007-2804-4. doi: 10.1145/3822380. Edward Y. Chang and Emily J. Chang. TRACE: An operational reasoning schema for auditable agentic commitments, 2026. arXiv companion to Volume III of The Path to Artificial General Intelligence; schema frozen at v1.0. Edward Y. Chang and Longling Geng. SagaLLM: Context management, validation, and transac-tion guarantees for multi-agent LLM planning. Proceedings of the VLDB Endowment , 18(12): 4874–4886, 2025. doi: 10.14778/3750601.3750611. Edward Y. Chang, Longling Geng, and Emily J. Chang. Mnemosyne: Agentic transaction processing for validating and repairing AI-generated workflows, 2026. arXiv:2607.00269. Kurtland Chua, Roberto Calandra, Rowan McAllister, and Sergey Levine. Deep reinforcement learning in a handful of trials using probabilistic dynamics models. In Advances in Neural Information Processing Systems 31 (NeurIPS) , 2018. 34 Eduardo Freitas, Assis T. de Oliveira Filho, Pedro R. X. do Carmo, Djamel Sadok, and Judith Kelner. Digital twin synchronization: towards a data-centric architecture. arXiv preprint arXiv:2601.23051 , 2026. Hector Garcia-Molina and Kenneth Salem. Sagas. In Proceedings of the 1987 ACM SIGMOD International Conference on Management of Data , pages 249–259, 1987. Edward H. Glaessgen and David S. Stargel. The digital twin paradigm for future NASA and U.S. air force vehicles. In 53rd AIAA/ASME/ASCE/AHS/ASC Structures, Structural Dynamics and Materials Conference , page 1818, 2012. Jim Gray and Andreas Reuter. Transaction Processing: Concepts and Techniques . Morgan Kaufmann, 1993. Chuan Guo, Geoff Pleiss, Yu Sun, and Kilian Q. Weinberger. On calibration of modern neural networks. In ICML , 2017. Ashish Gupta and Inderpal Singh Mumick. Maintenance of materialized views: Problems, techniques, and applications. IEEE Data Engineering Bulletin , 18(2):3–18, 1995. Danijar Hafner, Timothy Lillicrap, Ian Fischer, Ruben Villegas, David Ha, Honglak Lee, and James Davidson. Learning latent dynamics for planning from pixels. In Proceedings of the 36th International Conference on Machine Learning (ICML) , 2019. Danijar Hafner, Jurgis Pasukonis, Jimmy Ba, and Timothy Lillicrap. Mastering diverse domains through world models. arXiv preprint arXiv:2301.04104 , 2023. Nicklas Hansen, Xiaolong Wang, and Hao Su. Temporal difference learning for model predictive control. In Proceedings of the 39th International Conference on Machine Learning (ICML) ,2022. Nicklas Hansen, Hao Su, and Xiaolong Wang. TD-MPC2: Scalable, robust world models for continuous control. In International Conference on Learning Representations (ICLR) , 2024. W. P. M. H. Heemels, Karl H. Johansson, and Paulo Tabuada. An introduction to event-triggered and self-triggered control. In Proceedings of the 51st IEEE Conference on Decision and Control ,pages 3270–3285, 2012. Ronald A. Howard. Information value theory. IEEE Transactions on Systems Science and Cybernetics , 2(1):22–26, 1966. Yixiu Huang, Robert Sloan, and Ouri Wolfson. Divergence caching in client-server architectures. In Proceedings of the Third International Conference on Parallel and Distributed Information Systems (PDIS) , pages 131–139, 1994. Ankur Jain, Edward Y. Chang, and Yuan-Fang Wang. Adaptive stream resource management using Kalman filters. In Proceedings of the 2004 ACM SIGMOD International Conference on Management of Data , pages 11–22, Paris, France, 2004. Leslie Pack Kaelbling, Michael L. Littman, and Anthony R. Cassandra. Planning and acting in partially observable stochastic domains. Artificial Intelligence , 101(1–2):99–134, 1998. 35 Rudolf E. Kalman. A new approach to linear filtering and prediction problems. Journal of Basic Engineering , 82(1):35–45, 1960. Maximilian Karl, Maximilian S¨ olch, Justin Bayer, and Patrick van der Smagt. Deep variational Bayes filters: Unsupervised learning of state space models from raw data. In International Conference on Learning Representations (ICLR) , 2017. Vikram Krishnamurthy. Partially Observed Markov Decision Processes: From Filtering to Controlled Sensing . Cambridge University Press, 2016. Yann LeCun. A path towards autonomous machine intelligence, 2022. OpenReview preprint, version 0.9.2. Martin Leucker and Christian Schallhart. A brief account of runtime verification. Journal of Logic and Algebraic Programming , 78(5):293–303, 2009. Chenhao Li, Andreas Krause, and Marco Hutter. Uncertainty-aware robotic world model makes offline model-based reinforcement learning work on real robots. arXiv preprint arXiv:2504.16680 ,2025. Ali Maatouk, Saad Kriouile, Mohamad Assaad, and Anthony Ephremides. The age of incorrect information: A new performance metric for status updates. IEEE/ACM Transactions on Networking , 28(5):2215–2228, 2020. NVIDIA. Cosmos world foundation model platform for physical AI. arXiv preprint arXiv:2501.03575 , 2025. Chris Olston and Jennifer Widom. Offering a precision-performance tradeoff for aggregation queries over replicated data. In Proceedings of the 26th International Conference on Very Large Data Bases (VLDB) , pages 144–155, 2000. Chris Olston and Jennifer Widom. Best-effort cache synchronization with source cooperation. In 
+
+Proceedings of the 2002 ACM SIGMOD International Conference on Management of Data ,pages 73–84, 2002. Chris Olston, Jing Jiang, and Jennifer Widom. Adaptive filters for continuous queries over distributed data streams. In Proceedings of the 2003 ACM SIGMOD International Conference on Management of Data , pages 563–574, 2003. Guy Revach, Nir Shlezinger, Xiaoyong Ni, Adri` a L´ opez Escoriza, Ruud J. G. van Sloun, and Yonina C. Eldar. KalmanNet: Neural network aided Kalman filtering for partially known dynamics. IEEE Transactions on Signal Processing , 70:1532–1547, 2022. Julian Schrittwieser, Ioannis Antonoglou, Thomas Hubert, Karen Simonyan, Laurent Sifre, Simon Schmitt, Arthur Guez, Edward Lockhart, Demis Hassabis, Thore Graepel, Timothy Lillicrap, and David Silver. Mastering Atari, Go, chess and shogi by planning with a learned model. 
+
+Nature , 588:604–609, 2020. Zhen Sun, Yongjian Guo, Haoran Sun, Luqiao Wang, Wei Lu, Jiachi Ji, Shengzhe Ji, Junwu Xiong, and Zhijun Meng. Pre-VLA: Preemptive runtime verification for reliable vision-language-action and world-model rollouts, 2026. arXiv:2605.22446. 36 Paulo Tabuada. Event-triggered real-time scheduling of stabilizing control tasks. IEEE Transac-tions on Automatic Control , 52(9):1680–1685, 2007. Hongbo Wang. Certified world models as sensing clocks: Drift-aware deadlines for active perception, 2026. arXiv:2607.01537. 37 Appendix Contents 
+
+A Supplementary Figures 38 
+
+B Formal Extensions and Theorem-Regime Checks 38 
+
+C Calibration Development Diagnostics 39 
+
+D Development Operating-Point Evidence 40 
+
+E Trigger Taxonomy Reference 42 
+
+F RQ2 Mechanism Study 42 
+
+G RQ2 Trigger Diagnostics 43 
+
+H RQ3 Development Outcomes and Sensitivity 44 
+
+I RQ4 Scaling Detail 45 
+
+J Final R-C Campaign 47 
+
+K Re-litigation Evidence 48 
+
+L Record-Store Mechanics and Provenance Scope 48 
+
+M The Condition Hierarchy and the Refresh Rule in Practice 49 
+
+N Artifact Inventory 49 
+
+# A Supplementary Figures 
+
+Figure 4 sketches the reasoning stack and the boundary it fixes; the operational console appears as Figure 2 in the main text. 
+
+> Planning and reasoning (SagaLLM): commitment chains, invalidation, rollback, compensation
+> TRACE-RealWorld : semantic elevation, signal economy, consequence admission
+> TRACE record store: typed, versioned, append-only, hash-chained claims
+> World-model predictor: state, uncertainty, support, OOD
+> Physical world and priced observation channels
+> conditions license decisions
+> every step read/written
+> observe / act
+
+Figure 4: The reasoning stack. TRACE-RealWorld sits between the TRACE record store below and transactional planning above; it neither learns the predictor nor constructs the plan, and its output is the set of claims a world model’s predictions justify. 
+
+# B Formal Extensions and Theorem-Regime Checks 
+
+Realized-path cost identity. For the analytical unguarded scheduler that purchases an exact observation at every admissibility deadline, let t∞ = lim n tn, take the observation at t0 = 0 as free initialization, and let N (T ) = max {n : tn ≤ T } count paid re-verifications for T < t ∞. The paid cost is cN (T ) and 1
+
+σ2  
+
+> N(T)−1
+
+X
+
+> i=0
+
+d2
+
+> i
+
+z2
+
+> η(ai)
+
+≤ T < 1
+
+σ2  
+
+> N(T)
+
+X
+
+> i=0
+
+d2
+
+> i
+
+z2
+
+> η(ai)
+
+.
+
+38 This is a two-sided realized-path identity with the in-progress interval censored at T , not an expectation-level cost formula. The deployed guarded policy may HOLD or ESCALATE at a deadline and then has no next di on that branch, so the identity is not claimed for that policy. 
+
+Scheduler separation. For declared deadlines τ1, . . . , τ N , a periodic scheduler that honors every deadline must take k ≤ τmin and therefore issues, counting an initial check at time zero, 
+
+⌊SN /k ⌋ + 1 ≥ ⌈ SN /τ min ⌉ checks over SN = P 
+
+> i
+
+τi. The deadline scheduler issues N ; the ratio strictly exceeds ¯τ /τ min . This proof is counting only; it does not compare stochastic policies whose observations alter their later boundary distances. 
+
+Zeno calculation and guards. In the symmetric-loss case ∆ = L/ 2, with ηf = ηs = η,successive polled distances satisfy di+1 = di|1−ξi/z η| for standard normal ξi. For η < η 0 ≈ 0.2602, where E log |1 − ξ/ Φ−1(1 − η0)| = 0, the logarithmic multiplier has negative mean and distances contract exponentially; the epoch times can therefore accumulate. The workbench prevents continued authorization in this regime: when the theoretical deadline is below one tick, or the declared verification-rate or cost limit is exceeded, the gate returns HOLD or ESCALATE. We make no optimality claim for this fallback. The deadline is model-conditional to exact observations, zero drift, and no intermediate evidence. With drift, flip risk may be nonmonotone and the threshold may never be reached; passive observations may advance or delay the deadline. The trigger controls instantaneous regret and is not claimed to minimize cumulative regret plus sensing cost or to be robust to misspecification beyond the support and OOD gates. 
+
+Synthetic regime test. The artifact instantiates the exact Brownian setup, checks the closed-form deadline against the Gaussian flip probability, verifies both sides of the censored cost identity, forces the sub-tick transition to HOLD, and checks the finite-sequence scheduler count. Flood-SAR has positive drift and is used only to test the qualitative scheduling implication, not as a numerical proof of the lemma. 
+
+# C Calibration Development Diagnostics 
+
+The calibration pipeline collects every proposed dispatch and evacuation route claim from the 19-configuration, 20-seed development grid; labels continuous route openness by immutable event replay; holds out complete seeds in five folds; freezes a weighted isotonic map; and then performs smoke and wiring audits. Labeling all proposals avoids gate-induced selective labels. Of 300,442 candidates, 169 are censored at mission end. Figure 6 summarizes the pipeline; Figure 5 gives the ten-bin reliability diagram behind the sparse-middle-bin caveat; Table 10 reports the per-stratum development results and Table 11 the policy-family diagnostic. The failed fixed-k = 300 pilot had grouped OOF ECE .00475 but cross-policy smoke-test ECE .05537, so it was rejected before the full rerun. In the final development map, 86.2% of claims lie below .1 or above .9 and only 1.17% lie between .2 and .8; sparse middle-bin deviations therefore prevent local or uniform calibration claims. The frozen wiring audit verifies all 380 missions and 655,761 route-record versions with zero score-range, map-reproduction, or confidence mismatches. Its fitted-data ECE is only a wiring check; the OOF and held-out results are inferential. Figure 5 shows the ten-bin reliability diagram behind the sparse-middle-bin caveat. 39 0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1
+
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+
+Mean predicted probability 
+
+> Observed frequency
+> Perfect
+> Raw
+> Seed-grouped OOF
+
+Figure 5: Ten-bin reliability. ECE is count-weighted: 86.2% of OOF claims fall below 0.1 or above 0.9, while only 1.17% fall between 0.2 and 0.8. The sparse middle-bin deviations therefore bound local, not marginal, claims. 
+
+> R-B grid 19 configs, 20 seeds
+> All proposed route claims
+> Event replay interval labels
+> Five-fold OOF hold out seeds
+> Fit and freeze isotonic v2
+> Smoke plus 380-run audit
+
+Figure 6: Calibration process. Complete-seed folds prevent mission records from appearing on both sides; labeling all proposals prevents gate-induced selective labels. Table 10: Development calibration. OOF folds hold out complete seeds; intervals are 10,000-draw seed-cluster bootstraps. 
+
+Stratum n Raw ECE OOF ECE ECE 95% CI OOF Brier Brier 95% CI Overall / horizon 1 300,273 .32705 .00477 [.00383,.01434] .02071 [.01800,.02337] Dispatch boat 216,615 .33802 .00601 [.00515,.01898] .02628 [.02286,.02988] Evacuate to safety 83,658 .29864 .00190 [.00118,.00379] .00628 [.00440,.00820] 
+
+# D Development Operating-Point Evidence 
+
+The 19-point R-B development grid uses seeds 1–20. All 380 missions and chains verify, and event trajectories match across policies. These results motivated the validation protocol but used preliminary coverage accounting and are not confirmatory. Figure 7 plots the development point Table 11: Policy-family OOF diagnostic. The no-refresh interval crosses the declared .05 threshold. 
+
+Policy n OOF ECE ECE 95% CI Adaptive 32,030 .00167 [.00115,.01010] Fixed-k 121,883 .01464 [.00844,.02673] Validity clock 103,760 .01435 [.00928,.02268] No refresh 42,600 .04956 [.02807,.07558] 
+
+40 2 3 4 5 6    
+
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> ε=.25
+> k= 600
+> k= 300
+
+Verification cost per mission      
+
+> Stale execution rate (%)
+> 10 010 110 2
+> 0
+> 20
+> 40
+> k= 600
+> ε=.5
+
+Verification cost per mission  
+
+> Execution coverage (%)
+> Adaptive
+> Fixed k
+> Validity clock
+
+Figure 7: RQ1 development point estimates. The left-panel cost–staleness view favors adaptive refresh, but the right panel exposes the associated coverage loss. The no-refresh arm has zero cost and staleness but only 1.41% coverage and is reported in Table 12; zero cost prevents its inclusion on the logarithmic axis. estimates on both declared axes; Table 12 reports the selected means and Table 13 the paired development contrasts. Table 12: Selected RQ1 development means with 95% seed-cluster intervals.                                          
+
+> Policy Setting Cost Stale execution (%) Coverage (%) No refresh default 0 [0,0] 0 [0,0] 1.41 [1.41,1.41] Adaptive εc=.25 2.051 [1.320,2.942] 0 [0,0] 33.38 [28.29,38.29] Adaptive εc=.53.824 [2.722,4.896] 0 [0,0] 44.11 [41.26,46.39] Fixed k= 600 2.780 [2.680,2.880] .100 [0,.253] 47.88 [47.10,48.64] Fixed k= 300 5.570 [5.380,5.760] .394 [.108,.731] 48.54 [47.73,49.27] Clock α=.10 87.440 [70.150,103.900] 5.366 [2.405,8.557] 44.10 [40.87,47.33] Fixed diagnostic k= 5 333.690 [325.660,341.020] 41.997 [33.523,49.216] .65 [.53,.77]
+
+Table 13: Paired development differences; rate differences are percentage points and brackets are 95% paired seed-bootstrap intervals. 
+
+Contrast ∆cost ∆stale ∆coverage 
+
+ε = .25 − k = 600 −.729 [ −1.450,.152] −.100 [ −.253,0] −14 .50 [ −19 .83, −9.32] 
+
+ε = .25 − k = 300 −3.519 [ −4.290, −2.588] −.394 [ −.731, −.108] −15 .16 [ −20 .67, −9.71] 
+
+ε = .5 − k = 600 1.044 [ −.028,2.076] −.100 [ −.253,0] −3.77 [ −6.67, −1.53] 
+
+The development frontier already warned against unconditional dominance: adaptive lowered point staleness but also coverage, no refresh achieved zero staleness by executing only 1.41% of opportunities, and the latency-saturated k = 5 diagnostic was pathological. Validation and held-out tables in the main paper supersede these estimates. 41 Family Fires when Policy fields Reason code 
+
+Predicted validity shorter than commitment horizon, or predicted uncertainty above the action bound  
+
+> max horizon ,max uncertainty ,
+> max obs age
+
+scenario outcome Observed innovation from partial observations exceeds the declared tolerance  
+
+> refresh condition , tolerance
+
+injected disruption, else scenario Structural OOD above bound or support below floor: the view is outside admitted competence   
+
+> min support ,max ood
+
+model transient, else scenario Normative policy or authority demands fresh evidence for the action class   
+
+> authority per class
+
+contract violation if bypassed 
+
+Table 14: The four trigger families, their parameterization, and the reason codes under which their outcomes are attributed (short forms of the identifiers listed in Section 7.1). A predicted trigger fires from the model alone, before any observation; each family is a declared observable in the sense of Section 3.3. 
+
+# E Trigger Taxonomy Reference F RQ2 Mechanism Study 
+
+Process. RQ2 uses the corrected R-C development protocol because it exercises all four trigger families. Each of 20 seeds receives two registered, policy-independent changes: a levee pulse at 
+
+t = 2520 s followed by a keyed noisy passive depth report two seconds later, and a structural debris closure at t = 3600 s. The passive monitors are common telemetry, not selectable evidence channels. At εc = 1, we compare the full four-family policy with four leave-one-family-out variants and, holding triggers fixed, cheapest, cheapest-adequate, and maximum-net-value routing. This produces 160 missions. All completed, all event and TRACE chains verified, and the common-random-number check passed for all 20 seeds. Table 15 reports ablation-minus-full paired differences using 10,000 bootstrap draws over the 20 seed pairs. 
+
+Finding 1: the trigger families perform different jobs. The full arm emits 91 triggers, with dispositions plotted in Appendix G. Predicted triggers occur closest to the continuous route boundary, median distance 0 .0359, and 9 of 25 invoke the rate guard rather than purchase evidence; observed triggers occur in 19 missions exactly three seconds after the levee pulse; structural triggers occur in 13 missions, the first always one second after the debris closure, with 22 of 27 acquiring a drone report and 5 withdrawing authorization because no channel has positive net value; and normative triggers fire once per mission, far from the physical boundary, because the rule requires fresh evidence before an irreversible action. The quantile diagnostics collected in Appendix G therefore support the declared family separation, not a pooled “near-boundary” explanation; zero expected regret for the observed and normative rows is expected, since innovation and policy obligation, not the predicted-regret threshold, own those triggers. 
+
+Finding 2: only two leave-one-family-out ablations show identified effects. Removing predicted triggers increases cost by 1 .592 and stale execution by 0 .361 percentage points, with both paired intervals excluding zero; it also increases completion by 1 .21 points. In this coupled 42 Table 15: Paired RQ2 development effects. Rows are variant minus full; rates are percentage-point differences; brackets are 95% paired seed-bootstrap intervals. The full-arm means are cost 6.057, stale execution 0.295%, coverage 23.87%, and mission completion 44.39%. Cheapest-adequate and maximum-net-value routing are identical to the full arm on all four measures.                             
+
+> Variant −full ∆cost ∆stale (pp) ∆coverage (pp) ∆completion (pp)
+> No predicted 1.592 [.441,2.864] .361 [.081,.706] 7.68 [ −.95,16.39] 1.21 [.36,2.25] No observed .340 [ −1.441,2.293] .003 [0,.008] 1.02 [ −6.41,8.23] .22 [ −.38,.88] No structural −.250 [ −.751,0] 0 [0,0] −1.86 [ −5.59,0] 0 [0,0] No normative −2.562 [ −4.305, −.801] −.173 [ −.589,.244] −11 .64 [ −19 .38, −3.90] −5.89 [ −7.53, −4.34] Cheapest −5.227 [ −6.889, −3.555] .323 [.081,.645] 10.14 [3.63,17.90] 0 [0,0] Cheapest adequate; max net value 0 [0,0] 0 [0,0] 0 [0,0] 0 [0,0]
+
+controller, the predicted family therefore buys lower staleness and lower downstream verification cost at a small completion cost. In contrast, removing normative triggers reduces cost by 2 .562 but also reduces coverage by 11 .64 points and completion by 5 .89 points. The normative family is an evidence-enabling coverage mechanism here, not an empirically separable stale-execution safeguard. Although observed and structural triggers fire promptly, their aggregate leave-one-out intervals include zero on the main RQ2 outcomes. With 20 seeds and overlapping gates, their incremental mission-level effects are not identified. 
+
+Finding 3: adequacy matters; net-value superiority is not identified. Unconstrained cheapest routing lowers cost from 6 .057 to 0 .830 but raises stale execution from 0 .295% to 0 .618% and coverage from 23 .87% to 34 .01%. It chooses the gauge for all 27 structural triggers even though the recorded adequacy probability is zero. The result is a cheaper, less conservative, and significantly staler policy, not a free efficiency gain. Cheapest-adequate and maximum-net-value routing, however, produce exactly identical per-seed cost, staleness, coverage, completion, rescued-person, pending-person, and weighted-stale-loss vectors. With the present two-channel scores, the gauge is selected whenever adequate and the drone is the only adequate positive-net option otherwise. This experiment supports the adequacy constraint but cannot support superiority of maximum net value over cheapest adequate. 
+
+Answer to RQ2. The development mechanism is plural. Predicted triggers account for an identified reduction in staleness and cost; normative triggers preserve coverage and completion; and channel adequacy prevents cheap but uninformative structural checks. The observed and structural families are exercised and timely but have no detectable aggregate incremental effect in this sample, and without a channel-stress grid in which costs, adequacy, and VoI rankings cross, the two adequate routing rules are structurally indistinguishable. We therefore retain RQ2 as a completed mechanism study rather than a held-out routing comparison; RQ3 separately tests whether these trade-offs improve rescue outcomes rather than inferring benefit from trigger behavior. 
+
+# G RQ2 Trigger Diagnostics 
+
+Figure 8 (placed with the RQ3 outcome chart at the head of Appendix H) plots the per-family dispositions, and the quantile entries of Table 16 substantiate the family separation reported in 43 Table 16: Full-policy trigger diagnostics across 20 R-C missions. The distance, expected-regret, VoI, and delay entries are median [IQR]. Evidence delay is conditional on acquisition; HOLD triggers have no delay value.                          
+
+> Family Count Disposition Boundary dist. Expected regret Max VoI Delay (s)
+> Predicted 25 16 gauge, 9 HOLD .0359 [.0311,.0434] 1.025 [.895,1.865] 14.375 [14.231,14.397] 5 [5,5] Observed 19 19 gauge .0984 [.0706,.1278] 0 [0,0] 14.550 [14.550,14.550] 5 [5,5] Structural 27 22 drone, 5 HOLD .1632 [.0465,.1632] 42.500 [21.793,42.500] 7.275 [7.275,10.820] 10 [7,11] Normative 20 20 gauge .3605 [.3605,.3605] 0 [0,0] 14.550 [14.550,14.550] 5 [5,5]
+> 010 20 30
+> Predicted
+> Observed
+> Structural
+> Normative
+> Triggers across 20 missions
+> Gauge Drone HOLD
+
+Figure 8: Full-policy R-C trigger disposition. HOLD means autho-rization was withdrawn without evidence acquisition because the rate guard fired or no channel had positive declared net value.                
+
+> 050 100 150 200 250
+> k= 5
+> No refresh
+> α=.10
+> k= 15
+> k= 45
+> k= 300
+> k= 600
+> ε= 7
+> People per mission
+> Delivered In transit Not picked up
+
+Figure 9: RQ3 development outcome accounting; the bound-ary controls run only in development, and held-out means appear in Table 7. Pickup is kept distinct from safe-transfer completion; each stacked bar sums to 240 people. Section 7.5: observed triggers follow the passive report, structural triggers follow the registered debris closure, and normative triggers fire far from the physical boundary because the action class requires fresh evidence, so their zero expected regret is expected rather than anomalous. 
+
+# H RQ3 Development Outcomes and Sensitivity 
+
+Each R-B mission generates 240 people. A completed rescue requires PEOPLE_DELIVERED at the safe dock; pickup remains distinct. The projected hospital time adds a single measured 2079-s geography bridge and is not an observed clinical outcome. The bridge is the realized pickup-to-hospital duration of one noise-free transfer-chain run on the real geography: the schedule predicted 1883.08 s against 2079.00 s realized, an underprediction of 195.92 s (10.40%), so the constant is measured, with a known schedule error, rather than modeled. Figure 9 shows the stacked outcome accounting across the selected arms and boundary controls, paired with the RQ2 trigger disposition chart of Appendix G; Table 17 reports the selected means and Table 18 the raw components and nominal composite. 44 Table 17: Selected RQ3 development means with seed-cluster intervals. 
+
+Policy Completed In transit Not picked up Projected time (s) Adaptive εc = 7 197.8 [192.6,202.4] 2.4 [1.6,3.2] 39.8 [34.6,45.2] 2118.52 [2118.48,2118.56] Fixed k = 600 200.0 [194.6,204.8] 2.8 [2.0,3.6] 37.2 [31.8,43.2] 2118.06 [2118.06,2118.06] Fixed k = 300 201.0 [195.8,205.4] 2.4 [1.6,3.2] 36.6 [32.0,42.0] 2119.49 [2118.06,2121.40] Fixed k = 15 202.4 [198.0,206.2] 3.0 [2.2,3.6] 34.6 [30.6,39.2] 2118.20 [2118.09,2118.39] Clock α = .10 201.6 [197.0,205.6] 3.6 [3.0,4.0] 34.8 [30.8,39.6] 2118.38 [2118.19,2118.63] No refresh 60 [60,60] 0 [0,0] 180 [180,180] 2118.20 [2118.20,2118.20] 
+
+Table 18: Development raw components and nominal provisional composite; verification cost remains a separate resource coordinate.                                                              
+
+> Policy Cost Stale loss Withdrawals False HOLDs Interruptions Composite Adaptive εc= 7 3.814 05.35 4.60 2.15 8022.1 Fixed k= 600 2.780 10 .95 0.20 7452.9 Fixed k= 300 5.570 40 .90 0.60 7362.7 Fixed k= 45 41.850 120 1.00 01.50 7163.0 Fixed k= 15 170.110 480 1.00 04.95 7403.0 Clock α=.10 87.440 620 9.40 3.40 6.75 7642.2 No refresh 0000036000.0
+
+The provisional composite uses 
+
+Lw = wsLstale + wmNunpicked 
+
++ waNwithdrawn + whNfalse -HOLD .
+
+Across 144 combinations of ws ∈ { .5, 1, 2, 5}, wm ∈ { 50 , 100 , 200 , 400 }, wa ∈ { 0, 3, 10 }, and 
+
+wh ∈ { 0, 10 , 50 }, adaptive is never lower than k = 600 and is lower than k = 300 in only 2 cases; Table 19 tabulates the grid. These development preferences do not determine the frozen test weights. Table 19: Provisional composite-weight sensitivity. Negative margin favors adaptive εc = 7; one validity-clock setting is tied. 
+
+Comparator Adaptive lower Margin range 
+
+Fixed k = 600 0/144 (0.0%) [80.0, 1309.0] Fixed k = 300 2/144 (1.4%) [−40 .0, 1534.5] Fixed k = 45 16/144 (11.1%) [−370 .0, 2053.5] Fixed k = 15 60/144 (41.7%) [−2140 .0, 2113.5] Validity clock α = 0 .10 89/144 (61.8%) [−2890 .5, 1750.0] 
+
+# I RQ4 Scaling Detail 
+
+This appendix carries the full RQ4 component benchmark summarized in the main text. 45 Process and estimand. We benchmark two frozen seed-1 R-B traces before inspecting timing: the RQ3-reported adaptive εc = 7 arm, with 492 TRACE versions and 11,743 events, and the predeclared latency-saturated k = 5 diagnostic, with 16,334 versions and 52,030 events; the former is the representative context, the latter a volume stress test ineligible for operating-point selection. Each context receives five complete component trials in which every source version is written to a fresh hash-chained repository and its gate inputs are evaluated by the same policy engine; Table 20 reports the median of the five within-trace p50/p95/p99 estimates. Full-chain verification is timed against parsed in-memory envelopes (cached) and from a newly constructed repository that must parse and validate the file (cold). Every source and replay chain verifies. To isolate the online append path, ten additional paired replays use the identical, preloaded record/evidence sequence and alternate order: the audit-off side retains gate evaluation but suppresses the repository write, the audit-on side adds the buffered hash-chain append, so the paired difference estimates record-path append overhead, not end-to-end mission slowdown. Timing used one Python 3.12 process on nine AMD EPYC 9V74 cores, Linux 6.12, and an ext4 temporary filesystem; TraceRepository.write closes each append but does not call fsync , so these are buffered, not durable-commit, latencies. Table 20: RQ4 development component benchmark. Append quantiles are the median-of-five-trial estimates in ms; paired total is the ten-trial median [min,max] in ms; verification is in ms. Gate and bytes-per-version diagnostics are in Table 21.                
+
+> Metric Adaptive εc=7 Fixed k=5 stress
+> TRACE versions 492 16,334 Repository size (MiB) 1.956 61.154 Append p50 / p95 / p99 .115 / .170 / .213 .111 / .172 / .231 Paired total 56.9 [56.5, 68.9] 2399.5 [2184.2, 2888.6] Verify cached / cold 40.1 / 82.6 1323.5 / 3023.7
+
+Finding 1: per-version online cost is small, but record volume turns it into mission-scale work. Representative buffered append latency is 0.115 ms at p50 and 0.213 ms at p99; gate evaluation is another 0.0033 ms at p50. The paired replay attributes 56.9 ms to appending all 492 versions, or 0.116 ms per version; the k = 5 trace has similar append quantiles, but its 33.2-fold larger version count raises the paired total to 2399.5 ms, or 0.147 ms per version. The stress penalty is thus driven by version volume and cumulative file work, not the single-append median, mirroring the admission-path separation of Chang et al. [2026]: gate computation, online recording, and offline audit are different costs. 
+
+Finding 2: verification is linear and belongs off the online critical path. Cached prefix verification from 10 to 16,334 versions gives a raw-scale least-squares slope of 80.45 microseconds per version ( R2 = 0 .999999); the scaling plot is Figure 10. Cached full verification takes 40.1 ms for 492 versions and 1323.5 ms for 16,334; cold verification, including file parsing and model validation, takes 82.6 and 3023.7 ms. Storage rises from 1.956 to 61.154 MiB, while mean bytes per version remains near 4 KiB. Full verification is therefore predictable but unsuitable for synchronous per-commitment use; incremental appends remain online, while full-chain scans are an offline or checkpointed operation. 46 Finding 3: the benchmark does not establish production durability or whole-system overhead. The paired replay isolates buffered TRACE appends after inputs are materialized; it excludes simulator, planner, network, concurrent-writer, crash-recovery, and durable-flush effects and uses one machine and one filesystem. Gate evaluation is reported as a controller component, not misclassified as audit-only overhead. Production claims require an audit-on/off mission harness, a durable backend with an explicit flush policy, concurrency sweeps, and hardware replication. 
+
+Answer to RQ4, in full. In this development implementation, the online buffered append path is about 0.1 ms per TRACE version and adds 56.9 ms to the representative record replay. The pathological high-volume trace costs 2.40 s and 61.2 MiB, and full-chain verification grows linearly. The result supports modest per-version component cost and explicit offline verification; it does not support a durable-database or end-to-end mission-overhead claim.     
+
+> 10 110 210 310 4
+> 10 0
+> 10 1
+> 10 2
+> 10 3
+> TRACE versions
+> Cached verification (ms)  Five-trial median
+> Linear slope 80.45 μs/version
+
+Figure 10: RQ4 chain-length scaling on the stress trace. The raw-scale linear fit has R2 = 0 .999999; min-to-max five-trial variation at 16,334 versions is 1305.3–1475.6 ms. Figure 10 shows the cached-verification chain-length scaling behind the 80.45 microsecond-per-version slope; Table 21 reports the secondary storage and gate-latency diagnostics. Table 21: Secondary RQ4 storage and gate diagnostics. Gate entries are p50/p95/p99 ms over five trials.           
+
+> Context Bytes/version Gate p50/p95/p99 Adaptive εc= 7 4168 .0033/.0061/.0091 Fixed k= 5 stress 3926 .0029/.0059/.0089
+
+# J Final R-C Campaign 
+
+Table 22 reports the final held-out R-C means and the adaptive-minus-fixed differences summa-rized in the main text. For the registered case, both chains verify; no registered shock intersects the record’s [2523 , 4323] validity interval, so fixed-priority attribution is scenario_outcome ;47 evidence age is 718 s, the recorded belief is open with confidence .95, calibrated claim confidence is .97425, and the last innovation .04420 is below the .15 tolerance. The registered repairs set evidence latency to zero and tighten the tolerance to .05; each preserves the same stale proposal, and the six-step replay follows in Appendix K. Table 22: Final held-out R-C means over 40 common seeds, with the adaptive-minus-fixed difference and its simultaneous 95% max-t band in brackets. Rates are percentages.                             
+
+> Metric Adaptive Fixed k=600 ∆[band]
+> Cost 6.83 3.51 3.323 [1.86,4.79]
+> Stale (%) .413 .969 −.556 [−1.20,.08]
+> Coverage (%) 86.11 94.82 −8.706 [−14 .9, −2.5]
+> Rescued 109.30 111.50 −2.20 [−4.16, −.24]
+> Pending 129.60 127.70 1.90 [.03,3.77]
+> Stale loss 22.50 57.50 −35 .00 [−73 .0,3.0]
+
+# K Re-litigation Evidence 
+
+The replay proceeds as follows: (1) both baseline chains verify; (2) no registered shock intersects [2523 , 4323], so attribution remains scenario_outcome ; (3) record 
+
+trace-84c9ca78d3616c6a0e64 v2 authorizes the plan at confidence .97425 from 718-s-old ev-idence; (4) innovation .04420 is below tolerance .15 and the recorded belief remains open at confidence .95; (5) neither zero evidence latency nor tolerance .05 suppresses the stale proposal; and (6) the case remains causally open. 
+
+K.1 Development diagnostic 
+
+The earlier seed-2 diagnostic selects the stale south-detour dispatch at t = 2521 s, one second after a registered levee breach and one second before the two-second passive report arrives. Both chains verify. Tightening the tolerance from .15 to .05 leaves the plan stale, while zero report latency exposes the blockage before selection and replaces the dispatch with reversible drone verification. This closes the case only relative to those two declared repairs; zero latency is diagnostic, not a deployable service promise. The held-out nonclosure in the main paper supersedes this example as confirmatory evidence. 
+
+# L Record-Store Mechanics and Provenance Scope 
+
+The store is an append-only hash chain from a GENESIS entry; each entry carries previous, payload, and entry hashes; a verify_chain operation checks the chain end to end; and any attempted rewrite raises ImmutableWriteError . The scope is stated precisely: the chain provides internal tamper evidence and API-level immutability, while adversarial immutability against a privileged actor who could rewrite payloads and recompute the chain requires externally anchoring the chain head, which the deployment plan includes and the workbench does not yet enforce. Within those assumptions provenance is structural: a disputed dispatch, preemption, or refresh is re-litigated from the store, not from logs beside it; the record establishes what the 48 system represented and why the gate accepted it, not that the belief was correct. Preemption illustrates the discipline: the engine prefers free assets, requires a priority margin, never preempts an asset carrying survivors, and records proposal and commit as separate events. 
+
+# M The Condition Hierarchy and the Refresh Rule in Practice 
+
+Flood-SAR makes concrete a three-level hierarchy of conditions that the contract of Section 3 types and the machinery of Section 6 maintains. At the bottom are signal conditions : tolerances on state claims, a gauge level within 0 .15 m of its prediction, a fuel reading above a floor. Above them are semantic conditions : event claims that aggregate signals into a named predicate whose truth licenses reasoning, “rescue boat B2 can serve incident group 027” holds only if the boat has fuel for the required distance, water turbulence is below the boat’s rating, and the river segment is open. A semantic condition can change because any constituent signal drifts, and its calibrated confidence is attached at this level, not at the sensors. At the top are action conditions : the gate’s requirements on a practical claim, freshness covering the commitment horizon, adequacy scaled to consequence, authority present, no undefeated defeaters. An action condition can be disrupted from below, a semantic condition flips while the boat is en route, or from beside, a priority change preempts the asset for a more urgent incident; in either case the affected commitment is not silently rewritten but invalidated, compensated, or escalated through the chain semantics of Section 6.7, and every transition is recorded. This hierarchy is what grounds the trigger taxonomy of Section 6.2: predicted and observed triggers watch signal conditions, structural triggers watch whether the semantic level is still within the model’s competence, and normative triggers enforce action conditions. The boundary makes the rule concrete. Take the running commitment: send the rescue boat through channel E12 now (fast, but lost if the level exceeds 2.4m) or reroute through E17 (a certain delay cost ∆). Writing p for the belief that the level exceeds 2.4m and Lfail for the loss of a swamped boat, the two actions are indifferent at p∗ = ∆ /L fail . If every feasible channel’s possible posteriors remain on the same side of p∗, or if every net value VoI j − cj is nonpositive, additional precision is wasteful for this commitment, however uncertain the level estimate remains; adaptive refresh thus concentrates evidence where an observation could change a pending decision, while a fixed interval spends uniformly. Three refinements matter in practice. Consequence scaling: tolerances are bound to action-authorization classes, so the same view can simultaneously clear a reversible probe and hold an irreversible dispatch. Reversibility: a probe receives QUALIFY rather than full authorization precisely because it is reversible, so its adequacy bar and loss exposure are low; whether probe-first verification actually emerges from the net-value rule, given realistic channel costs, latencies, and information profiles, is a hypothesis the channel-choice ablation of Section 7.5 tests rather than an arithmetic fact we assert. Auditability: the routing decision is itself recorded, which channels were priced, which won, at what expected value, so an auditor can dispute the routing as well as the trigger. 
+
+# N Artifact Inventory 
+
+The frozen snapshot passes 84 tests (one V-JEPA adapter test is skipped without torch ) and the repository verifier. All campaign missions complete: 380 development, 475 validation, 49 and 240 held-out R-B missions; 160 RQ2 leave-one-family-out mechanism missions; the RQ5 guard campaign over 80 paired seeds (3101–3180); 320 RQ6 seed-cell missions (80 seeds, 2101– 2180, by four cells); and 80 held-out final R-C missions. Every event and TRACE chain verifies, all declared common-random-number checks pass, and the 380-mission calibration audit finds zero mapping or confidence mismatches across 655,761 route-record versions. The artifact contains machine-readable campaign summaries, the validation-frozen operating points, separate RQ3, RQ4, and re-litigation evidence packages, a source archive, a self-contained Git bundle with the execution commit and annotated exp-freeze-v1 tag, and a top-level SHA-256 manifest; ZIP integrity and Git-bundle completeness verify. The public implementation is at 
+
+https://github.com/eyuchang/trace-worldmodel-flood-sar . Its geography release asset is identical to the execution tree; the full digest and per-file inventory are recorded in the artifact README. 50
