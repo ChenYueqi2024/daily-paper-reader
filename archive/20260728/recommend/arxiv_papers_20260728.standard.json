@@ -1,0 +1,717 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-28T20:43:44.194129+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 18,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.21848v2",
+      "source": "arxiv",
+      "title": "Closing the Loop: Training-Free Revisit Consistency for Autoregressive Generative Rendering",
+      "abstract": "Recent conditional video generation models have shown promising potentials to transform 3D engine renderings, such as depth maps and untextured geometry, into photorealistic videos for gaming and immersive content creation. These applications require long-horizon auto-regressive generation that continuously synthesizes new frames while preserving a persistent 3D world. Auto-regressive generators synthesize video chunk by chunk with a bounded KV cache, so when the camera revisits a location after its context has been evicted, the model often regenerates inconsistent appearance, even though the conditioning renderings (e.g., depth) remain perfectly aligned with the underlying geometry. We address this revisit inconsistency without any post-training by exploiting correspondences the 3D engine already provides: temporal correspondence retrieves pose-matched historical latent chunks into the KV cache as loop-closure memory, while spatial correspondence from camera pose and depth reprojection biases token-level attention toward geometrically corresponding regions of the retrieved chunks. We demonstrate our method on loop-closure trajectories mined from TartanAir and TartanGround dataset to mirror complicate real-world application scenarios, where it outperforms existing training-free baselines on revisit consistency without losing overall video quality. Project Page: https://wenchao-m.github.io/ClosetheLoop.github.io/",
+      "authors": [
+        "Wenchao Ma",
+        "Changran Liu",
+        "Sharon X. Huang",
+        "Haomiao Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-23T22:33:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.21848v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Autoregressive video generation conditioned on depth maps and geometry, addressing revisit consistency",
+      "llm_evidence_cn": "基于深度图和几何条件的自回归视频生成，解决重新访问时的一致性",
+      "llm_evidence": "基于深度图和几何条件的自回归视频生成，解决重新访问时的一致性",
+      "canonical_evidence": "基于深度图和几何条件的自回归视频生成，解决重新访问时的一致性",
+      "llm_tldr_en": "Addresses revisit inconsistency in autoregressive video generation from 3D renderings, proposing a training-free method to maintain appearance consistency when camera revisits locations.",
+      "llm_tldr_cn": "条件视频生成模型可将深度图等3D引擎渲染转换为逼真视频，但在长时自回归生成中，当相机重新访问先前位置时会出现外观不一致。本文提出一种无需训练的闭环机制，利用KV缓存和一致性约束，在不重新训练的情况下显著改善长时间视频生成中物体外观的持久性。实验证明该方法有效保持了3D世界的视觉连贯性，为视频生成与3D几何结合提供了实用的解决方案。",
+      "llm_tldr": "条件视频生成模型可将深度图等3D引擎渲染转换为逼真视频，但在长时自回归生成中，当相机重新访问先前位置时会出现外观不一致。本文提出一种无需训练的闭环机制，利用KV缓存和一致性约束，在不重新训练的情况下显著改善长时间视频生成中物体外观的持久性。实验证明该方法有效保持了3D世界的视觉连贯性，为视频生成与3D几何结合提供了实用的解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22430v2",
+      "source": "arxiv",
+      "title": "On the Identifiability of Controlled World Models",
+      "abstract": "World model serves as a promising tool to infer environment dynamics under high-dimensional observations and candidate actions. Recently, LeCun's JEPA provides a compelling framework for learning such models in representation space. Its action-conditioned extension plays a central role in visual control and latent-space planning, but leaves a fundamental question: can it recover the controlled dynamics from nonlinear observations? This paper presents a joint identifiability condition for controlled world models with Gaussian latent states, which consists of two coupled components: (1) representation identifiability and (2) transition identifiability. The former depends on the spectral separation property while the latter is related to non-degenerate variation of conditional action. We prove that when this condition holds, minimizing the LeJEPA-style predictive objective can recover both latent states and controlled dynamics in the sense of orthogonal transformation. We further prove that the upper bound of transition prediction error is inversely proportional to the spectral separation margin. We also characterize an attainable amplification of counterfactual prediction error that scales inversely with the weakest conditional action-excitation margin. The theoretical predictions are empirically supported across four nonlinear observation settings.",
+      "authors": [
+        "Xiangteng Zhang",
+        "Yang Guan",
+        "Bo Zhang",
+        "Hongyang Li",
+        "Ya-Qin Zhang",
+        "Shengbo Eben Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-24T15:49:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.22430v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "controlled world model identifiability",
+      "llm_evidence_cn": "受控世界模型的可识别性",
+      "llm_evidence": "受控世界模型的可识别性",
+      "canonical_evidence": "受控世界模型的可识别性",
+      "llm_tldr_en": "Establishes joint identifiability conditions for controlled world models with Gaussian latent states, ensuring recovery of environment dynamics from nonlinear observations.",
+      "llm_tldr_cn": "世界模型是推断环境动态的重要工具，但其可识别性未得到充分研究。本文针对高斯潜在状态下的受控世界模型，提出了联合可识别性条件，包括表示可识别性和转移可识别性两个耦合组件。该条件依赖于谱分离属性和条件变异的非退化性，为世界模型的理论基础做出贡献。",
+      "llm_tldr": "世界模型是推断环境动态的重要工具，但其可识别性未得到充分研究。本文针对高斯潜在状态下的受控世界模型，提出了联合可识别性条件，包括表示可识别性和转移可识别性两个耦合组件。该条件依赖于谱分离属性和条件变异的非退化性，为世界模型的理论基础做出贡献。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22717v1",
+      "source": "arxiv",
+      "title": "TOM-GS: Editable Video Representation via Temporal Opacity Modulation of Static 3D Gaussians",
+      "abstract": "While Implicit Neural Representations (INRs) and dynamic 3D Gaussian Splatting (3DGS) achieve impressive results in video processing, they often fall short of producing representations that are easily editable. Recent methods address this by introducing complex spatial deformations or folded distributions, which constrain optimization and reduce flexibility for downstream editing. In this paper, we introduce TOM-GS, an editable video representation that forgoes complex deformations in favor of regular 3D Gaussians equipped with a continuous temporal opacity formulation. By assigning a learnable temporal mean and scale to the opacity of each Gaussian, our model enables static 3D spatial components to fade smoothly in and out of the scene. Grounded by robust, off-the-shelf pose estimation, our approach maintains a static spatial geometry that naturally supports a wide range of manual and physics-based edits. TOM-GS outperforms prior editable video representations in visual fidelity, while its reliance on standard 3D Gaussians ensures seamless compatibility with established 3D editing tools.",
+      "authors": [
+        "Marek Lisowski",
+        "Łukasz Smoliński",
+        "Kornel Howil",
+        "Piotr Biliński",
+        "Marcin Mazur",
+        "Przemysław Spurek"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-21T16:27:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.22717v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Editable video representation using static 3D Gaussians with temporal opacity, leveraging explicit 3D geometry",
+      "llm_evidence_cn": "利用静态3D高斯和时序透明度实现可编辑视频表示，显式利用3D几何",
+      "llm_evidence": "利用静态3D高斯和时序透明度实现可编辑视频表示，显式利用3D几何",
+      "canonical_evidence": "利用静态3D高斯和时序透明度实现可编辑视频表示，显式利用3D几何",
+      "llm_tldr_en": "TOM-GS represents video as static 3D Gaussians with learnable temporal opacity, enabling easy editing while preserving high visual quality.",
+      "llm_tldr_cn": "现有动态3DGS方法在可编辑性上受限。TOM-GS提出将视频表示为静态3D高斯配合连续时序透明度，每个高斯有可学习的时序均值和尺度。静态空间组件随时间平滑淡入淡出，无需复杂变形，在视频编辑任务中保持高视觉质量的同时提供灵活编辑能力。",
+      "llm_tldr": "现有动态3DGS方法在可编辑性上受限。TOM-GS提出将视频表示为静态3D高斯配合连续时序透明度，每个高斯有可学习的时序均值和尺度。静态空间组件随时间平滑淡入淡出，无需复杂变形，在视频编辑任务中保持高视觉质量的同时提供灵活编辑能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.23472v1",
+      "source": "arxiv",
+      "title": "VIPER: Visual In-Context Physics Reasoning for Physically Plausible Video Generation",
+      "abstract": "Modern video generation models can synthesize visually compelling and temporally coherent clips, yet controlling their physical behavior remains difficult with standard text and image conditions. The core challenge is a conditioning bottleneck: material response, contact interaction, deformation, and motion trajectory are continuous and relational physical cues that are hard to specify exhaustively in language but can be demonstrated naturally by video. We propose VIPER, a Visual In-Context Physics Reasoning framework for reference-guided image-to-video generation. Given a target image, a brief target prompt, and a reference video, VIPER treats the reference as a dense visual demonstration of the desired physical process rather than an appearance template. It uses a Multimodal Large Language Model (MLLM) to extract reference-derived physical cues and guide a pretrained image-to-video generator through a hierarchical training strategy, enabling physical behavior transfer while preserving the visual prior of the base generator. To support this setting, we construct VIPER-19K, a curated dataset with material, trajectory, and physical-impact annotations, together with filtered reference-target pairs. Experiments on an unseen validation set show that VIPER achieves stronger reference-video physical similarity and higher human preference than representative video generation and video-as-prompt baselines, while maintaining competitive general video quality. Qualitative results further demonstrate that VIPER can transfer reference-derived physical behavior to new target scenes without requiring carefully engineered prompts.",
+      "authors": [
+        "Tianxiao Chen",
+        "Hanmo Chen",
+        "Huajin Chen",
+        "Bo Li",
+        "Qi Ye",
+        "Peng-Tao Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-26T05:55:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.23472v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Reference-guided video generation with physics reasoning for physical plausibility",
+      "llm_evidence_cn": "通过参考视频引导的物理推理实现物理合理的视频生成",
+      "llm_evidence": "通过参考视频引导的物理推理实现物理合理的视频生成",
+      "canonical_evidence": "通过参考视频引导的物理推理实现物理合理的视频生成",
+      "llm_tldr_en": "VIPER uses reference videos as dense physical demonstrations to guide video generation, enhancing physical plausibility of motions and interactions.",
+      "llm_tldr_cn": "视频生成中控制物理行为困难，语言难以描述连续的物理线索。VIPER提出视觉情境物理推理框架，将参考视频作为物理过程演示，引导从图像到视频的生成。该方法在不额外标注下，有效提升生成视频中材料响应、接触交互等物理合理性。",
+      "llm_tldr": "视频生成中控制物理行为困难，语言难以描述连续的物理线索。VIPER提出视觉情境物理推理框架，将参考视频作为物理过程演示，引导从图像到视频的生成。该方法在不额外标注下，有效提升生成视频中材料响应、接触交互等物理合理性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.24124v1",
+      "source": "arxiv",
+      "title": "ViDS: Video Diffusion Shader using 3D Face Tracking",
+      "abstract": "We introduce ViDS, a Video Diffusion Shader that leverages 3D face tracking for expressive and identity-preserving portrait animation. We first reconstruct the identity-specific 3DMM mesh from the reference image, and then animate it using expression and pose parameters from a driving video. Leveraging dense geometric cues from 3DMM normal maps, we employ a video diffusion model as a neural shader to synthesize lifelike portrait animations while preserving the appearance and identity of the reference image. We find that more accurate 3DMM tracking enables finer-grained expression control. We also introduce an autoregressive diffusion sampling process that extends generation beyond the model's native window while reducing discontinuities between adjacent clips. Compared with prior diffusion-based approaches for portrait animation that rely on landmark-based conditioning or implicit motion latents, our method achieves more detailed and consistent expression and pose control while faithfully preserving identity and appearance. Detailed ablation studies validate the effectiveness of our design choices. Project page: https://fusheng-ji.github.io/ViDS/",
+      "authors": [
+        "Wenbo Ji",
+        "Davide Davoli",
+        "Zhe Chen",
+        "Liam Schoneveld",
+        "Matthias Nießner",
+        "Jiapeng Tang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T08:06:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.24124v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "video diffusion model using explicit 3D face tracking",
+      "llm_evidence_cn": "使用显式3D人脸跟踪的视频扩散模型",
+      "llm_evidence": "使用显式3D人脸跟踪的视频扩散模型",
+      "canonical_evidence": "使用显式3D人脸跟踪的视频扩散模型",
+      "llm_tldr_en": "ViDS leverages 3D face tracking and reconstruction to inject explicit geometry into video diffusion, enabling expressive portrait animation.",
+      "llm_tldr_cn": "现有视频生成缺乏对显式3D几何的利用，难以实现精细的表情控制。本文提出ViDS，首先从参考图像重建身份特定的3DMM网格，然后利用驱动视频的表情和姿态参数进行动画，再通过视频扩散模型作为神经着色器，利用3DMM法线图等密集几何线索合成逼真肖像动画。实验表明，更精确的3DMM跟踪带来更精细的表情控制，并引入自回归扩散采样以生成长视频。",
+      "llm_tldr": "现有视频生成缺乏对显式3D几何的利用，难以实现精细的表情控制。本文提出ViDS，首先从参考图像重建身份特定的3DMM网格，然后利用驱动视频的表情和姿态参数进行动画，再通过视频扩散模型作为神经着色器，利用3DMM法线图等密集几何线索合成逼真肖像动画。实验表明，更精确的3DMM跟踪带来更精细的表情控制，并引入自回归扩散采样以生成长视频。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.24298v1",
+      "source": "arxiv",
+      "title": "UMI3D: Robust 3D Generation on Unconstrained Multi-Image Inputs via Simultaneous Focus Cross-Attention Routing",
+      "abstract": "Recent 3D foundation models can generate high-quality assets from a single image, but degrade markedly on unconstrained multi-image inputs, often producing distorted geometry, over-smoothed textures, and chaotic colors. We argue that this failure stems not from limited model capacity, but from a mismatch between single-image cross-attention and the multi-image setting: existing models lack a principled way to decide which image each 3D voxel should trust at each denoising step. Revisiting recent single-image 3D foundation models, we show that explicitly routing each voxel to its most informative image is sufficient to unlock strong performance on inconsistent multi-image inputs. Based on this observation, we propose UMI3D, a training-free and plug-and-play framework that restructures cross-attention for unconstrained multi-image 3D generation. Its core, Simultaneous Focus Cross-Attention (SFC-Attn), activates all conditioning images at each denoising step while allowing each voxel to focus on the single image that best explains it. To enable this routing, we derive the Voxel Reference Score (VRS), a model-intrinsic metric for voxel--image affinity that requires no external matching, segmentation, or correspondence models. Extensive experiments show that UMI3D unlocks the multi-image potential of single-image 3D generation frameworks across diverse tasks. Project Page: UMI3D-Project.github.io.",
+      "authors": [
+        "Zefan Qu",
+        "Zhenwei Wang",
+        "Gerhard Petrus Hancke",
+        "Rynson W. H. Lau"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T11:44:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.24298v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reliable 3D generation from multiple images",
+      "llm_evidence_cn": "从多张图像稳健生成3D资产",
+      "llm_evidence": "从多张图像稳健生成3D资产",
+      "canonical_evidence": "从多张图像稳健生成3D资产",
+      "llm_tldr_en": "UMI3D improves 3D generation from unconstrained multi-image inputs by routing each voxel to its most informative image via cross-attention, overcoming distortion and inconsistency.",
+      "llm_tldr_cn": "现有3D基础模型在多图输入下产生失真和纹理混乱。UMI3D通过为每个体素路由到最信息丰富的图像来改进交叉注意力，无需重新训练即可从不一致的多图中生成高质量3D资产。该方法为多视角3D生成提供了简单而有效的方案。",
+      "llm_tldr": "现有3D基础模型在多图输入下产生失真和纹理混乱。UMI3D通过为每个体素路由到最信息丰富的图像来改进交叉注意力，无需重新训练即可从不一致的多图中生成高质量3D资产。该方法为多视角3D生成提供了简单而有效的方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.22738v1",
+      "source": "arxiv",
+      "title": "Nova3D: Code-Native Generation of Programmable 3D Assets",
+      "abstract": "Current 3D generative models mostly produce a final surface: a visually strong but largely opaque mesh. Interactive 3D worlds need more than a surface. They need named parts, an assembly hierarchy, measurable constraints, local edit handles, and joints for articulation. We present Nova3D, a system that generates 3D assets as executable Blender source code; the compiled mesh, a binary glTF (GLB), is treated as the artifact, not the asset. Because the output is a program, semantic handles exist at generation time rather than being recovered afterward by segmentation or rigging. We evaluate on Nova3D-Bench, a frozen, spec-grounded benchmark of 54 items across six domains and three difficulty levels with text and image inputs, against eleven baselines in four families (mesh-native, part-structured, code-native, and CAD) plus a same-LLM ablation. Nova3D produces an executable program and a valid artifact for 54/54 items. Every asset exposes named parts organized in a parent-child assembly tree; no mesh-native, CAD, or segmentation baseline exposes either. It satisfies 51/52 prompt-stated numeric and count constraints (best baseline: 11/52), passes 14/18 blinded local edits with locality preserved in 18/18, and articulates 59 joints across 12 assets at 98.3% geometric validity, where every baseline exposes zero native joints. Its geometry is competitive: it wins the structured domains in a pairwise shape-quality tournament and is second only to the strongest mesh-native model, while conceding texture realism to baked-PBR systems. The central result is representational: code-native generation turns a generated 3D object from an opaque surface into a programmable asset that downstream systems can inspect, measure, edit, and animate.",
+      "authors": [
+        "Nimra Noor",
+        "Muhammad Bilal",
+        "Abdullah Hussain",
+        "Hassan Baig"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-22T16:33:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.22738v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Code-based generation of programmable 3D assets with semantic structure",
+      "llm_evidence_cn": "基于代码生成可编程3D资产，包含语义结构",
+      "llm_evidence": "基于代码生成可编程3D资产，包含语义结构",
+      "canonical_evidence": "基于代码生成可编程3D资产，包含语义结构",
+      "llm_tldr_en": "Nova3D generates 3D assets as executable Blender source code, providing named parts, hierarchy, and articulation from the start, unlike traditional opaque meshes.",
+      "llm_tldr_cn": "传统3D生成模型仅输出表面网格，缺乏语义部件、层次结构和可编辑性。Nova3D提出将3D资产生成为可执行的Blender源代码，编译后得到网格，但保留语义句柄。在Nova3D-Bench上，该方法在可编程性和几何质量上优于多种基线，支持后续编辑和动画。",
+      "llm_tldr": "传统3D生成模型仅输出表面网格，缺乏语义部件、层次结构和可编辑性。Nova3D提出将3D资产生成为可执行的Blender源代码，编译后得到网格，但保留语义句柄。在Nova3D-Bench上，该方法在可编程性和几何质量上优于多种基线，支持后续编辑和动画。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.22959v1",
+      "source": "arxiv",
+      "title": "HALLELUAI: A Hallucination-Aware AI System for Ultra-Realistic Image-to-Video Generation at Scale",
+      "abstract": "AI-generated video is increasingly used across marketing, product storytelling, and creative workflows, yet automated; high-precision quality control remains a major constraint to scaling production. We present HALLELUAI, an end-to-end system that moderates and regenerates image-to-video outputs to meet expert-level creative standards and deliver ultra-realistic videos with consistent end-user quality of experience (QoE) at scale. The system integrates a video moderation module that evaluates frame-level aesthetics, temporal motion fidelity, and fine-grained hallucination risks relative to the source image, with an agentic regeneration module that iteratively fixes failures through prompt refinement, controlled camera adjustments, targeted model or image switching, and structured retry strategies. The moderation logic is aligned with domain-specific creative guidelines and produces granular, machine-actionable feedback that directly drives regeneration. In human-in-the-loop evaluations with creative experts, HALLELUAI shows strong alignment and reliably outputs ultra-realistic, production-grade videos suitable for product and marketing placements at scale. This framework advances trustworthy AI generated video content by enforcing visual realism, brand safety, and strict input-image fidelity while enabling image-to-video generation at scale.",
+      "authors": [
+        "Aniket Sakpal",
+        "Yang Jiang",
+        "Rouzbeh Davoudi",
+        "Shayan Hassantabar",
+        "Mani Najmabadi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-25T00:02:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.22959v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "image-to-video generation with hallucination-aware quality control",
+      "llm_evidence_cn": "具有幻觉感知质量控制的图像到视频生成",
+      "llm_evidence": "具有幻觉感知质量控制的图像到视频生成",
+      "canonical_evidence": "具有幻觉感知质量控制的图像到视频生成",
+      "llm_tldr_en": "HALLELUAI is an end-to-end system for ultra-realistic image-to-video generation with automated moderation and iterative regeneration to ensure high quality.",
+      "llm_tldr_cn": "AI生成视频的质量控制是规模化应用的主要挑战。本文提出HALLELUAI系统，整合视频审核模块和智能再生模块，自动评估帧级美学、时间运动保真度和幻觉风险，并通过提示优化和相机调整迭代修复缺陷，实现超逼真视频的稳定生成。",
+      "llm_tldr": "AI生成视频的质量控制是规模化应用的主要挑战。本文提出HALLELUAI系统，整合视频审核模块和智能再生模块，自动评估帧级美学、时间运动保真度和幻觉风险，并通过提示优化和相机调整迭代修复缺陷，实现超逼真视频的稳定生成。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17803v1",
+      "source": "arxiv",
+      "title": "FF-ProCams: Feed-Forward Gaussian Splatting for Projector-Camera System",
+      "abstract": "Projector-camera (ProCams) systems achieve active scene perception and controllable appearance manipulation via structured illumination, serving as a core infrastructure for spatial augmented reality, projection mapping, and surface reflectance acquisition. Existing inverse-rendering methods for ProCams deliver high-fidelity results but rely on time-consuming per-scene optimization, while mainstream feed-forward 3D reconstruction models produce baked appearance that cannot adapt to spatially varying projector illumination.   To resolve this accuracy-efficiency trade-off, we propose FF-ProCams, a Feed-Forward 3D Gaussian inverse-rendering framework for ProCams. A hybrid Mamba2-Transformer encoder aggregates cross-view geometric and photometric cues from sparse multi-view observations, and lightweight heads predict a relightable Gaussian representation in a single forward pass. We further design a projector-aware differentiable renderer to synthesize camera observations under arbitrary active illumination and ProCams poses. To enable feed-forward training, we construct a large-scale synthetic ProCams dataset covering diverse object geometries and surface materials. Experiments show FF-ProCams achieves high-fidelity projector-aware rendering, generalizes to unseen patterns, and supports novel projector-camera poses. Using only 8 input views, it outperforms optimization-based baselines with 297 views while reducing test-time reconstruction to 0.13 seconds (a three-to-five-order-of-magnitude speedup). The code and data are available at https://github.com/CPREgroup/FF-ProCams/.",
+      "authors": [
+        "Ziyao Wang",
+        "Yuqi Li",
+        "Wenxing Zheng",
+        "Jiaying Chen",
+        "Chong Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T10:42:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.17803v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "feed-forward 3D Gaussian inverse-rendering for projector-camera systems",
+      "llm_evidence_cn": "前馈3D高斯逆渲染用于投影相机系统",
+      "llm_evidence": "前馈3D高斯逆渲染用于投影相机系统",
+      "canonical_evidence": "前馈3D高斯逆渲染用于投影相机系统",
+      "llm_tldr_en": "FF-ProCams is a feed-forward 3D Gaussian inverse-rendering framework that uses a hybrid Mamba2-Transformer encoder for efficient and accurate scene reconstruction in ProCams.",
+      "llm_tldr_cn": "投影相机系统需要高保真逆向渲染，但现有方法依赖逐场景优化，前馈重建方法无法适应变化照明。本文提出FF-ProCams，基于前馈3D高斯泼溅的逆向渲染框架，利用混合Mamba2-Transformer编码器聚合多视角几何与光度线索。该方法在保持高质量的同时显著提升速度，适用于空间增强现实等应用。",
+      "llm_tldr": "投影相机系统需要高保真逆向渲染，但现有方法依赖逐场景优化，前馈重建方法无法适应变化照明。本文提出FF-ProCams，基于前馈3D高斯泼溅的逆向渲染框架，利用混合Mamba2-Transformer编码器聚合多视角几何与光度线索。该方法在保持高质量的同时显著提升速度，适用于空间增强现实等应用。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.23687v1",
+      "source": "arxiv",
+      "title": "GNM Head: A Generative aNthropometric Model of the human head",
+      "abstract": "Parametric models of the human head are essential tools traditionally used in computer vision and graphics for animation, rendering, and reconstruction. More recently, they serve as crucial conditioning signals within generative large vision models, allowing for tight spatial control of generated imagery. However, existing publicly available models are typically limited in anatomical scope, modeling only outer geometry while ignoring intra-oral and ocular structures, and frequently suffer from reduced geometric quality stemming from low-fidelity input datasets. In this report we introduce a new parametric model dubbed Generative aNthropometric Model (GNM), named as a homophone of the human genome. GNM encompasses the head, face, neck, eyeballs, teeth, and tongue, and it is built on an extensive database of high-resolution 3D scans combined with high-quality anatomy specific artist-made samples. This report details the data provenance, the model architecture including the specialized sub-models for the ocular and intra-oral structures, and shows its SotA performance on fitting target 3D face scans. To foster community innovation, the complete GNM framework is made publicly available.",
+      "authors": [
+        "Stylianos Ploumpis",
+        "Jan Bednarik",
+        "Gaspard Zoss",
+        "Ruslan Guseinov",
+        "Luca Prasso",
+        "Prashanth Chandran",
+        "Oliver Boyne",
+        "Vasileios Choutas",
+        "Timo Bolkart",
+        "Daoye Wang",
+        "Menglei Chai",
+        "Di Qiu",
+        "Sebastian Winberg",
+        "Gilles Rainer",
+        "Lewis Bridgeman",
+        "Delio Vicini",
+        "Jérémy Riviere",
+        "Yannick Boetzel",
+        "Alexander Koumis",
+        "Jay Busch",
+        "Cynthia Herrera",
+        "Jacob Still",
+        "Scott Ysebert",
+        "Peter Lincoln",
+        "Sergio Orts Escolano",
+        "Christoph Rhemann",
+        "Erroll Wood",
+        "Thabo Beeler",
+        "Stefanos Zafeiriou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-26T14:34:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.23687v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Generative parametric model of human head geometry for 3D tasks",
+      "llm_evidence_cn": "人体头部几何生成参数模型，用于3D任务",
+      "llm_evidence": "人体头部几何生成参数模型，用于3D任务",
+      "canonical_evidence": "人体头部几何生成参数模型，用于3D任务",
+      "llm_tldr_en": "GNM Head is a parametric model of the human head encompassing outer and internal geometry, serving as conditioning for generative models.",
+      "llm_tldr_cn": "现有头部模型仅建模外部几何，忽略口内和眼部结构，且质量受限于低精度数据。本文提出GNM Head，一个涵盖头、面、颈、眼球、牙齿和舌头的生成式人体测量模型，提供高保真几何参数化表示，可用于动画、渲染和重建，并作为生成大模型的细粒度空间控制条件。在多个任务上表现出高质量的几何细节和完备性。",
+      "llm_tldr": "现有头部模型仅建模外部几何，忽略口内和眼部结构，且质量受限于低精度数据。本文提出GNM Head，一个涵盖头、面、颈、眼球、牙齿和舌头的生成式人体测量模型，提供高保真几何参数化表示，可用于动画、渲染和重建，并作为生成大模型的细粒度空间控制条件。在多个任务上表现出高质量的几何细节和完备性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.22963v1",
+      "source": "arxiv",
+      "title": "PriSAR: 3D Geometric-Prior-Guided Diffusion for Parameter-Controlled SAR Image Generation",
+      "abstract": "Synthetic aperture radar (SAR) image generation can mitigate data scarcity, but controllablegeneration under sparse observation angles remains difficult. Recent SAR generative studies im-prove texture realism, yet explicit geometry-aware control is still limited. This paper studiesthe focused and verifiable setting of intermediate-azimuth completion: 3D-model-derived geo-metric priors guide a diffusion model to synthesize the views missing from sparse-angle trainingdata. GeoDiff-SAR constructs a lightweight multi-bounce ray-tracing prior, encodes the result-ing point cloud, and fuses it with text conditioning while adapting Stable Diffusion 3.5 Mediumthrough low-rank adaptation. On a real four-category aircraft dataset, GeoDiff-SAR reaches anSSIM of 0.812 and azimuth consistency of 0.940, compared with 0.738 and 0.782 for the text-conditioned SD3.5 Medium baseline. The same sparse-angle protocol on five MSTAR vehicleclasses yields an SSIM of 0.878 and azimuth consistency of 0.917. These results support theconclusion that a lightweight 3D geometric prior improves viewpoint adherence for controllableSAR generation; it is intended as generation guidance rather than high-fidelity electromagneticreconstruction.",
+      "authors": [
+        "Fan Zhang",
+        "Xuanting Wu",
+        "Fei Ma",
+        "Qiang Yin",
+        "Yuxin Hu"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV",
+        "cs.CV"
+      ],
+      "published": "2026-07-25T00:09:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.22963v1",
+      "tags": [
+        "keyword:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D geometric-prior-guided diffusion for image generation",
+      "llm_evidence_cn": "3D几何先验引导扩散进行图像生成",
+      "llm_evidence": "3D几何先验引导扩散进行图像生成",
+      "canonical_evidence": "3D几何先验引导扩散进行图像生成",
+      "llm_tldr_en": "Uses 3D model-derived geometric priors to guide a diffusion model for controllable SAR image generation from sparse angles.",
+      "llm_tldr_cn": "针对稀疏观测角度下SAR图像可控生成困难的问题，本文提出3D几何先验引导的扩散方法GeoDiff-SAR。它通过轻量级多弹射线追踪构建几何先验，编码点云并与文本条件融合，同时适配Stable Diffusion 3.5。在真实飞机数据集上，该方法实现了中间方位角缺失视图的合成。",
+      "llm_tldr": "针对稀疏观测角度下SAR图像可控生成困难的问题，本文提出3D几何先验引导的扩散方法GeoDiff-SAR。它通过轻量级多弹射线追踪构建几何先验，编码点云并与文本条件融合，同时适配Stable Diffusion 3.5。在真实飞机数据集上，该方法实现了中间方位角缺失视图的合成。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.18078v1",
+      "source": "arxiv",
+      "title": "VGOcc: Learning Visual-Geometric Gaussians for Vision-Centric 3D Driving Occupancy Prediction",
+      "abstract": "Vision-only occupancy prediction requires recovering a semantic 3D occupancy field from calibrated surround-view images, where each view provides observations with ambiguous depth along camera rays. Existing methods have progressed from dense structured representations to sparse Gaussian primitives, improving the efficiency of 3D scene representation. However, Gaussian learning still relies primarily on image domain features, which provide limited explicit geometric information for volumetric reasoning. Our key observation is that effective Gaussian occupancy modeling requires not only sparse primitives, but also richer geometric and semantic learning cues. In this paper, we propose VGOcc, which learns visual and geometric cues from foundation models for Gaussian modeling. VGOcc incorporates these cues into primitive initialization and refinement, yielding a representation termed Visual-Geometric Gaussians tailored to semantic occupancy prediction. Specifically, we propose Visual-Geometric Gaussian Birth to form spatially balanced Gaussian centers from ray depth hypotheses, while visual semantic features initialize primitive attributes. Next, we design Pose-Aware Feature Learning to combine foundation tokens with camera embeddings and calibrated ray information. Features from neighboring views are then aggregated at projected 3D locations for each Gaussian refinement stage. Finally, Gaussian decoder refines birth Gaussians with pose-aware features and renders them into semantic occupancy. Experiments on nuScenes demonstrate that VGOcc achieves state-of-the-art performance in vision-only 3D occupancy prediction. Codes will be available at https://github.com/JHLin42in/VGOcc.",
+      "authors": [
+        "Junhong Lin",
+        "Xianda Guo",
+        "Kangli Wang",
+        "Yuqi Ye",
+        "Xiaoyu Liang",
+        "Yanlun Peng",
+        "Wei Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-20T15:46:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.18078v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D occupancy prediction using visual-geometric Gaussians for scene understanding",
+      "llm_evidence_cn": "利用视觉-几何高斯进行3D占用预测，用于场景理解",
+      "llm_evidence": "利用视觉-几何高斯进行3D占用预测，用于场景理解",
+      "canonical_evidence": "利用视觉-几何高斯进行3D占用预测，用于场景理解",
+      "llm_tldr_en": "Proposes VGOcc for vision-centric 3D occupancy prediction, learning visual and geometric Gaussian primitives with richer cues for volumetric reasoning.",
+      "llm_tldr_cn": "视觉占用预测需要从环视图像恢复语义3D占用场，现有方法依赖图像域特征，缺乏显式几何信息。本文提出VGOcc，学习视觉和几何高斯基元，融合更丰富的几何和语义线索进行体积推理。在nuScenes数据集上，VGOcc显著提升了占用预测的精度，证明结合显式几何信息对3D场景理解的重要性。",
+      "llm_tldr": "视觉占用预测需要从环视图像恢复语义3D占用场，现有方法依赖图像域特征，缺乏显式几何信息。本文提出VGOcc，学习视觉和几何高斯基元，融合更丰富的几何和语义线索进行体积推理。在nuScenes数据集上，VGOcc显著提升了占用预测的精度，证明结合显式几何信息对3D场景理解的重要性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24027v1",
+      "source": "arxiv",
+      "title": "Sol-Attn: Accelerating Video Generation Inference via On-the-Fly Attention Sparsification",
+      "abstract": "Diffusion transformers are essential for high-fidelity video generation, but long token sequences make attention a dominant inference bottleneck. Training-free dynamic sparse attention alleviates this bottleneck by computing only selected key-value blocks, yet existing methods struggle to sparsify attention both efficiently and accurately for two reasons: (1) Rigid, unpredictable, and costly routing: selecting a fixed fraction of top-ranked blocks by proxy score imposes fixed budgets, whereas retaining blocks to reach a target cumulative proxy probability mass yields dynamic but potentially imbalanced budgets; both incur non-negligible overhead from computing and materializing proxy scores. (2) Lossy keep-or-drop sparsification: unselected blocks are discarded entirely, degrading accuracy under aggressive sparsity. These limitations motivate cheaper dynamic-budget routing while limiting accuracy degradation. In this paper, we introduce training-free Sol-Attn (Sparsifying online attention), which unifies dynamic routing, sparse computation, and approximation correction in a single online-softmax pass, achieving a better accuracy-efficiency trade-off in sparse attention. The core of Sol-Attn is on-the-fly block thresholding with proxy-score reuse, which selects critical blocks by comparing block proxy scores against a threshold during online softmax. This design enables dynamic yet controllable block budgets without materializing the proxy map, while directly reusing the proxy scores of unselected blocks to approximate their contribution. Experiments across image and video generation tasks show that Sol-Attn advances the quality-efficiency frontier of training-free sparse attention, delivering 2.1 times and 2.3 times end-to-end speedups for video generation and editing, respectively, while preserving visual quality.",
+      "authors": [
+        "Haopeng Li",
+        "Yitong Li",
+        "Junsong Chen",
+        "Tian Ye",
+        "Haozhe Liu",
+        "Jincheng Yu",
+        "Duomin Wang",
+        "Ruihua Zhang",
+        "Zeke Xie",
+        "Enze Xie",
+        "Song Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T05:53:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.24027v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Video generation inference acceleration via attention sparsification",
+      "llm_evidence_cn": "通过注意力稀疏化加速视频生成推理",
+      "llm_evidence": "通过注意力稀疏化加速视频生成推理",
+      "canonical_evidence": "通过注意力稀疏化加速视频生成推理",
+      "llm_tldr_en": "Sol-Attn accelerates video diffusion transformers by dynamically sparsifying attention, eliminating rigid routing and keep-or-drop sparsification to achieve efficient and accurate video generation inference.",
+      "llm_tldr_cn": "针对扩散Transformer在视频生成中因长序列导致注意力成为推理瓶颈的问题，Sol-Attn提出训练时的动态稀疏注意力方法。它通过按需选择关键值块并避免固定的预算和损失性保留-丢弃策略，在保持生成质量的同时显著加速推理。实验表明，该方法在多种视频生成模型上均能实现加速，且不牺牲视觉质量。该工作为视频生成模型的高效部署提供了实用方案。",
+      "llm_tldr": "针对扩散Transformer在视频生成中因长序列导致注意力成为推理瓶颈的问题，Sol-Attn提出训练时的动态稀疏注意力方法。它通过按需选择关键值块并避免固定的预算和损失性保留-丢弃策略，在保持生成质量的同时显著加速推理。实验表明，该方法在多种视频生成模型上均能实现加速，且不牺牲视觉质量。该工作为视频生成模型的高效部署提供了实用方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.23491v1",
+      "source": "arxiv",
+      "title": "PlanCraft: Sketch, Refine, and Furnish for Architect-Inspired Progressive 3D Residential Scene Generation",
+      "abstract": "Two structural insights have been overlooked in automated residential floor plan generation. First, design is inherently progressive. Architects begin with rough strokes and refine them over time, whereas existing methods typically require their conditioning representation to be fully specified before generation, a fundamental mismatch with how design actually works. Second, the 2D floor plan is not an optional intermediate but an irreplaceable spatial contract. Once room boundaries, doors, and windows are fixed, furnishing reduces from open-ended spatial reasoning to bounded constraint satisfaction. Bypassing this contract, as existing 3D systems do by delegating layout to language models, yields overlapping rooms and implausible proportions; directly calling general-purpose language models likewise produces geometrically invalid layouts. Guided by these insights, we present PlanCraft. SketchPlan supplies the missing training signal by replaying the architect's drawing process on 80K real floor plans, producing partial sketches at every completeness level. PlanCraft-Diff progressively sharpens an incomplete sketch into a geometrically precise, vectorizable floor plan through a coarse-to-fine strategy. With the spatial contract established, PlanCraft-Agent then furnishes the scene within well-defined room boundaries. Experiments show that PlanCraft achieves a 61.1\\% lower FID than the best existing 2D method and surpasses existing 3D systems by 15 points in expert-rated spatial rationality, with a sketch at only 25\\% completion already outperforming all fully specified baselines.",
+      "authors": [
+        "Pengyu Zeng",
+        "Yuqin Dai",
+        "Jun Yin",
+        "Ziyang Han",
+        "Ng Cheuk Hei",
+        "Jing Zhong",
+        "Chaoyang Shi",
+        "ZhanXiang Jin",
+        "Maowei Jiang",
+        "Yuxing Han",
+        "Shuai Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CL"
+      ],
+      "published": "2026-07-26T06:35:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.23491v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "progressive 3D residential scene generation",
+      "llm_evidence_cn": "渐进式3D住宅场景生成",
+      "llm_evidence": "渐进式3D住宅场景生成",
+      "canonical_evidence": "渐进式3D住宅场景生成",
+      "llm_tldr_en": "PlanCraft generates 3D residential scenes progressively, from rough sketches to refined floor plans and furnishings, mimicking architect workflows.",
+      "llm_tldr_cn": "现有自动生成方法要求生成前条件完全指定，与建筑师递进式设计不符。本文提出PlanCraft，从粗略草图开始，逐步细化平面图，最后布置家具，符合设计流程。实验生成合理布局，避免重叠，且支持交互式编辑。",
+      "llm_tldr": "现有自动生成方法要求生成前条件完全指定，与建筑师递进式设计不符。本文提出PlanCraft，从粗略草图开始，逐步细化平面图，最后布置家具，符合设计流程。实验生成合理布局，避免重叠，且支持交互式编辑。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.22355v1",
+      "source": "arxiv",
+      "title": "SiPhy: Single-Image Physical Property Reasoning",
+      "abstract": "Inferring physical properties such as mass, stiffness, and elasticity from a single image is essential for simulation and embodied AI, yet most existing approaches rely on multi-view reconstruction or physics-based supervision. We introduce SiPhy, a unified framework for single-image physical property reasoning that aligns 3D-aware visual cues, depth with language-based material knowledge. From one RGB image, SiPhy samples pseudo-voxel points, extracts CLIP features, and grounds them to material candidates proposed by a VLM. A part-based contrastive aggregator enforces region consistency, while a heaviness-aware refinement improves thickness and volume estimation for dense objects. Across ABO-500, MVImgNet-100, and PhysXNet-100, SiPhy achieves state-of-the-art single-image performance, surpassing multi-view reconstruction methods by improving mass MnRE by up to 93% (vs. PUGS), reducing density MAE by 35.5% (vs. NeRF2Physics), and lowering Young's modulus error by 23.5%. We further validate SiPhy on real hand-object interaction datasets, demonstrating its potential as a data annotation engine for physical understanding from single-view imagery.",
+      "authors": [
+        "Hoang Le",
+        "Joonwoo Kwon",
+        "Elkhan Ismayilzada",
+        "Yufei Zhang",
+        "Zijun Cui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-24T14:36:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.22355v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "single-image physical property reasoning with 3D-aware visual cues",
+      "llm_evidence_cn": "基于3D感知视觉线索的单图像物理属性推理",
+      "llm_evidence": "基于3D感知视觉线索的单图像物理属性推理",
+      "canonical_evidence": "基于3D感知视觉线索的单图像物理属性推理",
+      "llm_tldr_en": "SiPhy proposes a framework for single-image physical property reasoning using 3D-aware visual cues and depth, achieving SOTA on multiple benchmarks.",
+      "llm_tldr_cn": "现有多数方法依赖多视图重建或物理监督进行物理属性推理。本文提出SiPhy框架，从单张RGB图像出发，利用3D感知视觉线索和深度信息，结合CLIP特征和VLM材料知识，进行物理属性推理。在ABO-500等数据集上取得最优性能，为单图像物理推理提供了新思路。",
+      "llm_tldr": "现有多数方法依赖多视图重建或物理监督进行物理属性推理。本文提出SiPhy框架，从单张RGB图像出发，利用3D感知视觉线索和深度信息，结合CLIP特征和VLM材料知识，进行物理属性推理。在ABO-500等数据集上取得最优性能，为单图像物理推理提供了新思路。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24721v1",
+      "source": "arxiv",
+      "title": "DreamStyle3D: Efficient 3D Stylized Asset Generation via Dual-Attention Disentanglement",
+      "abstract": "With the growth of gaming, animation, and virtual reality industries, the demand for efficient generation of stylized 3D assets is rapidly increasing. However, existing approaches still struggle to jointly preserve style fidelity, geometric consistency, and generation efficiency, as most of them still rely on indirect 2D-to-3D stylization pipelines. This motivates a native 3D stylization framework that can explicitly disentangle style from geometry while remaining efficient. To this end, we propose DreamStyle3D, an efficient framework for stylized 3D asset generation built on a Decoupled Dual Cross-Attention mechanism. Our method explicitly separates geometric and stylistic features to enable efficient style injection while preserving structural consistency, and further adopts a lightweight training strategy to enhance style consistency and model generalization. In addition, we build an automated data pipeline and construct a dataset of about 15K content-style-stylized triplets for training and evaluation. Extensive experiments demonstrate that our DreamStyle3D can generate high-fidelity, geometrically consistent stylized 3D assets within 10 seconds, substantially improving efficiency while maintaining superior style quality and offering a new solution for 3D content creation. The code and data are available at https://github.com/HVision-NKU/DreamStyle3D.",
+      "authors": [
+        "Kai Wang",
+        "Ziheng Ouyang",
+        "Xuying Zhang",
+        "Ming-Ming Cheng",
+        "Qibin Hou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T17:55:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.24721v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "efficient 3D stylized asset generation with disentangled style and geometry",
+      "llm_evidence_cn": "高效的3D风格化资产生成，解耦风格与几何",
+      "llm_evidence": "高效的3D风格化资产生成，解耦风格与几何",
+      "canonical_evidence": "高效的3D风格化资产生成，解耦风格与几何",
+      "llm_tldr_en": "DreamStyle3D proposes a dual cross-attention mechanism to explicitly disentangle style from geometry for efficient 3D stylized asset generation, avoiding 2D-to-3D pipelines.",
+      "llm_tldr_cn": "现有3D风格化依赖间接2D到3D流程，难以保持风格一致性和几何保真度。DreamStyle3D提出解耦的双交叉注意力机制，将风格特征与几何特征分离，在保证几何一致性的同时高效注入任意风格。该方法实现了原生3D风格化生成，大幅提升了效率和质量。",
+      "llm_tldr": "现有3D风格化依赖间接2D到3D流程，难以保持风格一致性和几何保真度。DreamStyle3D提出解耦的双交叉注意力机制，将风格特征与几何特征分离，在保证几何一致性的同时高效注入任意风格。该方法实现了原生3D风格化生成，大幅提升了效率和质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.23844v1",
+      "source": "arxiv",
+      "title": "OmniCache: Multidimensional Hierarchical Feature Caching For Diffusion Models",
+      "abstract": "High-resolution image and video diffusion models, including SD3, FLUX, and recent video diffusion transformers, have substantially improved generative quality but remain expensive at inference time because they repeatedly evaluate attention-heavy denoisers over many sampling steps. We address this inefficiency by exploiting redundancy in intermediate diffusion features rather than changing model weights or retraining. We identify four complementary redundancy sources in image and video generation: intra-frame, inter-frame, motion, and denoising-step redundancy. Based on this analysis, we propose OmniCache, a unified hierarchical caching framework that performs multidimensional feature reuse through Token Cache, Frame Cache, Block Cache, and Layered Cache. Unlike token-merging baselines that average matched features, OmniCache uses similarity matching to select cacheable features, skips redundant computation, and restores positionally consistent cached activations, preserving feature order and spatial-temporal structure. The resulting framework reuses spatial features in temporal layers and temporal features in spatial layers, while Layered Cache captures cross-step redundancy at the model-layer level. Across SD3, SVD-XT, and Latte, OmniCache reduces inference latency by up to 35%, 25%, and 28%, respectively, while maintaining visual fidelity and motion coherence in a training-free setting.",
+      "authors": [
+        "Zhaoyuan He",
+        "Muhammad Muaz",
+        "Lili Qiu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-26T21:14:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.23844v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "feature caching for video diffusion models improving efficiency",
+      "llm_evidence_cn": "针对视频扩散模型的特征缓存优化效率",
+      "llm_evidence": "针对视频扩散模型的特征缓存优化效率",
+      "canonical_evidence": "针对视频扩散模型的特征缓存优化效率",
+      "llm_tldr_en": "OmniCache reduces inference cost of image and video diffusion models by hierarchical caching of redundant features across tokens, frames, blocks, and layers without retraining.",
+      "llm_tldr_cn": "高分辨率图像和视频扩散模型推理成本高，因为每步都计算密集注意力。本文识别出四种冗余，提出OmniCache统一层次化缓存框架，在Token、帧、块和层级别复用特征。在SD3、FLUX和视频扩散模型上实现显著加速而不损失质量。",
+      "llm_tldr": "高分辨率图像和视频扩散模型推理成本高，因为每步都计算密集注意力。本文识别出四种冗余，提出OmniCache统一层次化缓存框架，在Token、帧、块和层级别复用特征。在SD3、FLUX和视频扩散模型上实现显著加速而不损失质量。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
