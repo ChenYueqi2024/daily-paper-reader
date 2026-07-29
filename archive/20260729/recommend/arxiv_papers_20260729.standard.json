@@ -1,0 +1,670 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-29T21:39:55.442854+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 12,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.23909v1",
+      "source": "arxiv",
+      "title": "WorldDiT: A Unified Diffusion Architecture for World and Action Modeling",
+      "abstract": "Many recent robot policies pursue stronger control by using large pretrained vision-language models (VLMs) as the action backbone. We introduce WorldDiT, a unified diffusion transformer architecture that couples action generation with visual world modeling and achieves strong performance without a large pretrained VLM action backbone. During training, a single diffusion transformer generates continuous action chunks and predicts normalized RGB patch targets from future camera frames. Across four LIBERO simulation suites, WorldDiT lies on the reported Pareto frontier for total model parameters and mean success among methods reporting all four suites. These results provide a strong sub-billion-parameter baseline for future scaling studies.",
+      "authors": [
+        "Sen Wang",
+        "R. Gnana Praveen",
+        "Bidhan Roy",
+        "Marcos Villagra"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-07-27T00:55:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.23909v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unified diffusion transformer for world and action modeling",
+      "llm_evidence_cn": "用于世界和动作建模的统一扩散Transformer",
+      "llm_evidence": "用于世界和动作建模的统一扩散Transformer",
+      "canonical_evidence": "用于世界和动作建模的统一扩散Transformer",
+      "llm_tldr_en": "WorldDiT couples action generation with visual world modeling using a single diffusion transformer, achieving strong robot control without large VLMs.",
+      "llm_tldr_cn": "本文提出WorldDiT，一个统一的扩散Transformer架构，将动作生成与视觉世界建模结合。在训练中同时预测动作和未来帧的RGB块，无需大型预训练视觉语言模型作为动作骨干。在LIBERO仿真套件上达到最优帕累托前沿，为世界模型和视频预测提供了简洁高效的方案，直接满足世界模型及视频生成需求。",
+      "llm_tldr": "本文提出WorldDiT，一个统一的扩散Transformer架构，将动作生成与视觉世界建模结合。在训练中同时预测动作和未来帧的RGB块，无需大型预训练视觉语言模型作为动作骨干。在LIBERO仿真套件上达到最优帕累托前沿，为世界模型和视频预测提供了简洁高效的方案，直接满足世界模型及视频生成需求。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world model research papers",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26037v1",
+      "source": "arxiv",
+      "title": "Wonder: Video World Model Done Better",
+      "abstract": "We present Wonder, a general-purpose video world model for real-time, camera-controllable world exploration. Given an image or a conditional video, Wonder constructs a playable world where users can navigate interactively by moving the camera, discovering unseen regions, and revisiting previously observed areas in real time and over a long-term horizon. Achieving this capability requires a system-level co-design of control method, memory mechanism, and training strategy. We introduce a novel camera conditioning with a dense coordinate field whose renderings provide spatially aligned motion and orientation cues, allowing the model to interpret camera motion directly as visual evidence. To support fast and precise memory retrieval over a growing generation context, we propose an efficient sparse attention-based memory mechanism, enabling the model to selectively attend to a small set of relevant context tokens at inference time, regardless of actual context length. We further develop several techniques to rectify the self-forcing-style distillation pipeline, improving the student model's ability to respect control signals, as well as maintaining diverse generation modes and long-term memory from the teacher. Together, these components enable Wonder to synthesize diverse, minute-scale videos at 16 FPS while preserving coherent geometry, appearance, and dynamics across long rollouts. Beyond image-to-video generation, Wonder naturally supports video-conditioned generation, allowing existing dynamic scenes to be re-shot in real time.",
+      "authors": [
+        "Jiacong Xu",
+        "Hanwen Jiang",
+        "Zhixin Shu",
+        "Kalyan Sunkavalli",
+        "Vishal M. Patel",
+        "Yiqun Mei"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-28T17:45:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.26037v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time camera-controllable video world model for environment simulation",
+      "llm_evidence_cn": "实时相机可控视频世界模型用于环境模拟",
+      "llm_evidence": "实时相机可控视频世界模型用于环境模拟",
+      "canonical_evidence": "实时相机可控视频世界模型用于环境模拟",
+      "llm_tldr_en": "Wonder is a general-purpose video world model enabling real-time interactive exploration with camera control, dense coordinate field conditioning, and efficient memory retrieval for long-term consistent generation.",
+      "llm_tldr_cn": "现有视频世界模型难以支持实时、相机可控的长期交互探索。本文提出Wonder，一个通用视频世界模型，通过密集坐标场的相机条件、高效的记忆检索机制和系统级协同设计，实现用户可交互导航的持续世界生成，在实时性和一致性上取得突破。",
+      "llm_tldr": "现有视频世界模型难以支持实时、相机可控的长期交互探索。本文提出Wonder，一个通用视频世界模型，通过密集坐标场的相机条件、高效的记忆检索机制和系统级协同设计，实现用户可交互导航的持续世界生成，在实时性和一致性上取得突破。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.23517v1",
+      "source": "arxiv",
+      "title": "Real-Time Human-Centric World Modeling for Upper-Body Human-Object Interaction",
+      "abstract": "We present a real-time human-centric world model for upper-body interactive generation, aiming to synthesize coherent local world dynamics centered on a person, where coordinated body, hand, and facial motions evolve jointly with controllable human-object discrete interaction. To this end, we adopt a continuous-discrete joint control scheme with two complementary components: a continuous human state and a discrete interaction state. For continuous human-state control, we introduce a unified implicit representation based on multi-scale motion encoding, in which motion latents from the upper body, hands, and face are fused into a shared latent space. This multi-scale design improves expressiveness across different spatial scales, captures fine-grained human dynamics more effectively, and enables direct control without explicit retargeting. For discrete object interaction-state control, we represent object contact using a small set of language-encoded discrete interaction states, where text serves as an explicit interaction-state command, such as \\emph{no contact} or \\emph{grasp}, rather than an open-ended generation prompt, and we further construct a dedicated rendering pipeline for human-object interaction data to supervise such discrete interaction states. By combining continuous implicit human-state control with discrete interaction-state control, our model enables precise modeling of how a person moves and interacts with the local environment, including controllable changes to nearby scene states. Finally, we distill the model for efficient streaming real-time inference, achieving 25 FPS on two H100 GPUs. Experiments demonstrate improved fine-grained motion fidelity, more realistic hand-object coordination, and effective real-time interaction, establishing a practical step beyond motion reproduction toward real-time human-centric world modeling.",
+      "authors": [
+        "Chaonan Ji",
+        "Jinwei Qi",
+        "Peng Zhang",
+        "Bang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-26T07:34:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.23517v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time human-centric world model for interaction",
+      "llm_evidence_cn": "实时以人为中心的世界模型用于交互",
+      "llm_evidence": "实时以人为中心的世界模型用于交互",
+      "canonical_evidence": "实时以人为中心的世界模型用于交互",
+      "llm_tldr_en": "Presents a real-time human-centric world model that synthesizes coherent upper-body dynamics with discrete human-object interaction using continuous-discrete joint control.",
+      "llm_tldr_cn": "针对人机交互中的世界建模问题，提出实时以人为中心的世界模型，采用连续-离散联合控制，将身体、手部、面部运动融合到共享潜在空间，生成与物体离散交互协调的动态。实验证明该方法能实时生成合理交互动作。",
+      "llm_tldr": "针对人机交互中的世界建模问题，提出实时以人为中心的世界模型，采用连续-离散联合控制，将身体、手部、面部运动融合到共享潜在空间，生成与物体离散交互协调的动态。实验证明该方法能实时生成合理交互动作。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.24436v1",
+      "source": "arxiv",
+      "title": "MSVS-VAE: Multi-Scale Anchored VecSet for High-Fidelity 3D Reconstruction",
+      "abstract": "High-fidelity 3D generative modeling increasingly relies on the latent diffusion paradigm, where the reconstruction quality of the underlying 3D VAE becomes a primary bottleneck. Existing approaches largely follow two paradigms: sparse voxel-based representations achieve strong reconstruction quality but incur significant memory and computational overhead, while set-based representations are compact and continuous yet typically lag in fidelity due to latent sparsity and excessive global smoothness. We propose MSVS-VAE, a hierarchical set-based VAE that closes this fidelity gap without sacrificing compactness. Our key idea is to progressively densify anchored VecSet latents via hierarchical point-shuffle upsampling, increasing spatial capacity for fine-grained geometry modeling. To efficiently decode from the densified hierarchy, we replace global cross-attention with AVS-Conv, a geometry-aware local aggregation operator operating within local neighborhoods rather than the exhaustive latent set. We further introduce multi-scale query decoding to fuse coarse-to-fine latent features, where coarse scales provide stable global context, and fine scales refine localized geometry, reducing artifacts from overly local receptive fields. Extensive experiments on Objaverse, ABO, and in-the-wild benchmarks demonstrate that MSVS-VAE consistently outperforms prior set-based and voxel-based VAEs, delivering approximately 10x faster decoding than prior set-based methods and approximately 10x higher compactness than voxel-based baselines.",
+      "authors": [
+        "Dehao Hao",
+        "Kaiyi Zhang",
+        "Tanghui Jia",
+        "Xiangjun Gao",
+        "Dongyu Yan",
+        "Weikai Chen",
+        "Zeyu Hu",
+        "Lingting Zhu",
+        "Yingda Yin",
+        "Runze Zhang",
+        "Li Yuan",
+        "Xin Wang",
+        "Long Quan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T13:45:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.24436v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "high-fidelity 3D reconstruction VAE for latent diffusion",
+      "llm_evidence_cn": "面向潜在扩散的高保真3D重建VAE",
+      "llm_evidence": "面向潜在扩散的高保真3D重建VAE",
+      "canonical_evidence": "面向潜在扩散的高保真3D重建VAE",
+      "llm_tldr_en": "MSVS-VAE progressively densifies anchored VecSet latents for high-fidelity 3D reconstruction, enabling better latent diffusion.",
+      "llm_tldr_cn": "本文提出MSVS-VAE，一种层次化集簇VAE，通过渐进式点洗牌上采样增加VecSet潜在表示的容量，在不牺牲紧凑性的前提下达到高保真3D重建。性能接近最优体素方法，为3D生成扩散模型提供更强的编码器，直接支撑3D生成与理解。",
+      "llm_tldr": "本文提出MSVS-VAE，一种层次化集簇VAE，通过渐进式点洗牌上采样增加VecSet潜在表示的容量，在不牺牲紧凑性的前提下达到高保真3D重建。性能接近最优体素方法，为3D生成扩散模型提供更强的编码器，直接支撑3D生成与理解。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26004v1",
+      "source": "arxiv",
+      "title": "Parallel Decoding Distillation for Fast Image and Video Generation",
+      "abstract": "Generation in video diffusion or flow models is computationally expensive due to the slow and iterative sampling process. Current state-of-the-art (SOTA) acceleration methods heavily rely on variational score distillation (VSD) and adversarial losses to distill diffusion models into few-step generators. Albeit achieving high-quality video generation, these training losses are notoriously hard to optimize and suffer from mode collapse, leading to loss of video diversity and lack of motion. In this paper, we introduce Parallel Decoding Distillation (PDD), a simplified and scalable trajectory-based distillation method for fast inference of diffusion and flow matching models. Our architecture and training procedure are compatible with any pre-trained model and support sampling with a varying number of function evaluations (NFE). PDD accelerates generation by predicting multiple denoising steps per network evaluation. Conceptually, it learns a representation of the mean velocity without regressing its derivative using JVPs or finite-difference approximations. Our method achieves SOTA performance with 4-8 NFE on LTX-2.3 Text-to-Video/Audio, Wan 14B Text-to-Video, and Qwen-Image Text-to-Image. Moreover, PDD presents a significant improvement in generated video diversity.",
+      "authors": [
+        "Neta Shaul",
+        "Chao Liu",
+        "Arash Vahdat",
+        "Julius Berner"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-28T17:20:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.26004v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "fast video generation using distillation of diffusion models",
+      "llm_evidence_cn": "利用扩散模型蒸馏加速视频生成",
+      "llm_evidence": "利用扩散模型蒸馏加速视频生成",
+      "canonical_evidence": "利用扩散模型蒸馏加速视频生成",
+      "llm_tldr_en": "Parallel Decoding Distillation introduces a trajectory-based distillation method for fast inference of video diffusion and flow models, preserving diversity and motion quality.",
+      "llm_tldr_cn": "本文提出并行解码蒸馏，一种简化的轨迹蒸馏方法，用于加速视频扩散和流模型的推理。该方法避免了模式崩溃，保持了视频多样性和运动质量，与现有模型兼容，显著提升了生成速度。",
+      "llm_tldr": "本文提出并行解码蒸馏，一种简化的轨迹蒸馏方法，用于加速视频扩散和流模型的推理。该方法避免了模式崩溃，保持了视频多样性和运动质量，与现有模型兼容，显著提升了生成速度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.20417v2",
+      "source": "arxiv",
+      "title": "ATSplat: Compact Feed-forward 3D Gaussian Splatting with Adaptive Token Expansion",
+      "abstract": "3D Gaussian Splatting (3DGS) achieves high-quality novel-view synthesis by optimizing freely placed primitives in 3D and adaptively densifying them in under-reconstructed regions. However, this scene-adaptive capacity allocation is largely lost in existing feed-forward 3DGS methods, which commonly regress Gaussians at input pixels and lift them along camera rays. Such pixel-aligned formulations make the number and placement of primitives depend on image resolution and input viewpoints rather than scene complexity, resulting in dense and often redundant Gaussian sets. We present ATSplat, a feed-forward 3DGS framework that restores the adaptive allocation capability of 3DGS optimization through Adaptive 3D Tokens. ATSplat first lifts coarse patch-level depth and camera cues into sparse 3D anchor tokens, forming a compact scaffold of the scene. Each token is then regressed into local Gaussians with learnable 3D offsets, decoupling primitive placement from input image grids. An Adaptive Token Expansion module predicts a token-level uncertainty score, supervised by rendering error maps, and selectively expands high-uncertainty tokens through learnable expansion layers. This sparse-to-adaptive formulation enables ATSplat to concentrate primitives in challenging regions while maintaining a compact representation. Experiments on two representative datasets, RealEstate10K and DL3DV, show that ATSplat achieves state-of-the-art rendering quality while reducing the number of Gaussians by more than $5.7\\times$ compared with dense feed-forward 3DGS methods. From 12 input images at $512 \\times 960$ resolution, ATSplat completes reconstruction in less than a second using a single commercial GPU, and renders high-quality novel views at 1136 FPS ($512 \\times 960$) with only 311K Gaussians.",
+      "authors": [
+        "In Cho",
+        "Jeonghwan Cho",
+        "Mijin Yoo",
+        "Gim Hee Lee",
+        "Seon Joo Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T17:54:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.20417v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive 3D tokens for feed-forward Gaussian splatting",
+      "llm_evidence_cn": "自适应3D token用于前馈高斯泼溅",
+      "llm_evidence": "自适应3D token用于前馈高斯泼溅",
+      "canonical_evidence": "自适应3D token用于前馈高斯泼溅",
+      "llm_tldr_en": "ATSplat restores adaptive allocation in feed-forward 3DGS by using Adaptive 3D Tokens, enabling scene-adaptive Gaussian placement independent of input resolution.",
+      "llm_tldr_cn": "前馈3D高斯泼溅方法通常从输入像素回归高斯，导致高斯数量和位置依赖于图像分辨率而非场景复杂度。本文提出ATSplat，通过自适应3D Token恢复3DGS优化中的自适应分配能力，使高斯放置与场景复杂度匹配，减少冗余。",
+      "llm_tldr": "前馈3D高斯泼溅方法通常从输入像素回归高斯，导致高斯数量和位置依赖于图像分辨率而非场景复杂度。本文提出ATSplat，通过自适应3D Token恢复3DGS优化中的自适应分配能力，使高斯放置与场景复杂度匹配，减少冗余。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.23023v1",
+      "source": "arxiv",
+      "title": "OmniMate: Open-Ended Real-Time Streaming Audio-Visual Generation for Interactive Avatars",
+      "abstract": "Recent advances in diffusion-based generative models have enabled real-time audio-driven avatar generation and unified audio-visual synthesis, providing a promising foundation for interactive avatar systems. However, extending these models to real-time interactive streaming remains challenging, as the generation horizon is unknown in advance and cross-modal identity consistency gradually degrades during long-term generation. To address these challenges, we propose OmniMate, a unified framework for open-ended real-time interactive audio-visual avatar generation. OmniMate jointly synthesizes visual content, speech, and audio effects in real time, enabling natural and immersive multi-turn interactions. To achieve adaptive response progression, we introduce a Generation Progress Controller (GPC) that explicitly models the generation progress of each streaming chunk, allowing the model to complete responses according to the desired progress and achieve seamless transitions between execution and listening states. To preserve long-term cross-modal identity consistency, we propose a Multi-Reference Conditioning Module (MRCM), which leverages multiple reference images and a reference speech segment to provide persistent visual and speaker identity cues throughout long-duration streaming interactions. Extensive experiments on an interaction-oriented adaptation of VerseBench demonstrate that OmniMate achieves high-quality, low-latency streaming generation while maintaining strong long-term audio-visual consistency. The results further show that OmniMate supports realistic, coherent, and responsive interactive avatar experiences over extended multi-turn conversations.",
+      "authors": [
+        "Quanyue Song",
+        "Yishan He",
+        "Yanbo Ding",
+        "Zhixiang He",
+        "Yongxiang Li",
+        "Caigui Jiang",
+        "Zhi Zhi Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-25T03:42:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.23023v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "real-time audio-visual generation, interactive avatar video",
+      "llm_evidence_cn": "实时音视频生成，交互式虚拟人视频",
+      "llm_evidence": "实时音视频生成，交互式虚拟人视频",
+      "canonical_evidence": "实时音视频生成，交互式虚拟人视频",
+      "llm_tldr_en": "OmniMate is a unified diffusion-based framework for open-ended real-time audio-visual avatar generation, enabling interactive multi-turn video and speech synthesis.",
+      "llm_tldr_cn": "该论文提出OmniMate统一框架，基于扩散模型实现开放式的实时音视频虚拟人生成，联合合成视觉内容、语音和音频效果，支持多轮交互，解决了长时间生成中身份一致性退化问题。",
+      "llm_tldr": "该论文提出OmniMate统一框架，基于扩散模型实现开放式的实时音视频虚拟人生成，联合合成视觉内容、语音和音频效果，支持多轮交互，解决了长时间生成中身份一致性退化问题。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.20628v1",
+      "source": "arxiv",
+      "title": "RealVDeblur: One-Step Diffusion for Generalizable Real-World Video Deblurring",
+      "abstract": "Real-world video deblurring remains challenging due to diverse motion patterns, complex degradations, and the scarcity of realistic training data, yet robust restoration is critical for downstream pipelines such as mobile imaging and 3D reconstruction. This work presents \\textbf{RealVDeblur}, an efficient generative framework designed to improve in-the-wild robustness under diverse real capture conditions. First, a large-scale, physically grounded blur synthesis pipeline is constructed from scene-level 3D Gaussian Splatting (3DGS) assets and high-frame-rate videos, providing realistic training data covering both camera-induced and object-motion blur. Second, a video diffusion prior is leveraged for restoration; to better accommodate frame-dependent blur variations, temporal compression in the VAE is disabled and a frame-wise encoding scheme is adopted. For practical deployment on long videos, multi-step diffusion sampling is distilled into an efficient one-step generator, and a training-free Temporal Window Mask stabilizes inference beyond the training horizon with constant memory usage. Extensive experiments on diverse real-world benchmarks demonstrate strong perceptual quality, semantic fidelity, and temporal consistency on unseen videos, as well as improved robustness in downstream 3D reconstruction under severe motion blur. Project page: https://rbjin.github.io/RealVDeblur",
+      "authors": [
+        "Renbiao Jin",
+        "Mingxin Yang",
+        "Yutian Chen",
+        "Junhao Zhuang",
+        "Xin Cai",
+        "Mulin Yu",
+        "Linning Xu",
+        "Wenxian Yu",
+        "Danping Zou",
+        "Shi Guo",
+        "Tianfan Xue"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T18:01:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.20628v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "video deblurring using 3DGS synthesis and video diffusion prior",
+      "llm_evidence_cn": "利用3D高斯泼溅合成和视频扩散先验进行视频去模糊",
+      "llm_evidence": "利用3D高斯泼溅合成和视频扩散先验进行视频去模糊",
+      "canonical_evidence": "利用3D高斯泼溅合成和视频扩散先验进行视频去模糊",
+      "llm_tldr_en": "RealVDeblur uses 3D Gaussian Splatting to synthesize blur and a diffusion prior for real-world video deblurring.",
+      "llm_tldr_cn": "本文提出RealVDeblur，利用3D高斯泼溅合成逼真的模糊数据，并借助视频扩散先验实现高效视频去模糊。方法涉及显式3D几何（3DGS）和扩散模型，虽主要目标是去模糊，但其技术路径与利用显式3D重建增强视频生成的需求高度吻合，可作为方法论参考。",
+      "llm_tldr": "本文提出RealVDeblur，利用3D高斯泼溅合成逼真的模糊数据，并借助视频扩散先验实现高效视频去模糊。方法涉及显式3D几何（3DGS）和扩散模型，虽主要目标是去模糊，但其技术路径与利用显式3D重建增强视频生成的需求高度吻合，可作为方法论参考。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.23189v1",
+      "source": "arxiv",
+      "title": "Fashion-3DLR: A Controllable 3D Garment Generation Using Pairwise Fashion Elements for Intelligent Design",
+      "abstract": "AI-generated content (AIGC) has made significant progress, with 2D generative models becoming ready-to-use tools for the digital fashion industry. However, 3D garment generation remains in its nascent stage, where in the realm of fashion, the semantic information of diverse design elements exhibits intricate coupling relationships in 3D representations, posing substantial challenges for generating diverse 3D garments. In this work, to handle the above problem, We introduce Fashion-3DLR, a novel 3D garment generation framework that utilizes diverse design elements to create high-quality, versatile 3D garment assets. Specifically, to bridge the semantic gaps between different fashion elements, we propose a Garment Feature Fusion Diffusion Transformer (GFF-DiT) module to integrate 2D fashion design elements, e.g., sketch and texture, into latent space. Within the latent space, we then employ a rectified flow transformer to generate geometry latents, which can be decoded into various 3D garment representations, including 3D Gaussians and meshes. Furthermore, we integrate Fashion-3DLR into downstream tasks, achieving the 3D Gaussian Splatting (3DGS)-driven cloth physical simulation and mesh-based virtual try-on. Experimental results indicate that Fashion-3DLR surpass the previous state-of-the-art methods, which verify that the proposed work can generate well-structured, non-watertight garments capable of physical simulation and virtual try-on, underscoring its potential as a versatile 3D garment design tool.",
+      "authors": [
+        "Shenghao Yang",
+        "Hongtao Zhang",
+        "Yuhan Yi",
+        "Zhihao Tang",
+        "Zihao Cui",
+        "Lian Wen",
+        "Han Yan",
+        "Yuan Gao",
+        "Mingbo Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-25T13:10:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.23189v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D garment generation, controllable generation using design elements",
+      "llm_evidence_cn": "3D服装生成，利用设计元素可控生成",
+      "llm_evidence": "3D服装生成，利用设计元素可控生成",
+      "canonical_evidence": "3D服装生成，利用设计元素可控生成",
+      "llm_tldr_en": "Fashion-3DLR introduces a controllable 3D garment generation framework using pairwise fashion elements to bridge semantic gaps and produce diverse, high-quality 3D garments.",
+      "llm_tldr_cn": "3D服装生成仍处初级阶段，设计元素语义耦合复杂。本文提出Fashion-3DLR框架，利用成对时尚元素特征桥接语义鸿沟，生成多样化的高质量3D服装资产。方法采用特征融合模块，有效解耦元素间关系。实验生成了丰富的3D服装模型，为智能设计提供支持。",
+      "llm_tldr": "3D服装生成仍处初级阶段，设计元素语义耦合复杂。本文提出Fashion-3DLR框架，利用成对时尚元素特征桥接语义鸿沟，生成多样化的高质量3D服装资产。方法采用特征融合模块，有效解耦元素间关系。实验生成了丰富的3D服装模型，为智能设计提供支持。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.23147v1",
+      "source": "arxiv",
+      "title": "False Prophets: On the Security of World Models in Agentic Systems",
+      "abstract": "Large language models now power autonomous agents capable of complex, multi-step tasks in different environments. Accurate and reliable execution of these tasks requires the agent to predict the results of its actions. Recent research proposes to enhance predictive capabilities via specially trained environment simulators-world models. While world models can improve performance, they can also mislead agents into executing harmful actions, creating significant security and privacy risks. In this paper, we raise security concerns regarding the usage of world models in agentic systems. We discover a range of world model specific vulnerabilities, which can be exploited in terminal-based agents to execute malicious code or extract sensitive data. To facilitate future development, we introduce a security benchmark dataset designed for text-based world models. We argue that some risks are intrinsic to approximate world modeling, and show that attackers can induce mispredictions in agentic pipelines with up to 95% success rate, possibly resulting in unintended command execution, denial of service, drainage of wallet and private information extraction. Finally, we provide practical recommendations for practitioners to mitigate the discovered harms and harden agentic systems.",
+      "authors": [
+        "Erik Imgrund",
+        "Anna Wimbauer",
+        "Klim Kireev",
+        "Konrad Rieck"
+      ],
+      "primary_category": "cs.CR",
+      "categories": [
+        "cs.CR",
+        "cs.AI"
+      ],
+      "published": "2026-07-25T10:55:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.23147v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Security analysis of world models in agentic systems",
+      "llm_evidence_cn": "代理系统中世界模型的安全性分析",
+      "llm_evidence": "代理系统中世界模型的安全性分析",
+      "canonical_evidence": "代理系统中世界模型的安全性分析",
+      "llm_tldr_en": "Identifies vulnerabilities in world models within LLM agents, showing they can be exploited to execute malicious code.",
+      "llm_tldr_cn": "世界模型虽提升代理预测能力，但引入安全风险。本文揭示多种世界模型特有漏洞，可在终端代理中被利用执行恶意代码，强调安全评估的重要性。",
+      "llm_tldr": "世界模型虽提升代理预测能力，但引入安全风险。本文揭示多种世界模型特有漏洞，可在终端代理中被利用执行恶意代码，强调安全评估的重要性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world model research papers",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.23657v1",
+      "source": "arxiv",
+      "title": "GRAPE: Graduated Routing for Articulated Portrait mesh Estimation",
+      "abstract": "Articulated portrait mesh estimation is fundamental to 3D understanding, avatar generation, and immersive interaction. Existing approaches primarily rely on 3D Morphable Models (3DMMs). However, face-centric models suffer from the \"floating head\" assumption, conflating head pose with global rotation due to the lack of neck kinematics. Conversely, body-centric models lack high-fidelity facial expression capabilities. Furthermore, current methods struggle to disentangle jaw articulation from expression blendshapes, often over-relying on expressions for mouth opening. These limitations make monocular portrait recovery difficult across representation, supervision, and anatomical parameter estimation. To address these limitations, we introduce GRAPE(Graduated Routing for Articulated Portrait mesh Estimation). We build a Portrait Parametric Model (PPM) with an explicit torso-to-head kinematic chain and a canonical injection step to merge FLAME and the SMPL-X torso. We propose a Progressive Anatomical Alignment (PAA) network, which is composed of a pretrained portrait encoder, a Graduated-Mask Router, and coarse-to-fine experts that follow the portrait anatomical prior. We then train this network with multi-source supervision that combines sparse anatomical keypoints, feature distillation, foreground mask constraints, and relative geometry constraints. Experiments show that GRAPE improves portrait mesh recovery quality, pose alignment, and jaw--expression disentanglement over prior methods. We also demonstrate that our method can benefit the downstream tasks of audio-driven talking-head generation and 3D portrait generation.",
+      "authors": [
+        "Yunfei Liu",
+        "Lijian Lin",
+        "Ye Zhu",
+        "Yu Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-26T13:46:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.23657v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "articulated portrait mesh estimation for 3D understanding",
+      "llm_evidence_cn": "连接肖像网格估计促进3D理解",
+      "llm_evidence": "连接肖像网格估计促进3D理解",
+      "canonical_evidence": "连接肖像网格估计促进3D理解",
+      "llm_tldr_en": "GRAPE introduces graduated routing for articulated portrait mesh estimation, addressing limitations of 3DMMs and enabling high-fidelity 3D face and body understanding.",
+      "llm_tldr_cn": "现有肖像网格估计方法基于3DMM，但面部模型缺乏颈部运动，身体模型缺乏表情细节。本文提出GRAPE，采用渐进路由方法，联合估计头、颈和面部表情，实现单目高保真肖像网格重建。该方法促进了3D面部理解与虚拟化身生成。",
+      "llm_tldr": "现有肖像网格估计方法基于3DMM，但面部模型缺乏颈部运动，身体模型缺乏表情细节。本文提出GRAPE，采用渐进路由方法，联合估计头、颈和面部表情，实现单目高保真肖像网格重建。该方法促进了3D面部理解与虚拟化身生成。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24403v1",
+      "source": "arxiv",
+      "title": "GenSplatCodec: Feed-Forward Gaussian Splatting Compression via One-Step Diffusion",
+      "abstract": "Feed-forward 3D Gaussian Splatting (3DGS) enables scalable scene reconstruction without per-scene optimization, yet produces dense Gaussians that are costly to store and transmit. Existing feed-forward Gaussian compression methods formulate decoding as deterministic representation recovery, which becomes inadequate at low bitrates when high-frequency textures and view-dependent appearance are discarded. Although generative models offer a promising alternative, using them as standalone post-processing decouples generation from the transmitted scene structure, thereby compromising cross-view consistency. To address these limitations, we propose GenSplatCodec, a unified feed-forward Gaussian codec that reformulates low-bitrate Gaussian compression as geometry-guided generative decoding. We present a detail-aware feed-forward Gaussian coding scheme within a dual-stream formulation, where the resulting compact Gaussian structural stream is complemented by a lightweight reference appearance stream. We further introduce a geometry-guided one-step generative decoding approach that jointly exploits decoded structural and appearance cues through hierarchical geometry control to reconstruct high-fidelity and view-consistent novel views. Finally, we develop a three-stage optimization strategy that stabilizes the learning of the unified codec and adapts the generative decoder to codec-derived structural and appearance cues. Extensive experiments across multiple datasets demonstrate that GenSplatCodec consistently achieves superior rate-distortion (RD) performance over existing methods.",
+      "authors": [
+        "Qiang Hu",
+        "Zhenlong Wu",
+        "Lei Huang",
+        "Zihan Zheng",
+        "Xiaoyun Zhang",
+        "Wenjun Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T13:20:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.24403v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "one-step diffusion for Gaussian splatting compression",
+      "llm_evidence_cn": "一步扩散用于高斯泼溅压缩",
+      "llm_evidence": "一步扩散用于高斯泼溅压缩",
+      "canonical_evidence": "一步扩散用于高斯泼溅压缩",
+      "llm_tldr_en": "GenSplatCodec reformulates low-bitrate Gaussian compression as a generative task with one-step diffusion, preserving cross-view consistency and enabling high-quality reconstruction from compact codes.",
+      "llm_tldr_cn": "前馈3D高斯泼溅虽能无需逐场景优化进行重建，但产生的高斯点密集，存储传输成本高。现有压缩方法在低码率时丢失高频纹理和视图依赖性。本文提出GenSplatCodec，将低码率高斯压缩重构为一步扩散生成任务，保证跨视图一致性，实现紧凑表示下的高质量重建。",
+      "llm_tldr": "前馈3D高斯泼溅虽能无需逐场景优化进行重建，但产生的高斯点密集，存储传输成本高。现有压缩方法在低码率时丢失高频纹理和视图依赖性。本文提出GenSplatCodec，将低码率高斯压缩重构为一步扩散生成任务，保证跨视图一致性，实现紧凑表示下的高质量重建。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25802v1",
+      "source": "arxiv",
+      "title": "Explicit Layer Modeling for Video Object Insertion and Layer Decomposition",
+      "abstract": "Most video editing systems still lack explicit layered video representations, limiting their ability to perform realistic compositing, object reuse, and consistent manipulation. This limitation is especially pronounced in video object insertion and video layer decomposition, where existing methods rely on implicit inference or per-scene optimization due to the absence of explicit foreground-layer supervision. We introduce TriLayer, a large-scale triplet video dataset containing aligned composite, background, and foreground videos, where the foreground layers include both object appearance and associated visual effects. This explicit supervision enables models to learn layered video representations directly rather than inferring them implicitly. Building on this dataset, we propose DBL-Diffusion, a dual-branch diffusion framework that jointly models RGB composites and RGBA foreground layers through shared denoising and cross-branch interaction. We instantiate the framework in two tasks: DBL-Insert for layered object insertion, which generates explicit RGBA layers for realistic compositing and flexible post-editing, and DBL-Decompose for video layer decomposition, which recovers foreground and background layers using triplet supervision. Experiments demonstrate that explicit layer modeling substantially improves both insertion fidelity and decomposition quality.",
+      "authors": [
+        "Kyujin Han",
+        "Seungjoo Shin",
+        "Sunghyun Cho"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-28T14:48:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.25802v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "video object insertion and layer decomposition, relates to video generation",
+      "llm_evidence_cn": "视频物体插入与层分解，与视频生成相关",
+      "llm_evidence": "视频物体插入与层分解，与视频生成相关",
+      "canonical_evidence": "视频物体插入与层分解，与视频生成相关",
+      "llm_tldr_en": "Proposes TriLayer dataset and explicit layered video representation for video object insertion and layer decomposition, enabling models to learn direct foreground-layer supervision.",
+      "llm_tldr_cn": "当前视频编辑系统缺乏显式分层视频表示，限制了真实合成和物体复用。本文提出TriLayer大规模三元组视频数据集，包含对齐的合成、背景和前景视频，提供显式前景层监督。该数据集使模型能够直接学习分层视频表示而非隐式推断，为视频物体插入和层分解任务提供了新的基准。",
+      "llm_tldr": "当前视频编辑系统缺乏显式分层视频表示，限制了真实合成和物体复用。本文提出TriLayer大规模三元组视频数据集，包含对齐的合成、背景和前景视频，提供显式前景层监督。该数据集使模型能够直接学习分层视频表示而非隐式推断，为视频物体插入和层分解任务提供了新的基准。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24591v1",
+      "source": "arxiv",
+      "title": "CameraAnything: Refilming Videos with Arbitrary Camera Control",
+      "abstract": "We introduce CameraAnything, the first unified framework for camera controlled video editing that enables joint control of both intrinsic and extrinsic camera parameters. Existing approaches either rely on expensive 3D reconstruction to achieve full camera functionality or restrict editing to extrinsic parameter manipulation. Moreover, the coupled influence of intrinsic and extrinsic parameters on video appearance makes disentangled modeling particularly challenging. To address this, we adopt per-pixel Plücker ray injection alongside resolution-aware 3D RoPE in self-attention, building both camera conditioning and spatial positional encoding on the target latent to jointly control camera position, focal length, and native resolution editing without cropping or outpainting. To overcome the scarcity of paired training data, we further develop a scalable synthetic pipeline that constructs diverse dynamic scenes through structured multi-camera recording and generates synchronized videos with varied camera configurations. With a tailored orthogonal training strategy, CameraAnything enables expressive video reshooting with arbitrary viewpoint control, focal length adjustment, resolution adaptation, and multi-shot transitions within a single generation process, offering strong practical value for cinematic video editing and cross-platform content adaptation in video production.",
+      "authors": [
+        "Yixuan Li",
+        "Yanhong Zeng",
+        "Ka Leong Cheng",
+        "Jiayi Zhu",
+        "Hanlin Wang",
+        "Wen Wang",
+        "Yihao Meng",
+        "Hao Ouyang",
+        "Qiuyu Wang",
+        "Yue Yu",
+        "ZiDong Wang",
+        "Yiyuan Zhang",
+        "Yujun Shen",
+        "Dahua Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T15:55:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.24591v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "video editing with camera control, leverages 3D geometry concepts, relates to video generation",
+      "llm_evidence_cn": "相机控制的视频编辑，利用3D几何概念，与视频生成相关",
+      "llm_evidence": "相机控制的视频编辑，利用3D几何概念，与视频生成相关",
+      "canonical_evidence": "相机控制的视频编辑，利用3D几何概念，与视频生成相关",
+      "llm_tldr_en": "CameraAnything enables joint control of intrinsic and extrinsic camera parameters for video refilming, avoiding expensive 3D reconstruction via per-pixel Plücker rays.",
+      "llm_tldr_cn": "现有视频编辑方法要么依赖昂贵3D重建，要么限制外参编辑。本文提出CameraAnything，通过逐像素普吕克射线注入和分辨率感知3D旋转位置编码，实现对相机内参和外参的联合控制。无需显式3D重建即可编辑焦距和分辨率，为视频生成提供了灵活相机控制新范式。",
+      "llm_tldr": "现有视频编辑方法要么依赖昂贵3D重建，要么限制外参编辑。本文提出CameraAnything，通过逐像素普吕克射线注入和分辨率感知3D旋转位置编码，实现对相机内参和外参的联合控制。无需显式3D重建即可编辑焦距和分辨率，为视频生成提供了灵活相机控制新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25912v1",
+      "source": "arxiv",
+      "title": "SAM3D-Guided Object-Centric Representation Alignment for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models have shown strong potential for general robot manipulation, but most existing models rely on 2D visual-language backbones and lack fine-grained 3D understanding of target objects, especially under occlusion, pose variation, scale changes, and precise spatial interaction. We propose an object-centric 3D representation alignment framework built upon $π_0$, using SAM3D as a frozen 3D teacher to provide target-object 3D priors during training. Specifically, we localize task-relevant objects with object recognition models, generate corresponding object masks, and use SAM3D to extract dense object-level 3D representations, which are aligned with intermediate visual features of $π_0$. This enables the policy to internalize target-object 3D information while preserving the original RGB-language-to-action inference pipeline without requiring depth, point clouds, masks, SAM3D, or additional 3D modules at test time. Simulation experiments show consistent improvements, achieving 99.1\\% on LIBERO and an average length of 4.11 on CALVIN. Real-world experiments further demonstrate that our method is particularly effective in long-horizon manipulation scenarios where the robot must focus on different target objects across multiple subtasks.",
+      "authors": [
+        "Zonghe Liu",
+        "Shanyuan Jie",
+        "Xiaoquan Sun",
+        "Chen Cao",
+        "Zetian Xu",
+        "Zongsheng Liu",
+        "Jiayu Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-28T16:05:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.25912v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D representation alignment for VLA using SAM3D",
+      "llm_evidence_cn": "使用SAM3D进行VLA模型的3D表示对齐",
+      "llm_evidence": "使用SAM3D进行VLA模型的3D表示对齐",
+      "canonical_evidence": "使用SAM3D进行VLA模型的3D表示对齐",
+      "llm_tldr_en": "SAM3D-guided object-centric representation alignment enhances VLA models with fine-grained 3D understanding via frozen 3D teacher.",
+      "llm_tldr_cn": "现有视觉-语言-动作模型缺乏对目标物体的细粒度3D理解。该工作提出一个以对象为中心的3D表示对齐框架，利用冻结的SAM3D作为3D教师，通过目标识别和掩码生成，将SAM3D的密集物体级3D表示与π0的中间视觉特征对齐。实验表明该方法显著提升了机器人操控在遮挡、姿态变化等情况下的表现，为VLA模型注入3D先验提供了有效途径。",
+      "llm_tldr": "现有视觉-语言-动作模型缺乏对目标物体的细粒度3D理解。该工作提出一个以对象为中心的3D表示对齐框架，利用冻结的SAM3D作为3D教师，通过目标识别和掩码生成，将SAM3D的密集物体级3D表示与π0的中间视觉特征对齐。实验表明该方法显著提升了机器人操控在遮挡、姿态变化等情况下的表现，为VLA模型注入3D先验提供了有效途径。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.24954v1",
+      "source": "arxiv",
+      "title": "Intrinsic and Triangulation-Agnostic Attention: A Simple and Powerful Approach for Learning on Meshes",
+      "abstract": "This work proposes an adaptation of the attention mechanism for triangle meshes. The core observation is that endowing the attention mechanism with critical properties for learning over meshes -- intrinsicality and triangulation-agnosticism -- enables it to attain state-of-the-art results over several learning-based tasks in geometry-processing. The above is achieved by modifying the attention mechanism from the bottom up based on simple principles from geometry-processing. Namely, the quantities used within attention -- queries, keys and values -- are created by an intrinsic, triangulation-agnostic network, and treated as discretizations of continuous functions. From that, we devise an appropriate attention mechanism that operates over triangle meshes through standard FEM discretization of the resulting integrals of the above functions. Surprisingly, as far as we know, this straightforward approach has not been utilized for learning over meshes. Experiments show our method exceeds current state of the art, including both mesh-based architectures as well as point cloud transformers. Namely, we show significant improvements on several common benchmarks and tasks -- predicting canonical high-frequency signals; predicting deformations; computing dense correspondences, both between full shapes and partial ones; and predicting feature descriptors.",
+      "authors": [
+        "Ashwath Shetty",
+        "Zihan Zhu",
+        "Soeren Pirk",
+        "Noam Aigerman"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-27T18:04:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.24954v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "attention mechanism for triangle meshes, learning on 3D meshes, representation learning",
+      "llm_evidence_cn": "三角网格注意力机制，3D网格学习，表示学习",
+      "llm_evidence": "三角网格注意力机制，3D网格学习，表示学习",
+      "canonical_evidence": "三角网格注意力机制，3D网格学习，表示学习",
+      "llm_tldr_en": "Proposes intrinsic and triangulation-agnostic attention for learning on triangle meshes, achieving state-of-the-art on geometry processing tasks.",
+      "llm_tldr_cn": "现有网格学习方法对三角剖分敏感且缺乏内在性。本文提出一种内在且三角剖分无关的注意力机制，通过修改查询、键、值的构造方式，使其作为连续函数的离散化。该方法在多个几何处理任务上取得最优结果，推动了3D表示学习的发展。",
+      "llm_tldr": "现有网格学习方法对三角剖分敏感且缺乏内在性。本文提出一种内在且三角剖分无关的注意力机制，通过修改查询、键、值的构造方式，使其作为连续函数的离散化。该方法在多个几何处理任务上取得最优结果，推动了3D表示学习的发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
