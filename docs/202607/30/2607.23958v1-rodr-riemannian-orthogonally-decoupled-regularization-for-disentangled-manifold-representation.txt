@@ -1,0 +1,515 @@
+Title: RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation
+
+URL Source: https://arxiv.org/pdf/2607.23958v1
+
+Published Time: Tue, 28 Jul 2026 01:28:29 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# RODR: R IEMANNIAN ORTHOGONALLY DECOUPLED 
+
+# REGULARIZATION FOR DISENTANGLED MANIFOLD 
+
+# REPRESENTATION 
+
+Jiayu Zhu, Wenlai Zhao ∗1
+
+Department of Computer Science and Technology, Tsinghua University, Beijing, 100084, China 
+
+# ABSTRACT 
+
+Point cloud denoising is essentially a geometric recovery task that aims to reconstruct the intrinsic structure of a smooth 2D Riemannian manifold embedded in R3 from noisy, discrete ambient-space samples. Despite the remarkable progress of modern manifold-aware encoders and generative transport models in geometric representation learning, a fundamental objective-geometry mismatch remains underexplored. Theoretically, we identified that this mismatched coupling leads to geometric gradient interference , where conflicting optimization objectives result in structural degradation and 
+
+point clustering . We introduce Riemannian Orthogonally Decoupled Regularization (RODR) 
+
+to reformulate the optimization trajectory by disentangling the normal (fitting) and tangential (dis-tribution) components. Guided by a vector-attention and entropy-aware adaptive strategy, RODR effectively preserves high-fidelity geometric details while maintaining sampling uniformity. Ex-periments demonstrate that RODR reaches performance comparable to state-of-the-art baselines and suggests improved distribution regularity and reduced local aggregation effectively. Our work establishes a generic and interpretable framework for disentangled geometric optimization in point cloud processing. 
+
+# 1 Introduction 
+
+Point cloud is the dominant discrete geometric representation for 3D scenes, widely deployed in autonomous perception, robotic reconstruction, and digital twin systems. The entire pipeline of point cloud restoration fundamentally relies on the 
+
+Riemannian manifold hypothesis : noise-free real-world surfaces correspond to smooth 2D Riemannian manifold (M, g )
+
+embedded in the ambient space R3, and clean point clouds are discrete uniform samplings of such continuous manifolds. Modern point cloud denoising methods have evolved from naive coordinate regression to advanced geometric learning paradigms, including manifold-aware encoding, score-based diffusion [ 1], and flow-matching generative models [ 2], all of which explicitly pursue compliance with the intrinsic geometric properties of underlying surfaces. Different from general multi-task gradient conflicts caused by task incompatibility, the interference in point cloud manifold learning is rooted in the structural entanglement of Euclidean ambient space and manifold intrinsic geometry ,which is a critical geometry-optimization inconsistency that plagues nearly all existing learning-based denoising frameworks. Manifold differential geometry frames point cloud denoising as a problem with two inherently orthogonal geometric optimization targets: extrinsic surface fitting that eliminates off-manifold noise along the normal bundle 
+
+N M, and intrinsic sampling regularization that optimizes in-plane point distribution along the tangent bundle T M.However, current optimization objectives uniformly adopt coupled Euclidean losses in ambient space, mixing extrinsic and intrinsic geometric updates into a single 3D gradient vector without geometric partitioning. In this coupled optimization paradigm, fitting gradients for surface fidelity and diffusion gradients for sampling uniformity produce non-trivial inner-product interference, leading to two typical pathological optimization behaviors: negative gradient interference counteracts geometric update signals, freezing points in high-curvature regions and slowing convergence; 
+
+> ∗
+
+Email: zhujiayu24@mails.tsinghua.edu.cn, zhaowenlai@tsinghua.edu.cn arXiv:2607.23958v1 [cs.CV] 27 Jul 2026 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+Figure 1: Conceptual overview of the proposed RODR framework. (A) Euclidean regularization couples fitting and density repulsion losses within a unified ambient space, resulting in conflicting tangential gradient components, point clumping, and excessive smoothing of sharp geometric features. (B) The RODR framework exploits intrinsic manifold geometry to project the fitting objective onto the normal subspace and the uniform-density objective onto the tangent subspace, yielding strictly orthogonal optimization gradients with a zero inner product. (C) Visual denoising comparison on sampled point clouds. The baseline method suffers from severe point clumping and degraded sharp edges, whereas RODR simultaneously achieves uniform point distribution and precise preservation of delicate geometric contours. positive interference amplifies ambient displacement, pushing points away from the true manifold and generating ghosting artifacts. To address this intrinsic geometric limitation, we rethink the optimization dynamics of manifold restoration and propose 
+
+Riemannian Orthogonally Decoupled Regularization (RODR) , a geometrically principled gradient optimization framework tailored for manifold representation learning. The core insight of RODR is to enforce strict geometric assignment via subspace orthogonal projection: extrinsic surface fitting is exclusively optimized on the normal bundle for precise surface recovery, while intrinsic sampling uniformity is independently regularized on the tangent bundle for reasonable in-plane distribution. This geometric gradient surgery effectively decouples the conflicting optimization objectives, eliminates cross-subspace gradient interference, and transforms the ill-conditioned Euclidean optimization landscape into a geometrically well-posed system. Furthermore, we design a vector-attention and entropy-aware adaptive strategy mechanism to dynamically modulate optimization intensity according to local surface geometric features, mitigating the approximation bias of tangent-plane proxies in high-curvature regions and preserving fine-grained geometric details. In summary, our work delivers three major technical and theoretical contributions: • Geometric Mechanism Analysis. We theoretically reveal the inherent gradient interference problem caused by Euclidean space coupling in manifold restoration, systematically explaining the formation mechanism of representation collapse, point clumping and feature erosion, and distinguishing geometric-induced interference from conventional multi-task gradient conflicts. • Orthogonal Decoupling Framework. We propose RODR, a novel Riemannian geometric regularization method that realizes complete extrinsic-intrinsic optimization decoupling via tangent-normal bundle orthogonal projection, fundamentally reshaping the optimization dynamics of manifold representation learning. • Superior Practical and Theoretical Performance. Experiments on multiple benchmarks and datasets demon-strate that RODR achieves competitive performance with recent denoising methods with prominent feature 2RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation preservation and uniform sampling. Comprehensive theoretical proofs further validate the stability, conver-gence and geometric consistency of the proposed framework. In the broader context of representation learning , it is well-established that coupling distinct objectives within a single gradient channel can lead to suboptimal optimization dynamics and interference [ 3]. As a lightweight, plug-and-play regularization module, RODR is compatible with mainstream regression-based and generative transport-based point cloud learning backbones without extra computational overhead. We further provide rigorous theoretical analysis including frame stability bound, Hessian block-diagonal preconditioning property, and asymptotic geometric consistency, fully verifying the rationality and robustness of the proposed decoupled optimization dynamics. 
+
+# 2 Related Work 
+
+Point cloud denoising has been extensively studied through both traditional geometry-driven methods and modern learning-based paradigms. Classical approaches leverage local geometric priors, including bilateral filtering [ 4], moving least squares (MLS) projection [ 5 ], Laplacian smoothing [ 6], and parameterization-free projection (LOP) [ 7]. While these methods are intuitive and effective on relatively smooth surfaces, they typically rely on hand-crafted local assumptions that can be challenging to generalize to complex scenarios involving heavy noise or high-curvature features. 
+
+2.1 Euclidean Coordinate Regression 
+
+Deep learning-based denoising has advanced significantly from basic displacement learning to sophisticated score-function regression. Notable architectures such as PointCleanNet [ 8], DUP-Net [ 9 ], PCDNF [ 10 ], PointFilter [ 11 ], PD-Flow [ 12 ], DeepPSR [ 13 ], and modern bilateral graph-based methods [ 14 , 15 , 16 ] have established high standards for robustness and performance. Recent iterative and adaptive filtering methods further improve denoising quality by learning when or how to stop refinement, including IterativePFN [ 17 ], ASDN [ 18 ], 3DMambaIPF [ 19 ], DSNet [ 20 ], and PointInDI [ 21 ]. These methods predominantly treat denoising as a coordinate-wise regression task in the ambient space 
+
+R3. In this setting, surface fitting and point distribution are often optimized through joint Euclidean regularization. In practical implementations, such Euclidean formulations effectively guide noisy points toward local geometric proxies, such as planes or learned targets. While this strategy substantially improves the structural fidelity of the point cloud, it presents an inherent coupling between fitting (normal direction) and uniformity (tangential direction) objectives. As these components are often optimized through a unified gradient in R3, achieving an optimal balance between surface convergence and distribution regularity typically requires delicate hyperparameter tuning [ 16 , 22 ]. This coupling provides a motivation to explore decoupled optimization strategies that can more independently preserve sharp features while maintaining sampling uniformity. 
+
+2.2 Riemannian Manifold-Aware Encoders 
+
+The integration of Riemannian geometry into 3D vision [ 23 ] is rooted in the manifold hypothesis, which posits that noise-free point clouds are discrete samples from a smooth 2D Riemannian manifold (M, g ) embedded in R3. Recent theoretical studies further examine manifold fitting under unbounded noise [ 24 ] and curvature-driven recovery under unbounded isotropic noise [ 25 ], providing useful geometric context for robust surface reconstruction. Substantial progress has been made in enhancing networks’ structural awareness of this underlying geometry. Modern backbones, including DGCNN [ 26 ], Point Transformer [ 27 ], and SE (3) -equivariant GNNs [ 28 , 29 ], successfully incorporate local geometric priors into the feature extraction process. Furthermore, recent implicit methods like Neural-Pull [ 30 ] and its successors [31] represent the manifold more continuously through learned signed distance fields (SDFs). While these architectural innovations have significantly improved geometric representation, the supervision signals in many pipelines often rely on coupled Euclidean metrics. This suggests a potential for further synergy between the manifold-aware capability of the modern encoder and the design of the optimization objective. Specifically, there is an opportunity to develop loss functions that more explicitly reflect the intrinsic properties of the 2D manifold, thereby enabling more precise control over surface fidelity independently of the sampling distribution. 
+
+2.3 Trajectory and Dynamic Optimization 
+
+Recently, point cloud denoising has been reframed as a transport problem, mapping a noisy distribution to the target manifold distribution. Score-based models [ 1, 32 , 33 ] learn a vector field v = ∇ log p(x) to guide points via reverse diffusion processes. This paradigm has been further refined by works such as Straight-PCF [ 2 ], P2P-Bridge [ 34 ], 3RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation Noise2Score3D [ 35 ], and adaptive score-diffusion filtering [ 36 ], which emphasize learned or analytically motivated trajectories in R3 to improve inference efficiency and robustness. Mathematically, these generative fields represent an integrated transport operator that simultaneously attracts points toward the surface and regulates their lateral distribution. Since these two physical processes are characterized by a single R3 vector, the resulting flows must manage the inherent trade-off between geometric convergence and tangential diffusion. Recent multi-stage, multi-view, and learning-free designs such as BSV-PCD [37], DN-PCD [38], and NABNP [ 39 ] also highlight the continuing importance of robustness under low-quality or non-uniform point observations. Despite the impressive speed and robustness of trajectory-based models, addressing the entanglement of these objectives within the transport field remains a valuable direction for enhancing performance on complex, high-curvature geometries. 
+
+# 3 Representational Analysis and Motivation 
+
+We model a noise-free point cloud as a discrete sampling of a smooth, two-dimensional Riemannian manifold (M, g )
+
+embedded in the ambient space R3. The observed noisy points {pi}Ni=1 are generated via pi = xi + ϵi, where xi ∈ M 
+
+and ϵi represents additive noise. The core objective of denoising is to learn a representation field that maps the noisy distribution back to the manifold M.
+
+3.1 Representational Entanglement in Ambient Space 
+
+Most learning-based denoising objectives are formulated as a joint Euclidean loss in the ambient space: 
+
+Leuc = Lfit + βL uni , ∇θ Leuc = X
+
+> i
+
+∂L euc 
+
+∂p i
+
+∂p i
+
+∂θ . (1) While efficient, this formulation introduces a fundamental representational entanglement . For an embedded surface, the ambient R3 space decomposes into two geometrically distinct roles: the normal direction corrects extrinsic surface residuals, while the tangent directions control the intrinsic sampling pattern. In Eq. equation 1, these two components are entangled within a single 3D gradient channel. Consequently, the network is forced to learn a coupled representation where surface attraction and distribution diffusion interfere with each other, leading to suboptimal optimization trajectories. 
+
+3.2 The Contractive Bias: Explaining Representation Collapse 
+
+We argue that the common "clumping" artifact is not a random numerical error, but a result of a contractive bias inherent in Euclidean fitting losses. Consider a point pi pulled toward a temporally frozen local geometric proxy μi. Under a standard gradient step with rate η, the update pt+1  
+
+> i
+
+≈ (1 − η)pti + ημ ti acts as a local contraction. For two neighboring points pi, p j sharing a correlated proxy, their pairwise distance evolves as: 
+
+∥pt+1  
+
+> i
+
+− pt+1  
+
+> j
+
+∥22 ≈ (1 − η)2∥pti − ptj ∥22. (2) This indicates that the Euclidean fitting objective possesses an inherent tangential contraction mode , pulling points toward local centroids faster than any spacing regularizer can redistribute them. In the language of representation learning, this leads to a representation collapse where the intrinsic geometric structure is destroyed by the extrinsic fitting force. 
+
+3.3 Optimization Dynamics and Gradient Interference 
+
+To characterize this entanglement, we define the Gradient Interference Ci between surface fitting and distribution regularizer: 
+
+Ci = ⟨∇ pi Lfit , ∇pi Luni ⟩ . (3) In the coupled Euclidean setting, there is no geometric constraint ensuring Ci = 0 . This leads to critical optimization defects: • Gradient Conflict ( Ci < 0): The fitting and uniformity forces counteract each other, effectively "freezing" the points in high-curvature regions and causing slow convergence. • Dynamic Distortion ( Ci > 0): The spacing term reinforcements the ambient displacement, unintentionally pushing points off the true surface to satisfy uniformity, causing "ghosting" artifacts. This phenomenon is analogous to gradient interference in multi-task learning [ 3]. However, unlike general task-level conflicts, this interference is rooted in the physical geometry of the manifold. 4RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+3.4 The Case for Orthogonal Decoupling 
+
+The core issue is the absence of a Geometric Assignment . Surface fidelity is an extrinsic property of the manifold’s 
+
+normal bundle N M, while sampling uniformity is an intrinsic property of the tangent bundle T M. We posit that orthogonal decoupling is a necessary condition for disentangling the optimization dynamics. By constraining these forces into their respective subspaces, we can eliminate Ci and transform the ill-conditioned Euclidean landscape into a geometrically well-posed one, enabling the independent learning of surface geometry and sampling distribution. 
+
+# 4 RODR: Riemannian Orthogonally Decoupled Regularization 
+
+To resolve the representational entanglement identified in Section 3, we propose RODR , a principled optimization framework that reshapes the learning dynamics via orthogonal subspace projection. RODR acts as a geometric preprocessor that ensures surface attraction and sampling regularity are optimized in mutually exclusive channels. 
+
+4.1 Geometric Gradient Surgery via Subspace Projection 
+
+The core of RODR is the decomposition of the ambient R3 space into two natural bundles of an embedded surface 
+
+(M, g ). For a point pi, the ambient space admits an orthogonal split: R3 = Tpi M ⊕ Npi M, where Tpi M is the tangent bundle and Npi M = span {ˆni} is the normal bundle. We define the orthogonal projection operators PTi = I − ˆni ˆn⊤ 
+
+> i
+
+and PNi = ˆ ni ˆn⊤ 
+
+> i
+
+, which satisfy the complementarity and orthogonality conditions: PTi + PNi = I and PTi PNi = 0 . Unlike standard Euclidean updates, RODR performs the following geometric gradient surgery :
+
+∆pRi = −η
+
+λf PNi gf it,i 
+
+| {z }
+
+> Extrinsic Update
+
++λu PTi guni,i 
+
+| {z }
+
+> Intrinsic Update
+
+ , (4) where gf it,i and guni,i are the fitting and uniformity gradients, respectively. This update rule converts the coupled optimization into a well-posed system where surface fidelity is constrained to the normal bundle, while sampling density is regulated solely within the tangent bundle. We refer to this as a stationary frame approximation , The local short-step stability of this stationary frame approximation is theoretically established in Section 5. 
+
+pi
+
+μi
+
+ˆni
+
+∇Lp2s
+
+∇Lrep 
+
+> Conflict Area
+
+# (a) Euclidean Coupled Loss 
+
+pi
+
+ˆni
+
+∇Lf it 
+
+∇Ldensity    
+
+> ⟨∇ Lf it ,∇Ldensity ⟩= 0
+
+# (b) Our RODR 
+
+Figure 2: Comparison of Gradient Vector Fields 4.2 Extrinsic Fitting and Intrinsic Uniformity Extrinsic Fitting in Normal Bundle. We define the surface fitting via the squared distance to the local tangent-plane proxy: Lf it,i = (( pi − μi)⊤ ˆni)2. Under the projected update, the gradient becomes PNi ∇Lf it,i = 2 di ˆni (where di
+
+is the residual). Crucially, PTi ∇Lf it,i = 0 , meaning the fitting force is strictly extrinsic; it attracts points toward the surface without inducing the tangential contraction identified in Eq. equation 2. 
+
+Intrinsic Uniformity in Tangent Bundle. Sampling regularity is an intrinsic property that should not affect surface fidelity. RODR computes density ρi using projected tangent coordinates qij = PTi (pj − pi), penalizing deviations from a target density ¯ρ: Ldensity,i = (log ρi − log ¯ ρ)2. Under the same local frame, the gradient ∇ρi resides entirely in 5RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+Tpi M (i.e., PNi ∇ρi = 0 ). This ensures that the uniformization force only slides points along the manifold, preventing it from "pushing" points off the true surface (resolving the distortion problem in Section 3.3). 
+
+4.3 Disentangled Optimization Dynamics 
+
+By construction, the fitting and density gradients are now orthogonal in the gradient space: ⟨∇ Lf it,i , ∇Ldensity,i ⟩ = 0 .Consequently, the local combined gradient satisfies the Pythagorean identity: 
+
+∥∇ Lf it,i + β∇Ldensity,i ∥22 = ∥∇ Lf it,i ∥22 + β2∥∇ Ldensity,i ∥22. (5) Equation equation 5 demonstrates that RODR eliminates the cross-term conflict Ci identified in Eq. equation 3. This transformation reshapes the ill-conditioned Euclidean landscape into a block-diagonalized one, effectively acting as a 
+
+geometric preconditioner that accelerates convergence and prevents representation collapse. 
+
+4.4 Curvature-Adaptive Scheduling 
+
+The reliability of the tangent-plane proxy diminishes in regions of high curvature due to approximation bias. To preserve sharp features, we introduce a Curvature-Adaptive Schedule that modulates the fitting weight: wcurv i =exp( −α|Ki|/σ 2 
+
+> K
+
+), where Ki is the estimated curvature. This schedule ensures a robust bias-variance tradeoff: flat regions receive strong fitting to suppress noise, while high-curvature regions receive weaker fitting to allow fine-grained details to be preserved without over-smoothing. The overall RODR objective is formulated as: 
+
+LRODR = Ltask + λgeo 
+
+X
+
+> i
+
+(wcurv i Lf it,i + βL density,i ) . (6) In practice, RODR is a "plug-and-play" regularization that can be integrated into coordinate regression or generative flow backbones by applying the same tangent-normal projection to the predicted displacement field. 
+
+# 5 Theoretical Analysis of RODR Dynamics 
+
+In this section, we provide the theoretical foundations for the stability and efficiency of RODR. We show that the frozen-frame approximation is stable under standard optimization settings and that RODR effectively acts as a geometric preconditioner for manifold learning. 
+
+5.1 Stability of the Stationary Frame Approximation 
+
+RODR assumes that the local normal frame ˆni is stationary during a single gradient step. We justify this by bounding the drift error of the projection operator. 
+
+Lemma 5.1 (Frame Stability Bound) . Let M ⊂ R3 be a C2 smooth manifold with maximum principal curvature 
+
+κmax . Let PN (p) = n(p)n(p)⊤ be the normal projection operator. For a gradient step pt+1 = pt + ηv, the drift in the projection operator is bounded as: 
+
+∥PN (pt+1 ) − PN (pt)∥F ≤ √2κmax η∥v∥ + O(η2). (7) 
+
+Proof Sketch. The derivative of the normal field n is given by the Weingarten map dnp(v) = −Sp(v), where 
+
+∥Sp∥2 = κmax . Applying the chain rule to nn ⊤ yields the bound. 
+
+Implication: Lemma 5.1 indicates that the geometric assignment in RODR enjoys short-step stability under sufficiently small learning rates η < 1/κ max . The bound characterizes local drift within a single gradient update, and does not imply global stability over the full optimization trajectory. The error introduced by freezing the frame is a higher-order infinitesimal compared to the gradient update, justifying the use of ‘detach()‘ in our implementation to avoid complex second-order derivatives while maintaining directional accuracy. 
+
+5.2 RODR as a Geometric Preconditioner 
+
+We now analyze how orthogonal decoupling reshapes the Hessian landscape . In standard Euclidean denoising, the joint Hessian Heuc = ∇2Lf it + β∇2Luni is often ill-conditioned due to the vast scale difference between fitting (extrinsic) and spacing (intrinsic) curvatures. 
+
+Theorem 5.1 (Block-Diagonalization and Conditioning) . Let λN and λT be the local curvatures of the loss surface in the normal and tangent bundles, respectively. RODR reshapes the Hessian into an approximately block-diagonal form 
+
+HRODR ≈ diag( ∇2 
+
+> N
+
+Lf it , β ∇2 
+
+> T
+
+Luni ), effectively eliminating the cross-space interference ∂2L∂n∂t .
+
+6RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+Analysis: In the Euclidean case, the condition number κ(Heuc ) is dominated by the ratio λN /λ T ≫ 1, leading to oscillatory trajectories and slow convergence (the clumping regime). By enforcing ⟨∇ Lf it , ∇Luni ⟩ = 0 , RODR performs a Geometric Preconditioning . It allows the optimizer to advance in the normal and tangent directions independently, effectively smoothing the optimization landscape and preventing the "zig-zag" behavior common in coupled 3D regression. We emphasize that this block-diagonal structure holds asymptotically under the stationary frame approximation; exact diagonalization is achieved only in the continuous Riemannian limit with perfect tangent-normal decomposition. 
+
+5.3 Asymptotic Orthogonality and Consistency 
+
+Finally, we establish that our discrete implementation converges to the continuous Riemannian ideal as the sampling density increases. 
+
+Proposition 5.1 (Asymptotic Orthogonality) . Let bPN and bPT be the estimators computed from a discrete point cloud with noise level σ and neighborhood radius r. If the normal estimator is consistent such that E∥ˆn − n∥ ≤ O (r2 + σ),then the expected interference Ci satisfies: 
+
+E
+
+h
+
+⟨ bPNi gf it,i , bPTi guni,i ⟩
+
+i
+
+≤ Cg · O (r2 + σ + εQ), (8) 
+
+where εQ is the quadrature error of the density estimator. 
+
+Conclusion: Proposition 5.1 ensures that RODR is geometrically consistent . As the discrete sampling becomes denser (r → 0) and noise is reduced, the decoupled optimization dynamics effectively recover the orthogonal decomposition of the underlying Riemannian manifold. This provides a solid theoretical guarantee that the benefits of RODR are intrinsic to the manifold’s geometry rather than artifacts of the discretization. While derived in the context of point clouds, the block-diagonalization achieved by RODR addresses a fundamental challenge in manifold learning: the second-order coupling between intrinsic and extrinsic variations. This decomposition mirrors the goals of second-order optimizers and preconditioning methods (e.g., K-FAC), but achieves it through physical geometric priors. Consequently, RODR provides a general blueprint for disentangling optimization dynamics in any embedding-based representation learning task. 
+
+# 6 Experiments and Analysis 
+
+6.1 Experimental Setup Datasets: We evaluate our framework using the standard PUNET and PCNET (ongoing) datasets for quantitative analysis across various noise levels. To test real-world generalization, we utilize the RealScan dataset (ongoing), which contains high-fidelity scans of furniture and vegetation. 
+
+Evaluation Metrics: We employ both geometric and distributional metrics: (1) Accuracy: Chamfer Distance (CD) and Point-to-Mesh (P2M) distance. (2) Distribution: Uniformity (U-index) and Local Clumping Index (CI) to evaluate RODR’s capability in mitigating point aggregation. (3) Geometric Fidelity: Normal Difference (ND) to assess the preservation of sharp features. 
+
+Implementation Details: We integrate RODR with several backbones (PointCleanNet, StraightPCF and P2P-Bridge). Training is performed using an Adam optimizer with an annealing strategy for regularization weight λ.
+
+6.2 Comparison with State-of-the-Arts 
+
+Figure 3 illustrates the PVA-Encoder equipped with point vector attention: given a noisy input point cloud Xnoisy ,entropy-attention weights signals from tangential neighboring points and suppress irrelevant cross-manifold noise to capture robust long-range geometric context. The core RODR orthogonal decomposition mechanism and the predicted total displacement Vpred is split into two mutually orthogonal subspaces: the normal flow Vnormal dedicated to surface geometry correction and the tangential flow Vtangent for uniform point distribution optimization, constrained by the zero inner product condition ⟨Vnormal , Vtangent ⟩ = 0 to eliminate cross-subspace numerical leakage. Qualitative comparisons on the far right verify that the pipeline without RODR suffers from point clumping and distorted surface undulations, whereas the full framework with RODR delivers smooth manifold surfaces and evenly distributed point samples while preserving sharp geometric features. Table 1 presents a quantitative comparison with state-of-the-art (SOTA) methods on the PUNet and PCNet (ongoing) datasets, covering representative regression, filtering, flow, and recent iterative denoising methods. 7RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation Table 1: Quantitative results on PUNet and PCNet (50K Poisson). Metrics (CD/P2M) are scaled by 10 −4.                                                                            
+
+> Data Method 1% Noise 2% Noise 3% Noise CD P2M CD P2M CD P2M
+> PUNet PCN [8] 1.049 0.346 1.447 0.608 2.289 1.285 PointFilter [11] 0.758 0.182 0.907 0.251 1.599 0.710 Score [33] 0.716 0.150 1.288 0.566 1.928 1.041 PDFlow [12] 0.651 0.164 1.173 0.581 1.914 1.210 DeepPSR [13] 0.649 0.076 0.997 0.296 1.344 0.531
+> IterativePFN [17] 0.605 0.059 0.803 0.182 1.971 1.012 Straight-PCF [2] 0.562 0.111 0.765 0.266 1.307 0.648 P2P-Bridge [34] 0.586 0.090 0.902 0.320 1.165 0.803 ASDN [18] 0.515 0.069 0.676 0.188 1.304 0.655 3DMambaIPF [19] 0.589 0.291 0.755 0.405 0.928 0.531
+> Ours 0.560 0.057 0.786 0.175 1.385 0.956
+
+Figure 3: End-to-end pipeline schematic of the anisotropic transformer-based point cloud denoising framework integrated with RODR. 
+
+Specifically, the Self-Attention mechanism operates as a non-local feature aggregator that captures structural depen-dencies by weighing neighbor importance [ 27 ]. While this grants the encoder an "awareness" of the local manifold geometry (e.g., distinguishing sharp edges from flat regions), it does not impose any physical constraints on the resulting displacement fields. During backpropagation, the gradients from the coupled Euclidean loss Leuc propagate through the attention maps as a singular, entangled signal. This forces the attention weights to satisfy two geometrically orthogonal objectives simultaneously within the same latent subspace, leading to the gradient interference phenomenon. While it achieves high coordinate accuracy, RODR addresses the intrinsic spatial orientation of gradients. By enforcing orthogonal decoupling, RODR ensures that the trajectory endpoint is not only accurate but also distributionally optimal. As shown in Table 2, RODR comparable performance to state-of-the-art baselines in high-order metrics like Local Manifold Fitting Residual (LMFR), which is crucial for high-fidelity 3D reconstruction. Our RODR framework provides the necessary geometric assignment that the attention mechanism lacks. By explicitly projecting gradients onto the manifold’s tangent and normal bundles, RODR ensures that the Transformer’s high-capacity 8RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+Figure 4: Visual denoising results for 50K resolution shapes within the datasets. 
+
+representation is utilized in a physically consistent manner. In this synergy, the Transformer acts as a high-precision geometric estimator that defines the local Riemannian metric, while RODR acts as a "gradient surgeon" that directs the optimization flow. As shown in our ablation study (Table 2), a Transformer paired with standard Euclidean loss still suffers from clumping, confirming that architectural awareness alone cannot resolve the inherent contractive bias of coupled objectives. While Chamfer Distance (CD) provides a global error estimate, it fails to distinguish between geometric deviation and sampling non-uniformity. Our RODR significantly improves the DCF and LMFR metrics, demonstrating that orthogonal decoupling effectively prevents representation collapse and restores the intrinsic structure of the manifold without interfering with its extrinsic convergence. 
+
+6.3 Universality: Cross-Backbone Enhancement 
+
+We demonstrate that RODR serves as a universal, "plug-and-play" enhancement. We are just applying RODR to different architectures, including PCN (MLP-based), DGCNN (graph-based), and Point Transformer (attention-based), we observe comparable performance gains in the ongoing experiments. This confirms that RODR improves the optimization paradigm rather than relying on specific network features. 
+
+6.4 Optimization Dynamics: The Mechanics of RODR 
+
+We investigate why RODR outperforms traditional coupled losses through gradient interference analysis . By monitoring the cosine similarity between the fitting gradient ∇Lf it and the density gradient ∇Ldensity , we observe that Euclidean-based methods suffer from high "internal dissipation" due to conflicting gradient directions. In contrast, RODR maintains near-perfect orthogonality, ensuring a harmonic optimization process that leads to faster and more stable convergence. Under extreme noise conditions (e.g., 1.0%, as shown in 4), RODR maintains remarkable robustness. Error heatmaps in-dicate that our curvature-adaptive mechanism prevents over-smoothing in high-curvature regions, effectively preserving sharp corners and thin-shell structures that are typically eroded by standard denoising filters. 9RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation Table 2: Ablation study on the components of RODR.(Metrics are evaluated on PUNet under 1.0% noise.) 
+
+Encoder Objective Decouple Adaptive LMFR ↓ NC ↑ UNIF ↓
+
+Straight-PCF Euclidean - - 0.1803 0.9798 0.3034 P2P-Bridge Euclidean - - 0.1607 0.9759 0.3175 Transformer Euclidean - - 0.1923 0.9688 0.3524 Transformer Euclidean PCGrad ✓ 0.1544 0.9821 0.3008 MLP RODR Ortho. ✓ 0.2497 0.8955 0.5313 Straight-PCF RODR Ortho. ✓ 0.0817 0.9801 0.3096 
+
+Transformer RODR Ortho. ✓ 0.0812 0.9823 0.3103 
+
+6.5 Ablation on normal estimation quality 
+
+We conduct ablation experiments to validate each component: (1) Decoupling effect: Removing the orthogonal projection leads to a noticeable increase in clumping artifacts. (2) Adaptive weighting: Replacing curvature-adaptive λ
+
+with a fixed value results in detail loss on sharp edges. (3) Geometry Branch: Comparing PCA vs. EGNN for manifold estimation highlights the superior stability of our learned geometric priors. The theoretical consistency of RODR relies on reliable tangent/normal bundle decomposition. In our implementation, normals are estimated via weighted local PCA within adaptive neighborhoods. We conduct ablations to evaluate how normal estimation error affects denoising performance. Experimental results verify that performance degrades gracefully as normal noise increases, aligning with the error bound derived in Proposition 1. The ablation results confirm that the performance gains are not merely due to a larger model capacity, but stem from the synergy between architectural awareness and geometric disentanglement. In addition, the Local Manifold Fitting Residual (LMFR) was selected as projection of the reconstruction error onto the estimated local normal bundle: LMFR (pi) = ∥(pi − μi)⊤ ˆni∥2, where μi is the local surface proxy and ˆni is the estimated normal vector. This metric specifically captures the extrinsic fidelity of the learned manifold representation. RODR consistently improves the sampling quality (UNIF) and LMFR without compromising surface fidelity (CD), a feat that standard Euclidean optimization or generic gradient surgery fails to achieve. 
+
+# 7 Conclusion 
+
+In this work, we have presented a principled rethinking of point cloud denoising through the lens of manifold representation learning. We identified that the pervasive "clumping" and "feature erosion" artifacts in existing methods are not mere numerical errors, but symptomatic of a fundamental gradient interference problem inherent in coupled Euclidean objectives. By formulating denoising as an optimization process over the manifold’s tangent and normal bundles, we introduced Riemannian Orthogonally Decoupled Regularization (RODR) . The significance of RODR lies in its ability to reshape the optimization dynamics. By performing geometric "gradient surgery," we disentangle the extrinsic surface fitting from the intrinsic sampling uniformity, effectively transforming a traditionally ill-conditioned Euclidean landscape into a block-diagonalized, well-posed one. Our theoretical analysis provides rigorous justification for this approach, establishing the stability of the stationary frame approximation and demonstrating that RODR acts as a geometric preconditioner that improves the Hessian’s spectral properties. Empirical evaluations across diverse benchmarks confirm that RODR achieves comparable performance with state-of-the-art models, particularly in preserving high-curvature features and maintaining sampling integrity under severe noise. More importantly, the "plug-and-play" nature of RODR allows it to be seamlessly integrated into various backbones, from coordinate regression models to generative flows. Beyond point cloud denoising, the methodology developed in this paper offers a general blueprint for learning disentangled representations of low-dimensional manifolds embedded in high-dimensional spaces. Future work will explore the extension of orthogonal decoupling to dynamic manifold evolution and the discovery of latent structures in other scientific modalities. 
+
+# References 
+
+[1] Ruojin Cai, Guandao Yang, Hadar Averbuch-Elor, Zekun Hao, Serge Belongie, Noah Snavely, and Bharath Hariharan. Learning gradient fields for shape generation. In European Conference on Computer Vision , 2020. 10 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation [2] Jianxin Jiang, Baorui Ma, Yu-Shen Liu, Matthias Zwicker, and Zhizhong Han. Straightening point cloud flows. 
+
+arXiv preprint arXiv:2410.13233 , 2024. [3] Tianhe Yu, Saurabh Kumar, Abhishek Gupta, Karol Hausman, Sergey Levine, and Chelsea Finn. Gradient surgery for multi-task learning. In Advances in Neural Information Processing Systems , volume 33, pages 5824–5836, 2020. [4] Shachar Fleishman, Iddo Drori, and Daniel Cohen-Or. Bilateral mesh denoising. In ACM SIGGRAPH , 2003. [5] David Levin. Mesh-independent surface interpolation. In Geometric Modeling for Scientific Visualization .Springer, Berlin, Heidelberg, 2004. [6] Gabriel Taubin. A signal processing approach to fair surface design. In ACM SIGGRAPH , 1995. [7] Yaron Lipman, Daniel Cohen-Or, David Levin, and Hillel Tal-Ezer. Parameterization-free projection for geometry reconstruction. In ACM SIGGRAPH , 2007. [8] Pedro Hermosilla, Tobias Ritschel, Pere-Pau Vázquez, Àlvar Vinacua, and Timo Ropinski. Pointcleannet: Learning to denoise and remove outliers from dense point clouds. Computer Graphics Forum , 2020. [9] Hang Zhou, Kejiang Chen, Weiming Zhang, Han Fang, Wenbo Zhou, and Nenghai Yu. DUP-Net: Denoiser and upsampler network for 3d adversarial point clouds defense. In IEEE/CVF International Conference on Computer Vision , 2019. [10] Zheng Liu, Yaowu Zhao, Sijing Zhan, Yuanyuan Liu, Renjie Chen, and Ying He. Pcdnf: Revisiting learning-based point cloud denoising via joint normal filtering. IEEE Transactions on Visualization and Computer Graphics ,30(8):5419–5436, 2024. [11] Dongbo Zhang, Xuequan Lu, Hong Qin, and Ying He. Pointfilter: Point cloud filtering via encoder-decoder modeling. IEEE Transactions on Visualization and Computer Graphics , 27(3):2015–2027, 2021. [12] Aihua Mao, Zihui Du, Yu-Hui Wen, Jun Xuan, and Yong-Jin Liu. PD-Flow: A point cloud denoising framework with normalizing flows. In European Conference on Computer Vision (ECCV) , pages 398–415, 2022. [13] Haolan Chen, Bi’an Du, Shitong Luo, and Wei Hu. Deep point set resampling via gradient fields. IEEE Transactions on Pattern Analysis and Machine Intelligence , 45(3):2913–2930, 2023. [14] Chaojing Duan, Siheng Chen, and Jelena Kovacevic. 3d point cloud denoising via deep neural network based local surface estimation. In ICASSP 2019 - 2019 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP) , pages 8553–8557, 2019. [15] Xingtao Wang, Xiaopeng Fan, and Debin Zhao. Pointfilternet: A filtering network for point cloud denoising. 
+
+IEEE Transactions on Circuits and Systems for Video Technology , 33(3):1276–1290, 2023. [16] Xiao Sun and Scott Schaefer. Deep point cloud denoising via bilateral filtering network. In IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2021. [17] Dasith de Silva Edirimuni, Xuequan Lu, Zhiwen Shao, Gang Li, Antonio Robles-Kelly, and Ying He. IterativePFN: True iterative point cloud filtering. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 13530–13539, 2023. [18] Chuchen Guo, Weijie Zhou, Zheng Liu, and Ying He. You should learn to stop denoising on point clouds in advance. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pages 3212–3219, 2025. [19] Qingyuan Zhou, Weidong Yang, Ben Fei, Jingyi Xu, Rui Zhang, Keyi Liu, Yeqi Luo, and Ying He. 3DMambaIPF: A state space model for iterative point cloud filtering via differentiable rendering. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pages 10843–10851, 2025. [20] Xiaoqian Cheng, Dong Xiao, Husen Li, Zheng Liu, and Renjie Chen. Routing on demand: DSNet for efficient progressive point cloud denoising. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pages 39111–39120, 2026. [21] Zheng Liu, Zhenyu Huang, Chuchen Guo, Maodong Pan, and Ying He. PointInDI: Inversion by direct iteration for high-fidelity point cloud denoising. Computer-Aided Design , page 104103, 2026. [22] Charles R Qi, Li Yi, Hao Su, and Leonidas J Guibas. Pointnet++: Deep hierarchical feature learning on point sets in a metric space. Advances in Neural Information Processing Systems , 30, 2017. [23] Ines Chami, Zhitao Ying, Christopher Ré, and Jure Leskovec. Hyperbolic graph convolutional neural networks. In 
+
+Advances in Neural Information Processing Systems , 2019. [24] Zhigang Yao and Yuqing Xia. Manifold fitting under unbounded noise. Journal of Machine Learning Research ,26(62):1–78, 2025. 11 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation [25] Ruowei Li and Zhigang Yao. Curvature-driven manifold fitting under unbounded isotropic noise. arXiv preprint arXiv:2601.10133 , 2026. [26] Yue Wang, Yongbin Sun, Ziwei Liu, Sanjay E Sarma, Michael M Bronstein, and Justin M Solomon. Dynamic graph cnn for learning on point clouds. ACM Transactions on Graphics , 38(5):1–12, 2019. [27] Hengshuang Zhao, Li Jiang, Jiaya Jia, Philip HS Torr, and Vladlen Koltun. Point transformer. In IEEE/CVF International Conference on Computer Vision , pages 16259–16268, 2021. [28] Victor Garcia Satorras, Emiel Hoogeboom, and Max Welling. E(n) equivariant graph neural networks. In 
+
+International Conference on Machine Learning , pages 9323–9332, 2021. [29] Haiwei Chen, Shichen Liu, Weikai Chen, Hao Li, and Randall Hill. Equivariant point network for 3d point cloud analysis. In IEEE/CVF Conference on Computer Vision and Pattern Recognition , pages 14514–14523, 2021. [30] Baorui Ma, Zhizhong Han, Yu-Shen Liu, and Matthias Zwicker. Neural-pull: Learning signed distance fields from point clouds by learning to pull points onto surfaces. In International Conference on Machine Learning , pages 7246–7257, 2021. [31] Baorui Ma, Yu-Shen Liu, Matthias Zwicker, and Zhizhong Han. Learning high-quality implicit surfaces via flexible training and refined representation. IEEE Transactions on Pattern Analysis and Machine Intelligence(TPAMI) ,45(5):5632–5650, 2023. [32] Linqi Zhou, Yilun Du, and Jiajun Wu. Diffusion-based point cloud denoising. In IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023. [33] Shitong Luo and Wei Hu. Score-based point cloud denoising. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pages 4583–4592, 2021. [34] Mathias Vogel, Keisuke Tateno, Marc Pollefeys, Federico Tombari, Marie-Julie Rakotosaona, and Francis Engelmann. P2P-Bridge: Diffusion bridges for 3d point cloud denoising. In European Conference on Computer Vision (ECCV) , 2024. [35] Xiangbin Wei, Yuanfeng Wang, Ao Xu, Lingyu Zhu, Dongyong Sun, Keren Li, Yang Li, and Qi Qin. Noise2Score3D: Tweedie’s approach for unsupervised point cloud denoising. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , pages 25993–26003, 2025. [36] Zhaonan Wang, Manyi Li, Shiqing Xin, and Changhe Tu. Adaptive and iterative point cloud denoising with score-based diffusion model. Computer Graphics Forum , 44(6):e70149, 2025. [37] Wu Chen, Qiuping Jiang, Hehe Fan, Chao Huang, Chunmao Wang, Xiaojun Chang, and Yi Yang. Bridging multi-stages and multi-views for low-quality point cloud denoising. Information Fusion , page 104531, 2026. [38] Huankun Sheng and Ying Li. Deep non-local point cloud denoising network. Applied Soft Computing , 171:112835, 2025. [39] Artur Janowski, Ahmet Emin Karkinli, Mustafa Husrevoglu, Talha Taskanat, and Abdusselam Kesikoglu. A learning-free noise-adaptive framework for feature-preserving point cloud denoising. Applied Sciences ,16(13):6635, 2026. 12 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+# A Proofs and Mathematical Derivations 
+
+Global Notation. We denote M ⊂ R3 as a C2-smooth oriented 2D Riemannian manifold embedded in 3D Euclidean space. TpM and NpM represent the tangent and normal space of M at point p ∈ M , respectively. n(p) ∈ S2 is the unit outward normal vector at p. PTp : R3 → TpM and PNp : R3 → NpM are orthogonal projection operators onto tangent and normal subspaces. ∥ · ∥ 2 denotes the spectral norm for linear operators, and ∥ · ∥ F denotes the Frobenius norm for matrices. 
+
+A.1 Proof of Lemma 5.1 (Frame Stability) Lemma 5.1 (Frame Stability). Let M ⊂ R3 be a C2 smooth manifold with maximum absolute principal curvature 
+
+κmax . Define the normal projection operator PN (p) = n(p)n(p)⊤ ∈ R3×3. For a gradient update step pt+1 = pt + ηv
+
+with step size η > 0 and update vector v ∈ R3, the perturbation of the normal projection operator satisfies the second-order bounded inequality: 
+
+∥PN (pt+1 ) − PN (pt)∥F ≤ √2κmax η∥v∥2 + O(η2).
+
+Proof. We establish the bound via differential geometry analysis of the Gauss map and first-order Taylor expansion with rigorous residual estimation. 
+
+Step 1: Lipschitz continuity of the normal field. The Gauss map n : M → S2 maps each surface point to its unit normal. Its tangent differential at p, dnp : TpM → Tn(p)S2, is exactly the Weingarten map (shape operator) 
+
+−Sp, where Sp : TpM → TpM is a symmetric positive semi-definite linear operator encoding surface curvature. By definition, the spectral norm of the Weingarten map equals the maximum absolute principal curvature: 
+
+∥dnp∥2 = ∥Sp∥2 = κmax .
+
+This implies the unit normal field n(p) is κmax -Lipschitz continuous over the manifold tangent space. 
+
+Step 2: Differential of the normal projection matrix. The normal projection matrix is a rank-1 symmetric matrix 
+
+PN (p) = n(p)n(p)⊤. Applying the matrix product rule for differentials along update direction v:
+
+dPN (v) = d  nn ⊤ 
+
+> p
+
+(v)= ( dnpv)n(p)⊤ + n(p)( dnpv)⊤.
+
+Decompose the update vector via orthogonal subspace decomposition v = PTp v + PNp v = vtan + vnorm . The Weingarten map only acts on tangent vectors ( Sp(vnorm ) = 0), thus dnpv = −Sp(vtan ). Substitute to obtain: 
+
+dPN (v) = −Sp(vtan )n(p)⊤ − n(p)Sp(vtan )⊤.
+
+Step 3: Frobenius norm bound via orthogonal term decomposition. We verify orthogonality of the two matrix terms in Frobenius inner product: the column space of Sp(vtan )n(p)⊤ is spanned by Sp(vtan ) ⊥ n(p), while the row space of 
+
+n(p)Sp(vtan )⊤ is spanned by n(p) ⊥ Sp(vtan ). Thus the two terms are mutually orthogonal, and the Frobenius norm of the sum equals the root sum of squared individual norms: 
+
+∥dPN (v)∥2 
+
+> F
+
+= Sp(vtan )n(p)⊤ 2 
+
+> F
+
++ n(p)Sp(vtan )⊤ 2 
+
+> F
+
+.
+
+For any vector a, b, ∥ab ⊤∥F = ∥a∥2∥b∥2. Since ∥n(p)∥2 = 1 :
+
+Sp(vtan )n(p)⊤ 
+
+> F
+
+= n(p)Sp(vtan )⊤ 
+
+> F
+
+= ∥Sp(vtan )∥2.
+
+Combining with ∥Sp(vtan )∥2 ≤ κmax ∥vtan ∥2 ≤ κmax ∥v∥2:
+
+∥dPN (v)∥2 
+
+> F
+
+≤ 2κ2
+
+> max
+
+∥v∥22 =⇒ ∥ dPN (v)∥F ≤ √2κmax ∥v∥2.
+
+Step 4: Taylor expansion and residual bounding. Perform second-order Taylor expansion of PN (p) along the update trajectory pt → pt+1 :
+
+PN (pt+1 ) = PN (pt) + η · dPN (v) + O(η2).
+
+Take Frobenius norm on both sides and apply triangle inequality: 
+
+∥PN (pt+1 ) − PN (pt)∥F ≤ η∥dPN (v)∥F + O(η2) ≤ √2κmax η∥v∥2 + O(η2).
+
+This completes the proof. 13 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 
+
+A.2 Proof of Theorem 5.1 (Geometric Preconditioning) Theorem 5.1 (Geometric Preconditioning for Optimization Conditioning). Let the overall objective function be 
+
+L = Lfit + βL uni , where Lfit denotes surface fitting loss and Luni denotes uniformity regularization loss with trade-off coefficient β > 0. The proposed RODR optimization framework eliminates subspace cross-coupling in the Euclidean Hessian, suppresses optimization clumping artifacts, and improves the condition number of the geometric Hessian via orthogonal subspace spectral filtering. Proof. We decompose the Hessian structure, analyze the root cause of clumping artifacts, and rigorously characterize the preconditioning mechanism of RODR. 
+
+Step 1: Orthogonal subspace block decomposition of Hessian. At any surface point p ∈ M , establish a local orthogonal coordinate frame {n, t1, t2}, where n is the unit normal, and {t1, t2} form an orthonormal basis of TpM.The full Euclidean Hessian Heuc = ∇2Lfit + β∇2Luni ∈ R3×3 admits exact block partitioning under this frame: 
+
+Heuc =
+
+Hnn Hnt 
+
+Htn Htt 
+
+
+
+,
+
+where: • Hnn ∈ R1×1: normal-mode Hessian block (stiff attraction term for surface fitting), • Htt ∈ R2×2: tangential-mode Hessian block (soft diffusion term for uniformity regularization), • Hnt = H⊤ 
+
+> tn
+
+∈ R1×2: cross-subspace coupling block. 
+
+Step 2: Root cause of clumping artifacts. The cross block Hnt = ∂2L/∂ n∂t encodes undesired gradient coupling between normal fitting constraints and tangential regularization constraints. In vanilla Euclidean gradient descent, mixed normal-tangential curvature updates interfere with each other: the stiff normal fitting force distorts tangential uniform diffusion, leading to non-uniform point distribution and clumping artifacts on smooth surface regions. This cross coupling drastically increases the Hessian condition number κ(Heuc ), degrading optimization stability and convergence speed. 
+
+Step 3: RODR geometric preconditioning mechanism. The core design of RODR is subspace orthogonal gradient projection : it constrains the gradient update flow to decoupled orthogonal subspaces via: 
+
+∇p ∈ span PN ∇Lfit , PT ∇Luni ,
+
+where PN , PT are normal/tangent projection operators. This projection rule redefines the continuous-time optimization dynamics as a preconditioned gradient flow: 
+
+˙p = −M−1∇Leuc ,
+
+where M is a geometry-aware preconditioner constructed to diagonalize the coupled Hessian, such that MH euc ≈ I
+
+asymptotically. 
+
+Step 4: Spectral filtering and conditioning improvement. By enforcing strict subspace separation, RODR asymp-totically zeros out the off-diagonal cross block Hnt → 0. This acts as a geometric spectral filter that isolates two independent optimization modes: 1. Stiff normal mode : dominated by Lfit , responsible for surface geometry fitting, 2. Soft tangential mode : dominated by Luni , responsible for point uniform distribution. The decoupled block-diagonal Hessian significantly reduces the spectral range of eigenvalues, lowering the condition number κ(H) and eliminating inter-mode optimization interference. This theoretically improves the suppression of clumping artifacts and improves the numerical conditioning of surface optimization. 
+
+A.3 Derivation of Curvature-Adaptive Scheduling 
+
+We provide a full bias-variance tradeoff derivation for the curvature-adaptive weight wcurv  
+
+> i
+
+, justifying the design of our exponential scheduling function and its geometric robustness. 
+
+Local Approximation Bias-Variance Model. For each surface point pi with local neighborhood radius s, we approximate the local surface patch via its tangent plane μi. The point-to-plane fitting residual di consists of two independent components: 14 RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation 1. Stochastic noise : ϵ ∼ N (0 , σ 2), representing sampling and measurement noise; 2. Geometric approximation bias : induced by non-zero local curvature. For a C2 surface, the second-order tangent-plane approximation error is B ≈ 12 κis2, where κi denotes the local curvature at pi.
+
+Expected Risk Minimization. Given a curvature-dependent fitting weight w for the local patch, the weighted expected fitting loss decomposes into bias term and variance term: 
+
+E[Lfit ] ∝ w2 · B2 + σ2
+
+w .
+
+The first term denotes weighted geometric approximation bias (increasing with curvature and weight), while the second term denotes noise variance mitigation (decreasing with weight). Substitute the curvature-induced bias B = 12 κs 2 to obtain the explicit risk function: 
+
+E[Lfit ]( w) ∝ w2κ2s4 + σ2
+
+w .
+
+Optimal Weight Closed-Form Solution. Minimize the expected loss with respect to w > 0 via first-order stationary condition ∂E[Lfit ]/∂w = 0 :
+
+2wκ 2s4 − σ2
+
+w2 = 0 .
+
+Rearrange to solve for the optimal weight w∗:
+
+w∗(κ) ∝  κ2s4−1/3 ∝ | κ|−2/3.
+
+The optimal theoretical weight follows a monotonically decreasing power-law relationship with local curvature: higher curvature corresponds to lower fitting weight, suppressing over-fitting to geometric bias. 
+
+Stable Exponential Surrogate Schedule. The raw power-law solution suffers from numerical instability (divergence at zero curvature, singularity at infinite curvature) and unbounded output range, which is infeasible for network training. We adopt a computationally robust, bounded exponential surrogate function: 
+
+wcurv  
+
+> i
+
+= exp 
+
+
+
+−α · |Ki|
+
+σ2
+
+> K
+
+
+
+,
+
+where α is a hyper-parameter controlling decay speed, Ki is the estimated local curvature, and σ2 
+
+> K
+
+is the global curvature variance for normalization. This surrogate perfectly preserves the core monotonic property of the optimal solution: • Low-curvature flat regions: large weight, prioritize faithful surface fitting; • High-curvature sharp regions: small weight, suppress fitting to geometric approximation bias and noisy local details. Moreover, the exponential schedule is fully bounded within (0 , 1] , ensuring stable gradient propagation and consistent training dynamics across all surface regions. 15

@@ -1,0 +1,646 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-30T21:46:17.699720+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 10,
+    "quick_skim_target": 11,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2607.26452v1",
+      "source": "arxiv",
+      "title": "CG-World: A Large-Scale World-State Dataset and Protocol for World Models",
+      "abstract": "World models must learn the joint dynamics of states, actions, events, and observations, yet existing video, robotics, and simulation datasets usually capture only part of this structure. We introduce CG-World, a large-scale world-state dataset and protocol derived from industrial computer graphics production pipelines. CG-World explicitly records intermediate states, including multimodal semantics, spatial structure, skeletal and controller states, motion curves, camera and lighting parameters, physics caches, contact events, and multi-pass renderings. CG-World v1 contains approximately 850,000 temporally aligned segments of 1-5 seconds. It separates latent states, observations, relations, events, and branch metadata, and organizes them into unified spatiotemporal samples. To support intervention learning and counterfactual reasoning, CG-World defines a branch lineage covering factual trajectories, observation interventions, action interventions, mechanism interventions, and strict counterfactual branches, with intervention targets, invariants, and alternative outcomes explicitly recorded. We evaluate the dataset on geometry-conditioned video generation, action prediction, and closed-loop vision-language-action policy transfer. Results show that CG-World provides reusable structured supervision for controlled generation, action modeling, and embodied policy transfer. We plan to expand CG-World through continued data collection and community collaboration toward a shared data infrastructure for world models, Physical AI, and embodied intelligence.",
+      "authors": [
+        "Yiming Cai",
+        "Fangjie Yu",
+        "Meiqing Yu",
+        "Ziyue Shi",
+        "Pengfei Yuan",
+        "Yong Guo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-29T04:06:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.26452v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "world-state dataset for world models",
+      "llm_evidence_cn": "用于世界模型的世界状态数据集",
+      "llm_evidence": "用于世界模型的世界状态数据集",
+      "canonical_evidence": "用于世界模型的世界状态数据集",
+      "llm_tldr_en": "CG-World provides a large-scale world-state dataset with multimodal semantics, spatial structure, and dynamics for training world models.",
+      "llm_tldr_cn": "针对现有视频、机器人及仿真数据集无法完整捕获状态、动作、事件和观测联合动力学的问题，本文提出CG-World，一个从工业计算机图形生产流程衍生的大规模世界状态数据集和协议。CG-World显式记录中间状态，包括多模态语义、空间结构、骨架和控制器状态、运动曲线、相机和光照参数、物理缓存、接触事件等多方面信息。数据集包含约85万个1-5秒的时间对齐片段，为世界模型训练提供全面监督。",
+      "llm_tldr": "针对现有视频、机器人及仿真数据集无法完整捕获状态、动作、事件和观测联合动力学的问题，本文提出CG-World，一个从工业计算机图形生产流程衍生的大规模世界状态数据集和协议。CG-World显式记录中间状态，包括多模态语义、空间结构、骨架和控制器状态、运动曲线、相机和光照参数、物理缓存、接触事件等多方面信息。数据集包含约85万个1-5秒的时间对齐片段，为世界模型训练提供全面监督。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.24024v1",
+      "source": "arxiv",
+      "title": "A Unified Stereo Geometry Estimation Framework for Disparity and Surface Normal",
+      "abstract": "Stereo matching and surface normal estimation are fundamental tasks in 3D vision. However, existing feed-forward stereo methods still struggle to produce reliable predictions in challenging regions, mainly due to the lack of strong geometric priors. In this paper, we propose $\\textbf{GeoStereo}$, a unified stereo geometry estimation framework that leverages powerful diffusion priors to jointly predict disparity and surface normals. Specifically, GeoStereo couples a feed-forward stereo matching pipeline with a diffusion-based normal estimation branch. To enable effective interaction between the two tasks, we introduce a disparity to normal initialization strategy and construct a warp to left-view condition for the diffusion process. This coupled design allows the diffusion branch to provide strong structural priors that enhance disparity estimation in ill-posed regions, while the feed-forward branch offers reliable geometric guidance for accurate normal prediction. Extensive experiments show that GeoStereo performs reliably in challenging scenarios, including low-light environments, highly reflective surfaces, and transparent objects. Under zero-shot settings, it achieves Rank-1 disparity estimation on multiple benchmarks, including KITTI and NYUv2, and delivers the best normal estimation accuracy on many real indoor benchmarks, such as iBims-1 and ScanNet. Project page: https://qz-wei.github.io/GeoStereo.github.io/",
+      "authors": [
+        "Qizhe Wei",
+        "Xianda Guo",
+        "Shaocong Xu",
+        "Hong Li",
+        "Runyi Yang",
+        "Hao Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T05:40:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.24024v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "diffusion priors for stereo geometry estimation",
+      "llm_evidence_cn": "扩散先验用于立体几何估计",
+      "llm_evidence": "扩散先验用于立体几何估计",
+      "canonical_evidence": "扩散先验用于立体几何估计",
+      "llm_tldr_en": "GeoStereo unifies stereo matching with a diffusion-based normal estimation branch, leveraging diffusion priors to jointly predict disparity and surface normals, improving robustness in challenging regions.",
+      "llm_tldr_cn": "立体匹配和表面法线估计是3D视觉基础任务，但现有前馈方法在挑战区域预测不可靠。GeoStereo框架将前馈立体匹配与基于扩散的法线估计分支耦合，通过视差到法线初始化和左视图条件引入扩散先验，联合预测视差和表面法线。实验表明该方法在多个立体数据集上显著提升复杂区域预测精度。",
+      "llm_tldr": "立体匹配和表面法线估计是3D视觉基础任务，但现有前馈方法在挑战区域预测不可靠。GeoStereo框架将前馈立体匹配与基于扩散的法线估计分支耦合，通过视差到法线初始化和左视图条件引入扩散先验，联合预测视差和表面法线。实验表明该方法在多个立体数据集上显著提升复杂区域预测精度。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26646v1",
+      "source": "arxiv",
+      "title": "Genie Sim PanoWorld: An Infinite Indoor 3D World Generation Pipeline via Panoramic Scene Modeling and Simulation",
+      "abstract": "We address the problem of reconstructing a high-fidelity, freely navigable 3D scene from a single $360^\\circ$ panorama, without per-scene optimization or multi-view capture. Existing methods either lack metric trajectory control, which hinders reliable downstream 3D reconstruction, or struggle with large disocclusions under long-range camera motion while requiring high-end multi-GPU servers.We present Genie Sim PanoWorld, a two-stage feed-forward pipeline that bridges generation and reconstruction via an explicit, trajectory-controllable panoramic video. A NavMesh-planned $\\mathrm{SE}(3)$ roaming trajectory is injected into a latent video diffusion model through dense geometry-warped conditioning; long--short trajectory mixed training and a self-consistency objective based on shortcut models together yield high-fidelity video in four CFG-free denoising steps.   A feed-forward panoramic reconstructor then lifts the generated video into a high-fidelity   3D Gaussian scene that supports real-time, free-viewpoint roaming and can be directly used as a simulation-ready asset for embodied AI applications. Experiments show that Genie Sim PanoWorld   outperforms geometry-conditioned baselines in both panoramic video generation and   downstream 3D reconstruction, while generalizing zero-shot to unseen indoor scenes.",
+      "authors": [
+        "Yongxin Su",
+        "Linjie Hou",
+        "Feng Wang",
+        "Jialin Tang",
+        "Zhijun Li",
+        "Qian Wang",
+        "Maoqing Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T09:08:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.26646v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "panoramic video diffusion with explicit trajectory and geometry warping for 3D world generation",
+      "llm_evidence_cn": "利用显式轨迹和几何扭曲的全景视频扩散进行3D世界生成",
+      "llm_evidence": "利用显式轨迹和几何扭曲的全景视频扩散进行3D世界生成",
+      "canonical_evidence": "利用显式轨迹和几何扭曲的全景视频扩散进行3D世界生成",
+      "llm_tldr_en": "Genie Sim PanoWorld generates infinite indoor 3D worlds from a single panorama via trajectory-controllable panoramic video diffusion with dense geometry-warped conditioning.",
+      "llm_tldr_cn": "针对从单张全景图重建高保真、可自由漫游3D场景的问题，本文提出Genie Sim PanoWorld，一个两阶段前馈流水线。通过NavMesh规划的SE(3)轨迹注入到潜在视频扩散模型中，并利用密集几何扭曲条件，结合长短注意力机制，生成全景视频，再进一步重建为3D场景。实现了可导航的无限室内3D世界生成。",
+      "llm_tldr": "针对从单张全景图重建高保真、可自由漫游3D场景的问题，本文提出Genie Sim PanoWorld，一个两阶段前馈流水线。通过NavMesh规划的SE(3)轨迹注入到潜在视频扩散模型中，并利用密集几何扭曲条件，结合长短注意力机制，生成全景视频，再进一步重建为3D场景。实现了可导航的无限室内3D世界生成。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26818v1",
+      "source": "arxiv",
+      "title": "Ripple: Real-Time Streaming Audio-Video Generation With Cross-Modal Recurrent Memory",
+      "abstract": "Audio-video generative models achieve impressive quality but suffer from high latency, making them unsuitable for real-time applications. Although several streaming audio-video generation methods have been proposed, they remain costly and fail to support long-form generation. To address this, we propose \\textbf{Ripple}, a real-time joint audio-video generation system with a cross-modal recurrent memory mechanism. To enable efficient streaming inference while preserving long-term context, Ripple combines a fixed-length sliding-window attention with modality-specific memory states that continuously summarize audio and video context. Cross-modal memory interaction is further introduced to enhance audio-visual synchronization. To learn this memory-augmented model effectively, we devise a three-stage training recipe: (1) adapting a bidirectional audio-video teacher to block-wise causal attention with simulated memory, (2) optimizing the memory construction and interaction pipeline through end-to-end distillation, and (3) applying online reinforcement post-training tailored for streaming audio-video generation. As a result, Ripple achieves ~28 FPS at 480P resolution, over faster than the teacher, while capable of coherent long-form generation. Extensive experiments on both short-video and long-video benchmarks demonstrate our superior performance over existing offline and online joint audio-video generation methods.",
+      "authors": [
+        "Yanbo Ding",
+        "Zhizhi Guo",
+        "Quanyue Song",
+        "Yishan He",
+        "Zhixiang He",
+        "Yongxiang Li",
+        "Yali Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T12:13:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.26818v1",
+      "tags": [
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "real-time audio-video generation",
+      "llm_evidence_cn": "实时音视频生成",
+      "llm_evidence": "实时音视频生成",
+      "canonical_evidence": "实时音视频生成",
+      "llm_tldr_en": "Ripple introduces cross-modal recurrent memory for real-time streaming audio-video generation, supporting long-form content with low latency.",
+      "llm_tldr_cn": "联合音视频生成模型延迟高，难以实时应用。Ripple提出跨模态循环记忆机制，结合固定长度滑动窗口注意力和模态特定记忆状态，实现实时流式生成，并支持长上下文保持视听同步。",
+      "llm_tldr": "联合音视频生成模型延迟高，难以实时应用。Ripple提出跨模态循环记忆机制，结合固定长度滑动窗口注意力和模态特定记忆状态，实现实时流式生成，并支持长上下文保持视听同步。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.27036v1",
+      "source": "arxiv",
+      "title": "Mitigating Compounding Error via Video Representation Regularization",
+      "abstract": "Video diffusion-based world models enable long autoregressive video generation for robotics, autonomous driving and simulation tasks, yet sliding-window autoregressive inference suffers from severe error accumulation that degrades frame quality over time. Although this phenomenon has been widely observed, the underlying mechanism of compounding error and how to achieve stable long-horizon generation remain largely unresolved. In this paper, we investigate the internal representation dynamics of video world models and discover that compounding error is tightly coupled with dimensional collapse of hidden representations. Specifically, the effective rank of model representations sharply decreases at the onset of generation drift, revealing a strong connection between representational degradation and long-term rollout instability. Furthermore, we find that pure training data scaling fails to boost model resistance to error drift, contradicting mainstream scaling paradigms. To address this problem, we propose video representation regularization, a lightweight training constraint that stabilizes latent representations and suppresses iterative error accumulation. Compared with Diffusion Forcing, our method achieves improvements from 38.65 to 55.56 and from 44.37 to 72.08 on the Aesthetic Quality and Imaging Quality metrics of VBench. Our work establishes the first connection between autoregressive video drifting and model internal representations, adopts erank as a quantitative metric for error accumulation, reveals counterintuitive scaling limitations for video world models, and presents a simple yet effective regularization strategy to improve long video generation robustness.",
+      "authors": [
+        "Taiye Chen",
+        "Qi Zhang",
+        "Yisen Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-29T15:29:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.27036v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "video diffusion world model with compounding error analysis",
+      "llm_evidence_cn": "视频扩散世界模型及累积误差分析",
+      "llm_evidence": "视频扩散世界模型及累积误差分析",
+      "canonical_evidence": "视频扩散世界模型及累积误差分析",
+      "llm_tldr_en": "Discovers that compounding error in video world models is linked to dimensional collapse, and proposes representation regularization for stable long-horizon generation.",
+      "llm_tldr_cn": "基于视频扩散的世界模型在自回归生成中面临严重误差累积，导致帧质量随时间退化。本文发现该现象与隐藏表示的维度塌缩密切相关：生成漂移开始时表示的有效秩急剧下降。基于此观察，提出一种表示正则化方法，通过约束表示维度来缓解塌缩，从而在不增加模型复杂度的情况下显著提升长程生成的稳定性。该工作为视频世界模型的稳定推理提供了理论洞见和实用方案。",
+      "llm_tldr": "基于视频扩散的世界模型在自回归生成中面临严重误差累积，导致帧质量随时间退化。本文发现该现象与隐藏表示的维度塌缩密切相关：生成漂移开始时表示的有效秩急剧下降。基于此观察，提出一种表示正则化方法，通过约束表示维度来缓解塌缩，从而在不增加模型复杂度的情况下显著提升长程生成的稳定性。该工作为视频世界模型的稳定推理提供了理论洞见和实用方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.27110v1",
+      "source": "arxiv",
+      "title": "FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring",
+      "abstract": "Autoregressive video diffusion models enable real-time streaming video generation. However, errors introduced during self-rollout accumulate over long horizons, manifesting as color drift, motion stagnation, and eventual visual collapse. In this paper, we characterize this phenomenon from a frequency-domain perspective: error accumulation appears as a pronounced energy drift in the low-frequency bands. We further investigate the effectiveness of attention sink in the frequency domain, and find that it improves the video quality by alleviating the spectral energy drift to some extent, but cannot fully resolve it. Motivated by the above analysis, we propose FreqForcing, a training-free framework that addresses error accumulation in long-video generation via Spectral Self-Anchoring (SSA). The proposed SSA leverages the low-frequency components of anchor attention to maintain long-horizon visual stability, while preserving dynamic motion through the high-frequency components of local attention. Our FreqForcing extends Self-Forcing pretrained on 5s clips to two-minute generation, achieving 24x extrapolation. Extensive experiments show that FreqForcing outperforms existing training-free methods quantitatively and qualitatively while remaining competitive with representative training-based approaches.",
+      "authors": [
+        "Jiatong Li",
+        "Leo Liang",
+        "Linghe Kong",
+        "Yulun Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T16:38:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.27110v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "long video generation",
+      "llm_evidence_cn": "长视频生成",
+      "llm_evidence": "长视频生成",
+      "canonical_evidence": "长视频生成",
+      "llm_tldr_en": "FreqForcing addresses error accumulation in autoregressive video diffusion models from a frequency perspective, using spectral self-anchoring without additional training.",
+      "llm_tldr_cn": "自回归视频扩散模型存在误差累积导致视觉崩溃。FreqForcing从频域分析该问题，发现低频能量漂移，并提出频谱自锚定方法，免训练地抑制颜色漂移和运动停滞，显著提升长视频生成稳定性。",
+      "llm_tldr": "自回归视频扩散模型存在误差累积导致视觉崩溃。FreqForcing从频域分析该问题，发现低频能量漂移，并提出频谱自锚定方法，免训练地抑制颜色漂移和运动停滞，显著提升长视频生成稳定性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.25984v1",
+      "source": "arxiv",
+      "title": "Schrödinger's Cat: Probabilistic Representation and Prediction of Potential Scene Kinematics",
+      "abstract": "Predicting how a scene may evolve from partial observations requires reasoning about multiple possible futures rather than committing to a single trajectory. Existing approaches either generate appearance-dominated video predictions or sample a small number of trajectories without explicitly modeling the distribution of possible motion. We introduce Goal-Aware Representations of Future kInEmatic Latent Distributions (GARFIELD), a probabilistic model of scene kinematics that learns a structured spatio-temporal latent representation of the distribution over possible futures given an image and optional spatio-temporally sparse constraints. The same latent representation enables both joint sampling of all trajectories and direct access to the underlying motion distribution through an efficient deterministic density decoder. As a result, uncertainty about future motion can be localized to specific scene elements and timesteps and progressively refined through additional constraints. Experiments demonstrate strong motion planning performance competitive with large video generation models while sampling trajectories $97\\times$ faster. Our method further estimates motion densities two orders of magnitude faster than Monte-Carlo sampling from motion generation models, enabling interactive exploration and uncertainty-aware planning.",
+      "authors": [
+        "Timy Phan",
+        "Jannik Wiese",
+        "Björn Ommer"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-28T17:05:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.25984v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "probabilistic prediction of future scene kinematics",
+      "llm_evidence_cn": "场景运动学的概率预测",
+      "llm_evidence": "场景运动学的概率预测",
+      "canonical_evidence": "场景运动学的概率预测",
+      "llm_tldr_en": "GARFIELD learns a structured spatio-temporal latent representation of possible futures from an image, enabling joint trajectory sampling and direct access to kinematic distributions.",
+      "llm_tldr_cn": "该论文提出GARFIELD，一种场景运动学的概率模型，从单张图像学习未来可能运动的结构化时空潜在表示。该表示支持联合轨迹采样和运动分布的显式访问，解决了现有方法未明确建模运动分布的问题，为世界模型中的多未来预测提供了新范式。",
+      "llm_tldr": "该论文提出GARFIELD，一种场景运动学的概率模型，从单张图像学习未来可能运动的结构化时空潜在表示。该表示支持联合轨迹采样和运动分布的显式访问，解决了现有方法未明确建模运动分布的问题，为世界模型中的多未来预测提供了新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.20071v2",
+      "source": "arxiv",
+      "title": "GaussianSeed: Hierarchical Gaussian Seeding for High-Resolution 3D Occupancy Prediction",
+      "abstract": "Vision-centric 3D occupancy prediction provides dense scene representations essential for autonomous driving and robotic navigation, yet existing methods struggle to scale to high voxel resolutions due to prohibitive computational costs. To address this, we introduce GaussianSeed, a progressive multi-scale Gaussian occupancy prediction framework that organizes primitives into a coarse-to-fine hierarchy. Benefiting from this hierarchical design, GaussianSeed effectively circumvents the memory bottlenecks inherent in dense representations, successfully scaling to a $0.1\\text{m}$ spatial resolution while maintaining real-time inference capabilities. To comprehensively evaluate high-resolution geometric perception, we further construct TJScenes, a panoramic six-camera occupancy dataset with highly detailed $0.1\\text{m}$ annotations. Extensive experiments on Occ3D-nuScenes and TJScenes demonstrate that GaussianSeed delivers the lowest latency among all evaluated methods while maintaining highly competitive accuracy, advancing the efficiency-quality frontier of high-resolution 3D occupancy prediction. Codes are available at https://github.com/Athameral/GUSD",
+      "authors": [
+        "Xinzhuo Li",
+        "Xianghui Pan",
+        "Jiayuan Du",
+        "Wei Wei",
+        "Liuyi Wang",
+        "Chengju Liu",
+        "Qijun Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-22T12:18:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.20071v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D occupancy prediction for scene understanding",
+      "llm_evidence_cn": "用于场景理解的3D占据预测",
+      "llm_evidence": "用于场景理解的3D占据预测",
+      "canonical_evidence": "用于场景理解的3D占据预测",
+      "llm_tldr_en": "Proposes GaussianSeed for high-resolution 3D occupancy prediction using hierarchical Gaussian seeding, achieving 0.1m resolution in real-time.",
+      "llm_tldr_cn": "针对现有3D占据预测方法难以扩展到高分辨率的问题，本文提出GaussianSeed，一种渐进式多尺度高斯占据预测框架，采用从粗到细的层次化原始体组织。该框架有效避免了密集表示的内存瓶颈，成功将空间分辨率扩展到0.1米同时保持实时推理能力。实验表明该方法在几何感知上具有优势。",
+      "llm_tldr": "针对现有3D占据预测方法难以扩展到高分辨率的问题，本文提出GaussianSeed，一种渐进式多尺度高斯占据预测框架，采用从粗到细的层次化原始体组织。该框架有效避免了密集表示的内存瓶颈，成功将空间分辨率扩展到0.1米同时保持实时推理能力。实验表明该方法在几何感知上具有优势。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.23958v1",
+      "source": "arxiv",
+      "title": "RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation",
+      "abstract": "Point cloud denoising is essentially a geometric recovery task that aims to reconstruct the intrinsic structure of a smooth 2D Riemannian manifold embedded in R^3 from noisy, discrete ambient-space samples. Despite the remarkable progress of modern manifold-aware encoders and generative transport models in geometric representation learning, a fundamental objective-geometry mismatch remains underexplored. Theoretically, we identified that this mismatched coupling leads to geometric gradient interference, where conflicting optimization objectives result in structural degradation and point clustering. We introduce Riemannian Orthogonally Decoupled Regularization (RODR) to reformulate the optimization trajectory by disentangling the normal (fitting) and tangential (distribution) components. Guided by a vector-attention and entropy-aware adaptive strategy, RODR effectively preserves high-fidelity geometric details while maintaining sampling uniformity. Experiments demonstrate that RODR reaches performance comparable to state-of-the-art baselines and suggests improved distribution regularity and reduced local aggregation effectively. Our work establishes a generic and interpretable framework for disentangled geometric optimization in point cloud processing.",
+      "authors": [
+        "Jiayu Zhu",
+        "Wenlai Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-27T03:12:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.23958v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "point cloud denoising via disentangled manifold representation for 3D understanding",
+      "llm_evidence_cn": "通过解耦流形表示的点云去噪，用于3D理解",
+      "llm_evidence": "通过解耦流形表示的点云去噪，用于3D理解",
+      "canonical_evidence": "通过解耦流形表示的点云去噪，用于3D理解",
+      "llm_tldr_en": "RODR addresses the objective-geometry mismatch in point cloud denoising by introducing Riemannian Orthogonally Decoupled Regularization to disentangle optimization trajectories and preserve intrinsic manifold structure.",
+      "llm_tldr_cn": "点云去噪面临目标与几何不匹配问题，导致结构退化。RODR通过黎曼正交解耦正则化，将优化轨迹解耦为保真项和正则项，避免几何梯度干扰。实验表明其有效恢复点云内在流形结构，提升下游3D理解任务性能。",
+      "llm_tldr": "点云去噪面临目标与几何不匹配问题，导致结构退化。RODR通过黎曼正交解耦正则化，将优化轨迹解耦为保真项和正则项，避免几何梯度干扰。实验表明其有效恢复点云内在流形结构，提升下游3D理解任务性能。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.26578v1",
+      "source": "arxiv",
+      "title": "3DGBGS: 3D Granular Ball Gaussian Splatting for Compact Novel View Synthesis",
+      "abstract": "Three-dimensional Gaussian Splatting (3DGS) enables high-quality real-time novel-view synthesis through explicit Gaussian primitives and differentiable rasterization. 3DGS and Granular Ball Computing (GBC), proposed in 2019, share a natural compatibility in adaptive representation. The efficiency of 3DGS partly stems from a coarse-to-fine and on-demand refinement process that draws on the generation principle of GBC. This connection motivates us to further introduce adaptive granular ball organization into anchor-based 3DGS. Existing anchor-based methods typically construct anchors from sparse SfM point clouds through fixed voxelization, which cannot adequately adapt to spatially non-uniform point distributions and leads to a trade-off among anchor count, model compactness, and rendering quality. To address this issue, we propose 3DGBGS (3D Granular Ball Gaussian Splatting), a compact anchor-based framework for novel-view synthesis. 3DGBGS adaptively partitions SfM point clouds into 3D granular balls, using larger balls to compactly represent smooth and redundant regions and smaller balls to preserve complex geometry and local details. Based on this representation, Granular Ball Anchor Initialization (GBAI) uses granular ball centers to initialize compact anchor positions, while the Granular Ball Scale Prior (GBSP) exploits granular ball radii to provide local scale priors for Gaussian generation. Experiments on four benchmarks show that 3DGBGS reduces initial and final anchors by 37.1% and 10.0%, respectively, and model storage by 9.8% on average, while maintaining comparable rendering quality.",
+      "authors": [
+        "Meng Yang",
+        "Shuyin Xia",
+        "Dawei Dai",
+        "YiWang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T07:57:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.26578v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D Gaussian Splatting novel view synthesis",
+      "llm_evidence_cn": "3D高斯泼溅新视图合成",
+      "llm_evidence": "3D高斯泼溅新视图合成",
+      "canonical_evidence": "3D高斯泼溅新视图合成",
+      "llm_tldr_en": "3DGBGS integrates granular ball computing with anchor-based 3D Gaussian Splatting for adaptive representation and compact novel view synthesis.",
+      "llm_tldr_cn": "3D高斯泼溅通过显式原语实现高质量新视图合成。3DGBGS将粒度球计算引入基于锚点的3DGS，利用自适应组织改善稀疏点云不均匀分布问题，在保持质量的同时减少锚点数量，实现更紧凑的表示。",
+      "llm_tldr": "3D高斯泼溅通过显式原语实现高质量新视图合成。3DGBGS将粒度球计算引入基于锚点的3DGS，利用自适应组织改善稀疏点云不均匀分布问题，在保持质量的同时减少锚点数量，实现更紧凑的表示。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.26234v1",
+      "source": "arxiv",
+      "title": "Spline-Based Boundary Representations for Sparse View Reconstruction and Simulation Using Isogeometric Analysis",
+      "abstract": "Image-based reconstruction aims to recover three-dimensional geometry from images. Recent advances have enabled the recovery of visually detailed models, yet their representations are not well-suited for numerical simulation. Simulation frameworks typically require explicit, watertight, and smooth geometries to ensure numerical robustness and accuracy, properties that surfaces extracted from image-based reconstructions lack. We propose FORGE-SIM, a method to directly reconstruct a multi-patch B-spline boundary representation from sparse posed RGB images without manual intervention. By optimizing the spline representation itself, our approach produces compact, smooth, and watertight geometries that are natively compatible with both Computer Aided Design and simulation workflows. Additionally, we introduce a strategy to project observation-derived fields, such as a thermal state and semantic information, onto the reconstructed models in the same spline basis, enabling immediate use in simulation. We demonstrate that the obtained models are of sufficiently high quality to enable thermal simulation and modal analysis. By unifying image-based reconstruction and simulation-ready modeling within a single optimization framework, this work removes a long-standing barrier between computer vision and numerical analysis. We anticipate that it will enable new workflows for simulation-driven design, inspection, and digital twin applications.",
+      "authors": [
+        "Davor Dobrota",
+        "Vsevolod Skorokhodov",
+        "Chenghao Xu",
+        "Olga Fink",
+        "Malcolm Mielle"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CE"
+      ],
+      "published": "2026-07-28T20:14:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.26234v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "sparse view 3D reconstruction for simulation",
+      "llm_evidence_cn": "稀疏视图3D重建用于仿真",
+      "llm_evidence": "稀疏视图3D重建用于仿真",
+      "canonical_evidence": "稀疏视图3D重建用于仿真",
+      "llm_tldr_en": "FORGE-SIM directly reconstructs watertight B-spline boundary representations from sparse RGB images, enabling simulation-ready geometries with numerical robustness.",
+      "llm_tldr_cn": "该论文提出FORGE-SIM，从稀疏RGB图像直接重建多面片B样条边界表示，生成紧凑、光滑、水密的几何体，原生适用于数值仿真框架，解决了图像重建结果不适合仿真的问题，为3D场景理解与仿真搭桥。",
+      "llm_tldr": "该论文提出FORGE-SIM，从稀疏RGB图像直接重建多面片B样条边界表示，生成紧凑、光滑、水密的几何体，原生适用于数值仿真框架，解决了图像重建结果不适合仿真的问题，为3D场景理解与仿真搭桥。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25802v2",
+      "source": "arxiv",
+      "title": "Explicit Layer Modeling for Video Object Insertion and Layer Decomposition",
+      "abstract": "Most video editing systems still lack explicit layered video representations, limiting their ability to perform realistic compositing, object reuse, and consistent manipulation. This limitation is especially pronounced in video object insertion and video layer decomposition, where existing methods rely on implicit inference or per-scene optimization due to the absence of explicit foreground-layer supervision. We introduce TriLayer, a large-scale triplet video dataset containing aligned composite, background, and foreground videos, where the foreground layers include both object appearance and associated visual effects. This explicit supervision enables models to learn layered video representations directly rather than inferring them implicitly. Building on this dataset, we propose DBL-Diffusion, a dual-branch diffusion framework that jointly models RGB composites and RGBA foreground layers through shared denoising and cross-branch interaction. We instantiate the framework in two tasks: DBL-Insert for layered object insertion, which generates explicit RGBA layers for realistic compositing and flexible post-editing, and DBL-Decompose for video layer decomposition, which recovers foreground and background layers using triplet supervision. Experiments demonstrate that explicit layer modeling substantially improves both insertion fidelity and decomposition quality.",
+      "authors": [
+        "Kyujin Han",
+        "Seungjoo Shin",
+        "Sunghyun Cho"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-28T14:48:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.25802v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "explicit layer modeling for video object insertion and layer decomposition",
+      "llm_evidence_cn": "显式层建模用于视频对象插入和层分解",
+      "llm_evidence": "显式层建模用于视频对象插入和层分解",
+      "canonical_evidence": "显式层建模用于视频对象插入和层分解",
+      "llm_tldr_en": "TriLayer introduces a large-scale dataset with explicit foreground-background video pairs, enabling models to learn layered representations for video object insertion and layer decomposition.",
+      "llm_tldr_cn": "视频编辑系统缺乏显式分层表示，限制合成和操作。本文提出TriLayer数据集，包含对齐的合成、背景和前景视频，提供显式前景层监督。模型可直接学习分层视频表示，在视频对象插入和层分解任务上性能显著提升。该工作推动了视频编辑中显式层建模的发展。",
+      "llm_tldr": "视频编辑系统缺乏显式分层表示，限制合成和操作。本文提出TriLayer数据集，包含对齐的合成、背景和前景视频，提供显式前景层监督。模型可直接学习分层视频表示，在视频对象插入和层分解任务上性能显著提升。该工作推动了视频编辑中显式层建模的发展。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.26694v1",
+      "source": "arxiv",
+      "title": "Visko Orbis 1.0: A Live Model for Real-Time Interactive Long Video Generation",
+      "abstract": "We present Visko Orbis 1.0, a Live Model for real-time, interactive long-video generation. Users can change the prompt at any moment during generation, and the update becomes visible in real time. Visko Orbis 1.0 supports long-form text-to-video, image-to-video, and video continuation, with multilingual prompts and prompt switching while generation is in progress. A bounded multi-scale memory preserves subjects, scenes, and style across chunks, sustaining hour-scale rollouts without evident quality or color drift. Built on a distilled chunk-wise streaming generator and a streaming video upscaler, Visko Orbis 1.0 delivers real-time 4K video generation at 24 FPS using an optimized GPU serving engine. In long-form Arena comparisons, Visko Orbis 1.0 obtains the highest overall-preference and temporal-stability ratings among state-of-the-art real-time interactive video-generation systems.",
+      "authors": [
+        "Xiangbo Gao",
+        "Siyuan Yang",
+        "Ping He",
+        "Mingyang Wu",
+        "Yuheng Wu",
+        "Yushen Zuo",
+        "Jiongze Yu",
+        "Ryan Cui",
+        "Hongyuan Hua",
+        "Devin Ma",
+        "Xiao Jin",
+        "Yubo Yuan",
+        "Qing Yin",
+        "Jie Yang",
+        "Zhengzhong Tu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T09:40:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.26694v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time interactive long video generation live model",
+      "llm_evidence_cn": "实时交互式长视频生成直播模型",
+      "llm_evidence": "实时交互式长视频生成直播模型",
+      "canonical_evidence": "实时交互式长视频生成直播模型",
+      "llm_tldr_en": "Visko Orbis 1.0 is a live model for real-time interactive long video generation with prompt switching and hour-scale stability.",
+      "llm_tldr_cn": "现有视频生成模型不支持实时交互和长视频持续生成。本文提出Visko Orbis 1.0，一种实时直播式模型，支持在生成过程中任意时刻切换提示，并利用有界多尺度记忆保持场景连贯。系统可在24FPS生成4K长视频，并实现小时级无质量漂移，在人工评估中显著领先。",
+      "llm_tldr": "现有视频生成模型不支持实时交互和长视频持续生成。本文提出Visko Orbis 1.0，一种实时直播式模型，支持在生成过程中任意时刻切换提示，并利用有界多尺度记忆保持场景连贯。系统可在24FPS生成4K长视频，并实现小时级无质量漂移，在人工评估中显著领先。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.26645v1",
+      "source": "arxiv",
+      "title": "FPSGen: Flexible Point Cloud Scene Generation with BEV-Supported Transport Flows",
+      "abstract": "Existing point-based generative methods for outdoor scenes primarily focus on LiDAR-conditioned completion. During training, noisy point clouds are constructed by perturbing complete ground-truth scenes, whereas during inference, they are initialized by adding noise to duplicated partial scans. This train-inference mismatch inherits the sparsity and visibility bias of partial scans, leading to sparse distant regions and incomplete geometry in occluded areas. Moreover, the reliance on partial scans restricts generation when LiDAR observations are unavailable or replaced by layout cues. We present FPSGen, a flexible framework that constructs point sources independently of partial scans. FPSGen first predicts a bird's-eye-view (BEV) prior with density, height, and mask channels from the active cues. The density map is then sampled to form a BEV-supported point source, enabling both unconditional and conditioned initialization. A teacher-student approximate optimal transport scheme then uses teacher-predicted endpoints to learn a velocity field that induces straighter transport paths. By integrating BEV point source construction with path-straightening transport, FPSGen provides a unified framework for unconditional and flexible cue-conditioned scene generation. Extensive experiments show that FPSGen achieves state-of-the-art JSD and voxel IoU performance on SemanticKITTI completion while maintaining strong performance with a single point transport step. On KITTI-360 unconditional generation, it also achieves the best Coverage (COV) among the compared methods.",
+      "authors": [
+        "Wenzhe He",
+        "Meng Wang",
+        "JiaWei Qian",
+        "Jinfeng Xu",
+        "Ying Liu",
+        "Ruihui Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-29T09:06:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.26645v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "flexible point cloud scene generation with BEV prior for outdoor environments",
+      "llm_evidence_cn": "基于BEV先验的灵活点云场景生成用于室外环境",
+      "llm_evidence": "基于BEV先验的灵活点云场景生成用于室外环境",
+      "canonical_evidence": "基于BEV先验的灵活点云场景生成用于室外环境",
+      "llm_tldr_en": "FPSGen generates 3D point cloud scenes without relying on partial LiDAR scans, using BEV-predicted dense priors and transport flows.",
+      "llm_tldr_cn": "现有点云场景生成方法依赖部分扫描，存在训练-推理不匹配及遮挡区域稀疏问题。FPSGen提出灵活框架，首先预测鸟瞰图（BEV）先验，再利用传输流生成稠密点云，无需输入部分扫描。在多个户外数据集上，生成的场景在几何完整性和密度上优于现有方法，且支持布局条件生成，提升了点云生成的实用性和可控性。",
+      "llm_tldr": "现有点云场景生成方法依赖部分扫描，存在训练-推理不匹配及遮挡区域稀疏问题。FPSGen提出灵活框架，首先预测鸟瞰图（BEV）先验，再利用传输流生成稠密点云，无需输入部分扫描。在多个户外数据集上，生成的场景在几何完整性和密度上优于现有方法，且支持布局条件生成，提升了点云生成的实用性和可控性。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.26595v1",
+      "source": "arxiv",
+      "title": "SpatialQ: Understanding 3D Gaussian Splatting Scene Quality via Visual-based MLLM",
+      "abstract": "3D Gaussian Splatting (3DGS) has emerged as an effective representation for novel view synthesis and 3D scene reconstruction, creating an increasing demand for reliable quality assessment. Unlike conventional image quality assessment (IQA), the quality of a 3DGS scene depends not only on the perceptual fidelity of rendered views, but also on scene-level factors such as spatial structure and cross-view consistency. Existing IQA methods are limited by their reliance on 2D perceptual cues, whereas general multimodal large language models (MLLMs) are not designed for stable quality regression and may produce unreliable judgments. To address these limitations, a multimodal quality assessment framework is developed for 3DGS scene understanding. First, a 3D-aware quality representation learning framework is introduced by augmenting a VGGT-based encoder with a dedicated quality head. Multi-view images are encoded into view-specific features and aggregated to capture cross-view consistency, while geometric cues are incorporated through joint modeling of depth and point-cloud-related structural information, enabling the learning of structure-aware quality representations beyond appearance-driven features. Second, a grounded multimodal reasoning mechanism is constructed by jointly feeding original images, depth maps, point cloud renderings, and camera parameters into a Qwen-based MLLM.",
+      "authors": [
+        "Jingxuan Su",
+        "Shenglin Wang",
+        "Tiesong Zhao",
+        "Ge Li",
+        "Wei Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-29T08:14:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.26595v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D Gaussian Splatting scene quality understanding",
+      "llm_evidence_cn": "3D高斯泼溅场景质量理解",
+      "llm_evidence": "3D高斯泼溅场景质量理解",
+      "canonical_evidence": "3D高斯泼溅场景质量理解",
+      "llm_tldr_en": "SpatialQ proposes a multimodal quality assessment framework for 3DGS scenes, evaluating perceptual fidelity, spatial structure, and cross-view consistency using visual-based MLLMs.",
+      "llm_tldr_cn": "该论文针对3D高斯泼溅场景的质量评估提出SpatialQ框架，利用基于视觉的多模态大语言模型，不仅关注渲染视图的感知保真度，还考虑空间结构和跨视图一致性等场景级因素，弥补了传统图像质量评估的不足。",
+      "llm_tldr": "该论文针对3D高斯泼溅场景的质量评估提出SpatialQ框架，利用基于视觉的多模态大语言模型，不仅关注渲染视图的感知保真度，还考虑空间结构和跨视图一致性等场景级因素，弥补了传统图像质量评估的不足。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.26903v1",
+      "source": "arxiv",
+      "title": "From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence",
+      "abstract": "The key bottleneck in embodied AI is not model architecture but data. Although billions of human manipulation videos exist online, robots cannot directly learn from them due to the embodiment gap between human morphology and robot hardware. We introduce Pegasus, a low-resource framework that bridges this gap by translating human demonstrations into robot-learnable data through structured knowledge transfer. Instead of relying on raw video prompts, Pegasus constructs a graph-based intermediate representation: a Task Graph extracted from human videos is transformed through Affordance and Constraint Graphs into a Robot Planning Graph for robot-conditioned video generation. A hierarchical affordance latent space models the relationship between object states, affordances, and tasks, enabling generalization beyond object identities. A closed-loop physics verifier further filters invalid generations using kinematic feasibility, collision constraints, and joint limits. We evaluate Pegasus across a range of egocentric manipulation benchmarks, including GTEA Gaze+ and EPIC-KITCHENS-100, and diverse robot embodiments, assessing Task Correctness, Executability, State Consistency, and Learnability. Results demonstrate reliable cross-embodiment translation and show that robot data generation can be reframed from a hardware collection problem into a scalable, low-resource knowledge transfer problem.",
+      "authors": [
+        "Jia Luo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-07-29T13:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.26903v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "video generation from human demonstrations with explicit geometric graph representation",
+      "llm_evidence_cn": "从人类演示生成视频，利用显式几何图表示",
+      "llm_evidence": "从人类演示生成视频，利用显式几何图表示",
+      "canonical_evidence": "从人类演示生成视频，利用显式几何图表示",
+      "llm_tldr_en": "Pegasus translates human demonstration videos into robot-learnable data by constructing graph-based intermediate representations (Task/ Affordance/Constraint/Robot Planning Graphs) for robot-conditioned video generation.",
+      "llm_tldr_cn": "具身AI面临数据瓶颈：人类视频因形态差异无法直接用于机器人。Pegasus通过构建图基中间表示（任务图、功能图、约束图、机器人规划图），将人类演示转化为机器人条件视频生成数据。层次化功能潜在空间模型进一步提升了泛化性。实验证明该方法能有效生成机器人可执行的物理合理视频。",
+      "llm_tldr": "具身AI面临数据瓶颈：人类视频因形态差异无法直接用于机器人。Pegasus通过构建图基中间表示（任务图、功能图、约束图、机器人规划图），将人类演示转化为机器人条件视频生成数据。层次化功能潜在空间模型进一步提升了泛化性。实验证明该方法能有效生成机器人可执行的物理合理视频。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "papers on video generation models that leverage explicit 3D geometry from reconstruction",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
