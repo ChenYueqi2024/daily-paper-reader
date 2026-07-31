@@ -6,70 +6,71 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-30
-- 运行时间：2026-07-30 21:56:34 UTC
+- 最新运行日期：2026-07-31
+- 运行时间：2026-07-31 21:47:56 UTC
 - 运行状态：成功
-- 本次总论文数：16
+- 本次总论文数：17
 - 精读区：6
-- 速读区：10
+- 速读区：11
 
 ### 今日简报（AI）
-今日16篇论文中，6篇精读聚焦世界模型与立体几何估计，重点推荐CG-World大规模世界状态数据集和统一立体几何估计框架。
-速读中概率场景表示（Schrödinger's Cat）与长视频生成（Visko Orbis 1.0）创新突出，值得深入跟进。
-建议优先精读这两篇高分成果，再探索交互式视频生成与紧凑3D渲染的实用化进展。
-- 详情：[/202607/30/README](/202607/30/README)
+今日共读17篇论文，精读6篇，聚焦3D形状理解与动态人体生成。最值得关注的是《MeshFM》用2D特征攻克3D理解，以及《4DHumanDiff》实现360度动态人体生成。建议普通读者优先从这两篇入手，理解2D特征迁移与4D生成的核心思路。
+- 详情：[/202607/31/README](/202607/31/README)
 
 ### 精读区论文标签
-1. [CG-World: A Large-Scale World-State Dataset and Protocol for World Models](/202607/30/2607.26452v1-cg-world-a-large-scale-world-state-dataset-and-protocol-for-world-models)  
-   标签：评分：10.0/10、query:d
-   evidence：用于世界模型的世界状态数据集
-2. [A Unified Stereo Geometry Estimation Framework for Disparity and Surface Normal](/202607/30/2607.24024v1-a-unified-stereo-geometry-estimation-framework-for-disparity-and-surface-normal)  
+1. [MeshFM: 2D Features Are All You Need for 3D Shape Understanding](/202607/31/2607.27592v1-meshfm-2d-features-are-all-you-need-for-3d-shape-understanding)  
    标签：评分：9.0/10、query:d
-   evidence：扩散先验用于立体几何估计
-3. [Genie Sim PanoWorld: An Infinite Indoor 3D World Generation Pipeline via Panoramic Scene Modeling and Simulation](/202607/30/2607.26646v1-genie-sim-panoworld-an-infinite-indoor-3d-world-generation-pipeline-via-panoramic-scene-modeling-and-simulation)  
+   evidence：通过将2D基础模型特征蒸馏到3D实现形状理解，无需3D标注
+2. [4DHumanDiff: Direct Text-to-4DGS Generation for Consistent 360-Degree Dynamic Humans](/202607/31/2607.27634v1-4dhumandiff-direct-text-to-4dgs-generation-for-consistent-360-degree-dynamic-humans)  
    标签：评分：9.0/10、query:d
-   evidence：利用显式轨迹和几何扭曲的全景视频扩散进行3D世界生成
-4. [Ripple: Real-Time Streaming Audio-Video Generation With Cross-Modal Recurrent Memory](/202607/30/2607.26818v1-ripple-real-time-streaming-audio-video-generation-with-cross-modal-recurrent-memory)  
+   evidence：用于文本到4D高斯溅射动态人体生成的扩散框架
+3. [S-Avatar: Diffusion-Guided Gaussian Head Avatars from a Single Image](/202607/31/2607.28164v1-s-avatar-diffusion-guided-gaussian-head-avatars-from-a-single-image)  
    标签：评分：9.0/10、query:d
-   evidence：实时音视频生成
-5. [Mitigating Compounding Error via Video Representation Regularization](/202607/30/2607.27036v1-mitigating-compounding-error-via-video-representation-regularization)  
+   evidence：单图扩散引导的3D高斯虚拟化身生成
+4. [MonoVoc: Decoupling Geometry and Semantics for Lightweight Monocular Open-Vocabulary 3D Gaussians](/202607/31/2607.28300v1-monovoc-decoupling-geometry-and-semantics-for-lightweight-monocular-open-vocabulary-3d-gaussians)  
    标签：评分：9.0/10、query:d
-   evidence：视频扩散世界模型及累积误差分析
-6. [FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring](/202607/30/2607.27110v1-freqforcing-autoregressive-long-video-generation-via-spectral-self-anchoring)  
+   evidence：解耦几何与语义的开放词汇3D场景理解
+5. [PhiZero: A World Model Built Around Physical Language](/202607/31/2607.28624v1-phizero-a-world-model-built-around-physical-language)  
    标签：评分：9.0/10、query:d
-   evidence：长视频生成
+   evidence：通过物理语言推理与渲染预测未来帧的世界模型。
+6. [OmniMate: Open-Ended Real-Time Streaming Audio-Visual Generation for Interactive Avatars](/202607/31/2607.23023v2-omnimate-open-ended-real-time-streaming-audio-visual-generation-for-interactive-avatars)  
+   标签：评分：8.0/10、query:d
+   evidence：面向虚拟人的实时流式音视频扩散生成
 
 ### 速读区论文标签
-1. [Schrödinger's Cat: Probabilistic Representation and Prediction of Potential Scene Kinematics](/202607/30/2607.25984v1-schrdingers-cat-probabilistic-representation-and-prediction-of-potential-scene-kinematics)  
+1. [Articulated Object Reconstruction from Rest-State Observation](/202607/31/2607.27749v1-articulated-object-reconstruction-from-rest-state-observation)  
    标签：评分：8.0/10、query:d
-   evidence：场景运动学的概率预测
-2. [3DGBGS: 3D Granular Ball Gaussian Splatting for Compact Novel View Synthesis](/202607/30/2607.26578v1-3dgbgs-3d-granular-ball-gaussian-splatting-for-compact-novel-view-synthesis)  
+   evidence：从静止状态重建关节物体3D几何与运动学
+2. [TSOG: A Format For Temporally And Spatially Ordered Gaussians](/202607/31/2607.28049v1-tsog-a-format-for-temporally-and-spatially-ordered-gaussians)  
    标签：评分：8.0/10、query:d
-   evidence：3D高斯泼溅新视图合成
-3. [Visko Orbis 1.0: A Live Model for Real-Time Interactive Long Video Generation](/202607/30/2607.26694v1-visko-orbis-10-a-live-model-for-real-time-interactive-long-video-generation)  
+   evidence：4D高斯表示格式，用于高效动态场景编码
+3. [Convolutional Neural Shading for High-Quality 3D Reconstruction from Multi-View Images](/202607/31/2607.28132v1-convolutional-neural-shading-for-high-quality-3d-reconstruction-from-multi-view-images)  
    标签：评分：8.0/10、query:d
-   evidence：实时交互式长视频生成直播模型
-4. [From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence](/202607/30/2607.26903v1-from-passive-video-to-editable-experience-physically-grounded-experience-synthesis-for-embodied-intelligence)  
+   evidence：卷积神经着色改善多视角3D重建质量，推动3D表示学习
+4. [ROAD: Reciprocal-Objective Alignment of Discriminative Semantics for 3D Shape Generation](/202607/31/2607.28581v1-road-reciprocal-objective-alignment-of-discriminative-semantics-for-3d-shape-generation)  
    标签：评分：8.0/10、query:d
-   evidence：从人类演示生成视频，利用显式几何图表示
-5. [GaussianSeed: Hierarchical Gaussian Seeding for High-Resolution 3D Occupancy Prediction](/202607/30/2607.20071v2-gaussianseed-hierarchical-gaussian-seeding-for-high-resolution-3d-occupancy-prediction)  
+   evidence：利用判别式先验迁移的扩散Transformer 3D生成
+5. [Chimera: Designing and Chinchilla-Scaling Hybrid Visual Diffusion Transformers](/202607/31/2607.28611v1-chimera-designing-and-chinchilla-scaling-hybrid-visual-diffusion-transformers)  
+   标签：评分：8.0/10、query:d
+   evidence：用于高分辨率图像与长视频生成的混合视觉扩散Transformer
+6. [Amortized Moment Matching for Visual Generation](/202607/31/2607.26860v1-amortized-moment-matching-for-visual-generation)  
    标签：评分：7.0/10、query:d
-   evidence：用于场景理解的3D占据预测
-6. [Spline-Based Boundary Representations for Sparse View Reconstruction and Simulation Using Isogeometric Analysis](/202607/30/2607.26234v1-spline-based-boundary-representations-for-sparse-view-reconstruction-and-simulation-using-isogeometric-analysis)  
+   evidence：面向视觉生成的摊销矩匹配损失，适用于扩散模型
+7. [VideoCoCo: Code-as-CoT for Physically-Consistent Video Generation via an Agentic Dual-Engine System](/202607/31/2607.27380v1-videococo-code-as-cot-for-physically-consistent-video-generation-via-an-agentic-dual-engine-system)  
    标签：评分：7.0/10、query:d
-   evidence：稀疏视图3D重建用于仿真
-7. [FPSGen: Flexible Point Cloud Scene Generation with BEV-Supported Transport Flows](/202607/30/2607.26645v1-fpsgen-flexible-point-cloud-scene-generation-with-bev-supported-transport-flows)  
+   evidence：以可执行Blender代码作为思维链实现物理一致的视频生成。
+8. [TARS: Timestep-Aware Data Scaling for 3D-Free Video Re-Shooting](/202607/31/2607.28261v1-tars-timestep-aware-data-scaling-for-3d-free-video-re-shooting)  
    标签：评分：7.0/10、query:d
-   evidence：基于BEV先验的灵活点云场景生成用于室外环境
-8. [RODR: Riemannian Orthogonally Decoupled Regularization for Disentangled Manifold Representation](/202607/30/2607.23958v1-rodr-riemannian-orthogonally-decoupled-regularization-for-disentangled-manifold-representation)  
+   evidence：视频重拍摄与可控相机运动，文本驱动且免3D重建
+9. [Generative Video Compression with Adaptive Score Distillation](/202607/31/2607.22772v1-generative-video-compression-with-adaptive-score-distillation)  
    标签：评分：6.0/10、query:d
-   evidence：通过解耦流形表示的点云去噪，用于3D理解
-9. [Explicit Layer Modeling for Video Object Insertion and Layer Decomposition](/202607/30/2607.25802v2-explicit-layer-modeling-for-video-object-insertion-and-layer-decomposition)  
+   evidence：面向压缩的视频扩散模型，利用分数蒸馏进行生成式视频建模。
+10. [CinemaTraj: Composing Atomic Camera Trajectories for 3D Scenes with LLM Agents](/202607/31/2607.26910v1-cinematraj-composing-atomic-camera-trajectories-for-3d-scenes-with-llm-agents)  
    标签：评分：6.0/10、query:d
-   evidence：显式层建模用于视频对象插入和层分解
-10. [SpatialQ: Understanding 3D Gaussian Splatting Scene Quality via Visual-based MLLM](/202607/30/2607.26595v1-spatialq-understanding-3d-gaussian-splatting-scene-quality-via-visual-based-mllm)  
+   evidence：利用3D场景图和LLM代理生成相机轨迹，涉及3D空间推理
+11. [Drawing-Recode: Annotation Grounding for Parametric CAD Code Generation from Raster 2D CAD Drawings](/202607/31/2607.27558v1-drawing-recode-annotation-grounding-for-parametric-cad-code-generation-from-raster-2d-cad-drawings)  
    标签：评分：6.0/10、query:d
-   evidence：3D高斯泼溅场景质量理解
+   evidence：从2D图纸生成参数化3D CAD序列，属于3D生成
 
 
 <div class="dpr-home-promo-card">
