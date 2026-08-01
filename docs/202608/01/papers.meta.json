@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-01",
+  "date": "2026-08-01",
+  "generated_at": "2026-08-01T21:14:31",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/01/2607.23783v1-n0-twam-scaling-tactile-native-world-action-model-for-contact-rich-manipulation",
+      "section": "deep",
+      "title_en": "$N_0$-TWAM: Scaling Tactile-Native World-Action Model for Contact-Rich Manipulation",
+      "authors": "NeoteAI Team, Fudan TEAI Team",
+      "date": "2026-07-26",
+      "pdf": "https://arxiv.org/pdf/2607.23783v1",
+      "score": "8.0",
+      "evidence": "大规模预测未来视觉与接触的触觉原生世界动作模型",
+      "tldr": "接触丰富操作要求机器人能预测未来视觉、触觉与动作，但现有世界模型缺乏触觉原生设计和大规模验证。为此提出N0-TWAM，以统一力触觉表示NeoForce构造物理接地接触信号，结合触觉接触事件进行任务分段，并采用不对称混合Transformer架构提升实时效率。在大规模预训练和真实/仿真基准上，N0-TWAM展现出强大的接触丰富操作能力，验证了数据扩展对精细感知和动作预测的收益，为开放接触任务奠定了坚实基础。",
+      "tags": "query:d",
+      "abstract_en": "We present $N_0$-TWAM, a tactile-native world-action model for contact-rich manipulation that predicts both future vision and future contact. To our knowledge, it is the first tactile world-action model trained at large scale, and it shows strong capability on contact-rich tasks. We pre-train $N_0$-TWAM at large scale with visuo-tactile joint training over tactile-rich demonstrations spanning six embodiments and 450 tasks. We use NeoForce, a unified force-based tactile representation, to form a physically grounded contact signal that conditions action generation. To improve long-horizon and multi-stage manipulation, we introduce tactile contact events for task staging and advance through them during execution. For real-time efficiency, we adopt an asymmetric Mixture-of-Transformers architecture that pairs a full-width expert for video prediction with slim experts for downstream action and tactile prediction. Evaluations on both real and simulated benchmarks justify the capabilities of $N_0$-TWAM across a range of contact-rich tasks, and demonstrate the benefit of data scaling for precise tactile and action prediction. In summary, $N_0$-TWAM endows a world-action model with predictive capabilities to foresee vision, touch and action, building a solid foundation for fine-grained manipulation on open contact-rich tasks. The codebase and model checkpoints will be made publicly available to foster further research and development in tactile-enabled robotic manipulation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.28442v1-viewmind3d-modular-view-aware-inference-for-training-free-3d-qa",
+      "section": "deep",
+      "title_en": "ViewMind3D: Modular View-Aware Inference for Training-Free 3D-QA",
+      "authors": "Ping-Kun Chiang, Kun-Ru Wu, Po-han Li, Sandeep Chinchali, Ufuk Topcu, Yu-Chee Tseng",
+      "date": "2026-07-30",
+      "pdf": "https://arxiv.org/pdf/2607.28442v1",
+      "score": "8.0",
+      "evidence": "基于多视角观测的无训练三维问答，属于三维场景理解",
+      "tldr": "3D问答常依赖专用训练，成本高、难扩展。本文提出ViewMind3D，一个完全无需训练的模块化框架，利用通用语言-视觉模型将任务分解为多视角选择、视觉定位、空间编码和答案生成四步，无需完整重建。在ScanQA和SQA3D上，其性能与微调大模型相当，准确率50.8%，CIDEr 73.4，尤其擅长空间接地问题。这表明模块化编排通用模型可实现高效3D推理，为机器人感知提供新路径。",
+      "tags": "query:d",
+      "abstract_en": "Recent advances in large language models (LLMs) and vision-language models (VLMs) have enabled new possibilities for 3D question answering (3D-QA), a key capability for embodied AI and robotic perception. However, most existing methods rely on 3D-specific training or fine-tuning with costly annotations, limiting their scalability and real-world applicability. We present \\textbf{ViewMind3D}, a fully training-free and modular framework for 3D spatial reasoning over multi-view observations of a scene without requiring complete 3D reconstruction. The framework decomposes the 3D-QA task into four interpretable components: (1) question-driven multi-view selection, (2) guided visual grounding with language-conditioned object cues, (3) spatial context encoding via a bird's-eye-view (BEV) viewpoint indicator, and (4) structured answer generation through role-based reasoning. This design enables structured, robust, and interpretable reasoning without requiring model tuning. Experimental results on ScanQA and SQA3D show that ViewMind3D achieves competitive performance compared to prior training-free and fine-tuned 3D-LLMs. In particular, our method improves performance on spatially grounded question types, such as ``What'' questions in SQA3D, while maintaining strong overall accuracy (50.8\\%) and achieving 73.4 CIDEr on ScanQA. These results demonstrate that effective 3D reasoning can be achieved through modular orchestration of general-purpose LLMs and VLMs for robotic perception in real-world environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.22890v1-meshless-domain-randomization-via-explicit-parameter-perturbation-of-3d-gaussian-splatting",
+      "section": "quick",
+      "title_en": "Meshless Domain Randomization via Explicit Parameter Perturbation of 3D Gaussian Splatting",
+      "authors": "Felipe Nunes Carbone de Carvalho, Joyce de Morais Souza, Alan de Aguiar, Charles Morphy D. Santos, João Paulo Gois",
+      "date": "2026-07-24",
+      "pdf": "https://arxiv.org/pdf/2607.22890v1",
+      "score": "6.0",
+      "evidence": "通过扰动3D高斯泼溅参数进行无网格域随机化，属于3D生成/数据增强方法",
+      "tldr": "传统域随机化依赖多边形网格渲染，复杂有机体如昆虫标本的纹理网格提取困难。本文提出无网格域随机化框架，直接在三维高斯溅射参数空间操作：通过调制球谐系数实现光度扰动，以三维空间噪声替换原始纹理实现程序扰动，并将扰动辐射场合成到随机背景。该方法无需网格重建即可生成鲁棒数据集，为复杂几何提供高效域随机化替代方案，显著降低数据生成难度。",
+      "tags": "query:d",
+      "abstract_en": "Domain Randomization (DR) is a standard technique for closing the Sim-to-Real gap, yet traditional DR pipelines rely on classical computer graphics rendering driven by polygon meshes. For complex organic subjects, such as insect specimens, extracting and rendering textured meshes is challenging. To address this issue, we propose a meshless DR framework that operates on the parameter space of 3D Gaussian Splatting (3DGS). Our method employs two independent perturbation pipelines to synthesize randomized training datasets. First, a Photometric DR pipeline alters the baked illumination and color balance by modulating the Spherical Harmonics (SH) coefficients. Second, a Procedural DR pipeline isolates the subject's geometric shape by replacing its original textures with 3D spatial noise. Finally, these perturbed radiance fields are composited over stochastically varied backgrounds using a rasterization engine. Our parameter manipulation provides a meshless alternative for generating robust datasets for complex geometries.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/01/2607.26398v1-flow-map-learning-via-nongradient-vector-flow",
+      "section": "quick",
+      "title_en": "Flow Map Learning via Nongradient Vector Flow",
+      "authors": "Mark Goldstein, Anshuk Uppal, Raghav Singhal, Aahlad Puli, Rajesh Ranganath",
+      "date": "2026-07-29",
+      "pdf": "https://arxiv.org/pdf/2607.26398v1",
+      "score": "6.0",
+      "evidence": "面向扩散与流模型的流映射学习方法，可迁移至3D扩散生成",
+      "tldr": "扩散模型采样积分开销大，一致性模型直接学ODE流映射，但现有方法需逆或反传，且无收敛保证。SGFlow用非梯度向量流学流映射，绕过可逆约束与迭代微分，在目标流映射处有驻点。CIFAR上10步FID最佳，其他步数与主流方法持平，且唯一具备驻点保证。",
+      "tags": "query:d",
+      "abstract_en": "Diffusion and flow-based models benefit from simple regression losses, but inference incurs significant overhead because sampling requires integration. Consistency models address this by directly learning the flow maps along the ODE trajectory, opening a design space between one-step and many-step approaches. However, existing methods face computational challenges such as requiring model inverses or backpropagation through iterated model calls, and do not always prove that the desired ODE flow map is a solution to the loss. We introduce SGFlow, an approach for learning flow maps that bypasses explicit invertibility constraints and expensive differentiation through model iteration. SGFlow trains a model to compute both the ODE solutions and the implied velocity from scratch by following non-conservative dynamics with a stationary point at the desired flow map. On the CIFAR image benchmark, no single method attains the best FID at every step count: SGFlow attains the best FID at 10 sampling steps and remains competitive with flow matching, Meanflow, and Lagrangian map matching at other step counts, while being the only one with a proven stationary-point guarantee for its stopgrad-based dynamics.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

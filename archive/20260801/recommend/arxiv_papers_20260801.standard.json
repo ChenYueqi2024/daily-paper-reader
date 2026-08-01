@@ -1,0 +1,172 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-01T21:11:03.588117+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.23783v1",
+      "source": "arxiv",
+      "title": "$N_0$-TWAM: Scaling Tactile-Native World-Action Model for Contact-Rich Manipulation",
+      "abstract": "We present $N_0$-TWAM, a tactile-native world-action model for contact-rich manipulation that predicts both future vision and future contact. To our knowledge, it is the first tactile world-action model trained at large scale, and it shows strong capability on contact-rich tasks. We pre-train $N_0$-TWAM at large scale with visuo-tactile joint training over tactile-rich demonstrations spanning six embodiments and 450 tasks. We use NeoForce, a unified force-based tactile representation, to form a physically grounded contact signal that conditions action generation. To improve long-horizon and multi-stage manipulation, we introduce tactile contact events for task staging and advance through them during execution. For real-time efficiency, we adopt an asymmetric Mixture-of-Transformers architecture that pairs a full-width expert for video prediction with slim experts for downstream action and tactile prediction. Evaluations on both real and simulated benchmarks justify the capabilities of $N_0$-TWAM across a range of contact-rich tasks, and demonstrate the benefit of data scaling for precise tactile and action prediction. In summary, $N_0$-TWAM endows a world-action model with predictive capabilities to foresee vision, touch and action, building a solid foundation for fine-grained manipulation on open contact-rich tasks. The codebase and model checkpoints will be made publicly available to foster further research and development in tactile-enabled robotic manipulation.",
+      "authors": [
+        "NeoteAI Team",
+        "Fudan TEAI Team"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-26T17:58:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.23783v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "tactile-native world-action model predicting future vision and contact at scale",
+      "llm_evidence_cn": "大规模预测未来视觉与接触的触觉原生世界动作模型",
+      "llm_evidence": "大规模预测未来视觉与接触的触觉原生世界动作模型",
+      "canonical_evidence": "大规模预测未来视觉与接触的触觉原生世界动作模型",
+      "llm_tldr_en": "N0-TWAM is a large-scale tactile-native world-action model predicting future vision and contact, pre-trained over 450 tasks and six embodiments for contact-rich manipulation.",
+      "llm_tldr_cn": "针对接触丰富的操作任务缺少可预测未来视觉与接触的大规模世界模型的问题，提出N0-TWAM触觉原生世界动作模型。它使用NeoForce力觉触觉表示形成物理接地接触信号，并在六个本体和450个任务上进行视觉-触觉联合预训练。实验表明该模型在接触丰富操作上表现强劲，并可通过触觉接触事件进行任务分段以支持长时程操作。该工作推动了具身智能中世界模型与触觉感知的融合。",
+      "llm_tldr": "针对接触丰富的操作任务缺少可预测未来视觉与接触的大规模世界模型的问题，提出N0-TWAM触觉原生世界动作模型。它使用NeoForce力觉触觉表示形成物理接地接触信号，并在六个本体和450个任务上进行视觉-触觉联合预训练。实验表明该模型在接触丰富操作上表现强劲，并可通过触觉接触事件进行任务分段以支持长时程操作。该工作推动了具身智能中世界模型与触觉感知的融合。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28442v1",
+      "source": "arxiv",
+      "title": "ViewMind3D: Modular View-Aware Inference for Training-Free 3D-QA",
+      "abstract": "Recent advances in large language models (LLMs) and vision-language models (VLMs) have enabled new possibilities for 3D question answering (3D-QA), a key capability for embodied AI and robotic perception. However, most existing methods rely on 3D-specific training or fine-tuning with costly annotations, limiting their scalability and real-world applicability. We present \\textbf{ViewMind3D}, a fully training-free and modular framework for 3D spatial reasoning over multi-view observations of a scene without requiring complete 3D reconstruction. The framework decomposes the 3D-QA task into four interpretable components: (1) question-driven multi-view selection, (2) guided visual grounding with language-conditioned object cues, (3) spatial context encoding via a bird's-eye-view (BEV) viewpoint indicator, and (4) structured answer generation through role-based reasoning. This design enables structured, robust, and interpretable reasoning without requiring model tuning. Experimental results on ScanQA and SQA3D show that ViewMind3D achieves competitive performance compared to prior training-free and fine-tuned 3D-LLMs. In particular, our method improves performance on spatially grounded question types, such as ``What'' questions in SQA3D, while maintaining strong overall accuracy (50.8\\%) and achieving 73.4 CIDEr on ScanQA. These results demonstrate that effective 3D reasoning can be achieved through modular orchestration of general-purpose LLMs and VLMs for robotic perception in real-world environments.",
+      "authors": [
+        "Ping-Kun Chiang",
+        "Kun-Ru Wu",
+        "Po-han Li",
+        "Sandeep Chinchali",
+        "Ufuk Topcu",
+        "Yu-Chee Tseng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-30T16:14:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.28442v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "training-free 3D question answering from multi-view observations; 3D scene understanding",
+      "llm_evidence_cn": "基于多视角观测的无训练三维问答，属于三维场景理解",
+      "llm_evidence": "基于多视角观测的无训练三维问答，属于三维场景理解",
+      "canonical_evidence": "基于多视角观测的无训练三维问答，属于三维场景理解",
+      "llm_tldr_en": "ViewMind3D is a fully training-free modular framework for 3D spatial reasoning over multi-view scene observations, decomposing 3D-QA into view selection, visual grounding, and spatial context encoding, requiring no 3D reconstruction or task-specific fine-tuning.",
+      "llm_tldr_cn": "大多数三维问答方法依赖昂贵的三维标注与微调，限制了实际应用。该文提出ViewMind3D，一个完全无需训练的三维问答框架，对多视角观测进行模块化推理，将任务分解为问题驱动的视角选择、语言引导的视觉定位与空间上下文编码。整个流程无需完整三维重建，也不需任务特定训练。实验表明在三维空间推理任务上取得了有竞争力的性能，为训练轻量级三维问答提供可扩展方案。",
+      "llm_tldr": "大多数三维问答方法依赖昂贵的三维标注与微调，限制了实际应用。该文提出ViewMind3D，一个完全无需训练的三维问答框架，对多视角观测进行模块化推理，将任务分解为问题驱动的视角选择、语言引导的视觉定位与空间上下文编码。整个流程无需完整三维重建，也不需任务特定训练。实验表明在三维空间推理任务上取得了有竞争力的性能，为训练轻量级三维问答提供可扩展方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.22890v1",
+      "source": "arxiv",
+      "title": "Meshless Domain Randomization via Explicit Parameter Perturbation of 3D Gaussian Splatting",
+      "abstract": "Domain Randomization (DR) is a standard technique for closing the Sim-to-Real gap, yet traditional DR pipelines rely on classical computer graphics rendering driven by polygon meshes. For complex organic subjects, such as insect specimens, extracting and rendering textured meshes is challenging. To address this issue, we propose a meshless DR framework that operates on the parameter space of 3D Gaussian Splatting (3DGS). Our method employs two independent perturbation pipelines to synthesize randomized training datasets. First, a Photometric DR pipeline alters the baked illumination and color balance by modulating the Spherical Harmonics (SH) coefficients. Second, a Procedural DR pipeline isolates the subject's geometric shape by replacing its original textures with 3D spatial noise. Finally, these perturbed radiance fields are composited over stochastically varied backgrounds using a rasterization engine. Our parameter manipulation provides a meshless alternative for generating robust datasets for complex geometries.",
+      "authors": [
+        "Felipe Nunes Carbone de Carvalho",
+        "Joyce de Morais Souza",
+        "Alan de Aguiar",
+        "Charles Morphy D. Santos",
+        "João Paulo Gois"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-24T20:01:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.22890v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Meshless training data generation via explicit parameter perturbation of 3D Gaussian Splatting",
+      "llm_evidence_cn": "通过扰动3D高斯泼溅参数进行无网格域随机化，属于3D生成/数据增强方法",
+      "llm_evidence": "通过扰动3D高斯泼溅参数进行无网格域随机化，属于3D生成/数据增强方法",
+      "canonical_evidence": "通过扰动3D高斯泼溅参数进行无网格域随机化，属于3D生成/数据增强方法",
+      "llm_tldr_en": "Presents a meshless domain randomization framework that perturbs 3D Gaussian Splatting parameters to synthesize randomized training data, avoiding complex mesh extraction and rendering for organic subjects.",
+      "llm_tldr_cn": "领域随机化通常依赖网格渲染，但对昆虫等复杂有机体提取带纹理网格十分困难。本文提出基于3D高斯泼溅参数空间的无网格域随机化框架，通过光度扰动管线调节球谐系数改变光照与色彩，并通过程序化扰动管线分离几何形状，生成多样化训练数据。实验显示该方法有效缩小Sim-to-Real差距，为基于3D表示的仿真数据生成提供了轻量替代方案。",
+      "llm_tldr": "领域随机化通常依赖网格渲染，但对昆虫等复杂有机体提取带纹理网格十分困难。本文提出基于3D高斯泼溅参数空间的无网格域随机化框架，通过光度扰动管线调节球谐系数改变光照与色彩，并通过程序化扰动管线分离几何形状，生成多样化训练数据。实验显示该方法有效缩小Sim-to-Real差距，为基于3D表示的仿真数据生成提供了轻量替代方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.26398v1",
+      "source": "arxiv",
+      "title": "Flow Map Learning via Nongradient Vector Flow",
+      "abstract": "Diffusion and flow-based models benefit from simple regression losses, but inference incurs significant overhead because sampling requires integration. Consistency models address this by directly learning the flow maps along the ODE trajectory, opening a design space between one-step and many-step approaches. However, existing methods face computational challenges such as requiring model inverses or backpropagation through iterated model calls, and do not always prove that the desired ODE flow map is a solution to the loss. We introduce SGFlow, an approach for learning flow maps that bypasses explicit invertibility constraints and expensive differentiation through model iteration. SGFlow trains a model to compute both the ODE solutions and the implied velocity from scratch by following non-conservative dynamics with a stationary point at the desired flow map. On the CIFAR image benchmark, no single method attains the best FID at every step count: SGFlow attains the best FID at 10 sampling steps and remains competitive with flow matching, Meanflow, and Lagrangian map matching at other step counts, while being the only one with a proven stationary-point guarantee for its stopgrad-based dynamics.",
+      "authors": [
+        "Mark Goldstein",
+        "Anshuk Uppal",
+        "Raghav Singhal",
+        "Aahlad Puli",
+        "Rajesh Ranganath"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-29T02:17:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.26398v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "flow-map learning method for diffusion and flow models, transferable to 3D diffusion",
+      "llm_evidence_cn": "面向扩散与流模型的流映射学习方法，可迁移至3D扩散生成",
+      "llm_evidence": "面向扩散与流模型的流映射学习方法，可迁移至3D扩散生成",
+      "canonical_evidence": "面向扩散与流模型的流映射学习方法，可迁移至3D扩散生成",
+      "llm_tldr_en": "SGFlow learns ODE flow maps without invertibility constraints or backpropagation through iterated model calls, enabling efficient sampling for diffusion and flow-based generative models.",
+      "llm_tldr_cn": "扩散和流模型的采样需要迭代积分，计算开销大，一致性模型直接学习流映射但需要求逆或反向传播。SGFlow提出了一种非梯度向量流方法，从零同时学习ODE解与隐含速度，避免了显式可逆性约束和迭代微分，为扩散与流模型提供快速采样路径。该方法通用性强，可加速后续3D或视频扩散模型。",
+      "llm_tldr": "扩散和流模型的采样需要迭代积分，计算开销大，一致性模型直接学习流映射但需要求逆或反向传播。SGFlow提出了一种非梯度向量流方法，从零同时学习ODE解与隐含速度，避免了显式可逆性约束和迭代微分，为扩散与流模型提供快速采样路径。该方法通用性强，可加速后续3D或视频扩散模型。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "diffusion models for 3D",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
