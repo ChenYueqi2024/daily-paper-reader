@@ -1,0 +1,69 @@
+{
+  "label": "2026-08-02",
+  "date": "2026-08-02",
+  "generated_at": "2026-08-02T21:16:44",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202608/02/2607.24377v1-mxattention-data-free-optimal-scaling-and-pre-normalization-quantization-for-mxfp4-attention",
+      "section": "deep",
+      "title_en": "MXAttention: Data-Free Optimal Scaling and Pre-Normalization Quantization for MXFP4 Attention",
+      "authors": "Jianlin Yu, Jing Lin, Linghui Kong, Aiyue Chen, Weiyi Sun, Chenyu Zeng, Wangli Lan, Jinxi Li, Zhuo Zheng, Ziyang Yue, Danning Ke, Fei Yi, Tianchi Hu, Yuan Ding, Yiwu Yao, Junsong Wang",
+      "date": "2026-07-27",
+      "pdf": "https://arxiv.org/pdf/2607.24377v1",
+      "score": "8.0",
+      "evidence": "针对扩散视频生成模型注意力瓶颈的量化优化",
+      "tldr": "扩散视频生成中注意力二次复杂度是主要瓶颈，MXFP4注意力提供高效推理路径，但直接量化存在幂二缩放引起的截断-下溢权衡与softmax行归一化误差。MXAttention提出数据无关的后训练量化框架，采用通用最优缩放（UOS）利用幂二微缩周期结构得到分布无关最优边界Qmax=7.25，并以预归一化量化（PNQ）在行求和前量化未归一化指数，保证归一化。在Wan2.2与HunyuanVideo上，MXAttention弥合OCP MXFP4与FP16间至少95%的VBench成像质量差距，所有指标绝对退化低于0.01，且以可忽略开销媲美NVFP4基线，实现已开源至MindIE-SD。",
+      "tags": "query:d",
+      "abstract_en": "The quadratic cost of attention is a major bottleneck in diffusion-based video generation models. MXFP4 attention provides a promising path toward efficient inference, but direct MXFP4 quantization often degrades generation quality due to two numerical issues: the clipping-underflow trade-off from power-of-two scaling and the row-wise normalization error introduced in the softmax loop. We propose MXAttention, a data-free post-training quantization framework for MXFP4 attention. MXAttention introduces two components: Universal Optimal Scaling (UOS), which exploits the periodic structure of power-of-two microscaling to derive a distribution-independent optimal scaling boundary Qmax=7.25 without calibration or search, and Pre-Normalization Quantization (PNQ), which quantizes unnormalized softmax exponentials before row-wise summation to preserve normalization by construction. Experiments on Wan2.2 and HunyuanVideo show that MXAttention closes at least 95% of the VBench Imaging Quality gap between OCP MXFP4 and FP16, substantially improves frame-level similarity, and preserves FP16-level generation quality with less than 0.01 absolute degradation on all reported VBench metrics. MXAttention also achieves performance competitive with strong NVFP4-based baselines with negligible overhead when fused into the attention pipeline. The implementation is publicly available in MindIE-SD.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/02/2607.24431v1-interocf-spatio-temporal-2d-3d-interaction-for-camera-only-4d-occupancy-forecasting",
+      "section": "deep",
+      "title_en": "InterOCF: Spatio-Temporal 2D-3D Interaction for Camera-Only 4D Occupancy Forecasting",
+      "authors": "Qi Zhang, Xinquan Yu, Kaiyi Zhang, Hui Huang",
+      "date": "2026-07-27",
+      "pdf": "https://arxiv.org/pdf/2607.24431v1",
+      "score": "8.0",
+      "evidence": "4D占据预测用于预测未来3D场景，是自动驾驶中的世界模型",
+      "tldr": "针对仅相机4D占据预测中时空建模不足的问题，提出InterOCF框架。该框架通过3D时空模块学习体素动态，2D时空模块进行多视图时序分割预测，并引入时空交互模块融合2D-3D特征。在nuScenes等数据集上取得最优性能，验证了联合2D-3D时空建模的有效性。",
+      "tags": "query:d",
+      "abstract_en": "Camera-only 4D occupancy forecasting enables autonomous vehicles to predict future 3D semantic scenes solely from historical multi-view images, which is critical for driving safety. Even though current methods have achieved good performance, the strong spatial-temporal modeling between the input multi-view frames is still underexplored, which limits the performance of those methods in future 4D forecasting. To address this gap, we introduce a novel framework, InterOCF, for 4D occupancy forecasting that jointly models temporal dynamics in both 3D voxel-based representations and multi-view segmentation sequences, while explicitly incorporating feature interaction between the 2D and 3D branches. Our framework incorporates three core components: 1) A 3D Spatio-Temporal (3DST) module that learns volumetric dynamics from historical voxel states to predict future voxel states; 2) A 2D Spatio-Temporal (2DST) module employing an auxiliary multi-view temporal segmentation forecasting task to enhance temporal semantic dynamics; 3) A Spatio-Temporal Interaction Modeling (STIM) module that enables feature interaction between 2D and 3D representations. Experiments on the nuScenes, Lyft-Level5, and nuScenes-Occupancy datasets show that InterOCF consistently outperforms existing baseline approaches.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/02/2607.26600v1-jepadepth-masked-predictive-representation-learning-for-self-supervised-monocular-depth-estimation",
+      "section": "quick",
+      "title_en": "JEPADepth: Masked Predictive Representation Learning for Self-Supervised Monocular Depth Estimation",
+      "authors": "Ionuţ Grigore, Călin-Adrian Popa",
+      "date": "2026-07-29",
+      "pdf": "https://arxiv.org/pdf/2607.26600v1",
+      "score": "6.0",
+      "evidence": "用掩码预测表示学习做自监督单目深度估计",
+      "tldr": "自监督单目深度估计通常依赖光度重建损失，将深度、位姿和外观假设耦合在一起，限制表征学习。JEPADepth借鉴I-JEPA思想，在预训练DINOv3 ViT表示空间中引入掩码预测目标，由预测器从可见上下文推断目标区域嵌入，推理时丢弃这些附加模块。在KITTI上该方法持续提升同一DINOv3光度基线，零样本迁移到Make3D和Cityscapes达到最佳或接近最佳性能。该方法不改变推理架构，为自监督深度估计提供了新的表示学习范式。",
+      "tags": "query:d",
+      "abstract_en": "Self-supervised monocular depth estimation typically relies on photometric reconstruction losses that couple depth, pose, and appearance assumptions. In this paper, we propose JEPADepth, a self-supervised monocular depth framework that incorporates a complementary training objective inspired by Image Joint-Embedding Predictive Architectures (I-JEPA) for self-supervised depth learning. Our method augments a standard photometric pipeline with a masked prediction loss computed in the representation space of a pretrained DINOv3 Vision Transformer encoder. A predictor infers target-region embeddings from visible context-region embeddings under structured masking, and is discarded along with the target encoder at inference time, adding no deployment cost. On KITTI, adding the JEPA objective consistently improves performance over the same DINOv3-based photometric baseline, without changing the inference-time architecture. Compared to prior monocular self-supervised methods, JEPADepth is competitive with state-of-the-art transformer-based approaches and outperforms strong CNN-based baselines on the standard benchmark. In zero-shot transfer (trained on KITTI and evaluated without fine-tuning), JEPADepth achieves the best or near-best performance among the compared methods on both Make3D and Cityscapes across multiple metrics.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/02/2607.27139v1-seasonstereo-robust-dense-stereo-matching-for-multi-date-satellite-imagery-via-generative-ai",
+      "section": "quick",
+      "title_en": "SeasonStereo: Robust Dense Stereo Matching for Multi-Date Satellite Imagery via Generative AI",
+      "authors": "Álvaro Díaz-Laureano, Roger Marí, Elías Masquil, Pablo Arias, Gabriele Facciolo",
+      "date": "2026-07-29",
+      "pdf": "https://arxiv.org/pdf/2607.27139v1",
+      "score": "6.0",
+      "evidence": "通过学习的立体匹配进行三维重建，与三维场景理解相关",
+      "tldr": "卫星立体匹配通常依赖近同时影像，难以处理多日期影像的季节和光照变化。本文提出SeasonStereo，利用生成式AI合成具有可控季节变化的训练对，并结合基础模型的零样本几何先验，无需真实多日期对齐数据和LiDAR标签即可训练鲁棒模型。该方法达到了与LiDAR监督方法相当的精度，同时生成更锐利的几何细节，为大规模异构卫星影像三维重建提供了低监督成本路径。",
+      "tags": "query:d",
+      "abstract_en": "Accurate 3D reconstruction from satellite imagery typically relies on near-simultaneous stereo pairs, limiting its applicability to diachronic settings where multi-date images exhibit varying seasonal and illumination conditions. Training dense stereo matching models robust to appearance changes is a long-standing challenge, as aligned multi-date imagery and ground-truth geometry are costly to obtain at scale. We propose SeasonStereo, a scalable framework that addresses disparity estimation from diachronic satellite images by training on synthetic image pairs with controlled seasonal appearance variation, while leveraging zero-shot geometric priors from foundation models. SeasonStereo matches the accuracy of state-of-the-art LiDAR-supervised models, while producing sharper geometric details without requiring aligned real multi-date training products or LiDAR-derived labels. As a result, SeasonStereo offers a practical path toward large-scale 3D reconstruction from heterogeneous satellite images with reduced supervision cost.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

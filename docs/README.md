@@ -6,34 +6,34 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-01
-- 运行时间：2026-08-01 21:14:24 UTC
+- 最新运行日期：2026-08-02
+- 运行时间：2026-08-02 21:16:38 UTC
 - 运行状态：成功
 - 本次总论文数：4
 - 精读区：2
 - 速读区：2
 
 ### 今日简报（AI）
-今日精读触觉操作世界模型与免训练3D视觉问答，速读两篇图形学方法，共4篇。  
-最值得关注触觉-动作建模（N0-TWAM）与模块化视图推理（ViewMind3D），均获8.0高分。  
-建议优先精读高分触觉模型，理解其接触丰富操作的扩展思路，次看3D问答的视图感知机制。
-- 详情：[/202608/01/README](/202608/01/README)
+今天精读2篇8分论文，覆盖MXFP4注意力量化优化与纯相机4D占用预测，另速读单目深度估计及卫星立体匹配各1篇。  
+最值得关注MXAttention的预归一化量化方案和InterOCF的时空交互建模，前者提升注意力效率，后者推进自动驾驶感知。  
+建议优先精读这两篇，再按兴趣扩展到深度估计或卫星遥感方向的速读论文。
+- 详情：[/202608/02/README](/202608/02/README)
 
 ### 精读区论文标签
-1. [$N_0$-TWAM: Scaling Tactile-Native World-Action Model for Contact-Rich Manipulation](/202608/01/2607.23783v1-n0-twam-scaling-tactile-native-world-action-model-for-contact-rich-manipulation)  
+1. [MXAttention: Data-Free Optimal Scaling and Pre-Normalization Quantization for MXFP4 Attention](/202608/02/2607.24377v1-mxattention-data-free-optimal-scaling-and-pre-normalization-quantization-for-mxfp4-attention)  
    标签：评分：8.0/10、query:d
-   evidence：大规模预测未来视觉与接触的触觉原生世界动作模型
-2. [ViewMind3D: Modular View-Aware Inference for Training-Free 3D-QA](/202608/01/2607.28442v1-viewmind3d-modular-view-aware-inference-for-training-free-3d-qa)  
+   evidence：针对扩散视频生成模型注意力瓶颈的量化优化
+2. [InterOCF: Spatio-Temporal 2D-3D Interaction for Camera-Only 4D Occupancy Forecasting](/202608/02/2607.24431v1-interocf-spatio-temporal-2d-3d-interaction-for-camera-only-4d-occupancy-forecasting)  
    标签：评分：8.0/10、query:d
-   evidence：基于多视角观测的无训练三维问答，属于三维场景理解
+   evidence：4D占据预测用于预测未来3D场景，是自动驾驶中的世界模型
 
 ### 速读区论文标签
-1. [Meshless Domain Randomization via Explicit Parameter Perturbation of 3D Gaussian Splatting](/202608/01/2607.22890v1-meshless-domain-randomization-via-explicit-parameter-perturbation-of-3d-gaussian-splatting)  
+1. [JEPADepth: Masked Predictive Representation Learning for Self-Supervised Monocular Depth Estimation](/202608/02/2607.26600v1-jepadepth-masked-predictive-representation-learning-for-self-supervised-monocular-depth-estimation)  
    标签：评分：6.0/10、query:d
-   evidence：通过扰动3D高斯泼溅参数进行无网格域随机化，属于3D生成/数据增强方法
-2. [Flow Map Learning via Nongradient Vector Flow](/202608/01/2607.26398v1-flow-map-learning-via-nongradient-vector-flow)  
+   evidence：用掩码预测表示学习做自监督单目深度估计
+2. [SeasonStereo: Robust Dense Stereo Matching for Multi-Date Satellite Imagery via Generative AI](/202608/02/2607.27139v1-seasonstereo-robust-dense-stereo-matching-for-multi-date-satellite-imagery-via-generative-ai)  
    标签：评分：6.0/10、query:d
-   evidence：面向扩散与流模型的流映射学习方法，可迁移至3D扩散生成
+   evidence：通过学习的立体匹配进行三维重建，与三维场景理解相关
 
 
 <div class="dpr-home-promo-card">
