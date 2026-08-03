@@ -6,34 +6,63 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-02
-- 运行时间：2026-08-02 21:16:38 UTC
+- 最新运行日期：2026-08-03
+- 运行时间：2026-08-03 20:50:43 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：2
-- 速读区：2
+- 本次总论文数：13
+- 精读区：6
+- 速读区：7
 
 ### 今日简报（AI）
-今天精读2篇8分论文，覆盖MXFP4注意力量化优化与纯相机4D占用预测，另速读单目深度估计及卫星立体匹配各1篇。  
-最值得关注MXAttention的预归一化量化方案和InterOCF的时空交互建模，前者提升注意力效率，后者推进自动驾驶感知。  
-建议优先精读这两篇，再按兴趣扩展到深度估计或卫星遥感方向的速读论文。
-- 详情：[/202608/02/README](/202608/02/README)
+今日精读6篇、速读7篇，重点聚焦世界模拟器与3D生成新突破。
+
+最值得关注：BWM低成本高保真机器人世界模拟器，以及Meshy T2的快速流匹配网格生成。
+
+下一步建议：优先了解机器人学习与3D资产生成方向的最新进展。
+- 详情：[/202608/03/README](/202608/03/README)
 
 ### 精读区论文标签
-1. [MXAttention: Data-Free Optimal Scaling and Pre-Normalization Quantization for MXFP4 Attention](/202608/02/2607.24377v1-mxattention-data-free-optimal-scaling-and-pre-normalization-quantization-for-mxfp4-attention)  
+1. [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](/202608/03/2607.29302v1-bwm-a-low-cost-high-fidelity-world-simulator-for-robot-learning)  
+   标签：评分：10.0/10、query:d
+   evidence：动作条件世界模型用于环境模拟与未来观测预测
+2. [Meshy T2: Fast Native Mesh Generation with Flow Matching](/202608/03/2607.28675v1-meshy-t2-fast-native-mesh-generation-with-flow-matching)  
+   标签：评分：9.0/10、query:d
+   evidence：使用流匹配的快速原生网格生成，直接面向三维生成
+3. [Auto-JEPA: A Latent World Model of Continuous Intent for End-to-End Autonomous Driving](/202608/03/2607.29031v1-auto-jepa-a-latent-world-model-of-continuous-intent-for-end-to-end-autonomous-driving)  
+   标签：评分：9.0/10、query:d
+   evidence：面向自动驾驶的潜在世界模型，预测连续驾驶意图
+4. [MoRoute: Dynamic Routing for In-Context Multimodal Video Generation](/202608/03/2607.29545v1-moroute-dynamic-routing-for-in-context-multimodal-video-generation)  
+   标签：评分：9.0/10、query:d
+   evidence：多模态视频生成与动态路由
+5. [WorldDiT: A Unified Diffusion Architecture for World and Action Modeling](/202608/03/2607.23909v2-worlddit-a-unified-diffusion-architecture-for-world-and-action-modeling)  
    标签：评分：8.0/10、query:d
-   evidence：针对扩散视频生成模型注意力瓶颈的量化优化
-2. [InterOCF: Spatio-Temporal 2D-3D Interaction for Camera-Only 4D Occupancy Forecasting](/202608/02/2607.24431v1-interocf-spatio-temporal-2d-3d-interaction-for-camera-only-4d-occupancy-forecasting)  
+   evidence：用扩散Transformer进行世界建模并预测未来相机帧，直接契合世界模型需求
+6. [FocusGS: Spatial Delta Layers for Local Repair and Deterministic Editing of Trained 3D Gaussian Assets](/202608/03/2607.28834v1-focusgs-spatial-delta-layers-for-local-repair-and-deterministic-editing-of-trained-3d-gaussian-assets)  
    标签：评分：8.0/10、query:d
-   evidence：4D占据预测用于预测未来3D场景，是自动驾驶中的世界模型
+   evidence：已训练三维高斯资产的局部修复与确定性编辑
 
 ### 速读区论文标签
-1. [JEPADepth: Masked Predictive Representation Learning for Self-Supervised Monocular Depth Estimation](/202608/02/2607.26600v1-jepadepth-masked-predictive-representation-learning-for-self-supervised-monocular-depth-estimation)  
+1. [Group-wise Supervision with Focal-Dice Loss for Long-Tailed Indoor Semantic Occupancy Prediction](/202608/03/2607.28935v1-group-wise-supervision-with-focal-dice-loss-for-long-tailed-indoor-semantic-occupancy-prediction)  
+   标签：评分：8.0/10、query:d
+   evidence：室内三维语义占用预测
+2. [SAM+D: Parameter-Efficient Dimensional Lifting of SAM-Family Models via Depth-Routed LoRA and Depth Shifting](/202608/03/2607.29033v1-samd-parameter-efficient-dimensional-lifting-of-sam-family-models-via-depth-routed-lora-and-depth-shifting)  
+   标签：评分：7.0/10、query:d
+   evidence：参数高效地将2D SAM提升到3D与4D分割
+3. [Forwardrobe: Garment-Aware Gaussian Avatars from a Single Image](/202608/03/2607.29106v1-forwardrobe-garment-aware-gaussian-avatars-from-a-single-image)  
+   标签：评分：7.0/10、query:d
+   evidence：前馈式服装感知高斯化身三维重建
+4. [FlexComposer: Unified Video Compositing from Images to Dynamic Footage with Flexible Trajectory Control](/202608/03/2607.29627v1-flexcomposer-unified-video-compositing-from-images-to-dynamic-footage-with-flexible-trajectory-control)  
+   标签：评分：7.0/10、query:d
+   evidence：轨迹引导的视频合成条件生成
+5. [AtlasLC: Fast Codec-Ready Compression of Object-Centric 3D Gaussian Splatting](/202608/03/2607.26525v1-atlaslc-fast-codec-ready-compression-of-object-centric-3d-gaussian-splatting)  
    标签：评分：6.0/10、query:d
-   evidence：用掩码预测表示学习做自监督单目深度估计
-2. [SeasonStereo: Robust Dense Stereo Matching for Multi-Date Satellite Imagery via Generative AI](/202608/02/2607.27139v1-seasonstereo-robust-dense-stereo-matching-for-multi-date-satellite-imagery-via-generative-ai)  
+   evidence：面向物体中心的3D高斯泼溅压缩，涉及3D场景表示与新视角合成
+6. [Learning Manifolds in High-D Point Embedding for Anisotropic Surface Approximation from Unstructured Point Clouds](/202608/03/2607.28855v1-learning-manifolds-in-high-d-point-embedding-for-anisotropic-surface-approximation-from-unstructured-point-clouds)  
    标签：评分：6.0/10、query:d
-   evidence：通过学习的立体匹配进行三维重建，与三维场景理解相关
+   evidence：从无组织点云学习各向异性的三维表面近似表示
+7. [On the Efficacy of Self-Supervised Point Cloud Encoders for Efficient 3D Large Language Models](/202608/03/2607.29136v1-on-the-efficacy-of-self-supervised-point-cloud-encoders-for-efficient-3d-large-language-models)  
+   标签：评分：6.0/10、query:d
+   evidence：评估自监督点云编码器在3D大语言模型中的3D场景理解能力
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,514 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-03T20:39:11.058206+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2607.29302v1",
+      "source": "arxiv",
+      "title": "BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning",
+      "abstract": "Reliable robot learning requires a world simulator that can predict action consequences before execution on physical hardware, including risky and failure-prone outcomes. Existing physics simulators require substantial asset construction and calibration and still face a sim-to-real gap, while video generators often lack precise control over their responses to fine-grained robot actions. In this paper, we present the Boundless World Model (BWM), an open-source, low-cost, high-fidelity world simulator for robot manipulation. BWM is an action-conditioned world model that combines initial-environment guidance, dynamic visual history, and temporally aligned robot-action conditioning for stateful autoregressive prediction of future observations. We construct action-aligned training clips through trajectory replay, overlapping clip sampling, and initial-observation enhancement. BWM serves as a data engine that augments imitation-learning data with action-aligned rollouts, and as a policy evaluator for closed-loop assessment, risk anticipation, and policy ranking. Experiments on the WorldArena benchmark and physical robots demonstrate improved simulator fidelity and functional utility across the data-engine and policy-evaluator settings. BWM ranks first overall in the WorldArena Challenge across Track 1 and its two Track 2 applications. We release the BWM open-source ecosystem, including model checkpoints, training and inference code, and interfaces for data generation and policy evaluation.",
+      "authors": [
+        "BWM Team"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-31T11:18:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.29302v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Action-conditioned world model for simulating environments and predicting future observations",
+      "llm_evidence_cn": "动作条件世界模型用于环境模拟与未来观测预测",
+      "llm_evidence": "动作条件世界模型用于环境模拟与未来观测预测",
+      "canonical_evidence": "动作条件世界模型用于环境模拟与未来观测预测",
+      "llm_tldr_en": "BWM is an open-source, low-cost, high-fidelity action-conditioned world simulator combining initial-environment guidance, dynamic visual history and robot-action conditioning for stateful autoregressive future prediction.",
+      "llm_tldr_cn": "针对物理仿真器资产构建与标定成本高、视频生成器难以精确控制机器人动作响应的问题，BWM提出一种开源、低成本、高保真的动作条件世界模型，融合初始环境引导、动态视觉历史与时间对齐的机器人动作条件，进行有状态自回归未来观测预测，为机器人操作学习提供了可靠的世界模拟器，能预测动作后果并减少对物理硬件的依赖。",
+      "llm_tldr": "针对物理仿真器资产构建与标定成本高、视频生成器难以精确控制机器人动作响应的问题，BWM提出一种开源、低成本、高保真的动作条件世界模型，融合初始环境引导、动态视觉历史与时间对齐的机器人动作条件，进行有状态自回归未来观测预测，为机器人操作学习提供了可靠的世界模拟器，能预测动作后果并减少对物理硬件的依赖。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28675v1",
+      "source": "arxiv",
+      "title": "Meshy T2: Fast Native Mesh Generation with Flow Matching",
+      "abstract": "Polygonal meshes are the standard surface representation of modern 3D pipelines, and generating high-quality meshes with artist-style topology is essential for film, gaming, and interactive 3D applications. Mainstream approaches serialize a mesh into a token sequence and decode it autoregressively, which is slow at inference and sensitive to error accumulation, making them impractical for interactive asset creation. We present Meshy T2, a fast native mesh generation framework built on flow matching. At its core is a vertex-set mesh VAE that encodes a mesh into one continuous latent token per vertex and decodes vertices, edge connectivity, and face winding order in a single pass, preserving high-precision geometry and artist-authored topology without vertex quantization or welding. Generation proceeds as a coarse-to-fine cascade of two flow-matching models: an image-conditioned voxel flow first sketches the overall shape as a coarse occupancy scaffold, and a mesh flow then populates the scaffold with per-vertex latent tokens, conditioned on the image, the scaffold, and a requested vertex budget. This design delivers three practical capabilities: interactive generation speed through parallel flow-based synthesis; effective face-count control through the requested vertex budget; and native support for multi-part assets, whose components emerge directly from the generated connectivity. In our experiments, Meshy T2 achieves state-of-the-art geometric fidelity and completes end-to-end image-to-mesh generation within a median of 6 seconds, over an order of magnitude faster than autoregressive baselines. Code and weights will be available at https://github.com/meshy-dev/meshy-t2.",
+      "authors": [
+        "Jiale Xu",
+        "Rendong Liang",
+        "Yuhao Long",
+        "Siyuan Shen",
+        "Zangyueyang Xian",
+        "Zeyi Xu",
+        "Yuanming Hu"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-28T16:33:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.28675v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Fast native mesh generation using flow matching, directly targeting 3D generation",
+      "llm_evidence_cn": "使用流匹配的快速原生网格生成，直接面向三维生成",
+      "llm_evidence": "使用流匹配的快速原生网格生成，直接面向三维生成",
+      "canonical_evidence": "使用流匹配的快速原生网格生成，直接面向三维生成",
+      "llm_tldr_en": "Meshy T2 leverages a vertex-set mesh VAE and flow matching to generate native high-quality meshes in a single pass, preserving topology and enabling fast interactive 3D asset creation for film and gaming.",
+      "llm_tldr_cn": "主流三维网格生成方法将网格序列化为token并自回归解码，推理慢且错误易累积，不适用于交互式创作。本文提出Meshy T2，基于顶点集网格VAE将网格压缩为每顶点连续潜变量，并用流匹配在单次前向中同时解码顶点、边连接与面的绕序。实验表明该方法在保持高精度几何和艺术家拓扑的同时实现快速生成，为影视、游戏等场景提供了高效的网格生成方案。",
+      "llm_tldr": "主流三维网格生成方法将网格序列化为token并自回归解码，推理慢且错误易累积，不适用于交互式创作。本文提出Meshy T2，基于顶点集网格VAE将网格压缩为每顶点连续潜变量，并用流匹配在单次前向中同时解码顶点、边连接与面的绕序。实验表明该方法在保持高精度几何和艺术家拓扑的同时实现快速生成，为影视、游戏等场景提供了高效的网格生成方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.29031v1",
+      "source": "arxiv",
+      "title": "Auto-JEPA: A Latent World Model of Continuous Intent for End-to-End Autonomous Driving",
+      "abstract": "Existing autonomous-driving world models typically perform dense prediction of future videos, occupancy states, BEV representations, or agent motion. We argue that planning need not reconstruct the complete future world, but only focus on scene features that affect future ego action. Based on this perspective, we propose Auto-JEPA, an action-oriented latent world model that learns continuous future driving intent through joint-embedding prediction. Given visual observations, egomotion history, and navigation commands, Auto-JEPA predicts an intent embedding aligned with the latent representation of the future ego trajectory. The predicted intent retrieves executable trajectories from a fixed trajectory memory, which are then ranked by a scene-conditioned candidate selection module. Auto-JEPA keeps the visual encoder frozen, requires no explicit perception annotations, and uses no learned trajectory generator. By optimizing only task-specific modules for trajectory representation, intent prediction, and candidate selection, Auto-JEPA achieves 91.3 PDMS on NAVSIM v1 and 89.1 EPDMS on NAVSIM v2. Semantic occlusion experiments show that masking dynamic-agent regions induces an average intent change 2.97x that of equal-area random masking. Moreover, occluding vehicles that affect future driving substantially changes the predicted intent and selected trajectory, whereas both remain essentially unchanged when non-influential vehicles are occluded. These results show that future-intent prediction encourages the model to focus on planning-relevant visual features and supports high-quality planning without dense future-world modeling.",
+      "authors": [
+        "Jiwei Yang",
+        "Zhengxian Chen",
+        "Chaosheng Huang",
+        "Jun Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-31T05:10:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.29031v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "latent world model for autonomous driving predicting future intent",
+      "llm_evidence_cn": "面向自动驾驶的潜在世界模型，预测连续驾驶意图",
+      "llm_evidence": "面向自动驾驶的潜在世界模型，预测连续驾驶意图",
+      "canonical_evidence": "面向自动驾驶的潜在世界模型，预测连续驾驶意图",
+      "llm_tldr_en": "Auto-JEPA is an action-oriented latent world model that predicts future driving intent via joint-embedding prediction instead of dense future reconstruction, retrieving executable trajectories from a memory for end-to-end autonomous driving.",
+      "llm_tldr_cn": "现有自动驾驶世界模型通常重建未来视频、占用状态或智能体运动，而规划并不需要完整重构未来世界。Auto-JEPA 提出面向动作的潜在世界模型，通过联合嵌入预测学习连续未来驾驶意图，并结合轨迹记忆检索与排序生成可执行轨迹。该方法在多个自动驾驶基准上验证了高效性和规划性能，为自动驾驶世界模型提供了新范式。",
+      "llm_tldr": "现有自动驾驶世界模型通常重建未来视频、占用状态或智能体运动，而规划并不需要完整重构未来世界。Auto-JEPA 提出面向动作的潜在世界模型，通过联合嵌入预测学习连续未来驾驶意图，并结合轨迹记忆检索与排序生成可执行轨迹。该方法在多个自动驾驶基准上验证了高效性和规划性能，为自动驾驶世界模型提供了新范式。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.29545v1",
+      "source": "arxiv",
+      "title": "MoRoute: Dynamic Routing for In-Context Multimodal Video Generation",
+      "abstract": "Multimodal video generation aims to generate and edit videos conditioned on arbitrary combinations of text, images, and videos within a single model, allowing diverse tasks to share complementary data and generative priors. Unifying these tasks requires multimodal understanding of diverse conditions, which is typically provided by a pretrained vision-language model (VLM). A key challenge is how to connect the VLM's hierarchical multimodal representations with a pretrained video diffusion transformer (DiT). Existing methods either inject features from only the final or a few manually selected VLM layers, or jointly train architecture-matched understanding and generation streams, making it difficult to reuse heterogeneous pretrained backbones. We introduce MoRoute, a unified multimodal video generation framework that formulates a frozen VLM and a pretrained video DiT with different architectures as heterogeneous experts connected through dynamic layer routing. For each input, a lightweight block-wise router enables every DiT block to select the VLM layer most relevant to its generation stage, thereby learning an adaptive correspondence between multimodal understanding and video synthesis. MoRoute further incorporates reference images and source videos directly into the DiT token sequence through unified in-context conditioning, preserving fine-grained visual details across diverse generation and editing tasks. Experiments on IntelligentVBench, OpenVE-Bench, and RefVIE-Bench show that MoRoute consistently surpasses the best competing method on each benchmark, improving the average score by 0.15, 0.18, and 0.34 on a 1-5 scale, respectively.",
+      "authors": [
+        "Chong Gao",
+        "Jie Ma",
+        "Zhan Peng",
+        "Chongxiao Wang",
+        "Haoxue Wu",
+        "Jun Liang",
+        "Guanbin Li",
+        "Jing Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T15:38:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.29545v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal video generation with dynamic routing",
+      "llm_evidence_cn": "多模态视频生成与动态路由",
+      "llm_evidence": "多模态视频生成与动态路由",
+      "canonical_evidence": "多模态视频生成与动态路由",
+      "llm_tldr_en": "Multimodal video generation must bridge VLM hierarchical representations and a pretrained video DiT. MoRoute introduces dynamic routing to automatically pick relevant VLM layers for feature injection, unifying text/image/video-conditioned generation and editing while reusing heterogeneous pretrained backbones.",
+      "llm_tldr_cn": "多模态视频生成需要统一文本、图像、视频等条件，关键在于连接预训练视觉语言模型的分层表示与视频扩散Transformer。现有方法手工选择或联合训练，难以复用异构主干。本文提出MoRoute动态路由，自动在VLM层次表示与视频DiT间选择最合适的特征注入路径，实现任意组合条件生成与编辑并高效复用异构预训练模型，为该方向提供通用解决方案。",
+      "llm_tldr": "多模态视频生成需要统一文本、图像、视频等条件，关键在于连接预训练视觉语言模型的分层表示与视频扩散Transformer。现有方法手工选择或联合训练，难以复用异构主干。本文提出MoRoute动态路由，自动在VLM层次表示与视频DiT间选择最合适的特征注入路径，实现任意组合条件生成与编辑并高效复用异构预训练模型，为该方向提供通用解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.23909v2",
+      "source": "arxiv",
+      "title": "WorldDiT: A Unified Diffusion Architecture for World and Action Modeling",
+      "abstract": "Many recent robot policies pursue stronger control by using large pretrained vision-language models (VLMs) as the action backbone. We introduce WorldDiT, a unified diffusion transformer architecture that couples action generation with visual world modeling and achieves strong performance without a large pretrained VLM action backbone. During training, a single diffusion transformer generates continuous action chunks and predicts normalized RGB patch targets from future camera frames. Across four LIBERO simulation suites, WorldDiT lies on the reported Pareto frontier for total model parameters and mean success among methods reporting all four suites. These results provide a strong sub-billion-parameter baseline for future scaling studies.",
+      "authors": [
+        "Sen Wang",
+        "R. Gnana Praveen",
+        "Bidhan Roy",
+        "Marcos Villagra"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-07-27T00:55:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.23909v2",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "unified diffusion transformer for world modeling and future frame prediction",
+      "llm_evidence_cn": "用扩散Transformer进行世界建模并预测未来相机帧，直接契合世界模型需求",
+      "llm_evidence": "用扩散Transformer进行世界建模并预测未来相机帧，直接契合世界模型需求",
+      "canonical_evidence": "用扩散Transformer进行世界建模并预测未来相机帧，直接契合世界模型需求",
+      "llm_tldr_en": "Introduces WorldDiT, a unified diffusion transformer that couples action generation with visual world modeling by predicting future camera frames, achieving strong LIBERO results without a large pretrained VLM backbone.",
+      "llm_tldr_cn": "针对机器人策略依赖大型预训练VLM、动作生成与视觉世界建模割裂的问题，WorldDiT提出一个统一的扩散Transformer架构，在单次训练中同时生成连续动作块并预测未来相机帧的RGB patch。在四个LIBERO仿真套件上，它在参数量低于十亿的情况下达到了成功率与模型规模的帕累托前沿，为世界模型驱动的机器人控制提供了高效可扩展基线。",
+      "llm_tldr": "针对机器人策略依赖大型预训练VLM、动作生成与视觉世界建模割裂的问题，WorldDiT提出一个统一的扩散Transformer架构，在单次训练中同时生成连续动作块并预测未来相机帧的RGB patch。在四个LIBERO仿真套件上，它在参数量低于十亿的情况下达到了成功率与模型规模的帕累托前沿，为世界模型驱动的机器人控制提供了高效可扩展基线。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "world models for simulating environments and predicting future frames",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.28834v1",
+      "source": "arxiv",
+      "title": "FocusGS: Spatial Delta Layers for Local Repair and Deterministic Editing of Trained 3D Gaussian Assets",
+      "abstract": "3D Gaussian Splatting (3DGS) is evolving from one-time reconstruction into deliverable, inspectable, and maintainable visual assets. Existing workflows focus on global reconstruction, training-time density control, or open-ended generative editing, leaving trained assets without precise local maintenance. We propose FocusGS, which unifies local repair and deterministic editing as composite spatial deltas. Repair is the purely additive special case: its base-manipulation term is empty, and it adds only local Gaussian bases; deterministic editing uses erase-insert factorization (EIF) to combine old-carrier erasure with new-content insertion. FocusGS addresses spatial gradient starvation: local repair raises target-region PSNR by 7.91 dB over 93 evaluation views. Across all 83 deterministic editing trials, the target ROI improves, with a trial-averaged mean edited ROI PSNR of 21.97 dB and a mean gain of +11.05 dB; across five public editing cases, FocusGS-EIF reaches 33.17 dB Target-mask PSNR and 0.994 Target-delta Correlation, while both text-driven baselines fail to complete the prescribed updates. FocusGS provides a lightweight, verifiable 3DGS maintenance operator.",
+      "authors": [
+        "Yiqun Pan",
+        "Yukun Shi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-30T20:59:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.28834v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Local repair and deterministic editing of trained 3D Gaussian splatting assets",
+      "llm_evidence_cn": "已训练三维高斯资产的局部修复与确定性编辑",
+      "llm_evidence": "已训练三维高斯资产的局部修复与确定性编辑",
+      "canonical_evidence": "已训练三维高斯资产的局部修复与确定性编辑",
+      "llm_tldr_en": "FocusGS unifies local repair and deterministic editing of trained 3DGS assets via composite spatial deltas, using erase-insert factorization to combine erasure and insertion and addressing spatial gradient starvation.",
+      "llm_tldr_cn": "针对3DGS从一次性重建转向可交付可维护资产过程中缺乏精确局部维护的问题，FocusGS将局部修复与确定性编辑统一为复合空间delta，通过擦除-插入分解实现旧载体擦除与新内容插入，并解决空间梯度匮乏问题，使局部修复和目标区域编辑效果显著提升，推动3DGS资产进入可用、可维护阶段。",
+      "llm_tldr": "针对3DGS从一次性重建转向可交付可维护资产过程中缺乏精确局部维护的问题，FocusGS将局部修复与确定性编辑统一为复合空间delta，通过擦除-插入分解实现旧载体擦除与新内容插入，并解决空间梯度匮乏问题，使局部修复和目标区域编辑效果显著提升，推动3DGS资产进入可用、可维护阶段。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.28935v1",
+      "source": "arxiv",
+      "title": "Group-wise Supervision with Focal-Dice Loss for Long-Tailed Indoor Semantic Occupancy Prediction",
+      "abstract": "Recently, 3D semantic occupancy prediction has garnered increasing attention for understanding the indoor scene. However, unlike structured outdoor environments, indoor scenes feature a high diversity of object categories that exhibit a severe long-tailed distribution, which has become a core bottleneck limiting the performance of existing models. To tackle this challenge, we propose a novel method, Group-UFD Occ, based on hierarchical semantic supervision and synergistic loss optimization. At the architectural level, we introduce a fine-grained semantic grouping strategy and design multi-scale, parallel ``main-expert'' prediction heads to guide the model in efficiently learning tail-class features through deep regularization. At the optimization level, we introduce the Unified Focal-Dice (UFD) loss. This synergistic loss function dynamically focuses on hard samples at the per-voxel level. Meanwhile, it simultaneously optimizes the geometric integrity of predicted objects from a region-based perspective. We conducted experiments on the large-scale EmbodiedScan dataset. The results demonstrate that our method yields a relative improvement of 11.38\\% over the baseline, with substantial accuracy gains in several critical long-tailed categories.",
+      "authors": [
+        "Qi Zheng",
+        "Zihuang Su",
+        "Xiao Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T01:32:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.28935v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D semantic occupancy prediction for indoor scenes",
+      "llm_evidence_cn": "室内三维语义占用预测",
+      "llm_evidence": "室内三维语义占用预测",
+      "canonical_evidence": "室内三维语义占用预测",
+      "llm_tldr_en": "Group-UFD Occ addresses long-tailed indoor 3D semantic occupancy prediction via hierarchical semantic supervision, fine-grained semantic grouping and focal-dice loss optimization, improving tail-class learning.",
+      "llm_tldr_cn": "针对室内三维语义占用预测中类别分布严重长尾、现有模型对尾类学习不足的问题，Group-UFD Occ提出了分层语义监督与协同损失优化方法，在架构上引入细粒度语义分组策略并设计多尺度并行主-专家预测头，结合焦点Dice损失与深层正则化，显著提升尾类预测能力，为室内三维场景理解提供了新的解决方案。",
+      "llm_tldr": "针对室内三维语义占用预测中类别分布严重长尾、现有模型对尾类学习不足的问题，Group-UFD Occ提出了分层语义监督与协同损失优化方法，在架构上引入细粒度语义分组策略并设计多尺度并行主-专家预测头，结合焦点Dice损失与深层正则化，显著提升尾类预测能力，为室内三维场景理解提供了新的解决方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.29033v1",
+      "source": "arxiv",
+      "title": "SAM+D: Parameter-Efficient Dimensional Lifting of SAM-Family Models via Depth-Routed LoRA and Depth Shifting",
+      "abstract": "Existing methods for adapting 2D foundation models such as SAM to 3D volumes either process slices independently---ignoring inter-slice context---or require substantial architectural changes and retraining. In this paper, we present \\textbf{SAM+D}, a parameter-efficient framework that lifts SAM-family models by one spatial dimension---enabling 3D volumetric segmentation from 2D SAM and, for the first time via parameter-efficient fine-tuning, end-to-end 4D (3D+T) spatiotemporal segmentation from video-based SAM2---while keeping the vast majority of pre-trained parameters frozen. SAM+D introduces two lightweight, model-agnostic modules into frozen transformer blocks: (1)~\\textbf{Depth-Routed LoRA (DRLoRA)} experts with learned routing for spatially adaptive low-rank updates, and (2)~\\textbf{Depth Shift Modules (DSM)} for cross-slice feature exchange at zero additional parameter cost. Together, they provide volume-level context while tuning only ${\\sim}$2.8\\% of parameters for SAM and ${\\sim}$3.7\\% for SAM2. We evaluate SAM+D in two distinct settings, each lifting the base model by one spatial dimension: 3D segmentation, where SAM(2D$\\,\\to\\,$3D) is evaluated on four CT benchmarks (KiTS, Pancreas, LiTS, Colon), and 4D segmentation, where SAM2 (2D+T$\\,\\to\\,$3D+T) is evaluated on a cell tracking challenge (CTC) dataset (Fluo-N3DH-SIM+). In both settings SAM+D achieves competitive or superior results under the single-point prompt setting while using fewer trainable parameters than existing methods, demonstrating that SAM+D generalizes across SAM-family architectures, target dimensionalities (3D, 4D), and domains spanning medical imaging and bio-scene understanding. Code is publicly available at https://github.com/JerrySongCST/SAM-Plus-D.",
+      "authors": [
+        "Yu Song",
+        "Hao Sun",
+        "Shiyu Teng",
+        "Ikuko Nishikawa",
+        "Yen-wei Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T05:11:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.29033v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "parameter-efficient lifting of 2D SAM to 3D and 4D segmentation",
+      "llm_evidence_cn": "参数高效地将2D SAM提升到3D与4D分割",
+      "llm_evidence": "参数高效地将2D SAM提升到3D与4D分割",
+      "canonical_evidence": "参数高效地将2D SAM提升到3D与4D分割",
+      "llm_tldr_en": "SAM+D introduces Depth-Routed LoRA and depth shifting to lift SAM-family models to 3D and 4D segmentation with frozen pretrained parameters.",
+      "llm_tldr_cn": "针对将2D基础模型（如SAM）迁移到3D体积时逐片处理忽略上下文或需要大改结构的问题，本文提出参数高效的SAM+D框架，通过深度路由LoRA和深度移位两个轻量模块，在不改变绝大部分预训练参数的情况下，将SAM提升为3D体积分割模型，并首次用参数高效微调实现基于视频SAM2的端到端4D时空分割。实验表明该方法能以极低训练成本获得跨维度分割能力，为3D/4D医学影像等任务提供通用基础模型适配方案。",
+      "llm_tldr": "针对将2D基础模型（如SAM）迁移到3D体积时逐片处理忽略上下文或需要大改结构的问题，本文提出参数高效的SAM+D框架，通过深度路由LoRA和深度移位两个轻量模块，在不改变绝大部分预训练参数的情况下，将SAM提升为3D体积分割模型，并首次用参数高效微调实现基于视频SAM2的端到端4D时空分割。实验表明该方法能以极低训练成本获得跨维度分割能力，为3D/4D医学影像等任务提供通用基础模型适配方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.26525v1",
+      "source": "arxiv",
+      "title": "AtlasLC: Fast Codec-Ready Compression of Object-Centric 3D Gaussian Splatting",
+      "abstract": "3D Gaussian Splatting (3DGS) enables photorealistic novel-view synthesis with real-time rendering, but deploying compressed object-centric 3DGS in XR requires more than image-space rate-distortion. In practical XR asset pipelines, reusable objects are repeatedly packaged, transmitted, decoded, and instantiated, making asset-preparation cost, codec compatibility, decoding latency, and preservation of depth and silhouette cues first-class concerns. Existing 3DGS compression methods are largely developed for scene-scale captures and often rely on heavy layout generation or aggressive global pruning, assumptions that transfer poorly to semantically concentrated foreground objects. We present AtlasLC, a source-free, training-free compression pipeline for object-centric 3DGS that operates directly on released Gaussian assets, without original images, camera poses, or per-asset optimization. AtlasLC couples local-competition pruning with deterministic atlas packing to remove the mapping/remapping bottleneck while preserving object-wide foreground support; a lightweight single-pass sort-based conditional transport is used as a shared coordinate backbone for these stages. Across the evaluated assets, AtlasLC reduces atlas-preparation time by up to a factor of 25 and end-to-end compression time by up to a factor of 5, while offering a favorable deployment-aware balance of payload, decode latency, runtime FPS, and 3D geometry relative to the evaluated compressed baselines. Relative to similarly compact structured baselines, it uses about 6 to 8 percent fewer bits while maintaining comparable perceptual and geometric quality. These results show that object-centric 3DGS compression should be optimized for a deployment-aware operating point enabling scalable XR asset libraries.",
+      "authors": [
+        "ByungHyun Kim",
+        "Jinwoo Jeon",
+        "Woontack Woo"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-07-29T06:43:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.26525v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "compression of object-centric 3D Gaussian splatting; 3D scene representation and novel-view synthesis",
+      "llm_evidence_cn": "面向物体中心的3D高斯泼溅压缩，涉及3D场景表示与新视角合成",
+      "llm_evidence": "面向物体中心的3D高斯泼溅压缩，涉及3D场景表示与新视角合成",
+      "canonical_evidence": "面向物体中心的3D高斯泼溅压缩，涉及3D场景表示与新视角合成",
+      "llm_tldr_en": "AtlasLC is a source-free, training-free compression pipeline for object-centric 3D Gaussian splatting that preserves depth and silhouette cues for efficient XR asset pipelines.",
+      "llm_tldr_cn": "3D高斯泼溅（3DGS）能实现逼真的实时新视角合成，但在XR中部署物体中心3DGS时，仅考虑图像失真不足以满足实际资源管线需求，还需兼顾编解码兼容、解码延迟和深度/轮廓线索的保持。AtlasLC提出一种无源、免训练的压缩管线，面向语义集中的前景物体进行高效压缩，避免传统场景级压缩方法中的布局生成或全局剪枝问题。该方法在保持深度与轮廓质量的同时，为XR可重用物体资产提供了低成本的压缩方案。",
+      "llm_tldr": "3D高斯泼溅（3DGS）能实现逼真的实时新视角合成，但在XR中部署物体中心3DGS时，仅考虑图像失真不足以满足实际资源管线需求，还需兼顾编解码兼容、解码延迟和深度/轮廓线索的保持。AtlasLC提出一种无源、免训练的压缩管线，面向语义集中的前景物体进行高效压缩，避免传统场景级压缩方法中的布局生成或全局剪枝问题。该方法在保持深度与轮廓质量的同时，为XR可重用物体资产提供了低成本的压缩方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.29106v1",
+      "source": "arxiv",
+      "title": "Forwardrobe: Garment-Aware Gaussian Avatars from a Single Image",
+      "abstract": "Reconstructing animatable 3D human avatars from a single image remains particularly challenging for loose garments, whose geometry and motion cannot be adequately represented by body-aligned topology and skinning. We present Forwardrobe, a feed-forward framework for reconstructing garment-aware Gaussian avatars from a single image. Forwardrobe explicitly separates clothing from the body in canonical Gaussian space and equips the garment layer with continuity-aware geometry and skinning initialization, pose-conditioned non-rigid deformation, and appearance adaptation. These designs improve garment reconstruction and visual quality during animation, particularly for skirts and dresses. The separated garment layer additionally forms an independently controllable 3D asset, enabling garment editing, transfer, and 3D virtual try-on. Experiments demonstrate improved garment reconstruction quality and greater flexibility in garment manipulation compared with existing single-image avatar reconstruction methods.",
+      "authors": [
+        "Daisheng Jin",
+        "Shuyun Wang",
+        "Ying He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T07:35:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.29106v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "feed-forward 3D garment-aware Gaussian avatar reconstruction",
+      "llm_evidence_cn": "前馈式服装感知高斯化身三维重建",
+      "llm_evidence": "前馈式服装感知高斯化身三维重建",
+      "canonical_evidence": "前馈式服装感知高斯化身三维重建",
+      "llm_tldr_en": "Forwardrobe reconstructs garment-aware Gaussian avatars from a single image by explicitly separating clothing from the body in canonical Gaussian space. Continuity-aware skinning, pose-conditioned non-rigid deformation, and appearance adaptation improve reconstruction and animation of loose garments like skirts, and allow independent control.",
+      "llm_tldr_cn": "单张图像重建可动画3D人体化身难在宽松衣物，其几何和运动难以用人体一致拓扑和蒙皮表达。本文提出Forwardrobe，前馈式在规范化高斯空间显式分离衣物与身体，并为衣物层设计连续性感知蒙皮初始化、姿态非刚性形变与外观自适应。这些设计改进裙装等衣物的重建和动画质量，衣物层还可独立控制，显著提升宽松衣物的化身建模效果。",
+      "llm_tldr": "单张图像重建可动画3D人体化身难在宽松衣物，其几何和运动难以用人体一致拓扑和蒙皮表达。本文提出Forwardrobe，前馈式在规范化高斯空间显式分离衣物与身体，并为衣物层设计连续性感知蒙皮初始化、姿态非刚性形变与外观自适应。这些设计改进裙装等衣物的重建和动画质量，衣物层还可独立控制，显著提升宽松衣物的化身建模效果。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D generation and understanding",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.28855v1",
+      "source": "arxiv",
+      "title": "Learning Manifolds in High-D Point Embedding for Anisotropic Surface Approximation from Unstructured Point Clouds",
+      "abstract": "Dense 3D sensors in various real-world fields produce point clouds that are geometrically redundant for real-time processing. In this paper, we propose an efficient and scalable learning-based anisotropic surface approximation framework, HD-PEA, that operates directly on unstructured point clouds, integrating anisotropic optimization into reconstruction to produce compact, geometry-aligned surface representations with higher fidelity, fewer elements, and improved numerical stability compared to isotropic and adaptive meshes. Firstly, we develop a novel learning-based high-dimensional (high-d) Euclidean point embedding method to map the input point clouds into a high-d manifold embedding space. For handling large-scale point clouds without retraining and fine-tuning, a patch-based meta-embedding scheme is designed during the inference stage. Then, we develop a new tangent subspace estimation for the high-d embedding manifold approximation and anisotropic manifold reconstruction in high-d space. The main contribution of this work is to propose a scalable deep learning framework and a variety of datasets for constructing a high-d Euclidean point embedding space aimed to 3D anisotropic surface mesh approximation and Riemannian curvature tensor estimation from point clouds. We extensively evaluate our method against state-of-the-art surface reconstruction approaches using several datasets, such as Thingi10K dataset, AIM@SHAPE and Stanford 3D Scanning Repository, ScanNet dataset, and further demonstrate its generalization and usability on diverse unseen shapes and applications from these datasets.",
+      "authors": [
+        "Hongbo Li",
+        "Haikuan Zhu",
+        "Xiaohu Guo",
+        "Wenping Wang",
+        "Jing Hua",
+        "Zichun Zhong"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-30T21:40:15+00:00",
+      "link": "https://arxiv.org/pdf/2607.28855v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "anisotropic surface approximation from unstructured point clouds for 3D geometric representation",
+      "llm_evidence_cn": "从无组织点云学习各向异性的三维表面近似表示",
+      "llm_evidence": "从无组织点云学习各向异性的三维表面近似表示",
+      "canonical_evidence": "从无组织点云学习各向异性的三维表面近似表示",
+      "llm_tldr_en": "Proposes HD-PEA, a learning-based anisotropic surface approximation framework that embeds unstructured point clouds into a high-D manifold and integrates anisotropic optimization for compact, geometry-aligned surface reconstruction.",
+      "llm_tldr_cn": "针对稠密3D点云几何冗余大、各向同性网格难以兼顾紧凑性与保真度的问题，HD-PEA提出直接在无组织点云上操作的各向异性表面逼近框架，通过学习高维欧氏点嵌入将点云映射到流形空间，并在重建中集成各向异性优化。实验表明该方法相比各向同性和自适应网格能生成更紧凑、几何对齐且数值稳定的表面表示，为实时3D处理和几何重建提供了高效方案。",
+      "llm_tldr": "针对稠密3D点云几何冗余大、各向同性网格难以兼顾紧凑性与保真度的问题，HD-PEA提出直接在无组织点云上操作的各向异性表面逼近框架，通过学习高维欧氏点嵌入将点云映射到流形空间，并在重建中集成各向异性优化。实验表明该方法相比各向同性和自适应网格能生成更紧凑、几何对齐且数值稳定的表面表示，为实时3D处理和几何重建提供了高效方案。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.29627v1",
+      "source": "arxiv",
+      "title": "FlexComposer: Unified Video Compositing from Images to Dynamic Footage with Flexible Trajectory Control",
+      "abstract": "Generative video compositing, which involves inserting external assets seamlessly into existing video sequences, is essential for content creation and visual effects. However, existing approaches suffer from a control-fidelity trade-off: they either hallucinate motion from static images, failing to preserve the dynamics of pre-animated assets, or lack fine-grained spatial control for precise asset placement along user-defined trajectories. We propose FlexComposer, a unified framework that standardizes video compositing as a trajectory-guided conditional generation task, enabling the seamless integration of both static images and dynamic footage. Our approach introduces three key designs: (1) a Unified Canonical Foreground Representation that decouples an object's intrinsic motion from its global displacement, standardizing heterogeneous inputs into a stabilized, centered latent space; (2) a Spatial-Aware Latent Injection strategy that exploits the translation equivariance of VAE latent spaces to transport canonical features onto target trajectories via a parameter-free mechanism; and (3) a Hybrid Dataset and Synthetic-to-Real Curriculum that synergizes procedural simulation, real-world cinematic footage, and generative data to implicitly learn physically plausible illumination and shadow harmonization. This unified design handles diverse inputs from product photos to dynamic subjects achieving high-fidelity motion control and environmental integration without the need for explicit 3D reconstruction or auxiliary learnable adapters. Extensive experiments demonstrate that FlexComposer outperforms state-of-the-art methods in visual quality, temporal consistency, and trajectory adherence.",
+      "authors": [
+        "Songchun Zhang",
+        "Sitong Guo",
+        "Xianghao Kong",
+        "Pengwei Liu",
+        "Yuwei Guo",
+        "Lvmin Zhang",
+        "Anyi Rao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T16:59:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.29627v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "video compositing as trajectory-guided conditional generation",
+      "llm_evidence_cn": "轨迹引导的视频合成条件生成",
+      "llm_evidence": "轨迹引导的视频合成条件生成",
+      "canonical_evidence": "轨迹引导的视频合成条件生成",
+      "llm_tldr_en": "FlexComposer unifies video compositing as trajectory-guided conditional generation, integrating static images and dynamic footage with fine-grained spatial control.",
+      "llm_tldr_cn": "针对现有视频合成方法在控制精度与动态保持之间的权衡问题，FlexComposer将视频合成建模为轨迹引导的条件生成任务，通过统一规范前景等设计，实现静态图像和动态素材的无缝插入，并支持用户自定义轨迹的精确放置。该方法在保持素材原有动态的同时提供灵活的空间控制，提升了视频合成的内容创作能力。",
+      "llm_tldr": "针对现有视频合成方法在控制精度与动态保持之间的权衡问题，FlexComposer将视频合成建模为轨迹引导的条件生成任务，通过统一规范前景等设计，实现静态图像和动态素材的无缝插入，并支持用户自定义轨迹的精确放置。该方法在保持素材原有动态的同时提供灵活的空间控制，提升了视频合成的内容创作能力。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "video generation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.29136v1",
+      "source": "arxiv",
+      "title": "On the Efficacy of Self-Supervised Point Cloud Encoders for Efficient 3D Large Language Models",
+      "abstract": "3D point cloud-language models (3D-LLMs) enable 3D understanding by pairing point cloud encoders with large language models, but existing methods rely on costly multi-modal encoders (e.g., ULIP-2) that require image-text-point cloud alignment on 8x A100-scale compute, creating high barriers for research and deployment. In this work, we systematically investigate whether low-cost self-supervised point cloud encoders, specifically PCP-MAE and Point-MAE, can serve as effective alternatives.   Using MiniGPT-3D as our testbed, we evaluate 7 encoder initialization/pre-training setups (1 multi-modal baseline, 5 self-supervised, 1 random init) under frozen and unfrozen fine-tuning (12 total groups), across 2 architectures (MaskTransformer, PointTransformer), 3 objectives (PCP-MAE, Point-MAE, random init), and 2 datasets (Objaverse 660K, ShapeNet55-34 approximately 50K).   Our experiments reveal three key findings: (1) The four-stage MiniGPT-3D pipeline can effectively train a 3D encoder from random initialization: an end-to-end trained random init encoder reaches 52.50% open-vocabulary accuracy and 44.45 captioning score, approaching top pre-trained variants; (2) Architecture and pre-training objective show strong crossover interaction: PCP-MAE + MaskTransformer achieves 59.00% accuracy (best self-supervised), while Point-MAE + MaskTransformer drops to 46.50%, with the pattern reversed for PointTransformer; (3) Closed-set ModelNet40 classification remains a core weakness of purely geometric encoders, reaching only ~13-18% accuracy vs. ~62% for the multi-modal baseline, even after end-to-end fine-tuning.   Our results offer practical guidelines for cost-effective 3D-LLM design and reveal interaction patterns between self-supervised objectives and encoder architectures.",
+      "authors": [
+        "Yao Zheng",
+        "Tian Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-31T08:06:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.29136v1",
+      "tags": [
+        "keyword:D",
+        "query:D"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "self-supervised point cloud encoders for efficient 3D scene understanding in 3D LLMs",
+      "llm_evidence_cn": "评估自监督点云编码器在3D大语言模型中的3D场景理解能力",
+      "llm_evidence": "评估自监督点云编码器在3D大语言模型中的3D场景理解能力",
+      "canonical_evidence": "评估自监督点云编码器在3D大语言模型中的3D场景理解能力",
+      "llm_tldr_en": "Systematically evaluates self-supervised point cloud encoders as low-cost alternatives to multimodal encoders in 3D LLMs, using MiniGPT-3D across multiple training regimes and architectures.",
+      "llm_tldr_cn": "针对3D点云-语言模型依赖昂贵多模态编码器、计算门槛高的问题，该论文以MiniGPT-3D为测试床，系统比较了PCP-MAE、Point-MAE等自监督点云编码器在冻结/微调等12组设置下的性能。结果表明低成本的自我监督编码器在多种设置下可以替代Ulip-2等多模态编码器，在不牺牲3D理解能力的前提下显著降低训练开销，为高效3D LLM的编码器选择提供实证依据。",
+      "llm_tldr": "针对3D点云-语言模型依赖昂贵多模态编码器、计算门槛高的问题，该论文以MiniGPT-3D为测试床，系统比较了PCP-MAE、Point-MAE等自监督点云编码器在冻结/微调等12组设置下的性能。结果表明低成本的自我监督编码器在多种设置下可以替代Ulip-2等多模态编码器，在不牺牲3D理解能力的前提下显著降低训练开销，为高效3D LLM的编码器选择提供实证依据。",
+      "llm_tags": [
+        "query:d"
+      ],
+      "matched_query_tag": "query:d",
+      "matched_query_text": "3D scene understanding and representation learning",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
