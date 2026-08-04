@@ -6,63 +6,92 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-03
-- 运行时间：2026-08-03 20:50:43 UTC
+- 最新运行日期：2026-08-04
+- 运行时间：2026-08-04 21:17:57 UTC
 - 运行状态：成功
-- 本次总论文数：13
-- 精读区：6
-- 速读区：7
+- 本次总论文数：24
+- 精读区：13
+- 速读区：11
 
 ### 今日简报（AI）
-今日精读6篇、速读7篇，重点聚焦世界模拟器与3D生成新突破。
-
-最值得关注：BWM低成本高保真机器人世界模拟器，以及Meshy T2的快速流匹配网格生成。
-
-下一步建议：优先了解机器人学习与3D资产生成方向的最新进展。
-- 详情：[/202608/03/README](/202608/03/README)
+今日共读24篇论文，其中精读13篇、速读11篇，聚焦视频生成与4D/3D视觉技术。最值得关注的是两篇9分工作：FreqForcing以频谱自锚定突破长视频自回归生成限制，Video Models作为原生4D渲染器实现网格驱动的世界感知生成。建议未来多关注视频模型与3D/4D几何的深度融合，并留意速读中的3D重建与视觉定位方向。
+- 详情：[/202608/04/README](/202608/04/README)
 
 ### 精读区论文标签
-1. [BWM: A Low-Cost High-Fidelity World Simulator for Robot Learning](/202608/03/2607.29302v1-bwm-a-low-cost-high-fidelity-world-simulator-for-robot-learning)  
-   标签：评分：10.0/10、query:d
-   evidence：动作条件世界模型用于环境模拟与未来观测预测
-2. [Meshy T2: Fast Native Mesh Generation with Flow Matching](/202608/03/2607.28675v1-meshy-t2-fast-native-mesh-generation-with-flow-matching)  
+1. [FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring](/202608/04/2607.27110v2-freqforcing-autoregressive-long-video-generation-via-spectral-self-anchoring)  
    标签：评分：9.0/10、query:d
-   evidence：使用流匹配的快速原生网格生成，直接面向三维生成
-3. [Auto-JEPA: A Latent World Model of Continuous Intent for End-to-End Autonomous Driving](/202608/03/2607.29031v1-auto-jepa-a-latent-world-model-of-continuous-intent-for-end-to-end-autonomous-driving)  
+   evidence：通过频谱自锚定缓解自回归长视频生成中的误差累积
+2. [Video Models as Native 4D Renderers: World-Grounded Conditioning from Animated Mesh](/202608/04/2608.00094v1-video-models-as-native-4d-renderers-world-grounded-conditioning-from-animated-mesh)  
    标签：评分：9.0/10、query:d
-   evidence：面向自动驾驶的潜在世界模型，预测连续驾驶意图
-4. [MoRoute: Dynamic Routing for In-Context Multimodal Video Generation](/202608/03/2607.29545v1-moroute-dynamic-routing-for-in-context-multimodal-video-generation)  
+   evidence：基于显式3D几何（动画网格）条件的视频扩散模型
+3. [Distill What RGB Can Recover: Privileged 3D Evidence for RGB-Only Vision-Language Models](/202608/04/2608.00110v1-distill-what-rgb-can-recover-privileged-3d-evidence-for-rgb-only-vision-language-models)  
    标签：评分：9.0/10、query:d
-   evidence：多模态视频生成与动态路由
-5. [WorldDiT: A Unified Diffusion Architecture for World and Action Modeling](/202608/03/2607.23909v2-worlddit-a-unified-diffusion-architecture-for-world-and-action-modeling)  
-   标签：评分：8.0/10、query:d
-   evidence：用扩散Transformer进行世界建模并预测未来相机帧，直接契合世界模型需求
-6. [FocusGS: Spatial Delta Layers for Local Repair and Deterministic Editing of Trained 3D Gaussian Assets](/202608/03/2607.28834v1-focusgs-spatial-delta-layers-for-local-repair-and-deterministic-editing-of-trained-3d-gaussian-assets)  
-   标签：评分：8.0/10、query:d
-   evidence：已训练三维高斯资产的局部修复与确定性编辑
+   evidence：面向纯RGB场景理解的特权3D证据蒸馏
+4. [FlowPilot: Real-Time World-Action Modeling for Agile UAV Navigation](/202608/04/2608.00635v1-flowpilot-real-time-world-action-modeling-for-agile-uav-navigation)  
+   标签：评分：9.0/10、query:d
+   evidence：世界-动作模型联合去噪未来深度观测与可执行轨迹
+5. [FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds](/202608/04/2608.01049v1-factorjepa-factorizing-monolithic-futures-into-layout-agent-interaction-channels-for-crowded-and-chaotic-global-south-urban-worlds)  
+   标签：评分：9.0/10、query:d
+   evidence：用于拥挤城市场景的未来预测JEPA世界模型
+6. [Struct-GStream: Towards Efficient Free-Viewpoint Video Streaming at Low-Bitrates with Structured 3D Gaussians](/202608/04/2608.01053v1-struct-gstream-towards-efficient-free-viewpoint-video-streaming-at-low-bitrates-with-structured-3d-gaussians)  
+   标签：评分：9.0/10、query:d
+   evidence：利用结构化3D高斯构建自由视角视频流，结合显式3D几何重建
+7. [MiniWorld: Democratizing the Training of Video World Models from Scratch](/202608/04/2608.01127v1-miniworld-democratizing-the-training-of-video-world-models-from-scratch)  
+   标签：评分：9.0/10、query:d
+   evidence：从零训练视频世界模型预测未来
+8. [SG-WAM: Self-Guided World Modeling in Geometry-Aware Policy Space](/202608/04/2608.01397v1-sg-wam-self-guided-world-modeling-in-geometry-aware-policy-space)  
+   标签：评分：9.0/10、query:d
+   evidence：几何感知的世界动作模型用于未来状态预测
+9. [Probing the 3D Object-Level Understanding of Pre-Trained Detection Transformers](/202608/04/2608.01495v1-probing-the-3d-object-level-understanding-of-pre-trained-detection-transformers)  
+   标签：评分：9.0/10、query:d
+   evidence：从2D检测Transformer中探测3D目标属性，推进3D场景理解与表示学习
+10. [WorldDynCache: Risk-Controlled Latent Dynamics Approximation for Diffusion World Model](/202608/04/2608.01845v1-worlddyncache-risk-controlled-latent-dynamics-approximation-for-diffusion-world-model)  
+   标签：评分：9.0/10、query:d
+   evidence：面向扩散世界模型的风险受控近似方法
+11. [DF$^3$: World Modeling via Decoder-Free Feature Forecasting in Autonomous Navigation](/202608/04/2608.02428v1-df3-world-modeling-via-decoder-free-feature-forecasting-in-autonomous-navigation)  
+   标签：评分：9.0/10、query:d
+   evidence：潜空间中的世界建模与未来状态预测
+12. [Learning to Tessellate: Point Cloud Generation via Recursive Spectral Partitioning](/202608/04/2608.02432v1-learning-to-tessellate-point-cloud-generation-via-recursive-spectral-partitioning)  
+   标签：评分：9.0/10、query:d
+   evidence：通过保持拓扑的递归谱划分实现自回归点云生成
+13. [Token Radius Attention for Efficient Video Generation](/202608/04/2608.02504v1-token-radius-attention-for-efficient-video-generation)  
+   标签：评分：9.0/10、query:d
+   evidence：视频扩散Transformer用于高效视频生成
 
 ### 速读区论文标签
-1. [Group-wise Supervision with Focal-Dice Loss for Long-Tailed Indoor Semantic Occupancy Prediction](/202608/03/2607.28935v1-group-wise-supervision-with-focal-dice-loss-for-long-tailed-indoor-semantic-occupancy-prediction)  
+1. [TARS: Timestep-Aware Data Scaling for 3D-Free Video Re-Shooting](/202608/04/2607.28261v2-tars-timestep-aware-data-scaling-for-3d-free-video-re-shooting)  
    标签：评分：8.0/10、query:d
-   evidence：室内三维语义占用预测
-2. [SAM+D: Parameter-Efficient Dimensional Lifting of SAM-Family Models via Depth-Routed LoRA and Depth Shifting](/202608/03/2607.29033v1-samd-parameter-efficient-dimensional-lifting-of-sam-family-models-via-depth-routed-lora-and-depth-shifting)  
+   evidence：无3D先验的可控摄像机运动视频生成方法
+2. [GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction](/202608/04/2607.29037v1-go-pre-goal-oriented-next-best-view-selection-via-predictive-rendering-entropy-for-active-3d-reconstruction)  
+   标签：评分：8.0/10、query:d
+   evidence：面向主动三维重建的目标导向最佳视角选择，利用预测渲染熵
+3. [GuideGround: VLM-guided Semantic Understanding and Viewpoint-aware Reasoning for 3D Visual Grounding](/202608/04/2608.00518v1-guideground-vlm-guided-semantic-understanding-and-viewpoint-aware-reasoning-for-3d-visual-grounding)  
+   标签：评分：8.0/10、query:d
+   evidence：VLM引导的三维视觉定位，结合语义理解与视角推理
+4. [Geometry-guided Emotion Modulation for Controllable and Photorealistic Emotional Talking Face Generation](/202608/04/2608.00663v1-geometry-guided-emotion-modulation-for-controllable-and-photorealistic-emotional-talking-face-generation)  
+   标签：评分：8.0/10、query:d
+   evidence：结合扩散模型与显式几何先验的可控说话人脸视频生成
+5. [Look Up and Look Back: Hidden Attention and Latent Orientation in a Frozen Foundation Model for Panoramic SLAM](/202608/04/2608.00925v1-look-up-and-look-back-hidden-attention-and-latent-orientation-in-a-frozen-foundation-model-for-panoramic-slam)  
+   标签：评分：8.0/10、query:d
+   evidence：利用冻结基础模型中的内部几何线索进行全景SLAM
+6. [WM-Cov: Test Adequacy for Interactive World-Model-Style Autonomous Driving Simulation](/202608/04/2608.00298v1-wm-cov-test-adequacy-for-interactive-world-model-style-autonomous-driving-simulation)  
    标签：评分：7.0/10、query:d
-   evidence：参数高效地将2D SAM提升到3D与4D分割
-3. [Forwardrobe: Garment-Aware Gaussian Avatars from a Single Image](/202608/03/2607.29106v1-forwardrobe-garment-aware-gaussian-avatars-from-a-single-image)  
+   evidence：世界模型风格仿真的测试充分性与覆盖度
+7. [Diagnosing Under-Development of Irreversible Processes in Video Generation](/202608/04/2608.00617v1-diagnosing-under-development-of-irreversible-processes-in-video-generation)  
    标签：评分：7.0/10、query:d
-   evidence：前馈式服装感知高斯化身三维重建
-4. [FlexComposer: Unified Video Compositing from Images to Dynamic Footage with Flexible Trajectory Control](/202608/03/2607.29627v1-flexcomposer-unified-video-compositing-from-images-to-dynamic-footage-with-flexible-trajectory-control)  
+   evidence：面向文生视频模型的不可逆过程诊断协议
+8. [3DZip: Spatial-Aware Feature Diversity-Guided Token Compression for 3D Question Answering](/202608/04/2608.01185v1-3dzip-spatial-aware-feature-diversity-guided-token-compression-for-3d-question-answering)  
    标签：评分：7.0/10、query:d
-   evidence：轨迹引导的视频合成条件生成
-5. [AtlasLC: Fast Codec-Ready Compression of Object-Centric 3D Gaussian Splatting](/202608/03/2607.26525v1-atlaslc-fast-codec-ready-compression-of-object-centric-3d-gaussian-splatting)  
+   evidence：通过几何感知令牌压缩进行3D场景理解
+9. [PartInteractor: Intent-Driven Part-Aware 3D Authoring for Continuous Co-Creation in XR](/202608/04/2608.01335v1-partinteractor-intent-driven-part-aware-3d-authoring-for-continuous-co-creation-in-xr)  
+   标签：评分：7.0/10、query:d
+   evidence：基于LLM交互的部件感知3D创作，支持XR连续共创
+10. [Scene2Sound: Auditory-Grounded Soundscape Generation for 3D Gaussian Worlds](/202608/04/2608.00463v1-scene2sound-auditory-grounded-soundscape-generation-for-3d-gaussian-worlds)  
    标签：评分：6.0/10、query:d
-   evidence：面向物体中心的3D高斯泼溅压缩，涉及3D场景表示与新视角合成
-6. [Learning Manifolds in High-D Point Embedding for Anisotropic Surface Approximation from Unstructured Point Clouds](/202608/03/2607.28855v1-learning-manifolds-in-high-d-point-embedding-for-anisotropic-surface-approximation-from-unstructured-point-clouds)  
+   evidence：为3D高斯世界生成空间一致的声景，增强3D世界模拟
+11. [Hi-TOPS: Hierarchical Topology-aware Scoring Prior for 3D Part Decomposition](/202608/04/2608.00767v1-hi-tops-hierarchical-topology-aware-scoring-prior-for-3d-part-decomposition)  
    标签：评分：6.0/10、query:d
-   evidence：从无组织点云学习各向异性的三维表面近似表示
-7. [On the Efficacy of Self-Supervised Point Cloud Encoders for Efficient 3D Large Language Models](/202608/03/2607.29136v1-on-the-efficacy-of-self-supervised-point-cloud-encoders-for-efficient-3d-large-language-models)  
-   标签：评分：6.0/10、query:d
-   evidence：评估自监督点云编码器在3D大语言模型中的3D场景理解能力
+   evidence：分层拓扑感知先验用于3D零件分解
 
 
 <div class="dpr-home-promo-card">

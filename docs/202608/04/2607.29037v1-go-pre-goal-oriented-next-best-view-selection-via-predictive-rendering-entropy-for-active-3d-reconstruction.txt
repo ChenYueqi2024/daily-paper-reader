@@ -1,0 +1,590 @@
+Title: GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction
+
+URL Source: https://arxiv.org/pdf/2607.29037v1
+
+Published Time: Mon, 03 Aug 2026 00:27:48 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+# GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+Yan Song 1 Zhihao Li 2 Chenglong Li 2 Li He 1 Yan Wang 3 Wenqiang Zhang 1
+
+## Abstract 
+
+Active 3D reconstruction relies on active view selection to maximize reconstruction fidelity un-der limited capture budgets. However, most ex-isting methods rely on surrogate signals such as parameter uncertainty or geometric heuristics, but these signals are often misaligned with the ulti-mate goal: the fidelity of rendered predictions. We propose GO-PRE, a goal-oriented next-best-view selection framework that explicitly targets information gain in the prediction space. Specifi-cally, we formulate the objective as maximizing the reduction of the average marginal predictive entropy over a user-specified target view manifold. GO-PRE supports interactive goal specification and yields an efficient acquisition rule that en-ables real-time computation of information gain. Extensive experiments across benchmarks demon-strate that GO-PRE consistently improves active reconstruction performance and provides more reliable uncertainty quantification compared to state-of-the-art methods. 
+
+## 1. Introduction 
+
+Differentiable rendering techniques, such as Neural Ra-diance Fields (Mildenhall et al., 2021) and 3D Gaussian Splatting (Kerbl et al., 2023), have enabled high-fidelity novel view synthesis and 3D reconstruction. However, in real-world capture and robotic exploration, the number of images is constrained by time, energy, and navigational reachability. This motivates active 3D reconstruction with next-best-view selection (Chen et al., 2024; Ye et al., 2024), 
+
+> 1
+
+College of Intelligent Robotics and Advanced Manufacturing, Fudan University, Shanghai, China 2School of Software, Shandong University, Jinan, China 3School of Data Science and Engineering, East China Normal University, Shanghai, China. Correspondence to: Yan Wang <yanwang@dase.ecnu.edu.cn >, Wenqiang Zhang 
+
+<wqzhang@fudan.edu.cn >.
+
+Proceedings of the 43 rd International Conference on Machine Learning , Seoul, South Korea. PMLR 306, 2026. Copyright 2026 by the author(s). 
+
+(a) Random (b) FisherRF (c) Ours (d) Ground Truth 
+
+Figure 1. We propose GO-PRE, a novel framework for quantifying information gain in active 3D reconstruction. By directly targeting the reduction of rendering entropy in the prediction space, we ensure that the selected views maximize visual fidelity. In the above figure, each method is provided with a pool of one hundred candidate views from the Blender dataset and selects ten views to train a 3D Gaussian Splatting model. Compared to state-of-the-art approaches, our method more accurately estimates the information value of images, leading to significantly improved reconstruction of complex geometries and textures. 
+
+which iteratively chooses the next camera pose to maximize information gain under a limited budget. A key challenge is how to quantify information gain. Many existing next-best-view strategies (Jiang et al., 2023; Xie et al., 2025; Wilson et al., 2025) rely on surrogate signals such as parameter-space uncertainty or geometric heuris-tics (Jin et al., 2025; Chen et al., 2025), which do not directly reflect the quantity that ultimately matters in differentiable reconstruction: the accuracy of unseen renderings. As a re-sult, a method may reduce parameter variance while leaving rendering artifacts unresolved, leading to inefficient view selection and loss of fine details. To bridge this misalignment and to enable controllable re-construction, we propose GO-PRE, a goal-oriented next best view selection framework on the 3D Gaussian Splat-ting (Kerbl et al., 2023) backend, directly driven by predic-tive rendering entropy. Our central premise is that informa-tion gain for view selection should be defined in a princi-pled manner in prediction space—namely, by targeting the 1arXiv:2607.29037v1 [cs.CV] 31 Jul 2026 GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+expected reduction in uncertainty of novel-view synthesis within the target manifold (Lindley, 1956; MacKay, 1992) ,thereby naturally aligning view selection with the render-ing quality that ultimately matters. To this end, we use a user-specified target view manifold to represent the user’s viewpoints of interest. For any target pose within the man-ifold, we treat its rendering as the quantity of interest and measure uncertainty at that pose via the marginal predictive entropy (Shannon, 1948; Houlsby et al., 2011). We further define the overall uncertainty as the average marginal pre-dictive entropy over the target view manifold, and formulate the next-best-view objective in a mutual-information style as expected uncertainty reduction : selecting the next view that maximizes the expected decrease in the predictive un-certainty over the target view manifold after acquiring a new observation. In this way, view selection is no longer driven by indirect proxies such as parameter variance or geometric heuristics, but by an interpretable objective that is directly aligned with novel-view synthesis quality. Beyond aligning view selection with visual fidelity, this prin-cipled formulation naturally extends to support interactive goal specification. Users can specify target view manifold— augmented with a small number of probes—as a lightweight way to express “where to focus / what to evaluate / which task matters,” enabling the same reconstruction system to switch controllably among strategies such as global explo-ration, local refinement, and task-view optimization. Be-cause the next-best-view objective acts directly on predictive uncertainty over the target view manifold, this interaction is not merely a preference setting, but a structured constraint on information gain: the system prioritizes views that most effectively reduce rendering uncertainty in the target view distribution, thereby better matching the resource allocation logic of real applications (Border et al., 2018). We conduct extensive evaluations on multiple benchmarks (Knapitsch et al., 2017; Mildenhall et al., 2021; Barron et al., 2022); both quantitative and qualitative results clearly demonstrate significant advantages over prior methods and heuristic base-lines, while providing explicit interpretability. To summarize, our main contributions are as follows: • A principled next-best-view objective based on the reduc-tion of average marginal predictive entropy to align view selection with rendering quality. • A goal-oriented framework enabling interactive goal spec-ification and controllable strategy switching via the target view distribution. • An efficient and highly interpretable method for predictive rendering uncertainty estimation and visualization. • Extensive comparative studies demonstrating that our ap-proach outperforms state-of-the-art methods in both view selection and uncertainty prediction. 
+
+## 2. Related Work 
+
+2.1. Uncertainty-aware 3D Representations 
+
+While radiance fields enable photorealistic novel view syn-thesis, standard formulations are deterministic and lack intrinsic confidence measures. For NeRF, early efforts capture epistemic uncertainty via density-aware ensem-bles (S ¨underhauf et al., 2022) or Bayesian variational infer-ence (Shen et al., 2021). Another line of work models radi-ance as a random variable, using the posterior color variance to quantify uncertainty in ActiveNeRF (Pan et al., 2022) and a variance-based PSNR proxy in NeurAR (Ran et al., 2023). With the advent of 3D Gaussian Splatting (Kerbl et al., 2023), research has shifted toward quantifying uncertainty over discrete primitives, either by modeling Gaussian pa-rameters as probabilistic variables (Li & Cheung, 2024; Lyu et al., 2024) or by attaching auxiliary uncertainty attributes to primitives (Han & Dumery, 2025; Tan et al., 2025). A more direct approach, closer to our work, investigates prediction-space statistics: Ewen et al. (Ewen et al., 2025) derive differentiable higher-order moments of the rendering equation, while Gottwald et al. (Gottwald et al., 2025) splat primitive-level training errors and visibility onto novel views and regress them against holdout data. In contrast, our predictive uncertainty is epistemic by construction—the entropy of a Gaussian induced by a Laplace posterior under a linearized renderer—not a deterministic descriptor of the trained model. 
+
+2.2. Active 3D Reconstruction 
+
+Active reconstruction is a classical problem in computer vision and robotics (Chen et al., 2011; Lluvia et al., 2021), aiming to autonomously select the next-best view that maxi-mizes reconstruction fidelity under limited acquisition costs. Traditional methods reason over volumetric representations such as OctoMap (Hornung et al., 2013) and exploit geo-metric proxies for information gain, most notably frontiers between mapped and unmapped regions (Cieslewski et al., 2017; Zhou et al., 2021) or under-observed surface bound-aries inferred directly from point clouds (Border & Gam-mell, 2024). Data-driven approaches instead learn the deci-sion rule, via reinforcement-learning policies (Chen et al., 2024), learned uncertainty distributions (Shen et al., 2025), or regressed image-quality scores (Wang et al., 2025); they rely on learned predictors and can be sensitive to training distributions. Neu-NBV (Jin et al., 2023) performs mapless NBV planning by estimating per-pixel uncertainty in image-based neural rendering. A concurrent work partitions the Gaussian model into consistent regions and selects the next informative pose via the semantic feature variance of Gaus-sians, while additionally handling pose noise (Li & ming Cheung, 2026). To provide a rigorous theoretical founda-tion, recent works frame view selection as information-gain 2GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction Init 
+
+Initial views 
+
+Region  of Interest 
+
+> User
+> selected
+> Selected
+> Not selected
+
+Eval 
+
+Views  1  
+
+> Goa l
+> Sensitivity
+> Posterior
+> Uncertainty Value
+> View 234
+> Next selected view
+> Goal Probes
+> Candidate Views
+> History Views
+
+View 1 
+
+View 3 
+
+View 4  View 2  
+
+> Figure 2. Overview of the GO-PRE pipeline . The process begins with interactive target view manifold (left), where a user defines a Region of Interest. Probes (yellow) are then sampled to quantify the goal sensitivity of the scene parameters to this target view manifold. The decision mechanism (right) illustrates the core advantage of our approach: although View 3 exhibits high global Posterior Uncertainty (red shaded area), it is rejected because it contributes little to the target task. In contrast, View 1 is chosen as the Next Selected View (green line) because it aligns with the peak Goal Sensitivity (orange curve), thereby maximizing the expected reduction of predictive entropy within the user-specified target view manifold.
+
+maximization in the spirit of Bayesian experimental de-sign (Lindley, 1956). For radiance fields, FisherRF (Jiang et al., 2023) uses the Fisher Information to maximize the Expected Information Gain over model parameters; POp-GS (Wilson et al., 2025) recasts this through optimal ex-perimental design with a P-Optimality family and a block-diagonal covariance approximation that captures parameter correlations; and GauSS-MI (Xie et al., 2025) instead quan-tifies the Shannon mutual information (Julian et al., 2014; Zhang et al., 2020) of per-Gaussian visual uncertainty un-der a candidate viewpoint. Unlike these parameter-space or surrogate criteria, GO-PRE directly minimizes the Average Marginal Predictive Entropy over a target view manifold, aligning view selection with rendering fidelity itself. 
+
+## 3. Method 
+
+This section presents the probabilistic formulation of goal-oriented predictive rendering, followed by the derivation of our next-best-view objective based on expected information gain in the prediction space. 
+
+3.1. Probabilistic Modeling of Predictive Uncertainty 
+
+To ensure consistency between the active reconstruction ob-jective and actual visual fidelity, we formulate information gain directly within the predictive rendering space. We intro-duce the Target View Manifold M—a continuous region in the camera pose space—to represent the user’s viewpoints of interest. To formulate the information gain, we define 
+
+q(·) as a distribution supported on M, and establish the active reconstruction objective as maximizing the predictive rendering information gain over this manifold. For any pose p within the target view manifold, we model the predictive rendering z(p) as 
+
+z(p) = f (p, θ ) + η, η ∼ N (0 , τ 2I), (1) where f (p, θ ) denotes the differentiable rendering model parameterized by the scene parameters θ, which are opti-mized using the currently collected observations D. The noise term η represents inherent observation noise, captur-ing aleatoric uncertainty and ensuring that the predictive distribution remains non-degenerate. The rendering uncertainty over the target view manifold is denoted as U(D) and quantified by the expected marginal predictive entropy: 
+
+U(D) = Ep∼q
+
+H z(p) | D . (2) Following principles from Bayesian experimental design, our view selection strategy aims to identify the candidate view x⋆ from a candidate pool Xpool that maximizes the expected information gain. Equivalently, this corresponds to minimizing the expected posterior uncertainty after ac-quiring a new observation yx:
+
+x⋆ = arg min   
+
+> x∈X pool
+
+Eyx
+
+U D ∪ (x, y x) . (3) 3GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction Halos :Posterior Covariance Σ       
+
+> Larger Halos = Higher Uncertainty
+> Candidate View
+> History View
+> Candidate Observation & Update
+> Gaussian Ellipsoids
+> Posterior Covariance 𝚺
+> Uncertainty Reduction
+> via Bayesian Update
+> Predictive Projection
+> &Entropy Reduction
+> Target View
+> Before Update Σ:
+> High Entropy
+> After Update Σ:
+> Low Entropy
+> 𝚺 𝒙 =𝚺 −𝟏 +𝛕 -2𝑱 𝒙 𝑻 𝑱𝒙 −𝟏 𝑱 𝒕𝒂𝒓𝒈𝒆𝒕 𝚺 𝒙 𝑱 𝒕𝒂𝒓𝒈𝒆𝒕
+> 𝑻
+
+Figure 3. Entropy-based View Selection. The framework con-nects parameter space to prediction space. Starting with the current Posterior Covariance, we simulate the Bayesian Update Σ → Σx
+
+derived from a candidate view. Finally, we project this update to the target view to compute the Predictive Entropy Reduction. The system prioritizes candidates that maximally tighten the predictive distribution, transitioning from Red distribution to Green distribu-tion 
+
+3.2. Deriving the GO-PRE Score via the Goal Information Matrix 
+
+We approximate the posterior distribution p(θ | D) via a Laplace approximation centered at the MAP estimate θ∗
+
+of the current model parameters, with covariance Σ. Ac-cordingly, the renderer f (p, θ ) is linearized using the Ja-cobian Jp = ∂f (p, θ )/∂θ |θ∗ . Under this linearization, the marginal predictive distribution p(z(p) | D) becomes a Gaussian. The predictive uncertainty in Eq. 2 simplifies to the expectation of the log-determinant of the predictive covariance: 
+
+U(D) ≡ Ep∼q
+
+ 12 log det  JpΣJ⊤ 
+
+> p
+
++ τ 2I
+
+. (4) As depicted in Figure 3, under this linear-Gaussian formu-lation, observing a candidate view x updates the parameter covariance Σ to Σx via a standard precision-additive update: 
+
+Σx =  Σ−1 + τ −2J⊤ 
+
+> x
+
+Jx
+
+−1 . (5) This yields the predictive uncertainty: 
+
+Ux = Ep∼q
+
+ 12 log det( JpΣxJ⊤ 
+
+> p
+
++ τ 2I)
+
+
+
+. (6) By applying the Matrix Determinant Lemma, we shift the predictive entropy computation from the output space to the parameter space (detailed in the Appendix A.1): 
+
+Ux ≡ Ep∼q
+
+ 12 log det 
+
+
+
+I + τ −2Σ1/2 
+
+> x
+
+S(p)Σ 1/2
+
+> x
+
+
+
+, (7) where S(p) = J⊤ 
+
+> p
+
+Jp denotes the Fisher information of the target pose p, and τ 2 represents the RGB measurement covariance that we set equal to one. To enable efficient optimization, we derive a tractable sur-rogate objective by applying Jensen’s inequality. Since the Input:  Target View Manifold               
+
+> Probe Set( p𝑘 )
+> (Sampled from 𝒒 )
+> Feature Extraction: Jacobian Computation
+> (Sensitivity to Parameters 𝜽 )
+> 𝑺 𝒑 𝒌 =𝑱 𝒑 𝒌
+> 𝑻 𝑱 𝑷 𝒌
+> ෍
+> Backpropagation
+> matrix 𝑴
+> Aggregation:
+> Goal Hessian Matrix
+> 𝑴 ≈𝔼 (𝑺 𝒑 𝒌 )
+> Quantifies
+> parameter
+> constraint
+> strength from
+> the target view
+> manifold
+> User -Specified
+> Target View Distribution 𝒒 (𝒙 )
+> Discretization: Probe Sampling
+
+Figure 4. Computation of the Goal Hessian Matrix M . To quantify parameter importance relative to a user-defined goal, we sample discrete Probe Sets {pk } from the target view distribution 
+
+q(x). Through backpropagation, we compute the Fisher Infor-mation term S(pk ) = JTpk Jpk for each probe. These terms are aggregated to form the Goal Hessian Matrix M , which serves as a compact representation of the ”Goal Sensitivity,” directing the reconstruction focus toward task-relevant regions. 
+
+log-determinant is concave, swapping the expectation and the function evaluation yields a rigorous upper bound on the uncertainty, which we define as the GO-PRE Score: Score GO-PRE (x) = log det  I + Σ 1/2 
+
+> x
+
+MΣ1/2
+
+> x
+
+. (8) Here, M is the Goal Hessian Matrix. As illustrated in Fig-ure 4, since analytical computation of the expectation over the continuous distribution q(·) is intractable, we approx-imate M via Monte Carlo sampling using K probe poses 
+
+{pk} drawn from q(·):
+
+M = Ep∼q
+
+S(p) ≈ 1
+
+K
+
+> K
+
+X
+
+> k=1
+
+J⊤ 
+
+> pk
+
+Jpk , {pk} ∼ q(·). (9) Combining these components, the final next-best-view se-lection criterion is given by: 
+
+x⋆ = arg min 
+
+> x∈X pool
+
+log det  I + Σ 1/2 
+
+> x
+
+MΣ1/2
+
+> x
+
+. (10) Although Eq. (10) enables information gain estimation with-out ground truth observations, the high dimensionality of 3DGS parameters makes direct determinant computation prohibitive. Owing to the spatial locality of 3DGS, the matri-ces Σx and M contain only a limited number of off-diagonal elements. Following the methodology of FisherRF (Jiang et al., 2023), we employ a diagonal approximation for both 
+
+Σx and M. This simplifies the log-determinant into a scal-able summation of scalar logarithms, ensuring real-time computation even in large-scale scenes. 
+
+3.3. Uncertainty Quantification 
+
+Beyond guiding the next-best-view selection, our probabilis-tic framework naturally enables the quantification of render-4GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction     
+
+> (a) Random (b) FisherRF (c) Ours (d) Ground Truth
+> Figure 5. Qualitative comparisons on Mip-NeRF360 and Tanks & Temples datasets with 20 views
+
+ing uncertainty for any arbitrary viewpoint x0. This capa-bility is crucial for identifying under-reconstructed regions and providing a measure of reliability for the synthesized views. Based on the linearized predictive model established in Sec. 3.2, the predictive distribution p(z(x0) | D) at a query pose x0 follows a Gaussian distribution with covari-ance: 
+
+Λx0 = Jx0 ΣJ⊤ 
+
+> x0
+
++ τ 2I. (11) Consequently, the predictive uncertainty is quantified by the differential entropy of this distribution: 
+
+H(z(x0) | D) ≡ 12 log det(Λ x0 ) (12) where Jx0 = ∂f (x0, θ )/∂θ |θ∗ is the Jacobian evaluated at the query pose. Eq. (12) thus serves as a mathemati-cally grounded metric to visualize the spatial distribution of reconstruction confidence. Unlike heuristic proxies, this predictive entropy directly reflects the informative value of the rendering, allowing for intuitive, real-time monitoring of the active reconstruction progress. 
+
+## 4. Experiments 
+
+In this section, we conduct a comprehensive empirical evalu-ation of GO-PRE to validate its effectiveness in both global and goal-oriented active reconstruction. Our experiments are designed to assess three core aspects: (i) the efficiency of our predictive rendering entropy-based objective in guiding view selection across diverse benchmarks; (ii) the control-lability of the framework in directing information acqui-sition toward user-specified target manifolds; and (iii) the reliability of our probabilistic formulation for quantifying rendering uncertainty. We further perform ablation studies to isolate the contributions of key components to the overall performance. 
+
+4.1. Active View Selection 
+
+We conducted extensive experiments to demonstrate that our predictive rendering entropy-based objective effectively guides the model to select the most informative views. Fur-thermore, we assess the framework’s capability in goal-oriented reconstruction scenarios, validating its effective-ness in prioritization within user-specified target view man-ifold. Below, we detail the datasets, baselines, and experi-5GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction  
+
+> Table 1. Comparison on Mip-NeRF360, Tanks & Temples and Blender. Higher PSNR/SSIM is better, lower LPIPS is better.
+
+Method Metrics Mip-NeRF360 Tanks & Temples Blender PSNR ↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓
+
+Random 17.9140 0.5640 0.4300 15.6210 0.5788 0.3876 22.4930 0.8730 0.1120 ActiveNeRF 17.8890 0.5330 0.4140 15.8990 0.5872 0.3721 22.9790 0.8760 0.1110 FisherRF 20.3510 0.6010 0.3610 17.0133 0.6205 0.3445 23.6810 0.8830 0.1020 GauSS-MI 19.8573 0.5835 0.3718 16.7400 0.6249 0.3415 24.9826 0.8981 0.0882 POp-GS 20.6180 0.6155 0.3505 17.4055 0.6500 0.3185 25.5235 0.9020 0.0805 Ours 21.2283 0.6318 0.3370 17.9570 0.6685 0.3045 25.5740 0.9037 0.0800  
+
+> Table 2. Goal-Oriented results on Mip-NeRF360, Tanks & Temples and Blender. Higher PSNR/SSIM is better, lower LPIPS is better.
+
+Method Metrics Mip-NeRF360 Tanks & Temples Blender PSNR ↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓
+
+Random 18.4510 0.5550 0.3975 16.5935 0.6295 0.3560 23.0396 0.8745 0.1090 FisherRF 19.8190 0.5806 0.3723 15.7124 0.5934 0.3877 25.3538 0.9007 0.0834 GauSS-MI 19.9473 0.5892 0.3662 16.6660 0.6370 0.3438 25.3237 0.8983 0.0859 POp-GS 20.6163 0.6075 0.3533 16.7581 0.6491 0.3330 26.1589 0.9049 0.0783 Ours 23.4250 0.7035 0.2780 20.5030 0.7730 0.2200 27.5093 0.9173 0.0699 
+
+mental configurations used in our study. 
+
+Datasets. Our approach is extensively evaluated on three common benchmark datasets: the Blender (Mildenhall et al., 2021) dataset, the Mip-NeRF360 (Barron et al., 2022) dataset, and the Tanks & Temples (Knapitsch et al., 2017) dataset. The Blender (Mildenhall et al., 2021) dataset com-prises eight synthetic objects with intricate geometry and realistic non-Lambertian materials. The Mip-NeRF360 (Bar-ron et al., 2022) dataset comprises 9 scenes, consisting of five outdoor scenes and four indoor scenes. This high-resolution real-world dataset is widely established as a stan-dard benchmark for assessing novel view synthesis qual-ity (Barron et al., 2023; Li et al., 2025). We train our models at a resolution of 1066 × 1600 , following the configuration used in 3D Gaussian Splatting (Kerbl et al., 2023). Addi-tionally, we evaluate on the Train and Truck scenes from the Tanks & Temples dataset. These scenes feature drone-style outdoor captures characterized by long-baseline parallax and strong depth discontinuities, allowing us to test the ro-bustness of our method under extreme geometric challenges. 
+
+Metrics. We quantify the reconstruction fidelity using Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity (SSIM) (Wang et al., 2004). To account for high-level visual features, we also include Learned Perceptual Image Patch Similarity (LPIPS) (Zhang et al., 2018), which correlates more closely with human perceptual judgment. 
+
+Baselines. We quantitatively and qualitatively compare GO-PRE against a random selection baseline, established approaches including ActiveNeRF (Pan et al., 2022) and FisherRF (Jiang et al., 2023), and state-of-the-art active view selection methods such as GauSS-MI (Xie et al., 2025) and POp-GS (Wilson et al., 2025). For POp-GS, which intro-duces a family of optimality (Kiefer, 1974) strategies, we compare against its best-performing D-Optimality variant. To ensure a fair comparison with ActiveNeRF (Pan et al., 2022), we adopted the adaptation methodology proposed in FisherRF (Jiang et al., 2023) to implement its variance estimation algorithm using CUDA within the 3D Gaussian Splatting backend, effectively transplanting the next-best-view strategy into the 3D Gaussian Splatting (Kerbl et al., 2023) framework. For all comparative methods, we utilized the default hyperparameters provided in their respective papers or official open-source implementations. 
+
+Evaluation Protocols. We design two experimental proto-cols to evaluate the versatility of our method across different reconstruction objectives. 
+
+Protocol I: Global Reconstruction (Table 1). This protocol follows the standard active view selection setting used in prior work, where the goal is to maximize reconstruction quality across the entire scene. For the Blender dataset, we utilize the official training split as our candidate pool and evaluate performance on the full test set (200 views per scene). For the Mip-NeRF360 and Tanks & Temples datasets, we adopt the standard LLFF (Mildenhall et al., 2019) hold-out rule, selecting every 8th view for testing and using the remaining views as the candidate pool. 6GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction    
+
+> (a) bonsai (b) Kitchen (c) Room
+> Figure 6. Reconstruction quality (PSNR) comparison on the Mip-NeRF360 dataset as new views are added.
+
+Protocol II: Goal-Oriented Reconstruction (Table 2). To demonstrate the unique capability of GO-PRE in task-driven scenarios, we introduce a goal-oriented evaluation protocol. For each scene, we first compute the centroid of all camera poses and define a target view manifold as a spatial sec-tor formed by a 120 ◦ clockwise rotation in the x–y plane around this centroid. For the Blender dataset, we evalu-ate performance strictly on the subset of official test views located within this target manifold, using the complete train-ing split as the candidate pool. For the Mip-NeRF360 and Tanks & Temples datasets, we apply the LLFF (Mildenhall et al., 2019) hold-out rule to views within the target view manifold to construct the test set, while all remaining views serve as the candidate pool. 
+
+Experimental Settings. For all experiments, models are initialized with the same random seed and start from the same set of initial views. Each model is trained for a total of 30,000 iterations. To prevent degeneration during the incremental training process, we reset the opacity of the 3D Gaussians after each view selection step. Furthermore, all external training settings are kept identical across methods to ensure a fair comparison. We tailor the acquisition sched-ule to the target budget via an incremental selection scheme: for complex scenes such as Mip-NeRF360 and Tanks & Temples, a Standard 20-View Schedule is employed where the model is initialized with 4 uniformly sampled views, followed by the addition of one new view every 100 epochs until a total of 20 views is reached. For simpler scenes in the Blender dataset and the sparsity stress test reported in Table 3, we adopt a stricter 2-view initialization, adding one new view every 100 epochs up to a 10-view limit. All exper-iments are conducted on a single NVIDIA RTX 3090 GPU. Under the default configuration, per-candidate evaluation in GO-PRE takes approximately 120 ms on Mip-NeRF360 with 20 views. To approximate the Goal Hessian Matrix M , at each view selection step, we randomly sample a set of K probe poses 
+
+{pk} from the pool of training views located within the user-specified target manifold. This sampling process is independent of the selection history. The sampling pool en-compasses the entire training set for Global Reconstruction, while being restricted to the subset within the target sector for Goal-Oriented tasks. We set the sample size to a fixed 
+
+K = 25 for the Blender dataset, and to 18 of the total view count for the Mip-NeRF360 and Tanks & Temples datasets. 
+
+Results. Quantitative results for active view selection are summarized in Table 1, Table 2, and Table 3, while Fig-ure 6 visualizes the step-by-step performance gains. As demonstrated, GO-PRE consistently achieves superior per-formance across all evaluated metrics and datasets. Fig-ure 1 and Figure 5 provide qualitative comparisons on the Blender (Mildenhall et al., 2021), Mip-NeRF360 (Barron et al., 2022), and Tanks & Temples (Knapitsch et al., 2017) datasets, visually demonstrating the enhancement in recon-struction fidelity. In the global reconstruction task (Table 1), GO-PRE outperforms information-theoretic baselines, vali-dating the superiority of directly optimizing predictive ren-dering entropy over indirect information metrics. This ad-vantage is further amplified in goal-oriented scenarios (Ta-ble 2), where GO-PRE explicitly concentrates uncertainty reduction within the target sector, thereby achieving superior reconstruction quality within the target view manifold. The sparse-view stress test (Table 3) confirms our robustness; even under a tight 10-view budget, GO-PRE significantly surpasses baselines by identifying critical viewpoints early in the reconstruction process. 
+
+4.2. Uncertainty Quantification 
+
+As discussed in Sec. 3.3, our framework naturally extends to quantify predictive uncertainty for unseen views. To evaluate the correlation between uncertainty estimates and actual rendering errors, we employ sparsification plots (Ilg et al., 2018), where test views are sorted by predicted un-certainty and the cumulative mean reconstruction quality 7GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction  
+
+> Table 3. Results on Mip-NeRF360 Dataset with 10 Views.
+
+Method PSNR ↑ SSIM ↑ LPIPS ↓
+
+Random 15.8774 0.4311 0.4682 FisherRF 16.9470 0.4745 0.4445 GauSS-MI 16.8920 0.4640 0.4440 POp-GS 17.7380 0.5080 0.4124 Ours 18.0650 0.5090 0.4105   
+
+> (a) ficus (b) lego
+> Figure 7. Correlation between predicted uncertainty and actual reconstruction quality on the Blender dataset.
+
+is plotted in decile increments, as visualised in Figure 7. Since uncertainty and reconstruction quality are inversely related, a well-calibrated estimator should rank the worst-reconstructed views as most uncertain, yielding a curve that rises from left to right. We train a 3DGS (Kerbl et al., 2023) model on a randomly selected subset of 10 images for 2,000 iterations. Ensuring strict consistency, each method ranks the test views based on its predicted uncertainty using the identical random seed and fixed trained model. In Figure 7, we introduce an Oracle baseline which ranks views based on their ground truth rendering PSNR, rep-resenting the ideal error-uncertainty alignment, alongside a Random baseline that sorts views arbitrarily. As illus-trated, the sparsification curve generated by GO-PRE aligns significantly closer to the Oracle curve compared to both FisherRF (Jiang et al., 2023) and the Random baseline. This proximity demonstrates that our predictive entropy provides a much more accurate estimation of potential rendering errors, effectively differentiating between reliable and unre-liable viewpoints better than parameter-space baselines. 
+
+4.3. Analysis 
+
+Finally, we conduct ablation and sensitivity analyses to in-vestigate the contribution of key components within our information gain quantification framework and to character-ize the framework’s behavior under varied configurations. All experiments are conducted on the Mip-NeRF360 (Bar-ron et al., 2022) dataset with 20 views, and quantitative results are summarized in Tables 4–6, with each component  
+
+> Table 4. Ablation study of key components on the Mip-NeRF360 Dataset.
+
+Method PSNR ↑ SSIM ↑ LPIPS ↓
+
+Goal–Metric Misalignment 19.295 0.579 0.380 w/o Goal Hessian 20.532 0.613 0.351 Trace Approximation 20.632 0.604 0.357 w/o Observation Noise 20.603 0.618 0.349 Direct-MC Sampling 21.013 0.625 0.341 Ours 21.228 0.632 0.337 
+
+analyzed in detail below. 
+
+w/o Goal Hessian ( M = I). We replace the computed Goal Hessian matrix M with the identity matrix I, removing the probe-derived guidance and treating all parameter directions as equally relevant to the target manifold. As reported in Ta-ble 4, this variant underperforms our full model by 0.70 dB PSNR. The drop confirms that M carries the goal-orienting weighting that aligns view selection with the user-specified target manifold. 
+
+w/o Observation Noise. The additive Gaussian noise term 
+
+η in Eq. 1 models the aleatoric uncertainty of pixel observa-tions, with its variance τ 2 entering the acquisition score as a precision-scale parameter. We implement this ablation by taking the limit τ → 0, under which the Goal Hessian loses its effect on the candidate ranking. As reported in Table 4, this variant underperforms our full model by 0.63 dB PSNR, confirming that τ 2 plays a meaningful role in shaping the acquisition signal. 
+
+Goal–Metric Misalignment. To verify the goal-orienting capability of our method, we deliberately misalign the probe set with the evaluation set: probes are drawn from the 120 ◦
+
+target view manifold defined in Sec. 4.1, while reconstruc-tion quality is evaluated on the full 360 ◦ scene. Under this mismatch, this variant exhibits a PSNR drop of 1.93 dB in Table 4, the largest among all ablations. 
+
+Trace Approximation. To isolate the efficacy of our en-tropic objective, we benchmark it against a trace-based for-mulation (Jiang et al., 2023). Premised on the approximation 
+
+log det( I + A) ≈ Tr (A), which is analytically valid when the spectral radius is small, we employ this trace metric as a surrogate for our information gain objective. Table 4 demonstrates that this strategy performs significantly worse than our method. We attribute this to the fact that the trace-based computation of information gain fails to capture the diminishing marginal utility of information. Consequently, the policy tends to over-prioritize views with large gradi-ent norms regardless of the actual uncertainty, resulting in redundant sampling and reduced reconstruction efficiency. 8GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction      
+
+> Table 5. Sensitivity to the number of probes Kon the Mip-NeRF360 Dataset with 20 views. Per-cand. denotes the per-candidate selection time.
+
+K PSNR (mean ±std) ↑ Per-cand. (ms) ↓
+
+N/ 4 21.24 ± 0.07 135.77 
+
+N/ 8 (default) 21.23 ± 0.09 120.18 
+
+N/ 12 21.14 ± 0.12 116.17 
+
+N/ 16 21.10 ± 0.13 114.06 
+
+N/ 32 20.98 ± 0.11 109.69 
+
+N/ 64 20.87 ± 0.18 107.85 Direct-MC Sampling. To examine the practical valid-ity of our Jensen-based surrogate, we replace it with a Monte Carlo estimator that bypasses Jensen’s inequality and directly computes the expected predictive uncertainty in Eq. (7) under the same probe budget. As shown in Table 4, Direct-MC already ranks second across all three metrics— surpassing every other ablation variant—yet GO-PRE fur-ther improves over it by 0.22 dB PSNR while requiring 28% less peak GPU memory (5.47 vs. 7.58 GiB) and 11% less per-candidate time (120.18 vs. 135.06 ms). A plausi-ble explanation lies in the order of operations: GO-PRE aggregates Fisher information across probes into the Goal Hessian M before evaluating the log-determinant, whereas Direct-MC computes a log-determinant per probe and av-erages afterwards—an ordering likely more susceptible to Monte Carlo variance. 
+
+Sensitivity to Probe Count K. Table 5 examines the impact of the probe count K used to estimate the Goal Hessian M.Performance saturates around K = N/ 8, with K = N/ 4
+
+yielding no statistically meaningful improvement, validat-ing our default choice. As K decreases, both PSNR and per-candidate runtime degrade gracefully, with no patholog-ical transition. Remarkably, even at K = N/ 64 —roughly 3.3 probes per round on Mip-NeRF360—GO-PRE achieves 20.87 dB PSNR, still surpassing the runner-up POp-GS (Wil-son et al., 2025) (20.62 dB in Table 1). This robustness is consistent with the variance-damping picture suggested by the Direct-MC comparison above, and makes GO-PRE read-ily adaptable to resource-constrained deployment, where users can tune K to trade modest quality for substantial runtime savings. 
+
+Robustness to Candidate Pool Reduction. Since the per-step computational cost grows linearly with the candidate pool size, we conduct an ablation on the size of the candi-date view pool to study how the framework can be adapted in practice for deployment on resource-constrained edge devices or latency-sensitive applications. Specifically, we randomly remove a fraction of the candidate views at each selection step, and report both the average per-round selec- 
+
+> Table 6. Sensitivity to random candidate-pool reduction on the Mip-NeRF360 Dataset with 20 views. Selection time denotes the average per-round selection time.
+
+Reduction PSNR (mean ±std) ↑ Time (s) ↓
+
+None (default) 21.23 ± 0.09 22.23 25% 21.12 ± 0.11 17.85 33% 21.04 ± 0.17 16.31 50% 20.93 ± 0.15 13.25 
+
+tion time and the reconstruction quality. As shown in Ta-ble 6, PSNR degrades only gracefully even under substantial pool reduction: with half of the candidate views removed, the performance loss is bounded within 0.30 dB—still out-performing all competing baselines in Table 1—while the selection time is reduced by roughly 40%. Pool reduction thus provides an additional axis along which GO-PRE can be adapted to resource-constrained deployment. 
+
+## 5. Conclusion 
+
+In this paper, we presented GO-PRE, a principled active view selection framework that maximizes predictive ren-dering entropy reduction over a user-specified target view manifold, aligning view acquisition with the rendered out-puts that ultimately matter. Across diverse benchmarks, GO-PRE consistently improves reconstruction quality and yields more reliable uncertainty estimates than state-of-the-art baselines, while enabling interactive goal specification. GO-PRE establishes prediction-space information gain as a principled foundation for active 3D reconstruction, moving beyond surrogate parameter-space and geometric heuristics. 
+
+## 6. Limitations and Future Work 
+
+In real-world active reconstruction, cameras navigate a con-tinuous pose space, yet existing methods—including GO-PRE—still select the next view from a discrete candidate pool. The GO-PRE acquisition score is formally differen-tiable with respect to camera pose and could in principle support gradient-based optimization over continuous poses, but two structural barriers stand in the way. First, the score depends on pose through the rendering Jacobian, so back-propagating it requires mixed second-order derivatives of the renderer, which are prohibitive for the high-dimensional parameters of 3D Gaussian Splatting. Second, the raster-izer is only piecewise smooth, as depth sorting and visibility transitions introduce discontinuities that destabilize local lin-earizations. We regard the design of acquisition objectives compatible with continuous, gradient-based pose optimiza-tion as a promising direction for truly continuous next best view selection. 9GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+## Acknowledgements 
+
+This work was supported by the National Natural Science Foundation of China (Nos. 62576109 and 62406075), the Scientific and Technological Innovation Action Plan of Shanghai Science and Technology Committee (No. 25511104402), the National Key Research and Develop-ment Program of China (No. 2023YFC3604802), and the Shanghai Key Technology R&D Program (Grant No. 25511107200). 
+
+## Impact Statement 
+
+This paper presents GO-PRE, a framework designed to ad-vance the field of active 3D reconstruction and uncertainty quantification. By enabling more efficient and goal-oriented view selection, our work has the potential to significantly enhance the capabilities of autonomous systems, such as search-and-rescue robots exploring unknown environments and drones performing precision infrastructure inspections. These advancements can lead to reduced energy consump-tion and improved operational safety in various real-world applications. While the improved fidelity of 3D reconstruc-tion could theoretically be misused in surveillance contexts, the primary focus of this research is on the fundamental algorithmic improvement of information gain quantification, which we believe contributes positively to the development of reliable and interpretable machine learning systems. 
+
+## References 
+
+Barron, J. T., Mildenhall, B., Verbin, D., Srinivasan, P. P., and Hedman, P. Mip-nerf 360: Unbounded anti-aliased neural radiance fields. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,pp. 5470–5479, 2022. Barron, J. T., Mildenhall, B., Verbin, D., Srinivasan, P. P., and Hedman, P. Zip-NeRF: Anti-aliased grid-based neu-ral radiance fields. In Proceedings of the IEEE/CVF International Conference on Computer Vision , pp. 19697– 19705, 2023. Border, R. and Gammell, J. D. The surface edge explorer (see): A measurement-direct approach to next best view planning. The International Journal of Robotics Research ,43(10):1506–1532, 2024. Border, R., Gammell, J. D., and Newman, P. Surface edge explorer (see): Planning next best views directly from 3d observations. In 2018 IEEE International Conference on Robotics and Automation (ICRA) , pp. 6116–6123, 2018. doi: 10.1109/ICRA.2018.8461098. Chen, L., Zhan, H., Chen, K., Xu, X., Yan, Q., Cai, C., and Xu, Y. Activegamer: Active gaussian mapping through ef-ficient rendering. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 16486–16497, 2025. Chen, S., Li, Y., and Kwok, N. M. Active vision in robotic systems: A survey of recent developments. The Interna-tional Journal of Robotics Research , 30(11):1343–1377, 2011. Chen, X., Li, Q., Wang, T., Xue, T., and Pang, J. Gennbv: Generalizable next-best-view policy for active 3d recon-struction. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 16436– 16445, 2024. Cieslewski, T., Kaufmann, E., and Scaramuzza, D. Rapid exploration with multi-rotors: A frontier selection method for high speed flight. In 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , pp. 2135–2142. IEEE, 2017. Ewen, P., Chen, H., Isaacson, S., Wilson, J., Skinner, K. A., and Vasudevan, R. These magic moments: Differentiable uncertainty quantification of radiance field models. arXiv preprint arXiv:2503.14665 , 2025. Gottwald, T., Heinert, E., Stehr, P., Galappaththige, C. J., and Rottmann, M. Primu: Uncertainty estimation for novel views in gaussian splatting from primitive-based representations of error and coverage. arXiv preprint arXiv:2508.02443 , 2025. Han, C. and Dumery, C. View-dependent uncertainty estimation of 3d gaussian splatting. arXiv preprint arXiv:2504.07370 , 2025. Hornung, A., Wurm, K. M., Bennewitz, M., Stachniss, C., and Burgard, W. Octomap: An efficient probabilistic 3d mapping framework based on octrees. Autonomous robots , 34(3):189–206, 2013. Houlsby, N., Husz ´ar, F., Ghahramani, Z., and Lengyel, M. Bayesian active learning for classification and preference learning. arXiv preprint arXiv:1112.5745 , 2011. Ilg, E., Cicek, O., Galesso, S., Klein, A., Makansi, O., Hutter, F., and Brox, T. Uncertainty estimates and multi-hypotheses networks for optical flow. In Proceedings of the European Conference on Computer Vision (ECCV) ,pp. 652–667, 2018. Jiang, W., Lei, B., and Daniilidis, K. Fisherrf: Active view selection and uncertainty quantification for radi-ance fields using fisher information. arXiv preprint arXiv:2311.17874 , 2023. Jin, L., Chen, X., R ¨uckin, J., and Popovi ´c, M. Neu-nbv: Next best view planning using uncertainty estimation in 10 GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+image-based neural rendering. In 2023 IEEE/RSJ Inter-national Conference on Intelligent Robots and Systems (IROS) , pp. 11305–11312. IEEE, 2023. Jin, L., Zhong, X., Pan, Y., Behley, J., Stachniss, C., and Popovi ´c, M. Activegs: Active scene reconstruction us-ing gaussian splatting. IEEE Robotics and Automation Letters , 2025. Julian, B. J., Karaman, S., and Rus, D. On mutual information-based control of range sensing robots for mapping applications. The International Journal of Robotics Research , 33(10):1375–1392, 2014. Kerbl, B., Kopanas, G., Leimk ¨uhler, T., and Drettakis, G. 3d gaussian splatting for real-time radiance field rendering. 
+
+ACM Transactions on Graphics , 42(4), July 2023. Kiefer, J. General equivalence theory for optimum designs (approximate theory). The annals of Statistics , pp. 849– 879, 1974. Knapitsch, A., Park, J., Zhou, Q.-Y., and Koltun, V. Tanks and temples: Benchmarking large-scale scene reconstruc-tion. ACM Transactions on Graphics (ToG) , 36(4):1–13, 2017. Li, H., Liu, J., Sznaier, M., and Camps, O. 3d-hgs: 3d half-gaussian splatting. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 10996–11005, 2025. Li, R. and Cheung, Y.-m. Variational multi-scale represen-tation for estimating uncertainty in 3d gaussian splatting. 
+
+Advances in Neural Information Processing Systems , 37: 87934–87958, 2024. Li, R. and ming Cheung, Y. Active learning of 3d gaussian splatting with consistent region partition and robust pose estimation. In The Fourteenth International Conference on Learning Representations , 2026. URL https:// openreview.net/forum?id=yye5kN9jH7 .Lindley, D. V. On a measure of the information provided by an experiment. The Annals of Mathematical Statistics , 27 (4):986–1005, 1956. Lluvia, I., Lazkano, E., and Ansuategi, A. Active mapping and robot exploration: A survey. Sensors , 21(7):2445, 2021. Lyu, L., Tewari, A., Habermann, M., Saito, S., Zollh ¨ofer, M., Leimk ¨uhler, T., and Theobalt, C. Manifold sampling for differentiable uncertainty in radiance fields. In SIG-GRAPH Asia 2024 Conference Papers , pp. 1–11, 2024. MacKay, D. J. C. Information-based objective functions for active data selection. Neural Computation , 4(4):590–604, 1992. doi: 10.1162/neco.1992.4.4.590. Mildenhall, B., Srinivasan, P. P., Ortiz-Cayon, R., Kalantari, N. K., Ramamoorthi, R., Ng, R., and Kar, A. Local light field fusion: Practical view synthesis with prescriptive sampling guidelines. ACM Transactions on Graphics (ToG) , 38(4):1–14, 2019. Mildenhall, B., Srinivasan, P. P., Tancik, M., Barron, J. T., Ramamoorthi, R., and Ng, R. Nerf: Representing scenes as neural radiance fields for view synthesis. Communica-tions of the ACM , 65(1):99–106, 2021. Pan, X., Lai, Z., Song, S., and Huang, G. Activenerf: Learn-ing where to see with uncertainty estimation. In European Conference on Computer Vision , pp. 230–246. Springer, 2022. Ran, Y., Zeng, J., He, S., Chen, J., Li, L., Chen, Y., Lee, G., and Ye, Q. Neurar: Neural uncertainty for autonomous 3d reconstruction with implicit neural representations. IEEE Robotics and Automation Letters , 8(2):1125–1132, 2023. Shannon, C. E. A mathematical theory of communication. 
+
+The Bell System Technical Journal , 27(3):379–423, 1948. Shen, C., Zheng, S., Wu, B., Feng, Y., Fei, Y., Mei, M., Jiang, H., and Huang, X. Auto3r: Automated 3d re-construction and scanning via data-driven uncertainty quantification. arXiv preprint arXiv:2512.04528 , 2025. Shen, J., Ruiz, A., Agudo, A., and Moreno-Noguer, F. Stochastic neural radiance fields: Quantifying uncertainty in implicit 3d representations. In 2021 International Con-ference on 3D Vision (3DV) , pp. 972–981. IEEE, 2021. S ¨underhauf, N., Abou-Chakra, J., and Miller, D. Density-aware nerf ensembles: Quantifying predictive un-certainty in neural radiance fields. arXiv preprint arXiv:2209.08718 , 2022. Tan, Z., Chen, X., Zhang, J., Feng, L., and Hu, D. Uncertainty-aware normal-guided gaussian splatting for surface reconstruction from sparse image sequences. 
+
+arXiv preprint arXiv:2503.11172 , 2025. Wang, Z., Bovik, A. C., Sheikh, H. R., and Simoncelli, E. P. Image quality assessment: from error visibility to struc-tural similarity. IEEE transactions on image processing ,13(4):600–612, 2004. Wang, Z., Bhalgat, Y., Li, R., and Prisacariu, V. A. Active view selector: Fast and accurate active view selection with cross reference image quality assessment. arXiv preprint arXiv:2506.19844 , 2025. Wilson, J., Almeida, M., Mahajan, S., Labrie, M., Ghaffari, M., Ghasemalizadeh, O., Sun, M., Kuo, C.-H., and Sen, A. Pop-gs: Next best view in 3d-gaussian splatting with p-optimality. In Proceedings of the Computer Vision and Pattern Recognition Conference , pp. 3646–3655, 2025. 11 GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+Xie, Y., Cai, Y., Zhang, Y., Yang, L., and Pan, J. Gauss-mi: Gaussian splatting shannon mutual information for ac-tive 3d reconstruction. arXiv preprint arXiv:2504.21067 ,2025. Ye, S., He, Y., Lin, M., Sheng, J., Fan, R., Han, Y., Hu, Y., Yi, R., Wen, Y.-H., Liu, Y.-J., et al. Pvp-recon: Progressive view planning via warping consistency for sparse-view surface reconstruction. ACM Transactions on Graphics (TOG) , 43(6):1–13, 2024. Zhang, R., Isola, P., Efros, A. A., Shechtman, E., and Wang, O. The unreasonable effectiveness of deep features as a perceptual metric. In Proceedings of the IEEE conference on computer vision and pattern recognition , pp. 586–595, 2018. Zhang, Z., Henderson, T., Karaman, S., and Sze, V. Fsmi: Fast computation of shannon mutual information for information-theoretic mapping. The International Jour-nal of Robotics Research , 39(9):1155–1177, 2020. Zhou, B., Zhang, Y., Chen, X., and Shen, S. Fuel: Fast uav exploration using incremental frontier structure and hierarchical planning. IEEE Robotics and Automation Letters , 6(2):779–786, 2021. 12 GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction 
+
+## A. Appendix 
+
+A.1. Detailed Mathematical Derivations 
+
+In this section, we provide the step-by-step derivation of the GO-PRE Score presented in Sec 3.2 of the main paper. A.1.1. D ERIVATION OF EQUATION (7) Recall that the posterior covariance update after observing a new view x is given by: 
+
+Σx = (Σ −1 + τ −2J⊤ 
+
+> x
+
+Jx)−1. (13) The rendering uncertainty at a target pose p is quantified by the log-determinant of the predictive covariance Λp = JpΣxJ⊤ 
+
+> p
+
++
+
+τ 2I. Using the Matrix Determinant Lemma , specifically the identity det( A+U V ⊤) = det( I +V ⊤A−1U ) det( A), we can rewrite the determinant term. Let A = τ 2I, U = JpΣ1/2 
+
+> x
+
+, and V = Σ 1/2 
+
+> x
+
+J⊤ 
+
+> p
+
+. Note that we perform the eigen-decomposition on Σx such that Σx = Σ 1/2 
+
+> x
+
+Σ1/2 
+
+> x
+
+.The predictive entropy term can be transformed as: 
+
+log det( JpΣxJ⊤ 
+
+> p
+
++ τ 2I) = log det( τ 2I + ( JpΣ1/2 
+
+> x
+
+)(Σ 1/2 
+
+> x
+
+J⊤ 
+
+> p
+
+)) = log 
+
+
+
+det( τ 2I) · det( I + τ −2(Σ 1/2 
+
+> x
+
+J⊤ 
+
+> p
+
+)( JpΣ1/2 
+
+> x
+
+)) 
+
+
+
+= C + log det( I + τ −2Σ1/2 
+
+> x
+
+(J⊤ 
+
+> p
+
+Jp)Σ 1/2 
+
+> x
+
+),
+
+(14) where C is a constant related to the noise variance τ 2. By defining the Fisher Information at pose p as S(p) = J⊤ 
+
+> p
+
+Jp, we recover Eq. (7) from the main text: 
+
+Ux ≡ Ep∼q
+
+ 12 log det( I + τ −2Σ1/2 
+
+> x
+
+S(p)Σ 1/2 
+
+> x
+
+)
+
+
+
+. (15) A.1.2. D ERIVATION OF THE GO-PRE S CORE VIA JENSEN ’S INEQUALITY 
+
+The objective is to minimize the expected uncertainty Ux. Since the function f (A) = log det( A) is concave over the cone of positive-definite matrices, applying Jensen’s Inequality ( E[f (X)] ≤ f (E[X]) ) gives us an upper bound on the uncertainty: 
+
+Ux = Ep∼q
+
+ 12 log det( I + τ −2Σ1/2 
+
+> x
+
+S(p)Σ 1/2 
+
+> x
+
+)
+
+
+
+≤ 12 log det 
+
+
+
+Ep∼q [I + τ −2Σ1/2 
+
+> x
+
+S(p)Σ 1/2 
+
+> x
+
+]
+
+
+
+= 12 log det 
+
+
+
+I + τ −2Σ1/2 
+
+> x
+
+Ep∼q [S(p)]Σ 1/2
+
+> x
+
+
+
+.
+
+(16) By defining the Goal Hessian Matrix M = Ep∼q [S(p)] and setting τ = 1 for simplicity (as is standard in prior works), we arrive at the GO-PRE Score: 
+
+Score GO −P RE (x) = log det( I + Σ 1/2 
+
+> x
+
+M Σ1/2 
+
+> x
+
+). (17) Minimizing this upper bound effectively pushes down the actual predictive entropy over the target view manifold. 13
