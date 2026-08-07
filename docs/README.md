@@ -6,92 +6,87 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-04
-- 运行时间：2026-08-04 21:17:57 UTC
+- 最新运行日期：2026-08-07
+- 运行时间：2026-08-07 01:41:54 UTC
 - 运行状态：成功
-- 本次总论文数：24
-- 精读区：13
+- 本次总论文数：21
+- 精读区：10
 - 速读区：11
 
 ### 今日简报（AI）
-今日共读24篇论文，其中精读13篇、速读11篇，聚焦视频生成与4D/3D视觉技术。最值得关注的是两篇9分工作：FreqForcing以频谱自锚定突破长视频自回归生成限制，Video Models作为原生4D渲染器实现网格驱动的世界感知生成。建议未来多关注视频模型与3D/4D几何的深度融合，并留意速读中的3D重建与视觉定位方向。
-- 详情：[/202608/04/README](/202608/04/README)
+今日共读21篇论文，精读10篇、速读11篇，重点聚焦视频世界模型与3D重建。
+
+最值得关注的是两篇满分精读：视频模型作为原生4D渲染器、零基础训练视频世界模型的MiniWorld，均指向世界模型的可控生成。
+
+下一步建议优先精读这两篇，并搭配速读中的QuerySplat等3DGS工作，理解几何与外观解耦思路。
+- 详情：[/202608/07/README](/202608/07/README)
 
 ### 精读区论文标签
-1. [FreqForcing: Autoregressive Long Video Generation via Spectral Self-Anchoring](/202608/04/2607.27110v2-freqforcing-autoregressive-long-video-generation-via-spectral-self-anchoring)  
+1. [Video Models as Native 4D Renderers: World-Grounded Conditioning from Animated Mesh](/202608/07/2608.00094v2-video-models-as-native-4d-renderers-world-grounded-conditioning-from-animated-mesh)  
+   标签：评分：10.0/10、query:d
+   evidence：基于网格显式3D几何条件化的视频生成
+2. [MiniWorld: Democratizing the Training of Video World Models from Scratch](/202608/07/2608.01127v2-miniworld-democratizing-the-training-of-video-world-models-from-scratch)  
+   标签：评分：10.0/10、query:d
+   evidence：提出从零训练视频世界模型的方法，预测未来观测并学习环境动态
+3. [InfiniSplat: Implicit Gaussian Decoding for Large-Baseline Monocular View Synthesis](/202608/07/2608.02437v1-infinisplat-implicit-gaussian-decoding-for-large-baseline-monocular-view-synthesis)  
    标签：评分：9.0/10、query:d
-   evidence：通过频谱自锚定缓解自回归长视频生成中的误差累积
-2. [Video Models as Native 4D Renderers: World-Grounded Conditioning from Animated Mesh](/202608/04/2608.00094v1-video-models-as-native-4d-renderers-world-grounded-conditioning-from-animated-mesh)  
+   evidence：从单图前馈生成可渲染的三维高斯场景表示，实现大基线视角合成
+4. [Hunyuan3D-Buffalo 1.0: A Unified Multimodal Model for Scalable 3D Generation, Understanding, and Editing](/202608/07/2608.02711v1-hunyuan3d-buffalo-10-a-unified-multimodal-model-for-scalable-3d-generation-understanding-and-editing)  
    标签：评分：9.0/10、query:d
-   evidence：基于显式3D几何（动画网格）条件的视频扩散模型
-3. [Distill What RGB Can Recover: Privileged 3D Evidence for RGB-Only Vision-Language Models](/202608/04/2608.00110v1-distill-what-rgb-can-recover-privileged-3d-evidence-for-rgb-only-vision-language-models)  
+   evidence：统一多模态模型，支持3D生成、理解与编辑
+5. [RealWeather: Realistic and Scene-Faithful Weather Translation with Driving World Models](/202608/07/2608.02953v1-realweather-realistic-and-scene-faithful-weather-translation-with-driving-world-models)  
    标签：评分：9.0/10、query:d
-   evidence：面向纯RGB场景理解的特权3D证据蒸馏
-4. [FlowPilot: Real-Time World-Action Modeling for Agile UAV Navigation](/202608/04/2608.00635v1-flowpilot-real-time-world-action-modeling-for-agile-uav-navigation)  
+   evidence：用于逼真天气转换的驾驶世界模型
+6. [Qwen-3D: A Generalist 3D Vision-Language Model for Spatial Understanding](/202608/07/2608.02980v1-qwen-3d-a-generalist-3d-vision-language-model-for-spatial-understanding)  
    标签：评分：9.0/10、query:d
-   evidence：世界-动作模型联合去噪未来深度观测与可执行轨迹
-5. [FactorJEPA: Factorizing Monolithic Futures into Layout-Agent-Interaction Channels for Crowded and Chaotic Global South Urban Worlds](/202608/04/2608.01049v1-factorjepa-factorizing-monolithic-futures-into-layout-agent-interaction-channels-for-crowded-and-chaotic-global-south-urban-worlds)  
+   evidence：面向空间理解的3D视觉语言模型，采用几何感知表示
+7. [muSync-GS: Physics-Synchronized Driving Video Synthesis for Weather and Geometric Road Hazards](/202608/07/2608.04412v1-musync-gs-physics-synchronized-driving-video-synthesis-for-weather-and-geometric-road-hazards)  
    标签：评分：9.0/10、query:d
-   evidence：用于拥挤城市场景的未来预测JEPA世界模型
-6. [Struct-GStream: Towards Efficient Free-Viewpoint Video Streaming at Low-Bitrates with Structured 3D Gaussians](/202608/04/2608.01053v1-struct-gstream-towards-efficient-free-viewpoint-video-streaming-at-low-bitrates-with-structured-3d-gaussians)  
+   evidence：利用显式3D高斯几何并同步物理的驾驶视频合成
+8. [UniWorld-View: Large-Baseline View Synthesis via Video Diffusion Models](/202608/07/2608.04701v1-uniworld-view-large-baseline-view-synthesis-via-video-diffusion-models)  
    标签：评分：9.0/10、query:d
-   evidence：利用结构化3D高斯构建自由视角视频流，结合显式3D几何重建
-7. [MiniWorld: Democratizing the Training of Video World Models from Scratch](/202608/04/2608.01127v1-miniworld-democratizing-the-training-of-video-world-models-from-scratch)  
+   evidence：利用视频扩散模型与几何引导实现大基线视角合成
+9. [DreamWAM: Beyond RGB Future Prediction for World Action Models](/202608/07/2608.04996v1-dreamwam-beyond-rgb-future-prediction-for-world-action-models)  
    标签：评分：9.0/10、query:d
-   evidence：从零训练视频世界模型预测未来
-8. [SG-WAM: Self-Guided World Modeling in Geometry-Aware Policy Space](/202608/04/2608.01397v1-sg-wam-self-guided-world-modeling-in-geometry-aware-policy-space)  
+   evidence：世界模型，预测未来状态含几何与语义
+10. [SmartMage: Dynamic Modality Orchestration for 3D Scene Understanding](/202608/07/2608.05137v1-smartmage-dynamic-modality-orchestration-for-3d-scene-understanding)  
    标签：评分：9.0/10、query:d
-   evidence：几何感知的世界动作模型用于未来状态预测
-9. [Probing the 3D Object-Level Understanding of Pre-Trained Detection Transformers](/202608/04/2608.01495v1-probing-the-3d-object-level-understanding-of-pre-trained-detection-transformers)  
-   标签：评分：9.0/10、query:d
-   evidence：从2D检测Transformer中探测3D目标属性，推进3D场景理解与表示学习
-10. [WorldDynCache: Risk-Controlled Latent Dynamics Approximation for Diffusion World Model](/202608/04/2608.01845v1-worlddyncache-risk-controlled-latent-dynamics-approximation-for-diffusion-world-model)  
-   标签：评分：9.0/10、query:d
-   evidence：面向扩散世界模型的风险受控近似方法
-11. [DF$^3$: World Modeling via Decoder-Free Feature Forecasting in Autonomous Navigation](/202608/04/2608.02428v1-df3-world-modeling-via-decoder-free-feature-forecasting-in-autonomous-navigation)  
-   标签：评分：9.0/10、query:d
-   evidence：潜空间中的世界建模与未来状态预测
-12. [Learning to Tessellate: Point Cloud Generation via Recursive Spectral Partitioning](/202608/04/2608.02432v1-learning-to-tessellate-point-cloud-generation-via-recursive-spectral-partitioning)  
-   标签：评分：9.0/10、query:d
-   evidence：通过保持拓扑的递归谱划分实现自回归点云生成
-13. [Token Radius Attention for Efficient Video Generation](/202608/04/2608.02504v1-token-radius-attention-for-efficient-video-generation)  
-   标签：评分：9.0/10、query:d
-   evidence：视频扩散Transformer用于高效视频生成
+   evidence：通过统一多模态大模型按查询动态编排视觉与几何等异质模态，实现语义感知的3D场景理解。
 
 ### 速读区论文标签
-1. [TARS: Timestep-Aware Data Scaling for 3D-Free Video Re-Shooting](/202608/04/2607.28261v2-tars-timestep-aware-data-scaling-for-3d-free-video-re-shooting)  
+1. [QuerySplat: Decoupling Geometry and Appearance Representations in 3DGS Prediction](/202608/07/2608.01186v1-querysplat-decoupling-geometry-and-appearance-representations-in-3dgs-prediction)  
    标签：评分：8.0/10、query:d
-   evidence：无3D先验的可控摄像机运动视频生成方法
-2. [GO-PRE: Goal-Oriented Next-Best-View Selection via Predictive Rendering Entropy for Active 3D Reconstruction](/202608/04/2607.29037v1-go-pre-goal-oriented-next-best-view-selection-via-predictive-rendering-entropy-for-active-3d-reconstruction)  
+   evidence：在3DGS预测中利用预训练视觉几何模型进行空间理解，实现几何与外观解耦
+2. [Beyond Global Latents: Chunk-Based Sparse Grid VAE for Scalable 3D Modeling](/202608/07/2608.02016v1-beyond-global-latents-chunk-based-sparse-grid-vae-for-scalable-3d-modeling)  
    标签：评分：8.0/10、query:d
-   evidence：面向主动三维重建的目标导向最佳视角选择，利用预测渲染熵
-3. [GuideGround: VLM-guided Semantic Understanding and Viewpoint-aware Reasoning for 3D Visual Grounding](/202608/04/2608.00518v1-guideground-vlm-guided-semantic-understanding-and-viewpoint-aware-reasoning-for-3d-visual-grounding)  
+   evidence：用于可扩展3D表示学习的稀疏网格VAE
+3. [UniqueSplat: View-conditioned 3D Gaussian Splatting for Generalizable 3D Reconstruction](/202608/07/2608.02145v1-uniquesplat-view-conditioned-3d-gaussian-splatting-for-generalizable-3d-reconstruction)  
    标签：评分：8.0/10、query:d
-   evidence：VLM引导的三维视觉定位，结合语义理解与视角推理
-4. [Geometry-guided Emotion Modulation for Controllable and Photorealistic Emotional Talking Face Generation](/202608/04/2608.00663v1-geometry-guided-emotion-modulation-for-controllable-and-photorealistic-emotional-talking-face-generation)  
+   evidence：用于可泛化3D重建的视图条件3D高斯溅射
+4. [InfiniSplat: Implicit Gaussian Decoding for Large-Baseline Monocular View Synthesis](/202608/07/2608.02437v2-infinisplat-implicit-gaussian-decoding-for-large-baseline-monocular-view-synthesis)  
    标签：评分：8.0/10、query:d
-   evidence：结合扩散模型与显式几何先验的可控说话人脸视频生成
-5. [Look Up and Look Back: Hidden Attention and Latent Orientation in a Frozen Foundation Model for Panoramic SLAM](/202608/04/2608.00925v1-look-up-and-look-back-hidden-attention-and-latent-orientation-in-a-frozen-foundation-model-for-panoramic-slam)  
+   evidence：单图前馈3D高斯泼溅，通过表面对齐表示提升大基线视图合成
+5. [Global Graph-Validated Optimization for VLM-based 3D Indoor Scene Generation](/202608/07/2608.03064v1-global-graph-validated-optimization-for-vlm-based-3d-indoor-scene-generation)  
    标签：评分：8.0/10、query:d
-   evidence：利用冻结基础模型中的内部几何线索进行全景SLAM
-6. [WM-Cov: Test Adequacy for Interactive World-Model-Style Autonomous Driving Simulation](/202608/04/2608.00298v1-wm-cov-test-adequacy-for-interactive-world-model-style-autonomous-driving-simulation)  
+   evidence：三维室内场景生成，使用全局图验证优化提升一致性
+6. [Geospatial-Prior Guidance for 3D Semantic Scene Completion](/202608/07/2608.03618v1-geospatial-prior-guidance-for-3d-semantic-scene-completion)  
+   标签：评分：8.0/10、query:d
+   evidence：基于地理先验的3D语义场景补全
+7. [Zellige: Moldable Sequence Placement for Mixed Image-Video DiT Training](/202608/07/2608.01150v1-zellige-moldable-sequence-placement-for-mixed-image-video-dit-training)  
    标签：评分：7.0/10、query:d
-   evidence：世界模型风格仿真的测试充分性与覆盖度
-7. [Diagnosing Under-Development of Irreversible Processes in Video Generation](/202608/04/2608.00617v1-diagnosing-under-development-of-irreversible-processes-in-video-generation)  
+   evidence：用于训练视频扩散Transformer的系统
+8. [SpatialQuery: Benchmarking Geometry-Grounded Multi-Instance Spatial Reasoning in Vision-Language Models](/202608/07/2608.01709v1-spatialquery-benchmarking-geometry-grounded-multi-instance-spatial-reasoning-in-vision-language-models)  
    标签：评分：7.0/10、query:d
-   evidence：面向文生视频模型的不可逆过程诊断协议
-8. [3DZip: Spatial-Aware Feature Diversity-Guided Token Compression for 3D Question Answering](/202608/04/2608.01185v1-3dzip-spatial-aware-feature-diversity-guided-token-compression-for-3d-question-answering)  
+   evidence：几何接地多实例空间推理，从单张RGB图像恢复实例级度量几何
+9. [LiveLight: Real-time Streaming Video Relighting with Interactive Control](/202608/07/2608.01771v1-livelight-real-time-streaming-video-relighting-with-interactive-control)  
    标签：评分：7.0/10、query:d
-   evidence：通过几何感知令牌压缩进行3D场景理解
-9. [PartInteractor: Intent-Driven Part-Aware 3D Authoring for Continuous Co-Creation in XR](/202608/04/2608.01335v1-partinteractor-intent-driven-part-aware-3d-authoring-for-continuous-co-creation-in-xr)  
+   evidence：基于扩散模型的实时视频重光照，支持交互式3D光照控制
+10. [PartMat: Material-Aware 3D Part Decomposition with a Single Global Latent](/202608/07/2608.01825v1-partmat-material-aware-3d-part-decomposition-with-a-single-global-latent)  
    标签：评分：7.0/10、query:d
-   evidence：基于LLM交互的部件感知3D创作，支持XR连续共创
-10. [Scene2Sound: Auditory-Grounded Soundscape Generation for 3D Gaussian Worlds](/202608/04/2608.00463v1-scene2sound-auditory-grounded-soundscape-generation-for-3d-gaussian-worlds)  
+   evidence：用于结构化生成的材质感知3D部件分解
+11. [Roomer: Reflective Object-Grounded Model Editing and Repair for 3D Indoor Layout Synthesis](/202608/07/2608.01973v1-roomer-reflective-object-grounded-model-editing-and-repair-for-3d-indoor-layout-synthesis)  
    标签：评分：6.0/10、query:d
-   evidence：为3D高斯世界生成空间一致的声景，增强3D世界模拟
-11. [Hi-TOPS: Hierarchical Topology-aware Scoring Prior for 3D Part Decomposition](/202608/04/2608.00767v1-hi-tops-hierarchical-topology-aware-scoring-prior-for-3d-part-decomposition)  
-   标签：评分：6.0/10、query:d
-   evidence：分层拓扑感知先验用于3D零件分解
+   evidence：面向3D室内布局合成的对象级编辑与修复
 
 
 <div class="dpr-home-promo-card">
